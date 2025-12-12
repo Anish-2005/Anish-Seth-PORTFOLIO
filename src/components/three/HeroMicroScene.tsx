@@ -36,7 +36,7 @@ function SceneContent({ theme }: { theme: ThemeName }) {
       return {
         core: "#d73333",
         node: "#e74974",
-        cardBg: "color-mix(in_oklab, #fff5f3 80%, rgba(255,255,255,0.6))",
+        cardBg: "rgba(255, 255, 255, 0.9)",
         cardBorder: "rgba(12, 18, 32, 0.12)",
         text: "rgba(32, 16, 20, 0.9)",
         chipBorder: "rgba(12, 18, 32, 0.14)",

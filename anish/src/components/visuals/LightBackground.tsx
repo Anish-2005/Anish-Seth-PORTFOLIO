@@ -1,38 +1,39 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 export function LightBackground() {
+  const { scrollYProgress } = useScroll();
+  const bandY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const dotsY = useTransform(scrollYProgress, [0, 1], [0, 40]);
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-gradient-to-b from-[#fff7f7] via-[#fff1ee] to-[#ffe9e5]">
+      <motion.div
         className="absolute inset-0"
         style={{
           backgroundImage:
-            "radial-gradient(1400px 880px at 18% 10%, rgba(20, 184, 166, 0.12), transparent 62%), radial-gradient(1200px 820px at 82% 8%, rgba(59, 130, 246, 0.08), transparent 66%), linear-gradient(180deg, #f9fcff, #edf3f9)",
+            "radial-gradient(1200px 840px at 16% 10%, rgba(239,68,68,0.16), transparent 62%), radial-gradient(1100px 760px at 80% 12%, rgba(244,114,182,0.12), transparent 64%)",
+          y: bandY,
         }}
       />
 
       <motion.div
-        className="absolute inset-x-[-12%] top-[-6%] h-72 opacity-55"
+        className="absolute inset-x-[-18%] top-[18%] h-64 rotate-[-4deg] opacity-55"
         style={{
           background:
-            "linear-gradient(120deg, rgba(20,184,166,0.16), rgba(59,130,246,0.14), transparent), radial-gradient(60% 40% at 60% 40%, rgba(20,184,166,0.12), transparent)",
-          filter: "blur(26px)",
-          maskImage: "linear-gradient(180deg, transparent 0%, black 18%, black 82%, transparent 100%)",
+            "linear-gradient(95deg, rgba(239,68,68,0.16) 0%, rgba(244,114,182,0.12) 35%, transparent 75%)",
+          filter: "blur(18px)",
+          y: bandY,
         }}
-        animate={{ x: [0, 18, -12, 0] }}
-        transition={{ repeat: Infinity, duration: 26, ease: "easeInOut" }}
       />
 
       <motion.div
         className="absolute inset-0"
         style={{
           backgroundImage:
-            "radial-gradient(2px 2px at 22% 32%, rgba(12,18,32,0.22), transparent), radial-gradient(2px 2px at 66% 64%, rgba(59,130,246,0.22), transparent), radial-gradient(2px 2px at 44% 78%, rgba(20,184,166,0.2), transparent)",
-          backgroundSize: "360px 360px",
-          opacity: 0.4,
+            "radial-gradient(1px 1px at 20% 28%, rgba(153,27,27,0.16), transparent), radial-gradient(1px 1px at 68% 54%, rgba(239,68,68,0.22), transparent), radial-gradient(1px 1px at 44% 78%, rgba(244,114,182,0.2), transparent)",
+          backgroundSize: "260px 260px",
+          opacity: 0.35,
+          y: dotsY,
         }}
-        animate={{ y: [-6, 6, -6] }}
-        transition={{ repeat: Infinity, duration: 32, ease: "easeInOut" }}
       />
     </div>
   );

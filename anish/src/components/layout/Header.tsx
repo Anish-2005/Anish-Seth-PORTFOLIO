@@ -6,7 +6,14 @@ import { useMemo, useState } from "react";
 
 import { useTheme } from "@/context/ThemeContext";
 import { siteConfig } from "@/lib/site.config";
-import { cn } from "@/lib/utils";
+
+const NAV_ITEMS = [
+  { label: "Info", href: "#info" },
+  { label: "About", href: "#about" },
+  { label: "Projects", href: "#projects" },
+  { label: "Achievements", href: "#achievements" },
+  { label: "Contact", href: "#contact" },
+] as const;
 
 export function Header() {
   const { scrollY } = useScroll();
@@ -14,24 +21,32 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const { theme, toggle } = useTheme();
 
-  const items = useMemo(() => siteConfig.nav, []);
-
   const palette = useMemo(
     () =>
       theme === "light"
         ? {
-            beam: "radial-gradient(120% 140% at 50% 10%, rgba(213,45,45,0.28), transparent 50%)",
-            glass: "color-mix(in_oklab, rgba(255,255,255,0.68), rgba(233,233,241,0.4))",
-            accentA: "rgba(213,45,45,0.32)",
-            accentB: "rgba(226,38,114,0.24)",
-            textInvert: "#1a0f12",
+            bg: "rgba(255, 255, 255, 0.75)",
+            border: "rgba(211, 51, 51, 0.12)",
+            glass: "rgba(255, 255, 255, 0.85)",
+            accent: "#d73333",
+            accentSoft: "rgba(211, 51, 51, 0.1)",
+            accentGlow: "rgba(211, 51, 51, 0.25)",
+            text: "#2c1810",
+            textSub: "#6b4a3a",
+            shadow: "0 4px 20px rgba(211, 51, 51, 0.08)",
+            shadowHover: "0 8px 30px rgba(211, 51, 51, 0.15)",
           }
         : {
-            beam: "radial-gradient(120% 140% at 52% 12%, rgba(239,68,68,0.28), transparent 52%)",
-            glass: "color-mix(in_oklab, rgba(10,10,16,0.7), rgba(22,22,30,0.6))",
-            accentA: "rgba(239,68,68,0.34)",
-            accentB: "rgba(244,114,182,0.22)",
-            textInvert: "#fdf2f8",
+            bg: "rgba(15, 6, 11, 0.75)",
+            border: "rgba(248, 113, 113, 0.15)",
+            glass: "rgba(15, 6, 11, 0.85)",
+            accent: "#fb7185",
+            accentSoft: "rgba(248, 113, 113, 0.12)",
+            accentGlow: "rgba(248, 113, 113, 0.3)",
+            text: "#fef2f2",
+            textSub: "#fca5a5",
+            shadow: "0 4px 20px rgba(248, 113, 113, 0.1)",
+            shadowHover: "0 8px 30px rgba(248, 113, 113, 0.2)",
           },
     [theme]
   );
@@ -39,282 +54,349 @@ export function Header() {
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
     const goingDown = latest > previous;
-    setScrolled(latest > 8);
+    setScrolled(latest > 50);
 
-    if (latest < 32) {
-      setHidden(false);
-      return;
-    }
-
-    setHidden(goingDown);
+    // Always keep header visible
+    setHidden(false);
   });
 
   return (
     <motion.header
-      aria-label="Primary"
-      className={cn(
-        "fixed inset-x-0 top-0 z-50",
-        "backdrop-blur supports-[backdrop-filter]:bg-[color:color-mix(in_oklab,var(--surface-0),transparent_40%)]",
-        scrolled ? "border-b border-[color:var(--border)]" : "border-b border-transparent"
-      )}
+      aria-label="Primary navigation"
+      className="fixed inset-x-0 top-0 z-50"
       initial={false}
-      animate={hidden ? { y: -72 } : { y: 0 }}
-      transition={{ duration: 0.22, ease: [0.2, 0.9, 0.3, 1] }}
+      animate={hidden ? { y: -100 } : { y: 0 }}
+      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
+        className="absolute inset-0"
         style={{
-          maskImage:
-            "linear-gradient(180deg, transparent 0%, black 22%, black 78%, transparent 100%)",
+          backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
+          WebkitBackdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
         }}
-        animate={{ opacity: scrolled ? 0.8 : 1 }}
-        transition={{ duration: 0.6, ease: [0.25, 1, 0.3, 1] }}
-      >
-        <motion.div
-          className="absolute inset-x-0 top-[-40%] h-[180%]"
-          style={{ 
-            backgroundImage: palette.beam,
-            filter: "blur(40px)",
-          }}
-          animate={{
-            scale: scrolled ? 1.02 : 1.08,
-            rotate: scrolled ? -1.5 : 2,
-            opacity: scrolled ? 0.7 : 0.95,
-          }}
-          transition={{ 
-            duration: 18, 
-            ease: "linear", 
-            repeat: Infinity, 
-            repeatType: "mirror" 
-          }}
-        />
-        <motion.div
-          aria-hidden
-          className="absolute left-1/4 top-0 h-32 w-32 rounded-full"
-          style={{
-            background: `radial-gradient(circle, ${palette.accentA}, transparent 70%)`,
-            filter: "blur(30px)",
-          }}
-          animate={{
-            x: [0, 40, -20, 0],
-            y: [0, -20, 10, 0],
-            scale: [1, 1.2, 0.9, 1],
-          }}
-          transition={{
-            duration: 12,
-            ease: "easeInOut",
-            repeat: Infinity,
-          }}
-        />
-        <motion.div
-          aria-hidden
-          className="absolute right-1/4 top-0 h-24 w-24 rounded-full"
-          style={{
-            background: `radial-gradient(circle, ${palette.accentB}, transparent 70%)`,
-            filter: "blur(25px)",
-          }}
-          animate={{
-            x: [0, -30, 20, 0],
-            y: [0, 15, -10, 0],
-            scale: [1, 0.8, 1.1, 1],
-          }}
-          transition={{
-            duration: 10,
-            ease: "easeInOut",
-            repeat: Infinity,
-            delay: 1,
-          }}
-        />
-      </motion.div>
+        animate={{
+          background: scrolled ? palette.bg : "transparent",
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute inset-x-0 bottom-0 h-px"
+        animate={{
+          opacity: scrolled ? 1 : 0,
+          background: scrolled ? palette.border : "transparent",
+        }}
+        transition={{ duration: 0.3 }}
+      />
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        animate={{
+          boxShadow: scrolled ? palette.shadow : "none",
+        }}
+        transition={{ duration: 0.3 }}
+      />
 
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      {/* Floating orb effects - only when scrolled */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute left-1/4 top-0 h-20 w-20 rounded-full blur-2xl"
+        style={{ background: palette.accentGlow }}
+        animate={{
+          opacity: scrolled ? 0.6 : 0,
+          x: scrolled ? [0, 30, -15, 0] : 0,
+          y: scrolled ? [0, -10, 5, 0] : 0,
+          scale: scrolled ? [1, 1.1, 0.95, 1] : 1,
+        }}
+        transition={{
+          opacity: { duration: 0.3 },
+          x: { duration: 8, ease: "easeInOut", repeat: Infinity },
+          y: { duration: 8, ease: "easeInOut", repeat: Infinity },
+          scale: { duration: 8, ease: "easeInOut", repeat: Infinity },
+        }}
+      />
+
+      <motion.div 
+        className="relative mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
+        animate={{
+          height: scrolled ? "3.5rem" : "4rem",
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+      >
+        {/* Logo */}
         <Link
-          href="#top"
-          className="group relative inline-flex items-center gap-2 text-sm font-semibold tracking-tight text-[color:var(--text-0)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)]"
+          href="#info"
+          className="group relative inline-flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          style={{
+            outlineColor: palette.accent
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            const target = document.querySelector("#info");
+            if (target) {
+              target.scrollIntoView({ behavior: "smooth", block: "start" });
+              window.history.replaceState(null, "", window.location.pathname);
+            }
+          }}
         >
-          <motion.span
-            className="relative inline-flex h-8 w-8 items-center justify-center overflow-hidden rounded-lg text-xs font-semibold"
+          <motion.div
+            className="relative flex items-center justify-center overflow-hidden rounded-lg text-sm font-bold"
             style={{
-              background: palette.glass,
-              border: "1px solid color-mix(in_oklab, var(--border), transparent)",
-              color: palette.textInvert,
-              boxShadow: scrolled
-                ? `0 8px 30px ${palette.accentA}`
-                : `0 10px 40px ${palette.accentB}`,
+              background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentGlow})`,
+              color: "white",
             }}
-            animate={{ 
-              rotate: scrolled ? -3 : 3, 
-              scale: scrolled ? 0.98 : 1.02,
+            animate={{
+              height: scrolled ? "2rem" : "2.25rem",
+              width: scrolled ? "2rem" : "2.25rem",
+              boxShadow: scrolled ? "0 2px 10px rgba(211, 51, 51, 0.15)" : palette.shadow,
             }}
-            whileHover={{ scale: 1.08, rotate: 8 }}
-            whileTap={{ scale: 0.94, rotate: -4 }}
-            transition={{ duration: 0.6, ease: [0.2, 0.9, 0.3, 1] }}
+            whileHover={{ 
+              scale: 1.05, 
+              rotate: 5,
+              boxShadow: palette.shadowHover
+            }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
           >
+            AS
+            <motion.div
+              aria-hidden
+              className="absolute inset-0"
+              style={{
+                background: "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3), transparent 60%)",
+              }}
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            />
+          </motion.div>
+          
+          <motion.span 
+            className="relative font-bold tracking-tight"
+            style={{ color: palette.text }}
+            animate={{
+              fontSize: scrolled ? "0.875rem" : "1rem",
+              opacity: scrolled ? 0.9 : 1,
+            }}
+            transition={{ duration: 0.2 }}
+          >
+            Anish Seth
             <motion.span
               aria-hidden
-              className="absolute inset-0 opacity-0 group-hover:opacity-100"
-              style={{
-                background: `radial-gradient(circle at 30% 30%, ${palette.accentA}, transparent 70%)`,
-              }}
-              transition={{ duration: 0.4 }}
+              className="absolute -bottom-1 left-0 h-0.5 rounded-full"
+              style={{ background: palette.accent }}
+              initial={{ width: 0 }}
+              whileHover={{ width: "100%" }}
+              transition={{ duration: 0.3 }}
             />
-            <span className="relative z-10">AS</span>
           </motion.span>
-          <span className="relative">
-            <motion.span
-              initial={{ opacity: 0, x: -4 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            >
-              {siteConfig.name}
-            </motion.span>
-            <motion.span
-              aria-hidden
-              className="absolute -bottom-1 left-0 h-[2px] w-full rounded-full origin-left"
-              style={{
-                background: `linear-gradient(90deg, ${palette.accentA}, ${palette.accentB}, transparent)`,
-              }}
-              animate={{ scaleX: scrolled ? 0.4 : 0.9, opacity: scrolled ? 0.6 : 1 }}
-              whileHover={{ scaleX: 1, opacity: 1 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            />
-          </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">
-          {items.map((item, idx) => (
-            <motion.a
-              key={item.href}
-              href={item.href}
-              className="group relative rounded-lg px-3 py-2 text-sm text-[color:var(--text-1)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)]"
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + idx * 0.05, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -2, scale: 1.02 }}
-              whileTap={{ scale: 0.98, y: 0 }}
-            >
-              <motion.span
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100"
-                style={{
-                  background: `linear-gradient(135deg, ${palette.accentA}, ${palette.accentB} 80%)`,
-                  filter: "blur(8px)",
+        {/* Desktop Navigation */}
+        <motion.nav 
+          className="hidden items-center md:flex"
+          animate={{
+            gap: scrolled ? "0.125rem" : "0.25rem",
+          }}
+          transition={{ duration: 0.2 }}
+        >
+          {NAV_ITEMS.map((item) => {
+            return (
+              <motion.a
+                key={item.href}
+                href={item.href}
+                className="group relative rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                style={{ 
+                  color: palette.textSub,
+                  outlineColor: palette.accent,
                 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-              />
-              <motion.span
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded-lg border border-transparent group-hover:border-[color:var(--border)]"
-                style={{
-                  background: `linear-gradient(120deg, ${palette.accentA}, transparent 65%)`,
+                animate={{
+                  paddingLeft: scrolled ? "0.75rem" : "1rem",
+                  paddingRight: scrolled ? "0.75rem" : "1rem",
+                  paddingTop: scrolled ? "0.375rem" : "0.5rem",
+                  paddingBottom: scrolled ? "0.375rem" : "0.5rem",
+                  fontSize: scrolled ? "0.8125rem" : "0.875rem",
                 }}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileHover={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.25, ease: [0.34, 1.56, 0.64, 1] }}
-              />
-              <span className="relative z-10 transition-colors group-hover:text-[color:var(--text-0)]">
-                {item.label}
-              </span>
-              <motion.span
-                aria-hidden
-                className="absolute -bottom-0.5 left-1/2 h-[2px] w-0 -translate-x-1/2 rounded-full group-hover:w-[80%]"
-                style={{
-                  background: `linear-gradient(90deg, transparent, ${palette.accentA}, transparent)`,
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const target = document.querySelector(item.href);
+                  if (target) {
+                    target.scrollIntoView({ behavior: "smooth", block: "start" });
+                    window.history.replaceState(null, "", window.location.pathname);
+                  }
                 }}
-                transition={{ duration: 0.35, ease: [0.34, 1.56, 0.64, 1] }}
-              />
-            </motion.a>
-          ))}
-        </nav>
+              >
+                {/* Hover background */}
+                <motion.span
+                  aria-hidden
+                  className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100"
+                  style={{
+                    background: palette.accentSoft,
+                    border: `1px solid ${palette.border}`,
+                  }}
+                  transition={{ duration: 0.2 }}
+                />
 
+                <span className="relative z-10 transition-colors group-hover:text-[color:inherit]" style={{ color: "inherit" }}>
+                  {item.label}
+                </span>
+
+                {/* Bottom accent line on hover */}
+                <motion.span
+                  aria-hidden
+                  className="absolute -bottom-1 left-1/2 h-0.5 w-0 -translate-x-1/2 rounded-full group-hover:w-[60%]"
+                  style={{
+                    background: palette.accent,
+                  }}
+                  transition={{ duration: 0.3 }}
+                />
+              </motion.a>
+            );
+          })}
+        </motion.nav>
+
+        {/* Actions */}
         <div className="flex items-center gap-2">
+          {/* Theme Toggle */}
           <motion.button
             type="button"
             onClick={toggle}
-            aria-pressed={theme === "dark"}
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-            className="group relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-1)] text-[color:var(--text-0)] shadow-[color:var(--glow)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)]"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3, duration: 0.4, ease: [0.34, 1.56, 0.64, 1] }}
-            whileHover={{ scale: 1.06, rotate: theme === "light" ? 4 : -4 }}
-            whileTap={{ scale: 0.94, rotate: theme === "light" ? -8 : 8 }}
+            className="relative inline-flex items-center justify-center rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            style={{
+              background: palette.glass,
+              border: `1px solid ${palette.border}`,
+              color: palette.text,
+              outlineColor: palette.accent,
+            }}
+            animate={{
+              height: scrolled ? "2rem" : "2.25rem",
+              width: scrolled ? "2rem" : "2.25rem",
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
           >
-            <motion.span
-              aria-hidden
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background: `conic-gradient(from 45deg, ${palette.accentA}, transparent, ${palette.accentB}, transparent)`,
-                opacity: 0,
+            <motion.div
+              animate={{
+                scale: scrolled ? 0.85 : 1,
               }}
-              whileHover={{ opacity: 0.3, rotate: 180 }}
-              transition={{ duration: 0.8, ease: "linear" }}
-            />
-            <motion.span
-              aria-hidden
-              className="text-xs font-semibold uppercase tracking-wide"
-              key={theme}
-              initial={{ opacity: 0, y: 8, rotate: -12 }}
-              animate={{ opacity: 1, y: 0, rotate: 0 }}
-              exit={{ opacity: 0, y: -8, rotate: 12 }}
-              transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
+              transition={{ duration: 0.2 }}
             >
-              {theme === "dark" ? "Dark" : "Light"}
-            </motion.span>
+              {theme === "light" ? (
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+              ) : (
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              )}
+            </motion.div>
           </motion.button>
+
+          {/* Resume Button */}
           <motion.a
             href={siteConfig.resume.href}
-            className="group relative hidden overflow-hidden rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-1)] px-3 py-2 text-sm font-medium text-[color:var(--text-0)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)] sm:inline-flex"
-            initial={{ opacity: 0, x: 8 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.35, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ scale: 1.02, y: -1 }}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden items-center gap-2 rounded-lg text-sm font-medium transition sm:inline-flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            style={{
+              background: palette.glass,
+              border: `1px solid ${palette.border}`,
+              color: palette.text,
+              outlineColor: palette.accent,
+            }}
+            animate={{
+              paddingLeft: scrolled ? "0.75rem" : "1rem",
+              paddingRight: scrolled ? "0.75rem" : "1rem",
+              paddingTop: scrolled ? "0.375rem" : "0.5rem",
+              paddingBottom: scrolled ? "0.375rem" : "0.5rem",
+              fontSize: scrolled ? "0.8125rem" : "0.875rem",
+            }}
+            whileHover={{ 
+              scale: 1.02,
+              boxShadow: palette.shadowHover
+            }}
             whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2 }}
           >
-            <motion.span
-              aria-hidden
-              className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100"
-              style={{
-                background: `linear-gradient(135deg, ${palette.accentA}, transparent 70%)`,
+            <span>Resume</span>
+            <motion.svg 
+              className="h-4 w-4" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor" 
+              strokeWidth={2}
+              animate={{
+                scale: scrolled ? 0.85 : 1,
               }}
-              transition={{ duration: 0.3 }}
-            />
-            <span className="relative z-10">Resume</span>
+              transition={{ duration: 0.2 }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </motion.svg>
           </motion.a>
+
+          {/* Contact Button */}
           <motion.a
             href="#contact"
-            className="group relative inline-flex overflow-hidden rounded-lg px-3 py-2 text-sm font-medium text-[color:var(--accent-contrast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)]"
+            className="inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
             style={{
-              background: `linear-gradient(135deg, ${palette.accentA}, ${palette.accentB})`,
-              boxShadow: `0 12px 32px ${palette.accentA}`,
+              background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentGlow})`,
+              outlineColor: palette.accent,
             }}
-            initial={{ opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ scale: 1.04, y: -2, boxShadow: `0 16px 48px ${palette.accentA}` }}
-            whileTap={{ scale: 0.96, y: 0 }}
+            animate={{
+              paddingLeft: scrolled ? "0.75rem" : "1rem",
+              paddingRight: scrolled ? "0.75rem" : "1rem",
+              paddingTop: scrolled ? "0.375rem" : "0.5rem",
+              paddingBottom: scrolled ? "0.375rem" : "0.5rem",
+              fontSize: scrolled ? "0.8125rem" : "0.875rem",
+              boxShadow: scrolled ? "0 2px 15px rgba(211, 51, 51, 0.2)" : palette.shadow,
+            }}
+            whileHover={{ 
+              scale: 1.02,
+              y: -1,
+              boxShadow: palette.shadowHover
+            }}
+            whileTap={{ scale: 0.98, y: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={(e) => {
+              e.preventDefault();
+              const target = document.querySelector("#contact");
+              if (target) {
+                target.scrollIntoView({ behavior: "smooth", block: "start" });
+                window.history.replaceState(null, "", window.location.pathname);
+              }
+            }}
           >
-            <motion.span
+            <motion.div
               aria-hidden
-              className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100"
+              className="absolute inset-0 rounded-lg"
               style={{
-                background: `radial-gradient(circle at 50% 0%, rgba(255,255,255,0.2), transparent 70%)`,
+                background: "radial-gradient(circle at 50% 0%, rgba(255,255,255,0.2), transparent 60%)",
               }}
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             />
-            <motion.span
-              aria-hidden
-              className="pointer-events-none absolute -inset-1 rounded-lg opacity-0 blur-xl group-hover:opacity-60"
-              style={{
-                background: `linear-gradient(135deg, ${palette.accentA}, ${palette.accentB})`,
+            <span className="relative z-10">Get in Touch</span>
+            <motion.svg 
+              className="relative z-10 h-4 w-4" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor" 
+              strokeWidth={2}
+              animate={{
+                scale: scrolled ? 0.85 : 1,
               }}
-              transition={{ duration: 0.4 }}
-            />
-            <span className="relative z-10">Contact</span>
+              transition={{ duration: 0.2 }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </motion.svg>
           </motion.a>
         </div>
-      </div>
+      </motion.div>
     </motion.header>
   );
 }

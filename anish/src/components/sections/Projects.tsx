@@ -134,7 +134,7 @@ export function Projects({
 
   return (
     <section
-      id="work"
+      id="projects"
       ref={sectionRef}
       className="relative overflow-hidden border-t py-24 md:py-32"
       style={{ borderColor: palette.cardBorder }}

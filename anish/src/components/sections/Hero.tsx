@@ -53,7 +53,7 @@ export function Hero() {
   }, [theme]);
 
   return (
-    <section id="top" className="relative overflow-hidden pt-24 md:pt-32">
+    <section id="info" className="relative overflow-hidden pt-24 md:pt-32">
       {/* Cinematic backdrop with animated scanlines */}
       <motion.div
         aria-hidden
@@ -250,7 +250,7 @@ export function Hero() {
             <ButtonLink href={siteConfig.resume.href} variant="secondary">
               View Resume
             </ButtonLink>
-            <ButtonLink href="#work" variant="ghost">
+            <ButtonLink href="#projects" variant="ghost">
               Explore Work
             </ButtonLink>
           </motion.div>

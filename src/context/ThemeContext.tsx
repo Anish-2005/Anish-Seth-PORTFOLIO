@@ -31,6 +31,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY) as ThemeName | null;
     if (stored && themes[stored]) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setThemeState(stored);
     }
   }, []);

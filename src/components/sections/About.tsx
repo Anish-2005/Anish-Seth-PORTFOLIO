@@ -92,6 +92,7 @@ export function About() {
   });
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -134,7 +135,7 @@ export function About() {
       text: "#fef2f2",
       textSub: "#fca5a5"
     };
-  }, [theme]);
+  }, [theme, mounted]);
 
   return (
     <section 

@@ -33,6 +33,7 @@ export function Hero() {
   const opacityProgress = useTransform(scrollY, [0, 300], [1, 0.7]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -91,7 +92,7 @@ export function Hero() {
       text: "#fef2f2",
       textSub: "#fca5a5"
     };
-  }, [theme, isMobile]);
+  }, [theme, isMobile, mounted]);
 
   return (
     <section id="info" className="relative overflow-hidden pt-20 sm:pt-24 md:pt-32">

@@ -132,6 +132,7 @@ export function Achievements() {
   });
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -177,7 +178,7 @@ export function Achievements() {
       textSub: "#fca5a5",
       highlight: "#fb7185"
     };
-  }, [theme]);
+  }, [theme, mounted]);
 
   return (
     <section

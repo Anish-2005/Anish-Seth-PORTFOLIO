@@ -68,7 +68,7 @@ export function Contact() {
       textSub: "#fca5a5",
       highlight: "#fb7185"
     };
-  }, [theme]);
+  }, [theme, mounted]);
 
   const fallbackMailto = useMemo(() => {
     const to = siteConfig.sameAs.email.replace(/^mailto:/, "");

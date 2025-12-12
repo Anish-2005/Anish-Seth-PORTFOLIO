@@ -19,6 +19,7 @@
 	--flare-2: rgba(94, 234, 212, 0.18);
 	--beam-1: rgba(255, 255, 255, 0.16);
 	--beam-2: rgba(102, 237, 255, 0.24);
+	--section-color: rgba(34, 211, 238, 0.18);
 }
 
 * {
@@ -132,6 +133,15 @@ body::after {
 			0 0,
 			0 0,
 			0 0;
+	}
+}
+
+@keyframes starfield {
+	from {
+		transform: translate3d(0, 0, 0);
+	}
+	to {
+		transform: translate3d(-8%, -6%, 0);
 	}
 }
 

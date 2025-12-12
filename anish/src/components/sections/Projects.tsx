@@ -1,14 +1,88 @@
 "use client";
 
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { useMemo, useState } from "react";
-import ReactMarkdown from "react-markdown";
-
-import type { Project } from "@/lib/types";
-import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Reveal } from "@/components/motion/Reveal";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
+import { useMemo, useRef, useState } from "react";
+import type { Project } from "@/lib/types";
+import Image from "next/image";
+
+// Showcase projects with impactful visuals
+const showcaseProjects = [
+  {
+    id: "lawai",
+    title: "LawAI Mobile",
+    subtitle: "AI-Powered Legal Assistant",
+    description: "🏆 Smart India Hackathon 2024 Finalist - Democratizing legal knowledge through AI. Features intelligent FIR builder, comprehensive legal database, AI lawyer consultation, and document management.",
+    impact: "Making legal assistance accessible to 1.4 billion Indians",
+    tech: ["React Native", "Expo", "AI/ML", "Legal Tech"],
+    metrics: { users: "1000+", stars: "7", status: "SIH 2024 Finalist" },
+    link: "https://github.com/Anish-2005/LawAI-Mobile",
+    image: "/placeholder-lawai.svg",
+    featured: true
+  },
+  {
+    id: "nyantra",
+    title: "Nyantra",
+    subtitle: "DBT Social Assistance Platform",
+    description: "Comprehensive welfare management system for SC/ST benefits. Features applicant dashboards, ML-powered analytics, automated disbursements, and grievance handling for efficient resource allocation.",
+    impact: "Streamlining social assistance for millions",
+    tech: ["Next.js", "TypeScript", "ML", "Analytics"],
+    metrics: { status: "In Development", category: "Social Impact" },
+    link: "https://github.com/Anish-2005/Nyantra",
+    image: "/placeholder-nyantra.svg",
+    featured: true
+  },
+  {
+    id: "ticketing",
+    title: "Smart Ticketing System",
+    subtitle: "AI Chatbot for Museums",
+    description: "🎫 Smart India Hackathon 2024 - Revolutionary ticketing platform with Google Dialogflow chatbot, real-time seat management, PWA capabilities, secure payments, and advanced analytics.",
+    impact: "Enhancing visitor experience through AI",
+    tech: ["React", "FastAPI", "MongoDB", "Dialogflow"],
+    metrics: { status: "SIH 2024", stars: "1" },
+    link: "https://github.com/Anish-2005/Online-Chatbot-Based-Ticketing-System",
+    image: "/placeholder-ticket.svg",
+    featured: true
+  },
+  {
+    id: "agrilink",
+    title: "AgriLink",
+    subtitle: "Blockchain Waste-to-Wealth",
+    description: "🌾 Transforming agricultural waste into valuable resources through Aptos blockchain. Connects farmers with industries, creating sustainable circular economy with transparent marketplace.",
+    impact: "Building sustainable agriculture ecosystem",
+    tech: ["Next.js", "Web3", "Aptos", "Blockchain"],
+    metrics: { status: "Launched", category: "Blockchain" },
+    link: "https://github.com/Anish-2005/AgriLink",
+    image: "/placeholder-agri.svg",
+    featured: false
+  },
+  {
+    id: "careersync",
+    title: "CareerSync",
+    subtitle: "AI Career Intelligence",
+    description: "Next-gen career platform with AI-powered job matching, intelligent resume builder, real-time analytics, skill gap analysis, and personalized career roadmaps for professional growth.",
+    impact: "Empowering career decisions with AI",
+    tech: ["Next.js", "React", "MongoDB", "Firebase"],
+    metrics: { status: "Production", category: "AI" },
+    link: "https://github.com/Anish-2005/CareerSync",
+    image: "/placeholder-career.svg",
+    featured: false
+  },
+  {
+    id: "medradar",
+    title: "MedRadar",
+    subtitle: "Hospital Resource Optimizer",
+    description: "🏥 Healthcare resource management for Tier 2/3 hospitals. Real-time monitoring, predictive analytics, automated procurement, and comprehensive dashboards for efficient operations.",
+    impact: "Optimizing healthcare in underserved areas",
+    tech: ["Next.js", "Tailwind", "Analytics", "CivicAuth"],
+    metrics: { status: "Production", category: "Healthcare" },
+    link: "https://github.com/Anish-2005/MedRadar",
+    image: "/placeholder-med.svg",
+    featured: false
+  }
+];
 
 export function Projects({
   projects,
@@ -19,153 +93,419 @@ export function Projects({
   highlightedIds: string[] | null;
   onClearHighlight: () => void;
 }) {
-  const [openId, setOpenId] = useState<string | null>(null);
-  const active = useMemo(
-    () => projects.find((p) => p.id === openId) ?? null,
-    [openId, projects]
-  );
+  const { theme } = useTheme();
+  const sectionRef = useRef<HTMLElement>(null);
+  const [activeProject, setActiveProject] = useState(showcaseProjects[0]);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.6]);
+  const y = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
+
+  const palette = useMemo(() => {
+    if (theme === "light") {
+      return {
+        accent: "rgba(211, 51, 51, 0.12)",
+        accentStrong: "rgba(211, 51, 51, 0.25)",
+        glow: "rgba(211, 51, 51, 0.4)",
+        cardBg: "rgba(250, 229, 226, 0.6)",
+        cardBorder: "rgba(211, 51, 51, 0.18)",
+        glassBg: "rgba(255, 255, 255, 0.7)",
+        text: "#2c1810",
+        textSub: "#6b4a3a",
+        highlight: "#d73333"
+      };
+    }
+    return {
+      accent: "rgba(248, 113, 113, 0.1)",
+      accentStrong: "rgba(248, 113, 113, 0.22)",
+      glow: "rgba(248, 113, 113, 0.35)",
+      cardBg: "rgba(15, 6, 11, 0.7)",
+      cardBorder: "rgba(248, 113, 113, 0.12)",
+      glassBg: "rgba(15, 6, 11, 0.8)",
+      text: "#fef2f2",
+      textSub: "#fca5a5",
+      highlight: "#fb7185"
+    };
+  }, [theme]);
 
   return (
-    <section id="work" className="border-t border-[color:var(--border)]">
-      <Container className="py-16">
-        <div className="flex items-end justify-between gap-6">
-          <SectionHeading
-            eyebrow="WORK"
-            title="Selected projects"
-            description="Focused work with strong craft, polish, and measurable outcomes. (Replace placeholders with your real case studies.)"
-          />
-          {highlightedIds?.length ? (
-            <button
-              onClick={onClearHighlight}
-              className="hidden text-sm text-[color:var(--text-2)] hover:text-[color:var(--text-0)] md:inline"
+    <section
+      id="work"
+      ref={sectionRef}
+      className="relative overflow-hidden border-t py-24 md:py-32"
+      style={{ borderColor: palette.cardBorder }}
+    >
+      {/* Cinematic background */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-20"
+        style={{
+          opacity,
+          background: `
+            radial-gradient(1200px 900px at 50% 20%, ${palette.accent}, transparent 70%),
+            radial-gradient(800px 600px at 80% 60%, ${palette.accentStrong}, transparent 65%)
+          `
+        }}
+      />
+
+      {/* Animated mesh */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-25"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(0deg, ${palette.cardBorder} 0, ${palette.cardBorder} 1px, transparent 1px, transparent 60px),
+            repeating-linear-gradient(90deg, ${palette.cardBorder} 0, ${palette.cardBorder} 1px, transparent 1px, transparent 60px)
+          `
+        }}
+      />
+
+      <Container>
+        <motion.div style={{ opacity, y }}>
+          {/* Enhanced Section Header */}
+          <div className="relative">
+            {/* Floating orb accent */}
+            <motion.div
+              className="pointer-events-none absolute -left-20 -top-10 h-40 w-40 rounded-full blur-3xl"
+              style={{ background: palette.glow }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative"
             >
-              Clear highlight
-            </button>
-          ) : null}
-        </div>
-
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((p, idx) => {
-            const dim = highlightedIds?.length
-              ? !highlightedIds.includes(p.id)
-              : false;
-            const glow = highlightedIds?.includes(p.id);
-
-            return (
-              <Reveal key={p.id} delay={idx * 0.04}>
-                <button
-                  onClick={() => setOpenId(p.id)}
-                  className={cn(
-                    "group h-full w-full rounded-2xl border bg-[color:var(--surface-1)] p-5 text-left transition",
-                    "border-[color:var(--border)] hover:-translate-y-1 hover:bg-[color:var(--surface-2)] hover:shadow-[0_20px_60px_rgba(6,182,212,0.08)]",
-                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)]",
-                    dim && "opacity-55",
-                    glow && "border-[color:var(--accent)] shadow-[0_16px_60px_rgba(6,182,212,0.18)]"
-                  )}
+              {/* Eyebrow with animated underline */}
+              <div className="mb-6 flex items-center gap-4">
+                <motion.div
+                  className="h-px flex-1"
+                  style={{ background: `linear-gradient(to right, transparent, ${palette.cardBorder}, transparent)` }}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+                <span
+                  className="text-xs font-bold uppercase tracking-[0.3em]"
+                  style={{ color: palette.highlight }}
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-xs font-medium tracking-[0.18em] text-[color:var(--text-2)]">
-                        {p.period}
-                      </p>
-                      <h3 className="mt-2 text-base font-semibold leading-6 text-[color:var(--text-0)]">
-                        {p.title}
-                      </h3>
-                    </div>
-                    <span className="mt-1 rounded-lg bg-[color:var(--surface-2)] px-2 py-1 text-xs text-[color:var(--text-2)] group-hover:text-[color:var(--text-1)]">
-                      View
+                  Portfolio
+                </span>
+                <motion.div
+                  className="h-px flex-1"
+                  style={{ background: `linear-gradient(to left, transparent, ${palette.cardBorder}, transparent)` }}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+              </div>
+
+              {/* Main Title */}
+              <h2 className="mx-auto max-w-4xl text-center text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+                <span style={{ color: palette.text }}>Building the </span>
+                <span
+                  className="relative inline-block"
+                  style={{
+                    backgroundImage: `linear-gradient(135deg, ${palette.highlight}, ${palette.textSub})`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text"
+                  }}
+                >
+                  Future
+                  <motion.span
+                    className="absolute -bottom-2 left-0 h-1 rounded-full"
+                    style={{ background: palette.highlight }}
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                  />
+                </span>
+                <span style={{ color: palette.text }}>,<br />One Innovation at a Time</span>
+              </h2>
+
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mx-auto mt-6 max-w-3xl text-center text-base leading-relaxed md:text-lg"
+                style={{ color: palette.textSub }}
+              >
+                Award-winning projects spanning{" "}
+                <span className="font-semibold" style={{ color: palette.text }}>AI, blockchain, and social impact</span>
+                {" "}— transforming ideas into scalable solutions that solve real-world problems and empower millions.
+              </motion.p>
+
+              {/* Stats Bar */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mx-auto mt-10 flex max-w-2xl items-center justify-center gap-8 rounded-2xl p-6 backdrop-blur-xl md:gap-12"
+                style={{
+                  background: palette.cardBg,
+                  border: `1px solid ${palette.cardBorder}`
+                }}
+              >
+                <div className="text-center">
+                  <div className="text-2xl font-bold md:text-3xl" style={{ color: palette.highlight }}>50+</div>
+                  <div className="mt-1 text-xs uppercase tracking-wider opacity-70" style={{ color: palette.text }}>Projects</div>
+                </div>
+                <div className="h-10 w-px" style={{ background: palette.cardBorder }} />
+                <div className="text-center">
+                  <div className="text-2xl font-bold md:text-3xl" style={{ color: palette.highlight }}>3</div>
+                  <div className="mt-1 text-xs uppercase tracking-wider opacity-70" style={{ color: palette.text }}>Hackathon Wins</div>
+                </div>
+                <div className="h-10 w-px" style={{ background: palette.cardBorder }} />
+                <div className="text-center">
+                  <div className="text-2xl font-bold md:text-3xl" style={{ color: palette.highlight }}>10+</div>
+                  <div className="mt-1 text-xs uppercase tracking-wider opacity-70" style={{ color: palette.text }}>Technologies</div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Main Showcase - Split View */}
+          <div className="mt-16 grid gap-8 lg:grid-cols-2">
+            {/* Left: Active Project Display */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="relative overflow-hidden rounded-3xl backdrop-blur-2xl"
+              style={{
+                background: palette.glassBg,
+                border: `1px solid ${palette.cardBorder}`,
+                boxShadow: `0 0 50px ${palette.glow}`
+              }}
+            >
+              {/* Project Content */}
+              <div className="p-8 md:p-10">
+                {/* Badge */}
+                {activeProject.featured && (
+                  <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-wider"
+                    style={{
+                      background: `linear-gradient(135deg, ${palette.accentStrong}, ${palette.accent})`,
+                      border: `1px solid ${palette.cardBorder}`,
+                      color: palette.text
+                    }}
+                  >
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75" style={{ backgroundColor: palette.highlight }} />
+                      <span className="relative inline-flex h-2 w-2 rounded-full" style={{ backgroundColor: palette.highlight }} />
                     </span>
+                    Featured
+                  </motion.div>
+                )}
+
+                {/* Title */}
+                <h3 className="mt-6 text-4xl font-bold leading-tight" style={{ color: palette.text }}>
+                  {activeProject.title}
+                </h3>
+                <p className="mt-2 text-xl font-semibold" style={{ color: palette.textSub }}>
+                  {activeProject.subtitle}
+                </p>
+
+                {/* Description */}
+                <p className="mt-6 text-base leading-relaxed opacity-90" style={{ color: palette.text }}>
+                  {activeProject.description}
+                </p>
+
+                {/* Impact Statement */}
+                <div className="mt-6 rounded-2xl p-5" style={{ background: palette.accent }}>
+                  <div className="flex items-start gap-3">
+                    <svg className="mt-0.5 h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: palette.highlight }}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    <div className="flex-1">
+                      <p className="text-xs font-bold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>Impact</p>
+                      <p className="mt-1 text-base font-semibold" style={{ color: palette.text }}>
+                        {activeProject.impact}
+                      </p>
+                    </div>
                   </div>
+                </div>
 
-                  <p className="mt-3 text-sm leading-6 text-[color:var(--text-1)]">
-                    {p.tagline}
+                {/* Tech Stack */}
+                <div className="mt-8">
+                  <p className="mb-4 text-xs font-bold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
+                    Tech Stack
                   </p>
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {p.stack.slice(0, 4).map((s) => (
+                  <div className="flex flex-wrap gap-2.5">
+                    {activeProject.tech.map((tech) => (
                       <span
-                        key={s}
-                        className="rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-0)] px-2 py-1 text-xs text-[color:var(--text-2)]"
+                        key={tech}
+                        className="rounded-lg px-4 py-2 text-sm font-medium"
+                        style={{
+                          background: palette.cardBg,
+                          border: `1px solid ${palette.cardBorder}`,
+                          color: palette.text
+                        }}
                       >
-                        {s}
+                        {tech}
                       </span>
                     ))}
                   </div>
-                </button>
-              </Reveal>
-            );
-          })}
-        </div>
+                </div>
 
-        <Dialog
-          open={Boolean(active)}
-          onClose={() => setOpenId(null)}
-          className="relative z-[60]"
-        >
-          <div className="fixed inset-0 bg-black/40" aria-hidden="true" />
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-end justify-center p-4 sm:items-center">
-              <DialogPanel className="w-full max-w-2xl rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-0)] p-6 shadow-lg">
-                {active ? (
-                  <>
-                    <div className="flex items-start justify-between gap-6">
-                      <div>
-                        <p className="text-xs font-medium tracking-[0.18em] text-[color:var(--text-2)]">
-                          {active.period}
-                        </p>
-                        <DialogTitle className="mt-2 text-xl font-semibold tracking-tight text-[color:var(--text-0)]">
-                          {active.title}
-                        </DialogTitle>
+                {/* Metrics */}
+                <div className="mt-8 grid grid-cols-2 gap-4">
+                  {activeProject.metrics.stars && (
+                    <div className="rounded-xl p-4" style={{ background: palette.cardBg, border: `1px solid ${palette.cardBorder}` }}>
+                      <div className="flex items-center gap-2">
+                        <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 20 20" style={{ color: palette.highlight }}>
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        <span className="text-3xl font-bold" style={{ color: palette.text }}>{activeProject.metrics.stars}</span>
                       </div>
-                      <button
-                        onClick={() => setOpenId(null)}
-                        className="rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-1)] px-3 py-2 text-sm text-[color:var(--text-0)] hover:bg-[color:var(--surface-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]"
-                      >
-                        Close
-                      </button>
+                      <p className="mt-2 text-xs font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>GitHub Stars</p>
                     </div>
+                  )}
+                  <div className="rounded-xl p-4" style={{ background: palette.accentStrong, border: `1px solid ${palette.cardBorder}` }}>
+                    <p className="text-base font-bold" style={{ color: palette.text }}>{activeProject.metrics.status}</p>
+                    <p className="mt-2 text-xs font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>Status</p>
+                  </div>
+                </div>
 
-                    <p className="mt-3 text-sm leading-6 text-[color:var(--text-1)]">
-                      {active.tagline}
+                {/* CTA */}
+                <motion.a
+                  href={activeProject.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-8 flex items-center justify-center gap-2 rounded-xl px-6 py-4 text-base font-semibold"
+                  style={{
+                    background: `linear-gradient(135deg, ${palette.highlight}, ${palette.accentStrong})`,
+                    color: "#ffffff"
+                  }}
+                  whileHover={{ scale: 1.02, boxShadow: `0 0 30px ${palette.glow}` }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  View on GitHub
+                  <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </motion.a>
+              </div>
+            </motion.div>
+
+            {/* Right: Project Selector */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="space-y-4"
+            >
+              {showcaseProjects.map((project, idx) => (
+                <motion.button
+                  key={project.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.08 }}
+                  onClick={() => setActiveProject(project)}
+                  className="group relative w-full overflow-hidden rounded-2xl p-5 text-left backdrop-blur-xl transition-all"
+                  style={{
+                    background: activeProject.id === project.id ? palette.glassBg : palette.cardBg,
+                    border: `1px solid ${activeProject.id === project.id ? palette.highlight : palette.cardBorder}`,
+                    boxShadow: activeProject.id === project.id ? `0 0 30px ${palette.glow}` : 'none'
+                  }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  {/* Active indicator */}
+                  {activeProject.id === project.id && (
+                    <motion.div
+                      layoutId="activeProject"
+                      className="absolute left-0 top-0 h-full w-1.5"
+                      style={{ background: palette.highlight }}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    />
+                  )}
+
+                  <div className="relative pl-4">
+                    <h4 className="text-lg font-bold leading-tight" style={{ color: palette.text }}>
+                      {project.title}
+                    </h4>
+                    <p className="mt-1.5 text-sm font-medium opacity-75" style={{ color: palette.text }}>
+                      {project.subtitle}
                     </p>
-
-                    {active.links.length ? (
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {active.links.map((l) => (
-                          <a
-                            key={l.href}
-                            href={l.href}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="rounded-lg bg-[color:var(--surface-1)] px-3 py-2 text-sm text-[color:var(--text-0)] hover:bg-[color:var(--surface-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)]"
-                          >
-                            {l.label}
-                          </a>
-                        ))}
-                      </div>
-                    ) : null}
-
-                    {active.highlights.length ? (
-                      <ul className="mt-6 space-y-2 text-sm text-[color:var(--text-1)]">
-                        {active.highlights.map((h) => (
-                          <li key={h}>• {h}</li>
-                        ))}
-                      </ul>
-                    ) : null}
-
-                    <div className="mt-6 rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-1)] p-4">
-                      <div className="prose prose-invert max-w-none text-sm leading-6">
-                        <ReactMarkdown>
-                          {active.body}
-                        </ReactMarkdown>
-                      </div>
+                    
+                    {/* Tech preview */}
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {project.tech.slice(0, 3).map((tech) => (
+                        <span
+                          key={tech}
+                          className="rounded px-2.5 py-1 text-xs font-medium"
+                          style={{
+                            background: palette.accent,
+                            color: palette.text
+                          }}
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                      {project.tech.length > 3 && (
+                        <span className="px-2 py-1 text-xs font-medium opacity-60" style={{ color: palette.text }}>
+                          +{project.tech.length - 3}
+                        </span>
+                      )}
                     </div>
-                  </>
-                ) : null}
-              </DialogPanel>
-            </div>
+                  </div>
+                </motion.button>
+              ))}
+
+              {/* View All CTA */}
+              <motion.a
+                href="https://github.com/Anish-2005?tab=repositories"
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="group flex items-center justify-between rounded-2xl p-5 backdrop-blur-xl"
+                style={{
+                  background: palette.cardBg,
+                  border: `1px solid ${palette.cardBorder}`
+                }}
+                whileHover={{ scale: 1.02, boxShadow: `0 0 25px ${palette.glow}` }}
+              >
+                <div>
+                  <p className="text-base font-bold" style={{ color: palette.text }}>Explore More</p>
+                  <p className="mt-1 text-sm opacity-70" style={{ color: palette.text }}>50+ projects on GitHub</p>
+                </div>
+                <svg className="h-7 w-7 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} style={{ color: palette.text }}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </motion.a>
+            </motion.div>
           </div>
-        </Dialog>
+        </motion.div>
       </Container>
     </section>
   );

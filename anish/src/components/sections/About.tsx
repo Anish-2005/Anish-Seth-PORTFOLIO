@@ -58,7 +58,7 @@ const aboutData = {
     }
   ],
   skills: {
-    frontend: ["React", "Next.js", "TypeScript", "Three.js", "Framer Motion", "Tailwind CSS"],
+    frontend: ["React", "Next.js", "TypeScript", "React Native", "Flutter", "Three.js", "Framer Motion", "Tailwind CSS"],
     backend: ["Node.js", "Express", "PostgreSQL", "MongoDB", "REST APIs", "GraphQL"],
     tools: ["Git", "Docker", "Vercel", "AWS", "Figma", "VS Code"]
   },
@@ -186,11 +186,126 @@ export function About() {
 
       <Container>
         <motion.div style={{ scale, opacity }}>
-          <SectionHeading
-            eyebrow="ABOUT ME"
-            title={aboutData.headline}
-            description={aboutData.description}
-          />
+          {/* Enhanced Section Header */}
+          <div className="relative">
+            {/* Floating orb accent */}
+            <motion.div
+              className="pointer-events-none absolute -right-20 -top-10 h-40 w-40 rounded-full blur-3xl"
+              style={{ background: palette.glow }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative"
+            >
+              {/* Eyebrow with animated underline */}
+              <div className="mb-6 flex items-center gap-4">
+                <motion.div
+                  className="h-px flex-1"
+                  style={{ background: `linear-gradient(to right, transparent, ${palette.cardBorder}, transparent)` }}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+                <span
+                  className="text-xs font-bold uppercase tracking-[0.3em]"
+                  style={{ color: palette.glow }}
+                >
+                  About Me
+                </span>
+                <motion.div
+                  className="h-px flex-1"
+                  style={{ background: `linear-gradient(to left, transparent, ${palette.cardBorder}, transparent)` }}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+              </div>
+
+              {/* Main Title */}
+              <h2 className="mx-auto max-w-4xl text-center text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+                <span style={{ color: palette.text }}>Building the Future of </span>
+                <span
+                  className="relative inline-block"
+                  style={{
+                    backgroundImage: `linear-gradient(135deg, ${theme === "light" ? "#d73333" : "#fb7185"}, ${palette.textSub})`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text"
+                  }}
+                >
+                  Digital Experiences
+                  <motion.span
+                    className="absolute -bottom-2 left-0 h-1 rounded-full"
+                    style={{ background: theme === "light" ? "#d73333" : "#fb7185" }}
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                  />
+                </span>
+              </h2>
+
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mx-auto mt-6 max-w-3xl text-center text-base leading-relaxed md:text-lg"
+                style={{ color: palette.textSub }}
+              >
+                Full-stack developer specializing in{" "}
+                <span className="font-semibold" style={{ color: palette.text }}>high-performance web applications</span>
+                {" "}with immersive UI/UX. Passionate about merging cutting-edge technology with exceptional design to create products that make an impact.
+              </motion.p>
+
+              {/* Key Highlights */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-4"
+              >
+                {["React & Next.js Expert", "AI/ML Integration", "Mobile Development", "Blockchain Explorer"].map((skill, idx) => (
+                  <motion.div
+                    key={skill}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: 0.5 + idx * 0.1 }}
+                    className="rounded-full px-5 py-2.5 text-sm font-semibold backdrop-blur-xl"
+                    style={{
+                      background: palette.cardBg,
+                      border: `1px solid ${palette.cardBorder}`,
+                      color: palette.text
+                    }}
+                    whileHover={{
+                      scale: 1.05,
+                      boxShadow: `0 0 20px ${palette.glow}`
+                    }}
+                  >
+                    {skill}
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          </div>
 
           {/* Principles Grid */}
           <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">

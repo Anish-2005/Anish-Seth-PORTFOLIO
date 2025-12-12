@@ -85,7 +85,7 @@ export function DarkBackground() {
       />
 
       <motion.div
-        className="absolute inset-x-[-14%] top-[14%] h-72 rotate-[-7deg] opacity-60"
+        className="absolute inset-x-0 md:inset-x-[-14%] top-[14%] h-72 rotate-[-7deg] opacity-60"
         style={{
           background:
             "linear-gradient(115deg, rgba(248,113,113,0.18) 0%, rgba(190,24,93,0.14) 30%, rgba(255,255,255,0.06) 58%, transparent 82%)",

@@ -65,7 +65,7 @@ export function Hero() {
       {/* Holographic light beam */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-x-[-35%] top-[-15%] -z-20 h-[480px] rotate-[-1.5deg] blur-[90px]"
+        className="pointer-events-none absolute inset-x-0 md:inset-x-[-35%] top-[-15%] -z-20 h-[480px] rotate-[-1.5deg] blur-[90px]"
         style={{
           background: `linear-gradient(125deg, ${palette.accentStrong}, ${palette.beam}, transparent 55%)`,
           opacity: opacityProgress

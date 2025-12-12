@@ -85,7 +85,7 @@ export function LightBackground() {
       />
 
       <motion.div
-        className="absolute inset-x-[-12%] top-[18%] h-64 rotate-[-6deg] opacity-55"
+        className="absolute inset-x-0 md:inset-x-[-12%] top-[18%] h-64 rotate-[-6deg] opacity-55"
         style={{
           background:
             "linear-gradient(110deg, rgba(213,45,45,0.26) 0%, rgba(226,38,114,0.2) 32%, rgba(255,255,255,0.1) 58%, transparent 82%)",

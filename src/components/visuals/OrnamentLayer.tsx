@@ -4,7 +4,7 @@ export function OrnamentLayer() {
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 -z-5 overflow-hidden hidden md:block">
       <motion.div
-        className="absolute inset-x-[-20%] top-[18%] h-40 opacity-30"
+        className="absolute inset-x-0 md:inset-x-[-20%] top-[18%] h-40 opacity-30"
         style={{
           background: "radial-gradient(80% 60% at 50% 40%, color-mix(in_oklab, var(--section-color) 55%, transparent), transparent 75%)",
           filter: "blur(24px)",

@@ -92,7 +92,7 @@ export function SinglePagePortfolio() {
       <OrnamentLayer />
       <motion.div
         aria-hidden
-        className="pointer-events-none fixed inset-x-[-10%] top-[32%] h-64 -z-[5]"
+        className="pointer-events-none fixed inset-x-0 md:inset-x-[-10%] top-[32%] h-64 -z-[5]"
         initial={{ opacity: 0, x: -60, skewX: -3 }}
         animate={{ opacity: 0.18, x: 0, skewX: 0 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}

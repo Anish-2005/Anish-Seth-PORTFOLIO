@@ -32,10 +32,16 @@ body {
 	color: var(--text-0);
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
 }
 
 /* Performance optimizations for mobile */
 @media (max-width: 768px) {
+	html, body {
+		overflow-x: hidden;
+		width: 100%;
+		position: relative;
+	}
 	* {
 		-webkit-transform: translateZ(0);
 		transform: translateZ(0);

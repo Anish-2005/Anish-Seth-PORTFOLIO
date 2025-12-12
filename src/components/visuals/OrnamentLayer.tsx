@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export function OrnamentLayer() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-5 overflow-hidden">
+    <div aria-hidden className="pointer-events-none absolute inset-0 -z-5 overflow-hidden hidden md:block">
       <motion.div
         className="absolute inset-x-[-20%] top-[18%] h-40 opacity-30"
         style={{

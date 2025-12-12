@@ -1,28 +1,41 @@
 import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function DarkBackground() {
+  const [isMobile, setIsMobile] = useState(false);
   const { scrollYProgress } = useScroll();
-  const bandY = useTransform(scrollYProgress, [0, 1], [0, -170]);
-  const dotsY = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  const bandY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -170]);
+  const dotsY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, 80]);
   const accentOpacity = useTransform(scrollYProgress, [0, 0.45, 1], [0.24, 0.42, 0.64]);
-  const d3Y = useTransform(scrollYProgress, [0, 1], [22, -22]);
-  const threeRotate = useTransform(scrollYProgress, [0, 1], [0, -16]);
-  const threeScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
+  const d3Y = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [22, -22]);
+  const threeRotate = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -16]);
+  const threeScale = useTransform(scrollYProgress, [0, 1], isMobile ? [1, 1] : [1, 1.05]);
   const threeOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.2, 0.3, 0.38]);
-  const portalTiltX = useTransform(scrollYProgress, [0, 1], [-10, 12]);
-  const portalTiltY = useTransform(scrollYProgress, [0, 1], [10, -12]);
-  const portalScale = useTransform(scrollYProgress, [0, 1], [0.98, 1.08]);
+  const portalTiltX = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [-10, 12]);
+  const portalTiltY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [10, -12]);
+  const portalScale = useTransform(scrollYProgress, [0, 1], isMobile ? [1, 1] : [0.98, 1.08]);
   const portalOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.18, 0.28, 0.36]);
   const cursorX = useMotionValue(0.5);
   const cursorY = useMotionValue(0.5);
-  const mouseParallaxX = useTransform(cursorX, [0, 1], [-22, 22]);
-  const mouseParallaxY = useTransform(cursorY, [0, 1], [-16, 16]);
-  const depthLayer1 = useTransform(scrollYProgress, [0, 1], [0, -90]);
-  const depthLayer2 = useTransform(scrollYProgress, [0, 1], [0, -130]);
+  const mouseParallaxX = useTransform(cursorX, [0, 1], isMobile ? [0, 0] : [-22, 22]);
+  const mouseParallaxY = useTransform(cursorY, [0, 1], isMobile ? [0, 0] : [-16, 16]);
+  const depthLayer1 = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -90]);
+  const depthLayer2 = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -130]);
   const meshOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.1, 0.16, 0.2, 0.24]);
 
   useEffect(() => {
+    if (isMobile) return; // Disable mouse tracking on mobile
+    
     const handleMouseMove = (event: MouseEvent) => {
       const x = event.clientX / window.innerWidth;
       const y = event.clientY / window.innerHeight;
@@ -32,7 +45,7 @@ export function DarkBackground() {
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [cursorX, cursorY]);
+  }, [cursorX, cursorY, isMobile]);
 
   return (
     <div

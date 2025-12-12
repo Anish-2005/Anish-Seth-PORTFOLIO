@@ -18,6 +18,9 @@ export function LightBackground() {
   const cursorY = useMotionValue(0.5);
   const mouseParallaxX = useTransform(cursorX, [0, 1], [-18, 18]);
   const mouseParallaxY = useTransform(cursorY, [0, 1], [-14, 14]);
+  const depthLayer1 = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const depthLayer2 = useTransform(scrollYProgress, [0, 1], [0, -120]);
+  const meshOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.08, 0.14, 0.18, 0.22]);
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -45,6 +48,26 @@ export function LightBackground() {
           backgroundImage:
             "radial-gradient(1100px 820px at 18% 12%, rgba(213,45,45,0.24), transparent 58%), radial-gradient(1200px 780px at 82% 14%, rgba(226,38,114,0.18), transparent 60%), radial-gradient(900px 640px at 50% 26%, rgba(235,120,120,0.18), transparent 62%)",
           y: bandY,
+        }}
+      />
+
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "radial-gradient(600px 600px at 30% 20%, rgba(213,45,45,0.16), transparent 50%), radial-gradient(700px 700px at 70% 80%, rgba(226,38,114,0.14), transparent 55%)",
+          y: depthLayer1,
+          opacity: 0.6,
+        }}
+      />
+
+      <motion.div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "radial-gradient(800px 800px at 50% 50%, rgba(230,84,152,0.12), transparent 60%)",
+          y: depthLayer2,
+          opacity: 0.5,
         }}
       />
 
@@ -93,7 +116,31 @@ export function LightBackground() {
       />
 
       <motion.div
-        className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(0deg, rgba(213,45,45,0.04) 0px, transparent 2px, transparent 4px), repeating-linear-gradient(90deg, rgba(226,38,114,0.04) 0px, transparent 2px, transparent 4px)",
+          backgroundSize: "80px 80px",
+          opacity: meshOpacity,
+          mixBlendMode: "overlay",
+        }}
+      />
+
+      <motion.div
+        aria-hidden
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle, rgba(213,45,45,0.03) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          opacity: 0.3,
+        }}
+        animate={{ backgroundPosition: ["0px 0px", "40px 40px"] }}
+        transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+      />
+
+      <motion.div
+        className="absolute left-1/2 top-1/2 h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full"
         style={{
           opacity: threeOpacity,
           rotate: threeRotate,
@@ -101,11 +148,31 @@ export function LightBackground() {
           x: mouseParallaxX,
           y: mouseParallaxY,
           background:
-            "conic-gradient(from 45deg, rgba(213,45,45,0.3), rgba(230,84,152,0.18), rgba(255,255,255,0.08), rgba(213,45,45,0.22))",
+            "conic-gradient(from 45deg, rgba(213,45,45,0.32), rgba(230,84,152,0.2), rgba(255,255,255,0.1), rgba(213,45,45,0.24))",
           maskImage: "radial-gradient(90% 90% at 50% 50%, black 45%, transparent 62%)",
           filter: "blur(1px)",
         }}
       />
+
+      <motion.div
+        className="absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          opacity: 0.2,
+          x: mouseParallaxX,
+          y: mouseParallaxY,
+        }}
+        animate={{ rotate: 360 }}
+        transition={{ duration: 40, ease: "linear", repeat: Infinity }}
+      >
+        <div
+          className="h-full w-full rounded-full"
+          style={{
+            background:
+              "conic-gradient(from 0deg, transparent 0%, rgba(213,45,45,0.4) 5%, transparent 10%, transparent 90%, rgba(226,38,114,0.3) 95%, transparent 100%)",
+            filter: "blur(8px)",
+          }}
+        />
+      </motion.div>
 
       <motion.div
         className="absolute left-1/2 top-1/2 h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full"
@@ -117,15 +184,35 @@ export function LightBackground() {
           x: mouseParallaxX,
           y: mouseParallaxY,
           background:
-            "conic-gradient(from 20deg, rgba(213,45,45,0.34), rgba(255,255,255,0.1), rgba(230,84,152,0.26), rgba(213,45,45,0.26))",
+            "conic-gradient(from 20deg, rgba(213,45,45,0.36), rgba(255,255,255,0.12), rgba(230,84,152,0.28), rgba(213,45,45,0.28))",
           maskImage: "radial-gradient(80% 80% at 50% 50%, transparent 30%, black 46%, black 70%, transparent 82%)",
-          boxShadow: "0 20px 56px rgba(213,45,45,0.28)",
+          boxShadow: "0 20px 56px rgba(213,45,45,0.28), inset 0 -10px 40px rgba(213,45,45,0.1)",
           filter: "blur(1.2px)",
           transformStyle: "preserve-3d",
         }}
         animate={{ rotate: 360 }}
         transition={{ repeat: Infinity, duration: 50, ease: "linear" }}
       />
+
+      <motion.div
+        className="absolute left-1/2 top-1/2 h-[720px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{
+          opacity: 0.15,
+          x: mouseParallaxX,
+          y: mouseParallaxY,
+        }}
+        animate={{ rotate: -360 }}
+        transition={{ duration: 60, ease: "linear", repeat: Infinity }}
+      >
+        <div
+          className="h-full w-full rounded-full"
+          style={{
+            background:
+              "conic-gradient(from 0deg, transparent 0%, rgba(213,45,45,0.5) 3%, transparent 6%, transparent 47%, rgba(226,38,114,0.4) 50%, transparent 53%, transparent 97%, rgba(230,84,152,0.3) 100%)",
+            filter: "blur(12px)",
+          }}
+        />
+      </motion.div>
 
       <motion.div
         className="absolute inset-0"

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import { HeroFallback } from "@/components/sections/HeroFallback";
 import { HeroMicroSceneLazy } from "@/components/three/HeroMicroSceneLazy";
+import { useTheme } from "@/context/ThemeContext";
 
 function isLowCapabilityDevice() {
   if (typeof navigator === "undefined") return false;
@@ -23,6 +24,7 @@ export function HeroMicroSceneGate() {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { margin: "-20% 0px -20% 0px", once: true });
+  const { theme } = useTheme();
 
   const [lowCap, setLowCap] = useState(false);
 
@@ -38,7 +40,7 @@ export function HeroMicroSceneGate() {
 
   return (
     <div ref={ref}>
-      {shouldRender3D ? <HeroMicroSceneLazy /> : <HeroFallback />}
+      {shouldRender3D ? <HeroMicroSceneLazy key={`hero-3d-${theme}`} /> : <HeroFallback key={`hero-fallback-${theme}`} />}
     </div>
   );
 }

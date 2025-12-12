@@ -1,20 +1,13 @@
 import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+
+import { useTheme } from "@/context/ThemeContext";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 export function LightBackground() {
-  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
+  const { isMobile } = useMobileOptimization();
+  const { theme } = useTheme();
   const { scrollYProgress } = useScroll();
-  
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-  
-  const bandY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -140]);
   const dotsY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, 60]);
   const accentOpacity = useTransform(scrollYProgress, [0, 0.45, 1], [0.18, 0.4, 0.58]);
   const portalTiltX = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [12, -10]);
@@ -32,6 +25,7 @@ export function LightBackground() {
   const depthLayer1 = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -80]);
   const depthLayer2 = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -120]);
   const meshOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.08, 0.14, 0.18, 0.22]);
+  const bandY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -40]);
 
   useEffect(() => {
     if (isMobile) return;
@@ -52,7 +46,9 @@ export function LightBackground() {
       aria-hidden
       className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
       style={{
-        background: "linear-gradient(135deg, #fae5e2 0%, #f6d0cb 34%, #f1bcb4 68%, #ecafa6 100%)",
+        background: isMobile && theme === "light"
+          ? "linear-gradient(135deg, #ffffff 0%, #f8f9fa 34%, #e9ecef 68%, #dee2e6 100%)"
+          : "linear-gradient(135deg, #fae5e2 0%, #f6d0cb 34%, #f1bcb4 68%, #ecafa6 100%)",
       }}
     >
       {isMobile ? (
@@ -60,7 +56,9 @@ export function LightBackground() {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "radial-gradient(700px 500px at 20% 20%, rgba(213,45,45,0.08), transparent 50%), radial-gradient(600px 450px at 80% 80%, rgba(226,38,114,0.06), transparent 50%)",
+              theme === "light"
+                ? "none"
+                : "radial-gradient(700px 500px at 20% 20%, rgba(213,45,45,0.08), transparent 50%), radial-gradient(600px 450px at 80% 80%, rgba(226,38,114,0.06), transparent 50%)",
           }}
         />
       ) : (

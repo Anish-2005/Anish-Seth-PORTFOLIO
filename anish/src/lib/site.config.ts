@@ -7,9 +7,9 @@ export const siteConfig = {
   locale: "en-US",
   accent: "cyan",
   sameAs: {
-    linkedIn: "https://www.linkedin.com/in/",
+    linkedIn: "https://www.linkedin.com/in/anishseth",
     github: "https://github.com/Anish-2005",
-    email: "mailto:anish@example.com",
+    email: "mailto:anishseth0510@gmail.com",
   },
   location: "India",
   resume: {

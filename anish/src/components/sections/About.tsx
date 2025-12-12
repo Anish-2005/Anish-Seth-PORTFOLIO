@@ -8,26 +8,26 @@ import { useMemo, useRef } from "react";
 
 // Icon components as SVG
 const ZapIcon = () => (
-  <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+  <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
   </svg>
 );
 
 const SparklesIcon = () => (
-  <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+  <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
   </svg>
 );
 
 const EyeIcon = () => (
-  <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+  <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
     <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
   </svg>
 );
 
 const CodeIcon = () => (
-  <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+  <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
   </svg>
 );
@@ -119,7 +119,7 @@ export function About() {
     <section 
       id="about" 
       ref={sectionRef}
-      className="relative overflow-hidden border-t py-24 md:py-32"
+      className="relative overflow-hidden border-t py-16 sm:py-20 md:py-24 lg:py-32"
       style={{
         borderColor: palette.cardBorder
       }}
@@ -211,7 +211,7 @@ export function About() {
               className="relative"
             >
               {/* Eyebrow with animated underline */}
-              <div className="mb-6 flex items-center gap-4">
+              <div className="mb-4 sm:mb-6 flex items-center gap-2 sm:gap-4">
                 <motion.div
                   className="h-px flex-1"
                   style={{ background: `linear-gradient(to right, transparent, ${palette.cardBorder}, transparent)` }}
@@ -221,7 +221,7 @@ export function About() {
                   transition={{ duration: 0.8, delay: 0.2 }}
                 />
                 <span
-                  className="text-xs font-bold uppercase tracking-[0.3em]"
+                  className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em]"
                   style={{ color: palette.glow }}
                 >
                   About Me
@@ -237,7 +237,7 @@ export function About() {
               </div>
 
               {/* Main Title */}
-              <h2 className="mx-auto max-w-4xl text-center text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+              <h2 className="mx-auto max-w-4xl text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
                 <span style={{ color: palette.text }}>Building the Future of </span>
                 <span
                   className="relative inline-block"
@@ -250,7 +250,7 @@ export function About() {
                 >
                   Digital Experiences
                   <motion.span
-                    className="absolute -bottom-2 left-0 h-1 rounded-full"
+                    className="absolute -bottom-1 sm:-bottom-2 left-0 h-0.5 sm:h-1 rounded-full"
                     style={{ background: theme === "light" ? "#d73333" : "#fb7185" }}
                     initial={{ width: 0 }}
                     whileInView={{ width: "100%" }}
@@ -266,7 +266,7 @@ export function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="mx-auto mt-6 max-w-3xl text-center text-base leading-relaxed md:text-lg"
+                className="mx-auto mt-4 sm:mt-6 max-w-3xl text-center text-sm leading-relaxed sm:text-base md:text-lg"
                 style={{ color: palette.textSub }}
               >
                 Full-stack developer specializing in{" "}
@@ -280,7 +280,7 @@ export function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="mx-auto mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-4"
+                className="mx-auto mt-6 sm:mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-2 sm:gap-4"
               >
                 {["React & Next.js Expert", "AI/ML Integration", "Mobile Development", "Blockchain Explorer"].map((skill, idx) => (
                   <motion.div
@@ -289,7 +289,7 @@ export function About() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.5 + idx * 0.1 }}
-                    className="rounded-full px-5 py-2.5 text-sm font-semibold backdrop-blur-xl"
+                    className="rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-semibold backdrop-blur-xl"
                     style={{
                       background: palette.cardBg,
                       border: `1px solid ${palette.cardBorder}`,
@@ -308,7 +308,7 @@ export function About() {
           </div>
 
           {/* Principles Grid */}
-          <div className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 sm:mt-16 grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {aboutData.principles.map((principle, idx) => {
               const IconComponent = principle.icon;
               return (
@@ -322,7 +322,7 @@ export function About() {
                     delay: idx * 0.1,
                     ease: [0.22, 1, 0.36, 1]
                   }}
-                  className="group relative overflow-hidden rounded-2xl p-6 backdrop-blur-xl"
+                  className="group relative overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-xl"
                   style={{
                     background: palette.cardBg,
                     border: `1px solid ${palette.cardBorder}`
@@ -367,7 +367,7 @@ export function About() {
                   <div className="relative">
                     {/* Icon with glow */}
                     <motion.div 
-                      className="inline-flex rounded-xl p-3"
+                      className="inline-flex rounded-lg sm:rounded-xl p-2 sm:p-3"
                       style={{
                         background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
                         border: `1px solid ${palette.cardBorder}`,
@@ -380,10 +380,10 @@ export function About() {
                       <IconComponent />
                     </motion.div>
                     
-                    <h3 className="mt-5 text-lg font-bold" style={{ color: palette.text }}>
+                    <h3 className="mt-3 sm:mt-5 text-base sm:text-lg font-bold" style={{ color: palette.text }}>
                       {principle.title}
                     </h3>
-                    <p className="mt-2 text-sm leading-relaxed opacity-80" style={{ color: palette.text }}>
+                    <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm leading-relaxed opacity-80" style={{ color: palette.text }}>
                       {principle.description}
                     </p>
 
@@ -405,14 +405,14 @@ export function About() {
           </div>
 
           {/* Skills & Journey Section */}
-          <div className="mt-16 grid gap-8 lg:grid-cols-2">
+          <div className="mt-10 sm:mt-16 grid gap-6 sm:gap-8 lg:grid-cols-2">
             {/* Skills Card */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="relative overflow-hidden rounded-3xl p-8 backdrop-blur-xl"
+              className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 backdrop-blur-xl"
               style={{
                 background: palette.cardBg,
                 border: `1px solid ${palette.cardBorder}`
@@ -427,19 +427,19 @@ export function About() {
               />
 
               <div className="relative">
-                <h3 className="text-2xl font-bold" style={{ color: palette.text }}>
+                <h3 className="text-xl sm:text-2xl font-bold" style={{ color: palette.text }}>
                   Technical Arsenal
                 </h3>
-                <p className="mt-2 text-sm opacity-70" style={{ color: palette.text }}>
+                <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm opacity-70" style={{ color: palette.text }}>
                   Technologies I work with daily
                 </p>
 
-                <div className="mt-8 space-y-6">
+                <div className="mt-6 sm:mt-8 space-y-4 sm:space-y-6">
                   <div>
-                    <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
+                    <h4 className="mb-2 sm:mb-3 text-[10px] sm:text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
                       Frontend
                     </h4>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {aboutData.skills.frontend.map((skill, idx) => (
                         <motion.span
                           key={skill}
@@ -447,7 +447,7 @@ export function About() {
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.3, delay: idx * 0.05 }}
-                          className="rounded-lg px-3 py-1.5 text-sm font-medium backdrop-blur-xl"
+                          className="rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium backdrop-blur-xl"
                           style={{
                             background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
                             border: `1px solid ${palette.cardBorder}`,
@@ -465,10 +465,10 @@ export function About() {
                   </div>
 
                   <div>
-                    <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
+                    <h4 className="mb-2 sm:mb-3 text-[10px] sm:text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
                       Backend
                     </h4>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {aboutData.skills.backend.map((skill, idx) => (
                         <motion.span
                           key={skill}
@@ -476,7 +476,7 @@ export function About() {
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.3, delay: idx * 0.05 }}
-                          className="rounded-lg px-3 py-1.5 text-sm font-medium backdrop-blur-xl"
+                          className="rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium backdrop-blur-xl"
                           style={{
                             background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
                             border: `1px solid ${palette.cardBorder}`,
@@ -494,10 +494,10 @@ export function About() {
                   </div>
 
                   <div>
-                    <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
+                    <h4 className="mb-2 sm:mb-3 text-[10px] sm:text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
                       Tools & Platform
                     </h4>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
                       {aboutData.skills.tools.map((skill, idx) => (
                         <motion.span
                           key={skill}
@@ -505,7 +505,7 @@ export function About() {
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.3, delay: idx * 0.05 }}
-                          className="rounded-lg px-3 py-1.5 text-sm font-medium backdrop-blur-xl"
+                          className="rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium backdrop-blur-xl"
                           style={{
                             background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
                             border: `1px solid ${palette.cardBorder}`,
@@ -531,7 +531,7 @@ export function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="relative overflow-hidden rounded-3xl p-8 backdrop-blur-xl"
+              className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 backdrop-blur-xl"
               style={{
                 background: palette.cardBg,
                 border: `1px solid ${palette.cardBorder}`
@@ -546,14 +546,14 @@ export function About() {
               />
 
               <div className="relative">
-                <h3 className="text-2xl font-bold" style={{ color: palette.text }}>
+                <h3 className="text-xl sm:text-2xl font-bold" style={{ color: palette.text }}>
                   My Journey
                 </h3>
-                <p className="mt-2 text-sm opacity-70" style={{ color: palette.text }}>
+                <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm opacity-70" style={{ color: palette.text }}>
                   Evolution as a developer
                 </p>
 
-                <div className="mt-8 space-y-8">
+                <div className="mt-6 sm:mt-8 space-y-6 sm:space-y-8">
                   {aboutData.journey.map((item, idx) => (
                     <motion.div
                       key={item.year}
@@ -565,7 +565,7 @@ export function About() {
                         delay: idx * 0.1,
                         ease: [0.22, 1, 0.36, 1]
                       }}
-                      className="relative pl-6"
+                      className="relative pl-4 sm:pl-6"
                     >
                       {/* Timeline line */}
                       <div
@@ -593,13 +593,13 @@ export function About() {
                         }}
                       />
 
-                      <div className="text-xs font-bold uppercase tracking-wider opacity-60" style={{ color: palette.textSub }}>
+                      <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-60" style={{ color: palette.textSub }}>
                         {item.year}
                       </div>
-                      <h4 className="mt-1 font-bold" style={{ color: palette.text }}>
+                      <h4 className="mt-0.5 sm:mt-1 text-sm sm:text-base font-bold" style={{ color: palette.text }}>
                         {item.title}
                       </h4>
-                      <p className="mt-1 text-sm leading-relaxed opacity-80" style={{ color: palette.text }}>
+                      <p className="mt-1 text-xs sm:text-sm leading-relaxed opacity-80" style={{ color: palette.text }}>
                         {item.description}
                       </p>
                     </motion.div>
@@ -615,16 +615,16 @@ export function About() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-16 text-center"
+            className="mt-10 sm:mt-16 text-center"
           >
-            <div className="inline-flex items-center gap-2 rounded-full px-6 py-3 backdrop-blur-xl"
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-4 py-2 sm:px-6 sm:py-3 backdrop-blur-xl"
               style={{
                 background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
                 border: `1px solid ${palette.cardBorder}`
               }}
             >
-              <span className="text-sm font-medium" style={{ color: palette.text }}>
-                💡 Always learning, always building, always improving
+              <span className="text-xs sm:text-sm font-medium" style={{ color: palette.text }}>
+                Always learning, always building, always improving
               </span>
             </div>
           </motion.div>

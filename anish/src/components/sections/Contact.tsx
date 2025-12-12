@@ -88,7 +88,7 @@ export function Contact() {
     <section 
       id="contact" 
       ref={sectionRef}
-      className="relative overflow-hidden border-t py-24 md:py-32"
+      className="relative overflow-hidden border-t py-16 sm:py-20 md:py-24 lg:py-32"
       style={{ borderColor: palette.cardBorder }}
     >
       {/* Background effects */}
@@ -142,7 +142,7 @@ export function Contact() {
               className="relative"
             >
               {/* Eyebrow */}
-              <div className="mb-6 flex items-center gap-4">
+              <div className="mb-4 sm:mb-6 flex items-center gap-2 sm:gap-4">
                 <motion.div
                   className="h-px flex-1"
                   style={{ background: `linear-gradient(to right, transparent, ${palette.cardBorder}, transparent)` }}
@@ -152,7 +152,7 @@ export function Contact() {
                   transition={{ duration: 0.8, delay: 0.2 }}
                 />
                 <span
-                  className="text-xs font-bold uppercase tracking-[0.3em]"
+                  className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em]"
                   style={{ color: palette.highlight }}
                 >
                   Get In Touch
@@ -168,7 +168,7 @@ export function Contact() {
               </div>
 
               {/* Title */}
-              <h2 className="mx-auto max-w-4xl text-center text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+              <h2 className="mx-auto max-w-4xl text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
                 <span style={{ color: palette.text }}>Let's Build Something </span>
                 <span
                   className="relative inline-block"
@@ -181,7 +181,7 @@ export function Contact() {
                 >
                   Amazing
                   <motion.span
-                    className="absolute -bottom-2 left-0 h-1 rounded-full"
+                    className="absolute -bottom-1 sm:-bottom-2 left-0 h-0.5 sm:h-1 rounded-full"
                     style={{ background: palette.highlight }}
                     initial={{ width: 0 }}
                     whileInView={{ width: "100%" }}
@@ -198,7 +198,7 @@ export function Contact() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="mx-auto mt-6 max-w-3xl text-center text-base leading-relaxed md:text-lg"
+                className="mx-auto mt-4 sm:mt-6 max-w-3xl text-center text-sm leading-relaxed sm:text-base md:text-lg"
                 style={{ color: palette.textSub }}
               >
                 Have a project in mind or looking to collaborate? I'm always open to discussing{" "}
@@ -214,11 +214,11 @@ export function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mx-auto mt-16 max-w-2xl"
+            className="mx-auto mt-10 sm:mt-12 md:mt-16 max-w-2xl"
           >
             <form
               onSubmit={onSubmit}
-              className="relative overflow-hidden rounded-3xl p-8 backdrop-blur-xl md:p-10"
+              className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 backdrop-blur-xl"
               style={{
                 background: palette.glassBg,
                 border: `1px solid ${palette.cardBorder}`,
@@ -239,14 +239,14 @@ export function Contact() {
                 }}
               />
 
-              <div className="grid gap-6 sm:grid-cols-2">
-                <label className="grid gap-3 text-sm font-semibold" style={{ color: palette.text }}>
+              <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
+                <label className="grid gap-2 sm:gap-3 text-xs sm:text-sm font-semibold" style={{ color: palette.text }}>
                   Name
                   <input
                     name="name"
                     required
                     placeholder="Your name"
-                    className="h-12 rounded-xl px-4 outline-none transition-all"
+                    className="h-11 sm:h-12 rounded-lg sm:rounded-xl px-3 sm:px-4 text-sm sm:text-base outline-none transition-all"
                     style={{
                       background: palette.cardBg,
                       border: `1px solid ${palette.cardBorder}`,
@@ -256,14 +256,14 @@ export function Contact() {
                     onBlur={(e) => e.target.style.boxShadow = 'none'}
                   />
                 </label>
-                <label className="grid gap-3 text-sm font-semibold" style={{ color: palette.text }}>
+                <label className="grid gap-2 sm:gap-3 text-xs sm:text-sm font-semibold" style={{ color: palette.text }}>
                   Email
                   <input
                     type="email"
                     name="email"
                     required
                     placeholder="your.email@example.com"
-                    className="h-12 rounded-xl px-4 outline-none transition-all"
+                    className="h-11 sm:h-12 rounded-lg sm:rounded-xl px-3 sm:px-4 text-sm sm:text-base outline-none transition-all"
                     style={{
                       background: palette.cardBg,
                       border: `1px solid ${palette.cardBorder}`,
@@ -275,14 +275,14 @@ export function Contact() {
                 </label>
               </div>
 
-              <label className="mt-6 grid gap-3 text-sm font-semibold" style={{ color: palette.text }}>
+              <label className="mt-4 sm:mt-6 grid gap-2 sm:gap-3 text-xs sm:text-sm font-semibold" style={{ color: palette.text }}>
                 Message
                 <textarea
                   name="message"
                   required
-                  rows={6}
+                  rows={5}
                   placeholder="Tell me about your project..."
-                  className="rounded-xl px-4 py-3 outline-none transition-all resize-none"
+                  className="rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-sm sm:text-base outline-none transition-all resize-none"
                   style={{
                     background: palette.cardBg,
                     border: `1px solid ${palette.cardBorder}`,
@@ -293,11 +293,11 @@ export function Contact() {
                 />
               </label>
 
-              <div className="mt-8 flex flex-wrap items-center gap-4">
+              <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
                 <motion.button
                   type="submit"
                   disabled={status === "sending"}
-                  className="flex items-center gap-2 rounded-xl px-8 py-4 text-base font-semibold text-white"
+                  className="flex items-center gap-1.5 sm:gap-2 rounded-lg sm:rounded-xl px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-white"
                   style={{
                     background: `linear-gradient(135deg, ${palette.highlight}, ${palette.accentStrong})`
                   }}
@@ -307,7 +307,7 @@ export function Contact() {
                   {status === "sending" ? (
                     <>
                       <motion.div
-                        className="h-4 w-4 rounded-full border-2 border-white border-t-transparent"
+                        className="h-3.5 w-3.5 sm:h-4 sm:w-4 rounded-full border-2 border-white border-t-transparent"
                         animate={{ rotate: 360 }}
                         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                       />
@@ -316,7 +316,7 @@ export function Contact() {
                   ) : (
                     <>
                       Send Message
-                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                       </svg>
                     </>
@@ -327,10 +327,10 @@ export function Contact() {
                   <motion.p
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="flex items-center gap-2 text-sm font-semibold"
+                    className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm font-semibold"
                     style={{ color: palette.highlight }}
                   >
-                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <svg className="h-4 w-4 sm:h-5 sm:w-5" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
                     Message sent successfully!
@@ -341,7 +341,7 @@ export function Contact() {
                   <motion.p
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="text-sm font-semibold"
+                    className="text-xs sm:text-sm font-semibold"
                     style={{ color: palette.highlight }}
                   >
                     Error sending message. Please try{" "}
@@ -353,8 +353,8 @@ export function Contact() {
                 )}
               </div>
 
-              <div className="mt-8 pt-6" style={{ borderTop: `1px solid ${palette.cardBorder}` }}>
-                <p className="text-center text-sm" style={{ color: palette.textSub }}>
+              <div className="mt-6 sm:mt-8 pt-5 sm:pt-6" style={{ borderTop: `1px solid ${palette.cardBorder}` }}>
+                <p className="text-center text-xs sm:text-sm" style={{ color: palette.textSub }}>
                   Prefer email?{" "}
                   <a
                     className="font-semibold underline transition-colors"

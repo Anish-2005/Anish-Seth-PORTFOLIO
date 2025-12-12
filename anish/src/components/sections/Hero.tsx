@@ -53,7 +53,7 @@ export function Hero() {
   }, [theme]);
 
   return (
-    <section id="info" className="relative overflow-hidden pt-24 md:pt-32">
+    <section id="info" className="relative overflow-hidden pt-20 sm:pt-24 md:pt-32">
       {/* Cinematic backdrop with animated scanlines */}
       <motion.div
         aria-hidden
@@ -114,7 +114,7 @@ export function Hero() {
         }}
       />
 
-      <Container className="grid items-center gap-12 pb-16 md:grid-cols-12 md:gap-16 md:pb-24">
+      <Container className="grid items-center gap-8 pb-12 sm:gap-12 sm:pb-16 md:grid-cols-12 md:gap-16 md:pb-24">
         <motion.div 
           className="md:col-span-7"
           style={{ scale: scaleProgress }}
@@ -124,14 +124,14 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 backdrop-blur-xl"
+            className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 backdrop-blur-xl"
             style={{
               background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`,
               border: `1px solid ${palette.accentStrong}`
             }}
           >
             <motion.div
-              className="h-2 w-2 rounded-full"
+              className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full"
               style={{ backgroundColor: palette.textSub }}
               animate={{
                 scale: [1, 1.3, 1],
@@ -143,7 +143,7 @@ export function Hero() {
                 ease: "easeInOut"
               }}
             />
-            <span className="text-xs font-medium tracking-wide" style={{ color: palette.text }}>
+            <span className="text-[10px] sm:text-xs font-medium tracking-wide" style={{ color: palette.text }}>
               Available for Opportunities
             </span>
           </motion.div>
@@ -153,7 +153,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6 text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl"
+            className="mt-4 sm:mt-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
             style={{
               color: palette.text,
               lineHeight: 1.1
@@ -180,7 +180,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-4 text-xl font-semibold tracking-tight sm:text-2xl"
+            className="mt-3 sm:mt-4 text-lg font-semibold tracking-tight sm:text-xl md:text-2xl"
             style={{ color: palette.textSub }}
           >
             {professionalData.title}
@@ -191,7 +191,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-3 max-w-2xl text-sm font-medium tracking-wide opacity-70"
+            className="mt-2 sm:mt-3 max-w-2xl text-xs sm:text-sm font-medium tracking-wide opacity-70"
             style={{ color: palette.text }}
           >
             {professionalData.tagline}
@@ -202,7 +202,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-5 max-w-2xl text-base leading-7 opacity-80 sm:text-lg"
+            className="mt-3 sm:mt-5 max-w-2xl text-sm leading-6 opacity-80 sm:text-base sm:leading-7 md:text-lg"
             style={{ color: palette.text }}
           >
             {professionalData.description}
@@ -213,7 +213,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6 flex flex-wrap gap-2"
+            className="mt-4 sm:mt-6 flex flex-wrap gap-1.5 sm:gap-2"
           >
             {professionalData.expertise.map((skill, idx) => (
               <motion.span
@@ -221,7 +221,7 @@ export function Hero() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.5 + idx * 0.08 }}
-                className="rounded-lg px-3 py-1.5 text-xs font-medium backdrop-blur-xl"
+                className="rounded-lg px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs font-medium backdrop-blur-xl"
                 style={{
                   background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`,
                   border: `1px solid ${palette.accentStrong}`,
@@ -242,7 +242,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 flex flex-wrap gap-4"
+            className="mt-6 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4"
           >
             <ButtonLink href="#contact" variant="primary">
               Let's Connect
@@ -260,12 +260,12 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-12 grid grid-cols-3 gap-6"
+            className="mt-8 sm:mt-12 grid grid-cols-3 gap-3 sm:gap-6"
           >
             {professionalData.stats.map((stat, idx) => (
               <motion.div
                 key={stat.label}
-                className="rounded-xl p-4 backdrop-blur-xl"
+                className="rounded-lg sm:rounded-xl p-3 sm:p-4 backdrop-blur-xl"
                 style={{
                   background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`,
                   border: `1px solid ${palette.accentStrong}`
@@ -275,10 +275,10 @@ export function Hero() {
                   boxShadow: `0 0 25px ${palette.glow}`
                 }}
               >
-                <div className="text-2xl font-bold" style={{ color: palette.text }}>
+                <div className="text-lg sm:text-2xl font-bold" style={{ color: palette.text }}>
                   {stat.value}
                 </div>
-                <div className="mt-1 text-xs font-medium opacity-70" style={{ color: palette.text }}>
+                <div className="mt-0.5 sm:mt-1 text-[10px] sm:text-xs font-medium opacity-70" style={{ color: palette.text }}>
                   {stat.label}
                 </div>
               </motion.div>
@@ -287,12 +287,12 @@ export function Hero() {
         </motion.div>
 
         <motion.div 
-          className="md:col-span-5"
+          className="md:col-span-5 order-first md:order-last"
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="relative flex justify-center">
+          <div className="relative flex justify-center mb-6 md:mb-0">
             {/* Holographic glow backdrop */}
             <motion.div
               aria-hidden
@@ -343,7 +343,7 @@ export function Hero() {
 
               {/* Photo frame */}
               <motion.div
-                className="relative h-[320px] w-[320px] overflow-hidden rounded-full border-4 backdrop-blur-xl sm:h-[380px] sm:w-[380px]"
+                className="relative h-[240px] w-[240px] overflow-hidden rounded-full border-2 backdrop-blur-xl sm:h-[300px] sm:w-[300px] sm:border-4 md:h-[320px] md:w-[320px] lg:h-[380px] lg:w-[380px]"
                 style={{
                   borderColor: palette.accentStrong,
                   background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`
@@ -364,7 +364,7 @@ export function Hero() {
                     fill
                     className="object-cover"
                     priority
-                    sizes="(max-width: 640px) 320px, 380px"
+                    sizes="(max-width: 640px) 240px, (max-width: 768px) 300px, (max-width: 1024px) 320px, 380px"
                   />
                 </div>
 
@@ -380,7 +380,7 @@ export function Hero() {
               {/* Floating accent dots */}
               <motion.div
                 aria-hidden
-                className="absolute -right-2 top-12 h-3 w-3 rounded-full"
+                className="absolute -right-1 sm:-right-2 top-8 sm:top-12 h-2 w-2 sm:h-3 sm:w-3 rounded-full"
                 style={{
                   background: theme === "light" ? "#e74974" : "#fb7185",
                   boxShadow: `0 0 15px ${palette.glow}`
@@ -397,7 +397,7 @@ export function Hero() {
               />
               <motion.div
                 aria-hidden
-                className="absolute -left-3 bottom-16 h-2 w-2 rounded-full"
+                className="absolute -left-2 sm:-left-3 bottom-12 sm:bottom-16 h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full"
                 style={{
                   background: theme === "light" ? "#d73333" : "#f87171",
                   boxShadow: `0 0 12px ${palette.glow}`

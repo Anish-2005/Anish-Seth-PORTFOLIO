@@ -107,21 +107,21 @@ export function Footer() {
         />
       </motion.div>
 
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-12 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:gap-6 px-4 py-8 sm:py-10 md:py-12 text-xs sm:text-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
         <motion.div
-          className="flex flex-col gap-2"
+          className="flex flex-col gap-1.5 sm:gap-2"
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
           <motion.p
-            className="relative inline-flex items-center gap-2 text-[color:var(--text-1)]"
+            className="relative inline-flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base text-[color:var(--text-1)]"
             whileHover={{ x: 2 }}
           >
             <motion.span
               aria-hidden
-              className="inline-flex h-6 w-6 items-center justify-center rounded-md text-xs font-semibold"
+              className="inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded text-[10px] sm:text-xs font-semibold"
               style={{
                 background: `linear-gradient(135deg, ${palette.accentA}, ${palette.accentB})`,
                 color: theme === "light" ? "#1a0f12" : "#fdf2f8",
@@ -137,7 +137,7 @@ export function Footer() {
             </span>
           </motion.p>
           <motion.p
-            className="text-xs text-[color:var(--text-2)]"
+            className="text-[10px] sm:text-xs text-[color:var(--text-2)]"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -148,7 +148,7 @@ export function Footer() {
         </motion.div>
 
         <motion.nav
-          className="flex flex-wrap gap-x-6 gap-y-3"
+          className="flex flex-wrap gap-x-4 gap-y-2 sm:gap-x-6 sm:gap-y-3"
           initial={{ opacity: 0, x: 20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}

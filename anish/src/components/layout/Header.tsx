@@ -19,6 +19,7 @@ export function Header() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggle } = useTheme();
 
   const palette = useMemo(
@@ -124,12 +125,13 @@ export function Header() {
         {/* Logo */}
         <Link
           href="#info"
-          className="group relative inline-flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          className="group relative inline-flex items-center gap-2 sm:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
           style={{
             outlineColor: palette.accent
           }}
           onClick={(e) => {
             e.preventDefault();
+            setMobileMenuOpen(false);
             const target = document.querySelector("#info");
             if (target) {
               target.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -138,14 +140,14 @@ export function Header() {
           }}
         >
           <motion.div
-            className="relative flex items-center justify-center overflow-hidden rounded-lg text-sm font-bold"
+            className="relative flex items-center justify-center overflow-hidden rounded-lg text-xs sm:text-sm font-bold"
             style={{
               background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentGlow})`,
               color: "white",
             }}
             animate={{
-              height: scrolled ? "2rem" : "2.25rem",
-              width: scrolled ? "2rem" : "2.25rem",
+              height: scrolled ? "1.75rem" : "2.25rem",
+              width: scrolled ? "1.75rem" : "2.25rem",
               boxShadow: scrolled ? "0 2px 10px rgba(211, 51, 51, 0.15)" : palette.shadow,
             }}
             whileHover={{ 
@@ -170,7 +172,7 @@ export function Header() {
           </motion.div>
           
           <motion.span 
-            className="relative font-bold tracking-tight"
+            className="relative text-sm sm:text-base font-bold tracking-tight"
             style={{ color: palette.text }}
             animate={{
               fontSize: scrolled ? "0.875rem" : "1rem",
@@ -178,7 +180,8 @@ export function Header() {
             }}
             transition={{ duration: 0.2 }}
           >
-            Anish Seth
+            <span className="hidden sm:inline">Anish Seth</span>
+            <span className="sm:hidden">AS</span>
             <motion.span
               aria-hidden
               className="absolute -bottom-1 left-0 h-0.5 rounded-full"
@@ -192,7 +195,7 @@ export function Header() {
 
         {/* Desktop Navigation */}
         <motion.nav 
-          className="hidden items-center md:flex"
+          className="hidden lg:flex items-center"
           animate={{
             gap: scrolled ? "0.125rem" : "0.25rem",
           }}
@@ -257,7 +260,7 @@ export function Header() {
         </motion.nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {/* Theme Toggle */}
           <motion.button
             type="button"
@@ -271,8 +274,8 @@ export function Header() {
               outlineColor: palette.accent,
             }}
             animate={{
-              height: scrolled ? "2rem" : "2.25rem",
-              width: scrolled ? "2rem" : "2.25rem",
+              height: scrolled ? "1.75rem" : "2.25rem",
+              width: scrolled ? "1.75rem" : "2.25rem",
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -280,7 +283,7 @@ export function Header() {
           >
             <motion.div
               animate={{
-                scale: scrolled ? 0.85 : 1,
+                scale: scrolled ? 0.75 : 0.85,
               }}
               transition={{ duration: 0.2 }}
             >
@@ -296,62 +299,20 @@ export function Header() {
             </motion.div>
           </motion.button>
 
-          {/* Resume Button */}
-          <motion.a
-            href={siteConfig.resume.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden items-center gap-2 rounded-lg text-sm font-medium transition sm:inline-flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-            style={{
-              background: palette.glass,
-              border: `1px solid ${palette.border}`,
-              color: palette.text,
-              outlineColor: palette.accent,
-            }}
-            animate={{
-              paddingLeft: scrolled ? "0.75rem" : "1rem",
-              paddingRight: scrolled ? "0.75rem" : "1rem",
-              paddingTop: scrolled ? "0.375rem" : "0.5rem",
-              paddingBottom: scrolled ? "0.375rem" : "0.5rem",
-              fontSize: scrolled ? "0.8125rem" : "0.875rem",
-            }}
-            whileHover={{ 
-              scale: 1.02,
-              boxShadow: palette.shadowHover
-            }}
-            whileTap={{ scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-          >
-            <span>Resume</span>
-            <motion.svg 
-              className="h-4 w-4" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor" 
-              strokeWidth={2}
-              animate={{
-                scale: scrolled ? 0.85 : 1,
-              }}
-              transition={{ duration: 0.2 }}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-            </motion.svg>
-          </motion.a>
-
-          {/* Contact Button */}
+          {/* Contact Button - Desktop & Tablet */}
           <motion.a
             href="#contact"
-            className="inline-flex items-center gap-2 rounded-lg text-sm font-semibold text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="hidden sm:inline-flex items-center gap-1.5 sm:gap-2 rounded-lg text-xs sm:text-sm font-semibold text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
             style={{
               background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentGlow})`,
               outlineColor: palette.accent,
             }}
             animate={{
-              paddingLeft: scrolled ? "0.75rem" : "1rem",
-              paddingRight: scrolled ? "0.75rem" : "1rem",
+              paddingLeft: scrolled ? "0.625rem" : "0.875rem",
+              paddingRight: scrolled ? "0.625rem" : "0.875rem",
               paddingTop: scrolled ? "0.375rem" : "0.5rem",
               paddingBottom: scrolled ? "0.375rem" : "0.5rem",
-              fontSize: scrolled ? "0.8125rem" : "0.875rem",
+              fontSize: scrolled ? "0.75rem" : "0.875rem",
               boxShadow: scrolled ? "0 2px 15px rgba(211, 51, 51, 0.2)" : palette.shadow,
             }}
             whileHover={{ 
@@ -380,9 +341,9 @@ export function Header() {
               whileHover={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
             />
-            <span className="relative z-10">Get in Touch</span>
+            <span className="relative z-10">Contact</span>
             <motion.svg 
-              className="relative z-10 h-4 w-4" 
+              className="relative z-10 h-3 w-3 sm:h-4 sm:w-4" 
               fill="none" 
               viewBox="0 0 24 24" 
               stroke="currentColor" 
@@ -395,7 +356,150 @@ export function Header() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </motion.svg>
           </motion.a>
+
+          {/* Mobile Menu Button */}
+          <motion.button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
+            className="lg:hidden relative inline-flex items-center justify-center rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            style={{
+              background: palette.glass,
+              border: `1px solid ${palette.border}`,
+              color: palette.text,
+              outlineColor: palette.accent,
+            }}
+            animate={{
+              height: scrolled ? "1.75rem" : "2.25rem",
+              width: scrolled ? "1.75rem" : "2.25rem",
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.div
+              animate={{
+                rotate: mobileMenuOpen ? 90 : 0,
+                scale: scrolled ? 0.75 : 0.85,
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              {mobileMenuOpen ? (
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </motion.div>
+          </motion.button>
         </div>
+      </motion.div>
+
+      {/* Mobile Menu */}
+      <motion.div
+        className="lg:hidden overflow-hidden"
+        initial={false}
+        animate={{
+          height: mobileMenuOpen ? "auto" : 0,
+          opacity: mobileMenuOpen ? 1 : 0,
+        }}
+        transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+        style={{ pointerEvents: mobileMenuOpen ? "auto" : "none" }}
+      >
+        <motion.div
+          className="px-4 pb-4 pt-2"
+          style={{
+            background: palette.glass,
+            borderTop: `1px solid ${palette.border}`,
+          }}
+        >
+          <nav className="flex flex-col gap-1">
+            {NAV_ITEMS.map((item, index) => (
+              <motion.button
+                key={item.href}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setMobileMenuOpen(false);
+                  setTimeout(() => {
+                    const target = document.querySelector(item.href);
+                    if (target) {
+                      target.scrollIntoView({ behavior: "smooth", block: "start" });
+                      window.history.replaceState(null, "", window.location.pathname);
+                    }
+                  }, 100);
+                }}
+                className="group relative rounded-lg px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 text-left w-full cursor-pointer"
+                style={{ 
+                  color: palette.textSub,
+                  outlineColor: palette.accent,
+                  border: `1px solid ${palette.border}`,
+                  background: "transparent",
+                }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ 
+                  opacity: mobileMenuOpen ? 1 : 0,
+                  x: mobileMenuOpen ? 0 : -20,
+                }}
+                transition={{ 
+                  duration: 0.3, 
+                  delay: mobileMenuOpen ? index * 0.05 : 0,
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <motion.span
+                  aria-hidden
+                  className="absolute inset-0 rounded-lg opacity-0 group-active:opacity-100"
+                  style={{
+                    background: palette.accentSoft,
+                  }}
+                  transition={{ duration: 0.2 }}
+                />
+                <span className="relative z-10">{item.label}</span>
+              </motion.button>
+            ))}
+            
+            {/* Mobile Contact Button */}
+            <motion.button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setMobileMenuOpen(false);
+                setTimeout(() => {
+                  const target = document.querySelector("#contact");
+                  if (target) {
+                    target.scrollIntoView({ behavior: "smooth", block: "start" });
+                    window.history.replaceState(null, "", window.location.pathname);
+                  }
+                }, 100);
+              }}
+              className="sm:hidden relative mt-2 flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold text-white transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 cursor-pointer w-full"
+              style={{
+                background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentGlow})`,
+                outlineColor: palette.accent,
+              }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ 
+                opacity: mobileMenuOpen ? 1 : 0,
+                y: mobileMenuOpen ? 0 : 10,
+              }}
+              transition={{ 
+                duration: 0.3, 
+                delay: mobileMenuOpen ? NAV_ITEMS.length * 0.05 : 0,
+              }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <span>Get in Touch</span>
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </motion.button>
+          </nav>
+        </motion.div>
       </motion.div>
     </motion.header>
   );

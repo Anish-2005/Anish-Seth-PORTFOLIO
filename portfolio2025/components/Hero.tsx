@@ -1,138 +1,139 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
+import { useEffect, useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Github, Linkedin, Mail, MoveDown } from 'lucide-react';
+import gsap from 'gsap';
 
 export default function Hero() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll();
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.8]);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from('.hero-title', {
+        opacity: 0,
+        y: 100,
+        duration: 1.2,
+        ease: 'power4.out',
+        delay: 0.2,
+      });
+
+      gsap.from('.hero-subtitle', {
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power4.out',
+        delay: 0.6,
+        stagger: 0.2,
+      });
+
+      gsap.from('.hero-social', {
+        opacity: 0,
+        scale: 0,
+        duration: 0.6,
+        ease: 'back.out(1.7)',
+        delay: 1.2,
+        stagger: 0.1,
+      });
+
+      gsap.from('.hero-cta', {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: 'power3.out',
+        delay: 1.6,
+      });
+    }, containerRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <motion.div
-          className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, 50, 0],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
-        <motion.div
-          className="absolute bottom-20 right-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20"
-          animate={{
-            x: [0, -100, 0],
-            y: [0, -50, 0],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear"
-          }}
-        />
-      </div>
+    <section
+      ref={containerRef}
+      className="min-h-screen flex items-center justify-center relative overflow-hidden"
+    >
+      <motion.div
+        style={{ opacity, scale }}
+        className="container mx-auto px-6 lg:px-12 z-10"
+      >
+        <div className="max-w-5xl mx-auto">
+          <div className="hero-title mb-8">
+            <h1 className="text-7xl lg:text-9xl font-light tracking-tight text-white mb-4">
+              Anish<span className="text-purple-500">.</span>
+            </h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-blue-500"></div>
+          </div>
 
-      <div className="container mx-auto px-4 z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center"
-        >
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-5xl md:text-7xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400"
-          >
-            Anish Seth
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-xl md:text-2xl mb-4 text-gray-300"
-          >
-            Full Stack Developer | App Developer
-          </motion.p>
-          
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-            className="text-lg md:text-xl mb-8 text-gray-400"
-          >
-            Machine Learning • Blockchain • Web3
-          </motion.p>
+          <div className="space-y-4 mb-12">
+            <p className="hero-subtitle text-2xl lg:text-4xl font-light text-gray-300 tracking-wide">
+              Full Stack Developer
+            </p>
+            <p className="hero-subtitle text-xl lg:text-2xl font-light text-gray-400">
+              Building digital experiences with{' '}
+              <span className="text-purple-400">Machine Learning</span>,{' '}
+              <span className="text-blue-400">Blockchain</span>, and modern web technologies
+            </p>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
-            className="flex gap-4 justify-center mb-12"
-          >
+          <div className="flex gap-4 mb-16">
             <a
               href="https://github.com/Anish-2005"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all transform hover:scale-110"
+              className="hero-social group"
             >
-              <Github className="w-6 h-6" />
+              <div className="p-4 border border-white/10 hover:border-purple-500/50 transition-all duration-300 backdrop-blur-sm">
+                <Github className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+              </div>
             </a>
             <a
               href="https://linkedin.com/in/anishseth"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all transform hover:scale-110"
+              className="hero-social group"
             >
-              <Linkedin className="w-6 h-6" />
+              <div className="p-4 border border-white/10 hover:border-blue-500/50 transition-all duration-300 backdrop-blur-sm">
+                <Linkedin className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+              </div>
             </a>
             <a
               href="mailto:anishseth2005@gmail.com"
-              className="p-3 bg-white/10 backdrop-blur-sm rounded-full hover:bg-white/20 transition-all transform hover:scale-110"
+              className="hero-social group"
             >
-              <Mail className="w-6 h-6" />
+              <div className="p-4 border border-white/10 hover:border-purple-500/50 transition-all duration-300 backdrop-blur-sm">
+                <Mail className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
+              </div>
             </a>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 0.8 }}
-            className="flex gap-4 justify-center"
-          >
+          <div className="hero-cta">
             <a
-              href="#projects"
-              className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full font-semibold hover:shadow-lg hover:shadow-purple-500/50 transition-all transform hover:scale-105"
+              href="#work"
+              className="inline-flex items-center gap-3 px-8 py-4 border border-white/20 hover:border-white/40 transition-all duration-300 group"
             >
-              View My Work
+              <span className="text-white font-light tracking-wider">VIEW WORK</span>
+              <MoveDown className="w-4 h-4 text-gray-400 group-hover:translate-y-1 transition-transform" />
             </a>
-            <a
-              href="#contact"
-              className="px-8 py-3 bg-white/10 backdrop-blur-sm rounded-full font-semibold hover:bg-white/20 transition-all transform hover:scale-105"
-            >
-              Get In Touch
-            </a>
-          </motion.div>
-        </motion.div>
-      </div>
+          </div>
+        </div>
+      </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Minimal scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        transition={{ delay: 2 }}
+        className="absolute bottom-12 left-1/2 -translate-x-1/2"
       >
         <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <ArrowDown className="w-6 h-6 text-gray-400" />
-        </motion.div>
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          className="w-[1px] h-16 bg-gradient-to-b from-transparent via-white/50 to-transparent"
+        />
       </motion.div>
     </section>
   );

@@ -3,6 +3,7 @@
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 import { useTheme } from "@/context/ThemeContext";
 
@@ -20,6 +21,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggle } = useTheme();
+  const { isMobile } = useMobileOptimization();
 
   const palette = useMemo(
     () =>
@@ -93,24 +95,26 @@ export function Header() {
         transition={{ duration: 0.3 }}
       />
 
-      {/* Floating orb effects - only when scrolled */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute left-1/4 top-0 h-20 w-20 rounded-full blur-2xl"
-        style={{ background: palette.accentGlow }}
-        animate={{
-          opacity: scrolled ? 0.6 : 0,
-          x: scrolled ? [0, 30, -15, 0] : 0,
-          y: scrolled ? [0, -10, 5, 0] : 0,
-          scale: scrolled ? [1, 1.1, 0.95, 1] : 1,
-        }}
-        transition={{
-          opacity: { duration: 0.3 },
-          x: { duration: 8, ease: "easeInOut", repeat: Infinity },
-          y: { duration: 8, ease: "easeInOut", repeat: Infinity },
-          scale: { duration: 8, ease: "easeInOut", repeat: Infinity },
-        }}
-      />
+      {/* Floating orb effects - only when scrolled and not on mobile */}
+      {!isMobile && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute left-1/4 top-0 h-20 w-20 rounded-full blur-2xl"
+          style={{ background: palette.accentGlow }}
+          animate={{
+            opacity: scrolled ? 0.6 : 0,
+            x: scrolled ? [0, 30, -15, 0] : 0,
+            y: scrolled ? [0, -10, 5, 0] : 0,
+            scale: scrolled ? [1, 1.1, 0.95, 1] : 1,
+          }}
+          transition={{
+            opacity: { duration: 0.3 },
+            x: { duration: 8, ease: "easeInOut", repeat: Infinity },
+            y: { duration: 8, ease: "easeInOut", repeat: Infinity },
+            scale: { duration: 8, ease: "easeInOut", repeat: Infinity },
+          }}
+        />
+      )}
 
       <motion.div 
         className="relative mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"

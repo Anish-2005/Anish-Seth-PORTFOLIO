@@ -3,12 +3,14 @@
 import { useMemo, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 import { siteConfig } from "@/lib/site.config";
 import { Container } from "@/components/ui/Container";
 
 export function Contact() {
   const { theme } = useTheme();
+  const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
@@ -120,19 +122,22 @@ export function Contact() {
         <motion.div style={{ opacity, y }}>
           {/* Section Header */}
           <div className="relative">
-            <motion.div
-              className="pointer-events-none absolute -right-20 -top-10 h-40 w-40 rounded-full blur-3xl"
-              style={{ background: palette.glow }}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
+            {/* Floating orb accent - disabled on mobile */}
+            {!isMobile && (
+              <motion.div
+                className="pointer-events-none absolute -right-20 -top-10 h-40 w-40 rounded-full blur-3xl"
+                style={{ background: palette.glow }}
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.5, 0.3],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            )}
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}

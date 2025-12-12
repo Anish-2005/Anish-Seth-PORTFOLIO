@@ -7,6 +7,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion
 import { useTheme } from "@/context/ThemeContext";
 import { useMemo } from "react";
 import Image from "next/image";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 const professionalData = {
   name: "Anish Seth",
@@ -24,6 +25,7 @@ const professionalData = {
 export function Hero() {
   const reduce = useReducedMotion();
   const { theme } = useTheme();
+  const { isMobile } = useMobileOptimization();
   const { scrollY } = useScroll();
   const parallax = useTransform(scrollY, [0, 600], [0, reduce ? 0 : -80]);
   const scaleProgress = useTransform(scrollY, [0, 400], [1, reduce ? 1 : 0.92]);
@@ -62,24 +64,26 @@ export function Hero() {
         }}
       />
       
-      {/* Holographic light beam */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 md:inset-x-[-35%] top-[-15%] -z-20 h-[480px] rotate-[-1.5deg] blur-[90px]"
-        style={{
-          background: `linear-gradient(125deg, ${palette.accentStrong}, ${palette.beam}, transparent 55%)`,
-          opacity: opacityProgress
-        }}
-        animate={{
-          rotate: [-1.5, -2.2, -1.5],
-          scaleX: [1, 1.08, 1]
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
+      {/* Holographic light beam - disabled on mobile */}
+      {!isMobile && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 md:inset-x-[-35%] top-[-15%] -z-20 h-[480px] rotate-[-1.5deg] blur-[90px]"
+          style={{
+            background: `linear-gradient(125deg, ${palette.accentStrong}, ${palette.beam}, transparent 55%)`,
+            opacity: opacityProgress
+          }}
+          animate={{
+            rotate: [-1.5, -2.2, -1.5],
+            scaleX: [1, 1.08, 1]
+          }}
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      )}
 
       {/* Animated data grid overlay */}
       <div
@@ -93,24 +97,26 @@ export function Hero() {
         }}
       />
 
-      {/* Floating accent particles */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute right-[12%] top-[18%] -z-10 h-[180px] w-[180px] rounded-full blur-[100px]"
-        style={{
-          background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
-        }}
-        animate={{
-          y: [0, -25, 0],
-          x: [0, 15, 0],
-          scale: [1, 1.12, 1]
-        }}
-        transition={{
-          duration: 18,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
+      {/* Floating accent particles - disabled on mobile */}
+      {!isMobile && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute right-[12%] top-[18%] -z-10 h-[180px] w-[180px] rounded-full blur-[100px]"
+          style={{
+            background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
+          }}
+          animate={{
+            y: [0, -25, 0],
+            x: [0, 15, 0],
+            scale: [1, 1.12, 1]
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      )}
 
       <Container className="grid items-center gap-8 pb-12 sm:gap-12 sm:pb-16 md:grid-cols-12 md:gap-16 md:pb-24">
         <motion.div 

@@ -2,12 +2,14 @@
 
 import { motion } from "framer-motion";
 import { useMemo } from "react";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 import { useTheme } from "@/context/ThemeContext";
 import { siteConfig } from "@/lib/site.config";
 
 export function Footer() {
   const { theme } = useTheme();
+  const { isMobile } = useMobileOptimization();
 
   const palette = useMemo(
     () =>
@@ -51,60 +53,74 @@ export function Footer() {
             "linear-gradient(0deg, transparent 0%, black 20%, black 80%, transparent 100%)",
         }}
       >
-        <motion.div
-          className="absolute inset-x-0 bottom-[-40%] h-[140%]"
-          style={{
-            backgroundImage: palette.beam,
-            filter: "blur(50px)",
-          }}
-          animate={{
-            scale: [1, 1.08, 1],
-            rotate: [0, 2, 0],
-            opacity: [0.6, 0.8, 0.6],
-          }}
-          transition={{
-            duration: 20,
-            ease: "easeInOut",
-            repeat: Infinity,
-          }}
-        />
-        <motion.div
-          aria-hidden
-          className="absolute left-1/3 bottom-0 h-28 w-28 rounded-full"
-          style={{
-            background: `radial-gradient(circle, ${palette.orbA}, transparent 70%)`,
-            filter: "blur(35px)",
-          }}
-          animate={{
-            x: [0, -30, 15, 0],
-            y: [0, -15, 10, 0],
-            scale: [1, 1.15, 0.9, 1],
-          }}
-          transition={{
-            duration: 14,
-            ease: "easeInOut",
-            repeat: Infinity,
-          }}
-        />
-        <motion.div
-          aria-hidden
-          className="absolute right-1/3 bottom-0 h-24 w-24 rounded-full"
-          style={{
-            background: `radial-gradient(circle, ${palette.orbB}, transparent 70%)`,
-            filter: "blur(30px)",
-          }}
-          animate={{
-            x: [0, 25, -15, 0],
-            y: [0, 12, -8, 0],
-            scale: [1, 0.85, 1.1, 1],
-          }}
-          transition={{
-            duration: 11,
-            ease: "easeInOut",
-            repeat: Infinity,
-            delay: 1.5,
-          }}
-        />
+        {/* Disable heavy animations on mobile */}
+        {!isMobile ? (
+          <>
+            <motion.div
+              className="absolute inset-x-0 bottom-[-40%] h-[140%]"
+              style={{
+                backgroundImage: palette.beam,
+                filter: "blur(50px)",
+              }}
+              animate={{
+                scale: [1, 1.08, 1],
+                rotate: [0, 2, 0],
+                opacity: [0.6, 0.8, 0.6],
+              }}
+              transition={{
+                duration: 20,
+                ease: "easeInOut",
+                repeat: Infinity,
+              }}
+            />
+            <motion.div
+              aria-hidden
+              className="absolute left-1/3 bottom-0 h-28 w-28 rounded-full"
+              style={{
+                background: `radial-gradient(circle, ${palette.orbA}, transparent 70%)`,
+                filter: "blur(35px)",
+              }}
+              animate={{
+                x: [0, -30, 15, 0],
+                y: [0, -15, 10, 0],
+                scale: [1, 1.15, 0.9, 1],
+              }}
+              transition={{
+                duration: 14,
+                ease: "easeInOut",
+                repeat: Infinity,
+              }}
+            />
+            <motion.div
+              aria-hidden
+              className="absolute right-1/3 bottom-0 h-24 w-24 rounded-full"
+              style={{
+                background: `radial-gradient(circle, ${palette.orbB}, transparent 70%)`,
+                filter: "blur(30px)",
+              }}
+              animate={{
+                x: [0, 25, -15, 0],
+                y: [0, 12, -8, 0],
+                scale: [1, 0.85, 1.1, 1],
+              }}
+              transition={{
+                duration: 11,
+                ease: "easeInOut",
+                repeat: Infinity,
+                delay: 1.5,
+              }}
+            />
+          </>
+        ) : (
+          // Static gradient on mobile
+          <div
+            className="absolute inset-x-0 bottom-[-40%] h-[140%]"
+            style={{
+              backgroundImage: palette.beam,
+              opacity: 0.6,
+            }}
+          />
+        )}
       </motion.div>
 
       <div className="mx-auto flex max-w-6xl flex-col gap-4 sm:gap-6 px-4 py-8 sm:py-10 md:py-12 text-xs sm:text-sm sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">

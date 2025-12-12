@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/Container";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { useMemo, useRef } from "react";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 // Icon components as SVG
 const ZapIcon = () => (
@@ -82,6 +83,7 @@ const aboutData = {
 
 export function About() {
   const { theme } = useTheme();
+  const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -145,43 +147,47 @@ export function About() {
         }}
       />
 
-      {/* Floating accent orbs */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute right-[10%] top-[20%] -z-10 h-[250px] w-[250px] rounded-full blur-[130px]"
-        style={{
-          background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
-        }}
-        animate={{
-          y: [0, -35, 0],
-          x: [0, 25, 0],
-          scale: [1, 1.2, 1]
-        }}
-        transition={{
-          duration: 22,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
+      {/* Floating accent orbs - disabled on mobile */}
+      {!isMobile && (
+        <>
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute right-[10%] top-[20%] -z-10 h-[250px] w-[250px] rounded-full blur-[130px]"
+            style={{
+              background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
+            }}
+            animate={{
+              y: [0, -35, 0],
+              x: [0, 25, 0],
+              scale: [1, 1.2, 1]
+            }}
+            transition={{
+              duration: 22,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
 
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute left-[5%] bottom-[25%] -z-10 h-[200px] w-[200px] rounded-full blur-[120px]"
-        style={{
-          background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
-        }}
-        animate={{
-          y: [0, 30, 0],
-          x: [0, -20, 0],
-          scale: [1, 1.15, 1]
-        }}
-        transition={{
-          duration: 18,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1
-        }}
-      />
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute left-[5%] bottom-[25%] -z-10 h-[200px] w-[200px] rounded-full blur-[120px]"
+            style={{
+              background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
+            }}
+            animate={{
+              y: [0, 30, 0],
+              x: [0, -20, 0],
+              scale: [1, 1.15, 1]
+            }}
+            transition={{
+              duration: 18,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1
+            }}
+          />
+        </>
+      )}
 
       <Container>
         <motion.div style={{ scale, opacity }}>

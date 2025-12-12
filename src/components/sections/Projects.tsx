@@ -3,8 +3,7 @@
 import { Container } from "@/components/ui/Container";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { useMemo, useRef, useState } from "react";
-
+import { useMemo, useRef, useState } from "react";import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 // Showcase projects with impactful visuals
 const showcaseProjects = [
   {
@@ -83,6 +82,7 @@ const showcaseProjects = [
 
 export function Projects() {
   const { theme } = useTheme();
+  const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
   const [activeProject, setActiveProject] = useState(showcaseProjects[0]);
 
@@ -157,20 +157,22 @@ export function Projects() {
         <motion.div style={{ opacity, y }}>
           {/* Enhanced Section Header */}
           <div className="relative">
-            {/* Floating orb accent */}
-            <motion.div
-              className="pointer-events-none absolute -left-20 -top-10 h-40 w-40 rounded-full blur-3xl"
-              style={{ background: palette.glow }}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
+            {/* Floating orb accent - disabled on mobile */}
+            {!isMobile && (
+              <motion.div
+                className="pointer-events-none absolute -left-20 -top-10 h-40 w-40 rounded-full blur-3xl"
+                style={{ background: palette.glow }}
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.5, 0.3],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            )}
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}

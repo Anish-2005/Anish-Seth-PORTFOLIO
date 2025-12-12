@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Projects } from "@/components/sections/Projects";
+import { Achievements } from "@/components/sections/Achievements";
 import { Visuals } from "@/components/sections/Visuals";
 import { ThreeShowcase } from "@/components/sections/ThreeShowcase";
 import { Notes } from "@/components/sections/Notes";
@@ -35,6 +36,7 @@ export function SinglePagePortfolio({
       top: "rgba(34, 211, 238, 0.22)",
       about: "rgba(94, 234, 212, 0.2)",
       work: "rgba(59, 130, 246, 0.22)",
+      achievements: "rgba(251, 113, 133, 0.2)",
       visuals: "rgba(14, 165, 233, 0.24)",
       showcase: "rgba(56, 189, 248, 0.22)",
       notes: "rgba(244, 114, 182, 0.18)",
@@ -44,6 +46,7 @@ export function SinglePagePortfolio({
       top: "rgba(20, 184, 166, 0.16)",
       about: "rgba(59, 130, 246, 0.14)",
       work: "rgba(30, 64, 175, 0.14)",
+      achievements: "rgba(211, 51, 51, 0.16)",
       visuals: "rgba(14, 165, 233, 0.16)",
       showcase: "rgba(6, 182, 212, 0.16)",
       notes: "rgba(236, 72, 153, 0.16)",
@@ -144,21 +147,26 @@ export function SinglePagePortfolio({
           </motion.div>
         </SectionWrap>
         <SectionWrap index={3}>
+          <motion.div onViewportEnter={() => setTone("achievements")}> 
+            <Achievements />
+          </motion.div>
+        </SectionWrap>
+        <SectionWrap index={4}>
           <motion.div onViewportEnter={() => setTone("visuals")}>
             <Visuals onHighlightProjects={onHighlightProjects} />
           </motion.div>
         </SectionWrap>
-        <SectionWrap index={4}>
+        <SectionWrap index={5}>
           <motion.div onViewportEnter={() => setTone("showcase")}> 
             <ThreeShowcase />
           </motion.div>
         </SectionWrap>
-        <SectionWrap index={5}>
+        <SectionWrap index={6}>
           <motion.div onViewportEnter={() => setTone("notes")}> 
             <Notes notes={notes} />
           </motion.div>
         </SectionWrap>
-        <SectionWrap index={6}>
+        <SectionWrap index={7}>
           <motion.div onViewportEnter={() => setTone("contact")}> 
             <Contact />
           </motion.div>

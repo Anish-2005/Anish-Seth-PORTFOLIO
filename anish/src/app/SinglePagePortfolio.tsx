@@ -152,21 +152,6 @@ export function SinglePagePortfolio({
           </motion.div>
         </SectionWrap>
         <SectionWrap index={4}>
-          <motion.div onViewportEnter={() => setTone("visuals")}>
-            <Visuals onHighlightProjects={onHighlightProjects} />
-          </motion.div>
-        </SectionWrap>
-        <SectionWrap index={5}>
-          <motion.div onViewportEnter={() => setTone("showcase")}> 
-            <ThreeShowcase />
-          </motion.div>
-        </SectionWrap>
-        <SectionWrap index={6}>
-          <motion.div onViewportEnter={() => setTone("notes")}> 
-            <Notes notes={notes} />
-          </motion.div>
-        </SectionWrap>
-        <SectionWrap index={7}>
           <motion.div onViewportEnter={() => setTone("contact")}> 
             <Contact />
           </motion.div>

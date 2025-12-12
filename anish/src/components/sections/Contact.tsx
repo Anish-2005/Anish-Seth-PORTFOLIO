@@ -1,16 +1,53 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 
 import { siteConfig } from "@/lib/site.config";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Button } from "@/components/ui/Button";
 
 export function Contact() {
+  const { theme } = useTheme();
+  const sectionRef = useRef<HTMLElement>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
     "idle"
   );
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.6]);
+  const y = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
+
+  const palette = useMemo(() => {
+    if (theme === "light") {
+      return {
+        accent: "rgba(211, 51, 51, 0.12)",
+        accentStrong: "rgba(211, 51, 51, 0.25)",
+        glow: "rgba(211, 51, 51, 0.4)",
+        cardBg: "rgba(250, 229, 226, 0.6)",
+        cardBorder: "rgba(211, 51, 51, 0.18)",
+        glassBg: "rgba(255, 255, 255, 0.7)",
+        text: "#2c1810",
+        textSub: "#6b4a3a",
+        highlight: "#d73333"
+      };
+    }
+    return {
+      accent: "rgba(248, 113, 113, 0.1)",
+      accentStrong: "rgba(248, 113, 113, 0.22)",
+      glow: "rgba(248, 113, 113, 0.35)",
+      cardBg: "rgba(15, 6, 11, 0.7)",
+      cardBorder: "rgba(248, 113, 113, 0.12)",
+      glassBg: "rgba(15, 6, 11, 0.8)",
+      text: "#fef2f2",
+      textSub: "#fca5a5",
+      highlight: "#fb7185"
+    };
+  }, [theme]);
 
   const fallbackMailto = useMemo(() => {
     const to = siteConfig.sameAs.email.replace(/^mailto:/, "");
@@ -40,89 +77,297 @@ export function Contact() {
       if (!res.ok) throw new Error("Request failed");
       setStatus("sent");
       form.reset();
+      setTimeout(() => setStatus("idle"), 3000);
     } catch {
       setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
     }
   }
 
   return (
-    <section id="contact" className="border-t border-[color:var(--border)]">
-      <Container className="py-16">
-        <div className="grid gap-10 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <SectionHeading
-              eyebrow="CONTACT"
-              title="Let’s build something clean"
-              description="If you’re hiring or collaborating, send a short note. v0 includes a stub endpoint and a mailto fallback."
+    <section 
+      id="contact" 
+      ref={sectionRef}
+      className="relative overflow-hidden border-t py-24 md:py-32"
+      style={{ borderColor: palette.cardBorder }}
+    >
+      {/* Background effects */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-20"
+        style={{
+          opacity,
+          background: `
+            radial-gradient(1000px 800px at 50% 40%, ${palette.accent}, transparent 70%),
+            radial-gradient(800px 600px at 80% 60%, ${palette.accentStrong}, transparent 65%)
+          `
+        }}
+      />
+
+      {/* Grid pattern */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-25"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(0deg, ${palette.cardBorder} 0, ${palette.cardBorder} 1px, transparent 1px, transparent 60px),
+            repeating-linear-gradient(90deg, ${palette.cardBorder} 0, ${palette.cardBorder} 1px, transparent 1px, transparent 60px)
+          `
+        }}
+      />
+
+      <Container>
+        <motion.div style={{ opacity, y }}>
+          {/* Section Header */}
+          <div className="relative">
+            <motion.div
+              className="pointer-events-none absolute -right-20 -top-10 h-40 w-40 rounded-full blur-3xl"
+              style={{ background: palette.glow }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
             />
 
-            <div className="mt-6 text-sm text-[color:var(--text-1)]">
-              <p>
-                Prefer email?{" "}
-                <a
-                  className="text-[color:var(--text-0)] underline decoration-[color:var(--border)] underline-offset-4 hover:decoration-[color:var(--accent)]"
-                  href={fallbackMailto}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative"
+            >
+              {/* Eyebrow */}
+              <div className="mb-6 flex items-center gap-4">
+                <motion.div
+                  className="h-px flex-1"
+                  style={{ background: `linear-gradient(to right, transparent, ${palette.cardBorder}, transparent)` }}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+                <span
+                  className="text-xs font-bold uppercase tracking-[0.3em]"
+                  style={{ color: palette.highlight }}
                 >
-                  Open mail client
-                </a>
-              </p>
-            </div>
+                  Get In Touch
+                </span>
+                <motion.div
+                  className="h-px flex-1"
+                  style={{ background: `linear-gradient(to left, transparent, ${palette.cardBorder}, transparent)` }}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+              </div>
+
+              {/* Title */}
+              <h2 className="mx-auto max-w-4xl text-center text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">
+                <span style={{ color: palette.text }}>Let's Build Something </span>
+                <span
+                  className="relative inline-block"
+                  style={{
+                    backgroundImage: `linear-gradient(135deg, ${palette.highlight}, ${palette.textSub})`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text"
+                  }}
+                >
+                  Amazing
+                  <motion.span
+                    className="absolute -bottom-2 left-0 h-1 rounded-full"
+                    style={{ background: palette.highlight }}
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                  />
+                </span>
+                <span style={{ color: palette.text }}> Together</span>
+              </h2>
+
+              {/* Description */}
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="mx-auto mt-6 max-w-3xl text-center text-base leading-relaxed md:text-lg"
+                style={{ color: palette.textSub }}
+              >
+                Have a project in mind or looking to collaborate? I'm always open to discussing{" "}
+                <span className="font-semibold" style={{ color: palette.text }}>new opportunities</span>
+                {" "}and innovative ideas. Let's connect!
+              </motion.p>
+            </motion.div>
           </div>
 
-          <div className="md:col-span-7">
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mx-auto mt-16 max-w-2xl"
+          >
             <form
               onSubmit={onSubmit}
-              className="rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-1)] p-6"
+              className="relative overflow-hidden rounded-3xl p-8 backdrop-blur-xl md:p-10"
+              style={{
+                background: palette.glassBg,
+                border: `1px solid ${palette.cardBorder}`,
+                boxShadow: `0 0 50px ${palette.glow}`
+              }}
             >
-              <div className="grid gap-4 sm:grid-cols-2">
-                <label className="grid gap-2 text-sm text-[color:var(--text-1)]">
+              {/* Animated scan line */}
+              <motion.div
+                className="absolute inset-x-0 top-0 h-px"
+                style={{
+                  background: `linear-gradient(90deg, transparent, ${palette.glow}, transparent)`
+                }}
+                animate={{ x: ['-100%', '100%'] }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
+
+              <div className="grid gap-6 sm:grid-cols-2">
+                <label className="grid gap-3 text-sm font-semibold" style={{ color: palette.text }}>
                   Name
                   <input
                     name="name"
                     required
-                    className="h-11 rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-0)] px-3 text-[color:var(--text-0)] outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
+                    placeholder="Your name"
+                    className="h-12 rounded-xl px-4 outline-none transition-all"
+                    style={{
+                      background: palette.cardBg,
+                      border: `1px solid ${palette.cardBorder}`,
+                      color: palette.text
+                    }}
+                    onFocus={(e) => e.target.style.boxShadow = `0 0 0 2px ${palette.highlight}`}
+                    onBlur={(e) => e.target.style.boxShadow = 'none'}
                   />
                 </label>
-                <label className="grid gap-2 text-sm text-[color:var(--text-1)]">
+                <label className="grid gap-3 text-sm font-semibold" style={{ color: palette.text }}>
                   Email
                   <input
                     type="email"
                     name="email"
                     required
-                    className="h-11 rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-0)] px-3 text-[color:var(--text-0)] outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
+                    placeholder="your.email@example.com"
+                    className="h-12 rounded-xl px-4 outline-none transition-all"
+                    style={{
+                      background: palette.cardBg,
+                      border: `1px solid ${palette.cardBorder}`,
+                      color: palette.text
+                    }}
+                    onFocus={(e) => e.target.style.boxShadow = `0 0 0 2px ${palette.highlight}`}
+                    onBlur={(e) => e.target.style.boxShadow = 'none'}
                   />
                 </label>
               </div>
 
-              <label className="mt-4 grid gap-2 text-sm text-[color:var(--text-1)]">
+              <label className="mt-6 grid gap-3 text-sm font-semibold" style={{ color: palette.text }}>
                 Message
                 <textarea
                   name="message"
                   required
-                  rows={5}
-                  className="rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-0)] px-3 py-2 text-[color:var(--text-0)] outline-none focus:ring-2 focus:ring-[color:var(--accent)]"
+                  rows={6}
+                  placeholder="Tell me about your project..."
+                  className="rounded-xl px-4 py-3 outline-none transition-all resize-none"
+                  style={{
+                    background: palette.cardBg,
+                    border: `1px solid ${palette.cardBorder}`,
+                    color: palette.text
+                  }}
+                  onFocus={(e) => e.target.style.boxShadow = `0 0 0 2px ${palette.highlight}`}
+                  onBlur={(e) => e.target.style.boxShadow = 'none'}
                 />
               </label>
 
-              <div className="mt-5 flex flex-wrap items-center gap-3">
-                <Button
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <motion.button
                   type="submit"
-                  variant="primary"
                   disabled={status === "sending"}
+                  className="flex items-center gap-2 rounded-xl px-8 py-4 text-base font-semibold text-white"
+                  style={{
+                    background: `linear-gradient(135deg, ${palette.highlight}, ${palette.accentStrong})`
+                  }}
+                  whileHover={{ scale: status === "sending" ? 1 : 1.02, boxShadow: `0 0 30px ${palette.glow}` }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  {status === "sending" ? "Sending…" : "Send"}
-                </Button>
-                <p className="text-sm text-[color:var(--text-2)]">
-                  {status === "sent"
-                    ? "Sent (stub)."
-                    : status === "error"
-                      ? "Couldn’t send — use email fallback."
-                      : ""}
+                  {status === "sending" ? (
+                    <>
+                      <motion.div
+                        className="h-4 w-4 rounded-full border-2 border-white border-t-transparent"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </>
+                  )}
+                </motion.button>
+
+                {status === "sent" && (
+                  <motion.p
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="flex items-center gap-2 text-sm font-semibold"
+                    style={{ color: palette.highlight }}
+                  >
+                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    Message sent successfully!
+                  </motion.p>
+                )}
+
+                {status === "error" && (
+                  <motion.p
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className="text-sm font-semibold"
+                    style={{ color: palette.highlight }}
+                  >
+                    Error sending message. Please try{" "}
+                    <a href={fallbackMailto} className="underline">
+                      email instead
+                    </a>
+                    .
+                  </motion.p>
+                )}
+              </div>
+
+              <div className="mt-8 pt-6" style={{ borderTop: `1px solid ${palette.cardBorder}` }}>
+                <p className="text-center text-sm" style={{ color: palette.textSub }}>
+                  Prefer email?{" "}
+                  <a
+                    className="font-semibold underline transition-colors"
+                    style={{ color: palette.highlight }}
+                    href={fallbackMailto}
+                  >
+                    anishseth0510@gmail.com
+                  </a>
                 </p>
               </div>
             </form>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </Container>
     </section>
   );

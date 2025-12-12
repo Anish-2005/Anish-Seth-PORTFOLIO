@@ -3,93 +3,420 @@
 import { siteConfig } from "@/lib/site.config";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { Reveal } from "@/components/motion/Reveal";
 import { HeroFallback } from "@/components/sections/HeroFallback";
 import { HeroMicroSceneGate } from "@/components/three/HeroMicroSceneGate";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { useTheme } from "@/context/ThemeContext";
 import { useMemo } from "react";
+import Image from "next/image";
+
+const professionalData = {
+  name: "Anish Seth",
+  title: "Full-Stack Developer & Creative Technologist",
+  tagline: "Architecting Digital Experiences at the Intersection of Design & Engineering",
+  description: "Specialized in crafting high-performance web applications with a focus on immersive UI/UX, motion design, and modern development workflows. Experienced in React, Next.js, Three.js, and AI-driven solutions.",
+  expertise: ["Full-Stack Development", "3D Web Experiences", "Motion Design", "AI Integration"],
+  stats: [
+    { label: "Experience", value: "3+ Years" },
+    { label: "Projects", value: "25+" },
+    { label: "Technologies", value: "15+" },
+  ]
+};
 
 export function Hero() {
   const reduce = useReducedMotion();
+  const { theme } = useTheme();
   const { scrollY } = useScroll();
   const parallax = useTransform(scrollY, [0, 600], [0, reduce ? 0 : -80]);
+  const scaleProgress = useTransform(scrollY, [0, 400], [1, reduce ? 1 : 0.92]);
+  const opacityProgress = useTransform(scrollY, [0, 300], [1, 0.7]);
+
+  const palette = useMemo(() => {
+    if (theme === "light") {
+      return {
+        accent: "rgba(211, 51, 51, 0.18)",
+        accentStrong: "rgba(211, 51, 51, 0.32)",
+        beam: "rgba(231, 73, 116, 0.12)",
+        glow: "rgba(211, 51, 51, 0.4)",
+        text: "#2c1810",
+        textSub: "#6b4a3a"
+      };
+    }
+    return {
+      accent: "rgba(248, 113, 113, 0.16)",
+      accentStrong: "rgba(248, 113, 113, 0.28)",
+      beam: "rgba(251, 113, 133, 0.1)",
+      glow: "rgba(248, 113, 113, 0.35)",
+      text: "#fef2f2",
+      textSub: "#fca5a5"
+    };
+  }, [theme]);
 
   return (
-    <section id="top" className="relative overflow-hidden pt-20 md:pt-24">
+    <section id="top" className="relative overflow-hidden pt-24 md:pt-32">
+      {/* Cinematic backdrop with animated scanlines */}
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(900px_620px_at_75%_15%,color-mix(in_oklab,var(--accent),transparent_76%),transparent_55%),radial-gradient(760px_520px_at_18%_6%,rgba(126,143,172,0.16),transparent_62%)]"
-        style={{ y: parallax }}
+        className="pointer-events-none absolute inset-0 -z-30"
+        style={{ 
+          y: parallax,
+          background: `radial-gradient(1100px 700px at 70% 20%, ${palette.accent}, transparent 60%), radial-gradient(850px 600px at 25% 10%, ${palette.beam}, transparent 65%)`
+        }}
       />
-      <div
+      
+      {/* Holographic light beam */}
+      <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-x-[-40%] top-[-18%] -z-10 h-[420px] rotate-[-2deg] bg-[linear-gradient(115deg,rgba(31,211,198,0.2),rgba(94,234,212,0.12),transparent_60%)] blur-[70px]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-40"
+        className="pointer-events-none absolute inset-x-[-35%] top-[-15%] -z-20 h-[480px] rotate-[-1.5deg] blur-[90px]"
         style={{
-          backgroundImage:
-            "repeating-linear-gradient(90deg, rgba(255,255,255,0.04) 0, rgba(255,255,255,0.04) 1px, transparent 1px, transparent 10px)",
+          background: `linear-gradient(125deg, ${palette.accentStrong}, ${palette.beam}, transparent 55%)`,
+          opacity: opacityProgress
+        }}
+        animate={{
+          rotate: [-1.5, -2.2, -1.5],
+          scaleX: [1, 1.08, 1]
+        }}
+        transition={{
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut"
         }}
       />
 
-      <Container className="grid items-center gap-10 pb-12 md:grid-cols-12 md:gap-12 md:pb-16">
-        <div className="md:col-span-7">
-          <Reveal>
-            <p className="text-xs font-medium tracking-[0.22em] text-[color:var(--text-2)]">
-              {siteConfig.role}
-            </p>
-          </Reveal>
+      {/* Animated data grid overlay */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35]"
+        style={{
+          backgroundImage: `
+            repeating-linear-gradient(90deg, ${palette.accent} 0, ${palette.accent} 1px, transparent 1px, transparent 12px),
+            repeating-linear-gradient(0deg, ${palette.accent} 0, ${palette.accent} 1px, transparent 1px, transparent 12px)
+          `
+        }}
+      />
 
-          <Reveal delay={0.06}>
-            <h1 className="mt-4 text-4xl font-semibold tracking-tight text-[color:var(--text-0)] sm:text-5xl">
-              {siteConfig.name}
-              <span className="text-[color:var(--text-2)]"> —</span>
-              <span className="text-[color:var(--text-0)]"> designer × builder</span>
-            </h1>
-          </Reveal>
+      {/* Floating accent particles */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute right-[12%] top-[18%] -z-10 h-[180px] w-[180px] rounded-full blur-[100px]"
+        style={{
+          background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
+        }}
+        animate={{
+          y: [0, -25, 0],
+          x: [0, 15, 0],
+          scale: [1, 1.12, 1]
+        }}
+        transition={{
+          duration: 18,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
 
-          <Reveal delay={0.12}>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-[color:var(--text-1)] sm:text-lg">
-              I craft calm, luxurious product surfaces with rigorous engineering under the hood — from motion systems to ML and Web3 integrations.
-            </p>
-          </Reveal>
+      <Container className="grid items-center gap-12 pb-16 md:grid-cols-12 md:gap-16 md:pb-24">
+        <motion.div 
+          className="md:col-span-7"
+          style={{ scale: scaleProgress }}
+        >
+          {/* Status badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 backdrop-blur-xl"
+            style={{
+              background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`,
+              border: `1px solid ${palette.accentStrong}`
+            }}
+          >
+            <motion.div
+              className="h-2 w-2 rounded-full"
+              style={{ backgroundColor: palette.textSub }}
+              animate={{
+                scale: [1, 1.3, 1],
+                opacity: [1, 0.6, 1]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+            <span className="text-xs font-medium tracking-wide" style={{ color: palette.text }}>
+              Available for Opportunities
+            </span>
+          </motion.div>
 
-          <Reveal delay={0.18}>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <ButtonLink href="#contact" variant="primary">
-                Contact
-              </ButtonLink>
-              <ButtonLink href={siteConfig.resume.href} variant="secondary">
-                Resume
-              </ButtonLink>
-              <ButtonLink href="#work" variant="ghost">
-                Featured work
-              </ButtonLink>
+          {/* Main heading with gradient */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-6 text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl"
+            style={{
+              color: palette.text,
+              lineHeight: 1.1
+            }}
+          >
+            {professionalData.name.split(" ")[0]}
+            <br />
+            <span
+              className="bg-clip-text text-transparent"
+              style={{
+                backgroundImage: theme === "light" 
+                  ? "linear-gradient(135deg, #d73333, #e74974, #d73333)"
+                  : "linear-gradient(135deg, #f87171, #fb7185, #f87171)",
+                backgroundSize: "200% 100%",
+                animation: "shimmer 6s ease-in-out infinite"
+              }}
+            >
+              {professionalData.name.split(" ")[1]}
+            </span>
+          </motion.h1>
+
+          {/* Professional title */}
+          <motion.p
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-4 text-xl font-semibold tracking-tight sm:text-2xl"
+            style={{ color: palette.textSub }}
+          >
+            {professionalData.title}
+          </motion.p>
+
+          {/* Tagline */}
+          <motion.p
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-3 max-w-2xl text-sm font-medium tracking-wide opacity-70"
+            style={{ color: palette.text }}
+          >
+            {professionalData.tagline}
+          </motion.p>
+
+          {/* Description */}
+          <motion.p
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-5 max-w-2xl text-base leading-7 opacity-80 sm:text-lg"
+            style={{ color: palette.text }}
+          >
+            {professionalData.description}
+          </motion.p>
+
+          {/* Expertise tags */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-6 flex flex-wrap gap-2"
+          >
+            {professionalData.expertise.map((skill, idx) => (
+              <motion.span
+                key={skill}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5, delay: 0.5 + idx * 0.08 }}
+                className="rounded-lg px-3 py-1.5 text-xs font-medium backdrop-blur-xl"
+                style={{
+                  background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`,
+                  border: `1px solid ${palette.accentStrong}`,
+                  color: palette.text
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: `0 0 20px ${palette.glow}`
+                }}
+              >
+                {skill}
+              </motion.span>
+            ))}
+          </motion.div>
+
+          {/* CTA buttons */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-10 flex flex-wrap gap-4"
+          >
+            <ButtonLink href="#contact" variant="primary">
+              Let's Connect
+            </ButtonLink>
+            <ButtonLink href={siteConfig.resume.href} variant="secondary">
+              View Resume
+            </ButtonLink>
+            <ButtonLink href="#work" variant="ghost">
+              Explore Work
+            </ButtonLink>
+          </motion.div>
+
+          {/* Stats row */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-12 grid grid-cols-3 gap-6"
+          >
+            {professionalData.stats.map((stat, idx) => (
+              <motion.div
+                key={stat.label}
+                className="rounded-xl p-4 backdrop-blur-xl"
+                style={{
+                  background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`,
+                  border: `1px solid ${palette.accentStrong}`
+                }}
+                whileHover={{
+                  scale: 1.02,
+                  boxShadow: `0 0 25px ${palette.glow}`
+                }}
+              >
+                <div className="text-2xl font-bold" style={{ color: palette.text }}>
+                  {stat.value}
+                </div>
+                <div className="mt-1 text-xs font-medium opacity-70" style={{ color: palette.text }}>
+                  {stat.label}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        <motion.div 
+          className="md:col-span-5"
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.9, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="relative flex justify-center">
+            {/* Holographic glow backdrop */}
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-0 -z-10 rounded-full blur-[100px]"
+              style={{
+                background: `radial-gradient(circle at 50% 50%, ${palette.glow}, transparent 65%)`
+              }}
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.4, 0.65, 0.4]
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
+
+            {/* Profile photo container */}
+            <div className="relative">
+              {/* Animated rotating ring */}
+              <motion.div
+                aria-hidden
+                className="pointer-events-none absolute -inset-4 rounded-full"
+                style={{
+                  background: theme === "light"
+                    ? "conic-gradient(from 0deg, #d73333, #e74974, #d73333, #e74974, #d73333)"
+                    : "conic-gradient(from 0deg, #f87171, #fb7185, #f87171, #fb7185, #f87171)",
+                  opacity: 0.4
+                }}
+                animate={{
+                  rotate: 360
+                }}
+                transition={{
+                  duration: 12,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              />
+
+              {/* Static outer glow ring */}
+              <div
+                className="absolute -inset-3 rounded-full blur-xl"
+                style={{
+                  background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
+                }}
+              />
+
+              {/* Photo frame */}
+              <motion.div
+                className="relative h-[320px] w-[320px] overflow-hidden rounded-full border-4 backdrop-blur-xl sm:h-[380px] sm:w-[380px]"
+                style={{
+                  borderColor: palette.accentStrong,
+                  background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`
+                }}
+                whileHover={{
+                  scale: 1.02,
+                  boxShadow: `0 0 40px ${palette.glow}`
+                }}
+                transition={{
+                  duration: 0.3,
+                  ease: "easeOut"
+                }}
+              >
+                <div className="relative h-full w-full">
+                  <Image
+                    src="/profile.jpg"
+                    alt="Anish Seth"
+                    fill
+                    className="object-cover"
+                    priority
+                    sizes="(max-width: 640px) 320px, 380px"
+                  />
+                </div>
+
+                {/* Overlay gradient */}
+                <div
+                  className="pointer-events-none absolute inset-0 opacity-10"
+                  style={{
+                    background: `radial-gradient(circle at 30% 30%, ${palette.glow}, transparent 60%)`
+                  }}
+                />
+              </motion.div>
+
+              {/* Floating accent dots */}
+              <motion.div
+                aria-hidden
+                className="absolute -right-2 top-12 h-3 w-3 rounded-full"
+                style={{
+                  background: theme === "light" ? "#e74974" : "#fb7185",
+                  boxShadow: `0 0 15px ${palette.glow}`
+                }}
+                animate={{
+                  y: [0, -12, 0],
+                  scale: [1, 1.2, 1]
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <motion.div
+                aria-hidden
+                className="absolute -left-3 bottom-16 h-2 w-2 rounded-full"
+                style={{
+                  background: theme === "light" ? "#d73333" : "#f87171",
+                  boxShadow: `0 0 12px ${palette.glow}`
+                }}
+                animate={{
+                  y: [0, 10, 0],
+                  scale: [1, 1.3, 1]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.5
+                }}
+              />
             </div>
-          </Reveal>
 
-          <Reveal delay={0.24}>
-            <p className="mt-8 max-w-xl text-sm leading-6 text-[color:var(--text-2)]">
-              Inspired by angular.dev smoothness, but reimagined with a quieter, editorial rhythm and intentional pauses.
-            </p>
-          </Reveal>
-        </div>
-
-        <div className="md:col-span-5">
-          <div className="relative">
-            <div className="hidden md:block">
-              <HeroMicroSceneGate />
-            </div>
-            <div className="md:hidden">
-              <HeroFallback />
-            </div>
-            <p className="mt-3 text-xs text-[color:var(--text-2)]">
-              3D is lazy-loaded; reduced-motion friendly.
-            </p>
           </div>
-        </div>
+        </motion.div>
       </Container>
     </section>
   );

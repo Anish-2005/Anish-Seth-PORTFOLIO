@@ -9,11 +9,11 @@ type BaseProps = {
 };
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-medium transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)]";
+  "inline-flex items-center justify-center gap-2 rounded-xl font-medium transition will-change-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)] hover:-translate-y-[1px] hover:shadow-[0_10px_30px_rgba(6,182,212,0.18)]";
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "bg-[color:var(--accent)] text-[color:var(--accent-contrast)] hover:brightness-110",
+    "bg-[linear-gradient(135deg,#1fd3c6,#22d3ee)] text-[color:var(--accent-contrast)] hover:brightness-110",
   secondary:
     "border border-[color:var(--border)] bg-[color:var(--surface-1)] text-[color:var(--text-0)] hover:bg-[color:var(--surface-2)]",
   ghost:

@@ -9,8 +9,10 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Projects } from "@/components/sections/Projects";
 import { Visuals } from "@/components/sections/Visuals";
+import { ThreeShowcase } from "@/components/sections/ThreeShowcase";
 import { Notes } from "@/components/sections/Notes";
 import { Contact } from "@/components/sections/Contact";
+import { motion, type Variants } from "framer-motion";
 
 export function HomeClient({
   projects,
@@ -25,6 +27,31 @@ export function HomeClient({
     setHighlightedIds(ids);
   }, []);
 
+  const sectionVariants: Variants = {
+    hidden: { opacity: 0, y: 14 },
+    visible: (i: number = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.08 * i,
+        duration: 0.52,
+        ease: [0.2, 0.9, 0.3, 1] as [number, number, number, number],
+      },
+    }),
+  };
+
+  const SectionWrap = ({ index, children }: { index: number; children: React.ReactNode }) => (
+    <motion.div
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-10%" }}
+      custom={index}
+    >
+      {children}
+    </motion.div>
+  );
+
   return (
     <div className="min-h-screen bg-[color:var(--surface-0)]">
       <a
@@ -36,16 +63,31 @@ export function HomeClient({
 
       <Header />
       <main id="content">
-        <Hero />
-        <About />
-        <Projects
-          projects={projects}
-          highlightedIds={highlightedIds}
-          onClearHighlight={() => setHighlightedIds(null)}
-        />
-        <Visuals onHighlightProjects={onHighlightProjects} />
-        <Notes notes={notes} />
-        <Contact />
+        <SectionWrap index={0}>
+          <Hero />
+        </SectionWrap>
+        <SectionWrap index={1}>
+          <About />
+        </SectionWrap>
+        <SectionWrap index={2}>
+          <Projects
+            projects={projects}
+            highlightedIds={highlightedIds}
+            onClearHighlight={() => setHighlightedIds(null)}
+          />
+        </SectionWrap>
+        <SectionWrap index={3}>
+          <Visuals onHighlightProjects={onHighlightProjects} />
+        </SectionWrap>
+        <SectionWrap index={4}>
+          <ThreeShowcase />
+        </SectionWrap>
+        <SectionWrap index={5}>
+          <Notes notes={notes} />
+        </SectionWrap>
+        <SectionWrap index={6}>
+          <Contact />
+        </SectionWrap>
       </main>
       <Footer />
     </div>

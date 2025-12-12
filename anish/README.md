@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio 2025 — Anish Seth (v0)
 
-## Getting Started
+Build v0 of a professional Next.js portfolio for Anish Seth (Full-Stack Web & App Developer, ML & Blockchain experience). Use his LinkedIn / existing portfolio for content. The site is minimal, ultra-professional, and visually rich — inspired by angular.dev for interaction quality but original in layout, design psychology, and animations.
 
-First, run the development server:
+## Tech
+- Next.js (App Router) + TypeScript + Tailwind
+- Motion: Framer Motion (`src/components/motion/Reveal.tsx`)
+- Data viz: D3 (`src/components/visuals/*`)
+- 3D: three.js via `@react-three/fiber` (lazy-loaded)
 
+## Run
 ```bash
+cd anish
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Content (replace placeholders)
+- Global config: `src/lib/site.config.ts`
+- Projects: `src/content/projects/*.mdx`
+- Notes: `src/content/notes/*.mdx`
+- Skills data for D3: `src/data/skills.json`
+- Resume: `public/resume.pdf` (v0 includes a placeholder PDF)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deploy (Vercel)
+Prereq: `vercel login`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run deploy:preview
+npm run deploy:prod
+```
 
-## Learn More
+## CI
+GitHub Actions runs: lint → typecheck → test → build (`.github/workflows/ci.yml`).
 
-To learn more about Next.js, take a look at the following resources:
+## Demo GIF
+Add `demo.gif` at repo root (v0 requirement). Suggested flow:
+- Record the hero + header hide/show on scroll using ScreenToGif (Windows)
+- Save as `demo.gif`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Design psychology (what’s unique)
+This design uses hierarchical calmness: composition that reduces cognitive load by guiding attention through layered motion and content density. Instead of aggressive micro-interactions, motion is used as a pacing tool — brief reveals, subtle depth parallax, and “stops” where the layout breathes and the D3 story can speak. The result aims to feel authoritative and quietly modern.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+While the interaction quality is inspired by angular.dev (smoothness, responsiveness, disciplined animation), the layout is intentionally different: less UI chrome, fewer competing focal points, and a more editorial rhythm. The motion language prioritizes clarity over novelty — always interruptible, keyboard-safe, and reduced-motion friendly. The portfolio is designed to read like a product narrative: who I am → what I built → how the skills connect → how to contact.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## v1 TODO
+See `todo.md`.

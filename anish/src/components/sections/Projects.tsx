@@ -32,7 +32,7 @@ export function Projects({
           <SectionHeading
             eyebrow="WORK"
             title="Selected projects"
-            description="A focused set of projects with strong craft and clarity. (v0 uses placeholder content — swap with your LinkedIn/portfolio case studies.)"
+            description="Focused work with strong craft, polish, and measurable outcomes. (Replace placeholders with your real case studies.)"
           />
           {highlightedIds?.length ? (
             <button
@@ -57,10 +57,10 @@ export function Projects({
                   onClick={() => setOpenId(p.id)}
                   className={cn(
                     "group h-full w-full rounded-2xl border bg-[color:var(--surface-1)] p-5 text-left transition",
-                    "border-[color:var(--border)] hover:bg-[color:var(--surface-2)]",
+                    "border-[color:var(--border)] hover:-translate-y-1 hover:bg-[color:var(--surface-2)] hover:shadow-[0_20px_60px_rgba(6,182,212,0.08)]",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)]",
                     dim && "opacity-55",
-                    glow && "border-[color:var(--accent)]"
+                    glow && "border-[color:var(--accent)] shadow-[0_16px_60px_rgba(6,182,212,0.18)]"
                   )}
                 >
                   <div className="flex items-start justify-between gap-3">

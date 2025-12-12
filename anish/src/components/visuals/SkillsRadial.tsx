@@ -31,7 +31,8 @@ type Node =
 const data = skillsJson as SkillsData;
 
 function polar(angle: number, r: number) {
-  return { x: Math.cos(angle) * r, y: Math.sin(angle) * r };
+  const round = (v: number) => Math.round(v * 1000) / 1000;
+  return { x: round(Math.cos(angle) * r), y: round(Math.sin(angle) * r) };
 }
 
 function uniq<T>(arr: T[]) {

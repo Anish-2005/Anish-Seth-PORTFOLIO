@@ -6,18 +6,25 @@ import { useReducedMotion } from "framer-motion";
 import { Suspense, useMemo, useRef } from "react";
 import * as THREE from "three";
 
+const cards = [
+  { label: "Next.js", img: "/window.svg" },
+  { label: "ML", img: "/globe.svg" },
+  { label: "Web3", img: "/file.svg" },
+  { label: "DX", img: "/next.svg" },
+];
+
 function SceneContent() {
   const reduce = useReducedMotion();
   const group = useRef<THREE.Group>(null);
 
   const points = useMemo(() => {
-    const out: Array<{ pos: [number, number, number]; label: string }> = [];
-    const labels = ["Next.js", "ML", "Web3", "DX"];
-    for (let i = 0; i < 4; i++) {
+    const out: Array<{ pos: [number, number, number]; label: string; img: string }> = [];
+    for (let i = 0; i < cards.length; i++) {
       const a = (i / 4) * Math.PI * 2;
       out.push({
         pos: [Math.cos(a) * 1.35, Math.sin(a) * 0.35, Math.sin(a) * 1.35],
-        label: labels[i]!,
+        label: cards[i]!.label,
+        img: cards[i]!.img,
       });
     }
     return out;
@@ -53,18 +60,38 @@ function SceneContent() {
           <Html
             center
             style={{
-              fontSize: 12,
-              padding: "6px 8px",
-              borderRadius: 10,
-              background: "rgba(10,16,24,0.65)",
+              padding: "10px 12px",
+              borderRadius: 14,
+              background: "rgba(10,16,24,0.7)",
               border: "1px solid rgba(255,255,255,0.08)",
               color: "rgba(248,250,252,0.92)",
-              whiteSpace: "nowrap",
+              boxShadow: "0 12px 40px rgba(6,182,212,0.18)",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              backdropFilter: "blur(10px)",
             }}
             transform={false}
             distanceFactor={10}
           >
-            {p.label}
+            <span
+              style={{
+                display: "inline-flex",
+                width: 42,
+                height: 42,
+                borderRadius: 12,
+                overflow: "hidden",
+                border: "1px solid rgba(255,255,255,0.08)",
+                background: "linear-gradient(135deg, rgba(6,182,212,0.22), rgba(14,165,233,0.1))",
+              }}
+            >
+              <img
+                src={p.img}
+                alt={p.label}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            </span>
+            <span style={{ fontSize: 13, letterSpacing: 0.2 }}>{p.label}</span>
           </Html>
         </group>
       ))}

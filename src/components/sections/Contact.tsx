@@ -30,9 +30,9 @@ export function Contact() {
         accent: "rgba(211, 51, 51, 0.12)",
         accentStrong: "rgba(211, 51, 51, 0.25)",
         glow: "rgba(211, 51, 51, 0.4)",
-        cardBg: "rgba(250, 229, 226, 0.6)",
-        cardBorder: "rgba(211, 51, 51, 0.18)",
-        glassBg: "rgba(255, 255, 255, 0.7)",
+        cardBg: "rgba(255, 255, 255, 0.85)",
+        cardBorder: "rgba(211, 51, 51, 0.15)",
+        glassBg: "rgba(255, 255, 255, 0.9)",
         text: "#2c1810",
         textSub: "#6b4a3a",
         highlight: "#d73333"

@@ -99,8 +99,8 @@ export function About() {
         accent: "rgba(211, 51, 51, 0.15)",
         accentStrong: "rgba(211, 51, 51, 0.3)",
         glow: "rgba(211, 51, 51, 0.35)",
-        cardBg: "rgba(250, 229, 226, 0.5)",
-        cardBorder: "rgba(211, 51, 51, 0.2)",
+        cardBg: "rgba(255, 255, 255, 0.85)",
+        cardBorder: "rgba(211, 51, 51, 0.15)",
         text: "#2c1810",
         textSub: "#6b4a3a"
       };

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Roboto_Mono, Roboto } from "next/font/google";
 import "./globals.css";
 
+import { ThemeProvider } from "@/context/ThemeContext";
 import { siteConfig } from "@/lib/site.config";
 
 const heading = Inter({
@@ -76,8 +77,10 @@ export default function RootLayout({
       <body
         className={`${heading.variable} ${body.variable} ${mono.variable} antialiased`}
       >
-        <StructuredData />
-        {children}
+        <ThemeProvider>
+          <StructuredData />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

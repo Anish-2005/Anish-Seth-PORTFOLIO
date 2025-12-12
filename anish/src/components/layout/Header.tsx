@@ -4,6 +4,7 @@ import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { useTheme } from "@/context/ThemeContext";
 import { siteConfig } from "@/lib/site.config";
 import { cn } from "@/lib/utils";
 
@@ -11,6 +12,7 @@ export function Header() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { theme, toggle } = useTheme();
 
   const items = useMemo(() => siteConfig.nav, []);
 
@@ -65,6 +67,17 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggle}
+            aria-pressed={theme === "dark"}
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-1)] text-[color:var(--text-0)] shadow-[color:var(--glow)] transition hover:bg-[color:var(--surface-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)]"
+          >
+            <span aria-hidden className="text-xs font-semibold uppercase tracking-wide">
+              {theme === "dark" ? "Dark" : "Light"}
+            </span>
+          </button>
           <a
             href={siteConfig.resume.href}
             className="hidden rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-1)] px-3 py-2 text-sm font-medium text-[color:var(--text-0)] hover:bg-[color:var(--surface-2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)] sm:inline-flex"

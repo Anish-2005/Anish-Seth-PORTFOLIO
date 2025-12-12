@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { motion, type Variants } from "framer-motion";
 
 import type { Note, Project } from "@/lib/types";
 import { Header } from "@/components/layout/Header";
@@ -12,9 +13,8 @@ import { Visuals } from "@/components/sections/Visuals";
 import { ThreeShowcase } from "@/components/sections/ThreeShowcase";
 import { Notes } from "@/components/sections/Notes";
 import { Contact } from "@/components/sections/Contact";
-import { motion, type Variants } from "framer-motion";
 
-export function HomeClient({
+export function SinglePagePortfolio({
   projects,
   notes,
 }: {
@@ -53,7 +53,7 @@ export function HomeClient({
   );
 
   return (
-    <div className="min-h-screen bg-[color:var(--surface-0)]">
+    <div className="relative min-h-screen isolate">
       <a
         href="#content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-lg focus:bg-[color:var(--surface-0)] focus:px-4 focus:py-2 focus:text-sm focus:text-[color:var(--text-0)] focus:ring-2 focus:ring-[color:var(--accent)]"

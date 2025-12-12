@@ -1,0 +1,6 @@
+import { NextResponse } from "next/server";
+import { siteConfig } from "@/lib/site.config";
+
+export async function GET() {
+  return NextResponse.redirect(siteConfig.sameAs.github, 308);
+}

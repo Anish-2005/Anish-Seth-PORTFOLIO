@@ -21,6 +21,8 @@ export function getProjects(): Project[] {
     const raw = fs.readFileSync(file, "utf8");
     const { data, content } = matter(raw);
 
+    type FrontmatterLink = { label?: unknown; href?: unknown };
+
     const id = String(data.id ?? path.basename(file).replace(/\.(mdx|md)$/, ""));
     return {
       id,
@@ -29,9 +31,9 @@ export function getProjects(): Project[] {
       period: String(data.period ?? ""),
       stack: Array.isArray(data.stack) ? data.stack.map(String) : [],
       links: Array.isArray(data.links)
-        ? data.links.map((l: any) => ({
-            label: String(l.label ?? "Link"),
-            href: String(l.href ?? "#"),
+        ? (data.links as FrontmatterLink[]).map((l) => ({
+            label: String(l?.label ?? "Link"),
+            href: String(l?.href ?? "#"),
           }))
         : [],
       highlights: Array.isArray(data.highlights)

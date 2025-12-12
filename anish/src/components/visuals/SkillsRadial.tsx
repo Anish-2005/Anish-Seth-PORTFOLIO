@@ -103,10 +103,15 @@ export function SkillsRadial({
     return out;
   }, []);
 
-  const orderedIds = useMemo(
-    () => nodes.filter((n) => n.kind === "skill").concat(nodes.filter((n) => n.kind === "cluster")).map((n) => n.id),
-    [nodes]
-  );
+  const orderedIds = useMemo(() => {
+    const skills = nodes.filter(
+      (n): n is Extract<Node, { kind: "skill" }> => n.kind === "skill"
+    );
+    const clusters = nodes.filter(
+      (n): n is Extract<Node, { kind: "cluster" }> => n.kind === "cluster"
+    );
+    return [...skills, ...clusters].map((n) => n.id);
+  }, [nodes]);
 
   function getNodeById(id: string | null) {
     if (!id) return null;

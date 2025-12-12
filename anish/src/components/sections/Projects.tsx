@@ -154,9 +154,11 @@ export function Projects({
                     ) : null}
 
                     <div className="mt-6 rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-1)] p-4">
-                      <ReactMarkdown className="prose prose-invert max-w-none text-sm leading-6">
-                        {active.body}
-                      </ReactMarkdown>
+                      <div className="prose prose-invert max-w-none text-sm leading-6">
+                        <ReactMarkdown>
+                          {active.body}
+                        </ReactMarkdown>
+                      </div>
                     </div>
                   </>
                 ) : null}

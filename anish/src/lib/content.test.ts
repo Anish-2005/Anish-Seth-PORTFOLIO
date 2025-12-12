@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { getNotes, getProjects } from "@/lib/content";
+import { getNotes, getProjects } from "./content";
 
 describe("content", () => {
   it("loads projects from src/content/projects", () => {

@@ -17,21 +17,16 @@ jobs:
           cache-dependency-path: './package-lock.json'
 
       - name: Install
-        working-directory: anish
         run: npm ci
 
       - name: Lint
-        working-directory: anish
         run: npm run lint
 
       - name: Typecheck
-        working-directory: anish
         run: npm run typecheck
 
       - name: Test
-        working-directory: anish
         run: npm run test
 
       - name: Build
-        working-directory: anish
         run: npm run build

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
 import { themes, type ThemeName } from "@/lib/themes";
 
@@ -26,17 +26,16 @@ function applyThemeVars(theme: ThemeName) {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeName>("dark");
-
-  useEffect(() => {
-    const stored = (typeof window !== "undefined" && localStorage.getItem(STORAGE_KEY)) as ThemeName | null;
+  const [theme, setThemeState] = useState<ThemeName>(() => {
+    if (typeof window === "undefined") return "dark";
+    const stored = localStorage.getItem(STORAGE_KEY) as ThemeName | null;
     if (stored && themes[stored]) {
-      setThemeState(stored);
       applyThemeVars(stored);
-      return;
+      return stored;
     }
     applyThemeVars("dark");
-  }, []);
+    return "dark";
+  });
 
   const setTheme = useCallback((next: ThemeName) => {
     setThemeState(next);

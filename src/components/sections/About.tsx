@@ -1,7 +1,6 @@
 "use client";
 
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { useMemo, useRef } from "react";

@@ -124,6 +124,7 @@ function SceneContent({ theme }: { theme: ThemeName }) {
                 background: palette.chipBg,
               }}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={p.img}
                 alt={p.label}

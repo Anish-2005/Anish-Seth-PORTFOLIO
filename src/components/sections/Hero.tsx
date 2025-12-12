@@ -3,8 +3,6 @@
 import { siteConfig } from "@/lib/site.config";
 import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
-import { HeroFallback } from "@/components/sections/HeroFallback";
-import { HeroMicroSceneGate } from "@/components/three/HeroMicroSceneGate";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { useMemo } from "react";
@@ -245,7 +243,7 @@ export function Hero() {
             className="mt-6 sm:mt-10 flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4"
           >
             <ButtonLink href="#contact" variant="primary">
-              Let's Connect
+              Let&apos;s Connect
             </ButtonLink>
             <ButtonLink href={siteConfig.resume.href} variant="secondary">
               View Resume
@@ -262,7 +260,7 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
             className="mt-8 sm:mt-12 grid grid-cols-3 gap-3 sm:gap-6"
           >
-            {professionalData.stats.map((stat, idx) => (
+            {professionalData.stats.map((stat) => (
               <motion.div
                 key={stat.label}
                 className="rounded-lg sm:rounded-xl p-3 sm:p-4 backdrop-blur-xl"

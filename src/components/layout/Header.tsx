@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { useTheme } from "@/context/ThemeContext";
-import { siteConfig } from "@/lib/site.config";
 
 const NAV_ITEMS = [
   { label: "Info", href: "#info" },
@@ -53,8 +52,6 @@ export function Header() {
   );
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    const goingDown = latest > previous;
     setScrolled(latest > 50);
 
     // Always keep header visible

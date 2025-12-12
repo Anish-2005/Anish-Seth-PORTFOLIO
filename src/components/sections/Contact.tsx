@@ -169,7 +169,7 @@ export function Contact() {
 
               {/* Title */}
               <h2 className="mx-auto max-w-4xl text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
-                <span style={{ color: palette.text }}>Let's Build Something </span>
+                <span style={{ color: palette.text }}>Let&apos;s Build Something </span>
                 <span
                   className="relative inline-block"
                   style={{
@@ -201,9 +201,9 @@ export function Contact() {
                 className="mx-auto mt-4 sm:mt-6 max-w-3xl text-center text-sm leading-relaxed sm:text-base md:text-lg"
                 style={{ color: palette.textSub }}
               >
-                Have a project in mind or looking to collaborate? I'm always open to discussing{" "}
+                Have a project in mind or looking to collaborate? I&apos;m always open to discussing{" "}
                 <span className="font-semibold" style={{ color: palette.text }}>new opportunities</span>
-                {" "}and innovative ideas. Let's connect!
+                {" "}and innovative ideas. Let&apos;s connect!
               </motion.p>
             </motion.div>
           </div>

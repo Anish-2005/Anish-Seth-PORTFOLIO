@@ -1,30 +1,53 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { animate, motion, useMotionValue, useMotionValueEvent, type Variants } from "framer-motion";
 
-import type { Note, Project } from "@/lib/types";
+import type { Project } from "@/lib/types";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Projects } from "@/components/sections/Projects";
 import { Achievements } from "@/components/sections/Achievements";
-import { Visuals } from "@/components/sections/Visuals";
-import { ThreeShowcase } from "@/components/sections/ThreeShowcase";
-import { Notes } from "@/components/sections/Notes";
 import { Contact } from "@/components/sections/Contact";
 import { OrnamentLayer } from "@/components/visuals/OrnamentLayer";
 import { LightBackground } from "@/components/visuals/LightBackground";
 import { DarkBackground } from "@/components/visuals/DarkBackground";
 import { useTheme } from "@/context/ThemeContext";
 
+// Section wrapper component for stagger animations
+const SectionWrap = ({ index, children }: { index: number; children: React.ReactNode }) => {
+  const sectionVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: 0.08 * i,
+        duration: 0.52,
+        ease: [0.2, 0.9, 0.3, 1] as [number, number, number, number],
+      },
+    }),
+  };
+
+  return (
+    <motion.div
+      variants={sectionVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-10%" }}
+      custom={index}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 export function SinglePagePortfolio({
   projects,
-  notes,
 }: {
   projects: Project[];
-  notes: Note[];
 }) {
   const [highlightedIds, setHighlightedIds] = useState<string[] | null>(null);
   const [tone, setTone] = useState<string>("top");
@@ -55,9 +78,7 @@ export function SinglePagePortfolio({
     return theme === "light" ? light : dark;
   }, [theme]);
 
-  const onHighlightProjects = useCallback((ids: string[] | null) => {
-    setHighlightedIds(ids);
-  }, []);
+ 
 
   useEffect(() => {
     const target = sectionColors[tone as keyof typeof sectionColors] ?? sectionColors.top;
@@ -71,34 +92,6 @@ export function SinglePagePortfolio({
   useMotionValueEvent(toneColor, "change", (latest) => {
     document.documentElement.style.setProperty("--section-color", latest);
   });
-
-
-  const sectionVariants: Variants = {
-    hidden: { opacity: 0, y: 14 },
-    visible: (i: number = 0) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: 0.08 * i,
-        duration: 0.52,
-        ease: [0.2, 0.9, 0.3, 1] as [number, number, number, number],
-      },
-    }),
-  };
-
-  const SectionWrap = ({ index, children }: { index: number; children: React.ReactNode }) => {
-    return (
-      <motion.div
-        variants={sectionVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-10%" }}
-        custom={index}
-      >
-        {children}
-      </motion.div>
-    );
-  };
 
   return (
     <div className="relative min-h-screen isolate">

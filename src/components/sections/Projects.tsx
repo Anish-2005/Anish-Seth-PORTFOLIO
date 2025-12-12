@@ -1,12 +1,10 @@
 "use client";
 
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { useMemo, useRef, useState } from "react";
 import type { Project } from "@/lib/types";
-import Image from "next/image";
 
 // Showcase projects with impactful visuals
 const showcaseProjects = [
@@ -84,11 +82,7 @@ const showcaseProjects = [
   }
 ];
 
-export function Projects({
-  projects,
-  highlightedIds,
-  onClearHighlight,
-}: {
+export function Projects(_props: {
   projects: Project[];
   highlightedIds: string[] | null;
   onClearHighlight: () => void;

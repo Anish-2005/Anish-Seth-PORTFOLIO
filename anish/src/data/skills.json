@@ -1,0 +1,40 @@
+{
+  "clusters": [
+    {
+      "name": "Web",
+      "weight": 40,
+      "skills": [
+        { "name": "Next.js", "weight": 12, "examples": ["atlas", "signal"] },
+        { "name": "React", "weight": 10, "examples": ["signal"] },
+        { "name": "TypeScript", "weight": 10, "examples": ["atlas", "signal"] },
+        { "name": "Accessibility", "weight": 8, "examples": ["atlas"] }
+      ]
+    },
+    {
+      "name": "Mobile",
+      "weight": 15,
+      "skills": [
+        { "name": "React Native", "weight": 8, "examples": [] },
+        { "name": "Expo", "weight": 7, "examples": [] }
+      ]
+    },
+    {
+      "name": "ML",
+      "weight": 25,
+      "skills": [
+        { "name": "Pipelines", "weight": 10, "examples": [] },
+        { "name": "Python", "weight": 8, "examples": [] },
+        { "name": "Model Serving", "weight": 7, "examples": [] }
+      ]
+    },
+    {
+      "name": "Blockchain",
+      "weight": 20,
+      "skills": [
+        { "name": "Ethers", "weight": 8, "examples": ["chainkit"] },
+        { "name": "Solidity", "weight": 7, "examples": ["chainkit"] },
+        { "name": "Indexing", "weight": 5, "examples": [] }
+      ]
+    }
+  ]
+}

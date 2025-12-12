@@ -1,4 +1,22 @@
+import { useTheme } from "@/context/ThemeContext";
+
 export function HeroFallback() {
+  const { theme } = useTheme();
+
+  const palette = theme === "light"
+    ? {
+        glow: "rgba(213,45,45,0.26)",
+        stroke: "rgba(12,18,32,0.18)",
+        ring: "rgba(213,45,45,0.34)",
+        surface: "var(--surface-1)",
+      }
+    : {
+        glow: "rgba(239,68,68,0.3)",
+        stroke: "rgba(248,250,252,0.16)",
+        ring: "rgba(239,68,68,0.42)",
+        surface: "var(--surface-1)",
+      };
+
   return (
     <div
       aria-hidden
@@ -12,13 +30,13 @@ export function HeroFallback() {
       >
         <defs>
           <radialGradient id="g" cx="50%" cy="45%" r="60%">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.28" />
-            <stop offset="100%" stopColor="var(--surface-1)" stopOpacity="0" />
+            <stop offset="0%" stopColor={palette.glow} stopOpacity="0.9" />
+            <stop offset="100%" stopColor={palette.surface} stopOpacity="0" />
           </radialGradient>
         </defs>
-        <rect width="320" height="320" fill="var(--surface-1)" />
+        <rect width="320" height="320" fill={palette.surface} />
         <circle cx="160" cy="150" r="120" fill="url(#g)" />
-        <g fill="none" stroke="var(--border)" strokeWidth="1">
+        <g fill="none" stroke={palette.stroke} strokeWidth="1">
           {Array.from({ length: 9 }).map((_, i) => (
             <path
               key={i}
@@ -32,8 +50,8 @@ export function HeroFallback() {
           cy="160"
           r="58"
           fill="none"
-          stroke="var(--accent)"
-          strokeOpacity="0.4"
+          stroke={palette.ring}
+          strokeOpacity="0.9"
         />
       </svg>
     </div>

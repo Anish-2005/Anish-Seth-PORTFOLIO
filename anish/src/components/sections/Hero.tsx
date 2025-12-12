@@ -15,7 +15,7 @@ export function Hero() {
   const parallax = useTransform(scrollY, [0, 600], [0, reduce ? 0 : -80]);
 
   return (
-    <section id="top" className="relative overflow-hidden pt-28">
+    <section id="top" className="relative overflow-hidden pt-20 md:pt-24">
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-20 bg-[radial-gradient(900px_620px_at_75%_15%,color-mix(in_oklab,var(--accent),transparent_76%),transparent_55%),radial-gradient(760px_520px_at_18%_6%,rgba(126,143,172,0.16),transparent_62%)]"

@@ -28,6 +28,7 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
       "--flare-2": "rgba(94, 234, 212, 0.2)",
       "--beam-1": "rgba(255, 255, 255, 0.2)",
       "--beam-2": "rgba(82, 227, 255, 0.22)",
+      "--section-color": "rgba(34, 211, 238, 0.22)",
     },
   },
   light: {
@@ -45,12 +46,13 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
       "--accent-contrast": "#021011",
       "--glow": "0 16px 50px rgba(20, 184, 166, 0.18)",
       "--bg-gradient":
-        "radial-gradient(1400px 880px at 18% 10%, rgba(20, 184, 166, 0.18), transparent 62%), radial-gradient(1200px 820px at 82% 8%, rgba(14, 165, 233, 0.12), transparent 66%), linear-gradient(180deg, #f6fbff, #eef4fa)",
-      "--grid-color": "rgba(12, 18, 32, 0.08)",
-      "--flare-1": "rgba(20, 184, 166, 0.2)",
-      "--flare-2": "rgba(14, 165, 233, 0.16)",
-      "--beam-1": "rgba(10, 132, 255, 0.16)",
-      "--beam-2": "rgba(20, 184, 166, 0.18)",
+        "radial-gradient(1400px 880px at 18% 10%, rgba(20, 184, 166, 0.12), transparent 62%), radial-gradient(1200px 820px at 82% 8%, rgba(59, 130, 246, 0.08), transparent 66%), linear-gradient(180deg, #f9fcff, #edf3f9)",
+      "--grid-color": "rgba(12, 18, 32, 0.06)",
+      "--flare-1": "rgba(20, 184, 166, 0.14)",
+      "--flare-2": "rgba(59, 130, 246, 0.12)",
+      "--beam-1": "rgba(12, 74, 110, 0.12)",
+      "--beam-2": "rgba(94, 234, 212, 0.16)",
+      "--section-color": "rgba(20, 184, 166, 0.14)",
     },
   },
 };

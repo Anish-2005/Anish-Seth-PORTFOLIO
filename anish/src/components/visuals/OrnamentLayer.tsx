@@ -1,23 +1,9 @@
-import { motion, type MotionValue, useMotionValue, useMotionValueEvent, useScroll } from "framer-motion";
+import { motion } from "framer-motion";
 
-export function OrnamentLayer({ parallaxScale }: { parallaxScale?: MotionValue<number> }) {
-  const { scrollY } = useScroll();
-  const fallbackScale = useMotionValue(1);
-  const scale = parallaxScale ?? fallbackScale;
-  const nearY = useMotionValue(0);
-  const midY = useMotionValue(0);
-  const farY = useMotionValue(0);
-
-  const recalc = () => {
-    const s = scale.get();
-    const sy = scrollY.get();
-    nearY.set(-28 * s * (sy / 1400));
-    midY.set(-16 * s * (sy / 1400));
-    farY.set(-8 * s * (sy / 1400));
-  };
-
-  useMotionValueEvent(scrollY, "change", recalc);
-  useMotionValueEvent(scale, "change", recalc);
+export function OrnamentLayer() {
+  const nearY = 0;
+  const midY = 0;
+  const farY = 0;
 
   return (
     <motion.div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
@@ -108,7 +94,7 @@ export function OrnamentLayer({ parallaxScale }: { parallaxScale?: MotionValue<n
       />
 
       <div
-        className="absolute inset-0 opacity-55"
+        className="absolute inset-0 opacity-35"
         style={{
           backgroundImage:
             "radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.2), transparent), radial-gradient(2px 2px at 70% 60%, rgba(34,211,238,0.22), transparent), radial-gradient(2px 2px at 40% 80%, rgba(94,234,212,0.22), transparent)",
@@ -119,7 +105,7 @@ export function OrnamentLayer({ parallaxScale }: { parallaxScale?: MotionValue<n
       />
 
       <motion.div
-        className="absolute bottom-10 left-1/2 h-2 w-[36%] -translate-x-1/2 rounded-full bg-[color:var(--accent)]/30 blur-xl"
+        className="absolute bottom-10 left-1/2 h-2 w-[36%] -translate-x-1/2 rounded-full bg-[color:var(--accent)]/20 blur-lg"
         animate={{ scaleX: [1, 1.08, 1] }}
         transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
       />
@@ -127,10 +113,10 @@ export function OrnamentLayer({ parallaxScale }: { parallaxScale?: MotionValue<n
       <motion.div
         className="absolute inset-0"
         style={{
-          background:
-            "radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.45), transparent), radial-gradient(1px 1px at 30% 80%, rgba(34,211,238,0.4), transparent), radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.35), transparent)",
+          backgroundImage:
+            "radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.35), transparent), radial-gradient(1px 1px at 30% 80%, rgba(34,211,238,0.32), transparent), radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.28), transparent)",
           backgroundSize: "180px 180px",
-          opacity: 0.65,
+          opacity: 0.5,
         }}
         animate={{ y: [-8, 8, -8] }}
         transition={{ repeat: Infinity, duration: 28, ease: "easeInOut" }}

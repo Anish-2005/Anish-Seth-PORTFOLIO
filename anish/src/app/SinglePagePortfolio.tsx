@@ -14,6 +14,9 @@ import { ThreeShowcase } from "@/components/sections/ThreeShowcase";
 import { Notes } from "@/components/sections/Notes";
 import { Contact } from "@/components/sections/Contact";
 import { OrnamentLayer } from "@/components/visuals/OrnamentLayer";
+import { LightBackground } from "@/components/visuals/LightBackground";
+import { DarkBackground } from "@/components/visuals/DarkBackground";
+import { useTheme } from "@/context/ThemeContext";
 
 export function SinglePagePortfolio({
   projects,
@@ -25,10 +28,10 @@ export function SinglePagePortfolio({
   const [highlightedIds, setHighlightedIds] = useState<string[] | null>(null);
   const [tone, setTone] = useState<string>("top");
   const toneColor = useMotionValue<string>("rgba(34, 211, 238, 0.22)");
-  const toneParallax = useMotionValue<number>(1);
+  const { theme } = useTheme();
 
-  const sectionColors = useMemo(
-    () => ({
+  const sectionColors = useMemo(() => {
+    const dark = {
       top: "rgba(34, 211, 238, 0.22)",
       about: "rgba(94, 234, 212, 0.2)",
       work: "rgba(59, 130, 246, 0.22)",
@@ -36,9 +39,18 @@ export function SinglePagePortfolio({
       showcase: "rgba(56, 189, 248, 0.22)",
       notes: "rgba(244, 114, 182, 0.18)",
       contact: "rgba(190, 242, 100, 0.18)",
-    }),
-    []
-  );
+    } as const;
+    const light = {
+      top: "rgba(20, 184, 166, 0.16)",
+      about: "rgba(59, 130, 246, 0.14)",
+      work: "rgba(30, 64, 175, 0.14)",
+      visuals: "rgba(14, 165, 233, 0.16)",
+      showcase: "rgba(6, 182, 212, 0.16)",
+      notes: "rgba(236, 72, 153, 0.16)",
+      contact: "rgba(101, 163, 13, 0.14)",
+    } as const;
+    return theme === "light" ? light : dark;
+  }, [theme]);
 
   const onHighlightProjects = useCallback((ids: string[] | null) => {
     setHighlightedIds(ids);
@@ -57,23 +69,6 @@ export function SinglePagePortfolio({
     document.documentElement.style.setProperty("--section-color", latest);
   });
 
-  useEffect(() => {
-    const map: Record<string, number> = {
-      top: 1,
-      about: 0.92,
-      work: 1.15,
-      visuals: 1.05,
-      showcase: 1.1,
-      notes: 0.95,
-      contact: 1,
-    };
-    const target = map[tone] ?? 1;
-    const controls = animate(toneParallax, target, {
-      duration: 0.9,
-      ease: [0.25, 1, 0.35, 1],
-    });
-    return controls.stop;
-  }, [tone, toneParallax]);
 
   const sectionVariants: Variants = {
     hidden: { opacity: 0, y: 14 },
@@ -88,21 +83,38 @@ export function SinglePagePortfolio({
     }),
   };
 
-  const SectionWrap = ({ index, children }: { index: number; children: React.ReactNode }) => (
-    <motion.div
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-10%" }}
-      custom={index}
-    >
-      {children}
-    </motion.div>
-  );
+  const SectionWrap = ({ index, children }: { index: number; children: React.ReactNode }) => {
+    return (
+      <motion.div
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-10%" }}
+        custom={index}
+      >
+        {children}
+      </motion.div>
+    );
+  };
 
   return (
     <div className="relative min-h-screen isolate">
-      <OrnamentLayer parallaxScale={toneParallax} />
+      {theme === "light" ? <LightBackground /> : <DarkBackground />}
+      <OrnamentLayer />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-[-10%] top-[32%] h-64 -z-[5]"
+        initial={{ opacity: 0, x: -60, skewX: -3 }}
+        animate={{ opacity: 0.18, x: 0, skewX: 0 }}
+        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        style={{
+          background:
+            "linear-gradient(110deg, color-mix(in_oklab, var(--section-color) 90%, transparent) 0%, color-mix(in_oklab, var(--section-color) 65%, transparent) 30%, transparent 72%), radial-gradient(90% 180% at 60% 40%, color-mix(in_oklab, var(--section-color) 60%, transparent), transparent)",
+          maskImage:
+            "linear-gradient(180deg, transparent 0%, black 14%, black 86%, transparent 100%)",
+          filter: "blur(10px)",
+        }}
+      />
       <a
         href="#content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-lg focus:bg-[color:var(--surface-0)] focus:px-4 focus:py-2 focus:text-sm focus:text-[color:var(--text-0)] focus:ring-2 focus:ring-[color:var(--accent)]"

@@ -4,7 +4,6 @@ import { Container } from "@/components/ui/Container";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { useMemo, useRef, useState } from "react";
-import type { Project } from "@/lib/types";
 
 // Showcase projects with impactful visuals
 const showcaseProjects = [
@@ -82,11 +81,7 @@ const showcaseProjects = [
   }
 ];
 
-export function Projects(_props: {
-  projects: Project[];
-  highlightedIds: string[] | null;
-  onClearHighlight: () => void;
-}) {
+export function Projects() {
   const { theme } = useTheme();
   const sectionRef = useRef<HTMLElement>(null);
   const [activeProject, setActiveProject] = useState(showcaseProjects[0]);

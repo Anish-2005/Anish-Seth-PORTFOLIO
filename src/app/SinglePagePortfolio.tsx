@@ -2,8 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { animate, motion, useMotionValue, useMotionValueEvent, type Variants } from "framer-motion";
-
-import type { Project } from "@/lib/types";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
@@ -44,12 +42,7 @@ const SectionWrap = ({ index, children }: { index: number; children: React.React
   );
 };
 
-export function SinglePagePortfolio({
-  projects,
-}: {
-  projects: Project[];
-}) {
-  const [highlightedIds, setHighlightedIds] = useState<string[] | null>(null);
+export function SinglePagePortfolio() {
   const [tone, setTone] = useState<string>("top");
   const toneColor = useMotionValue<string>("rgba(34, 211, 238, 0.22)");
   const { theme } = useTheme();
@@ -132,11 +125,7 @@ export function SinglePagePortfolio({
         </SectionWrap>
         <SectionWrap index={2}>
           <motion.div onViewportEnter={() => setTone("work")}> 
-            <Projects
-              projects={projects}
-              highlightedIds={highlightedIds}
-              onClearHighlight={() => setHighlightedIds(null)}
-            />
+            <Projects />
           </motion.div>
         </SectionWrap>
         <SectionWrap index={3}>

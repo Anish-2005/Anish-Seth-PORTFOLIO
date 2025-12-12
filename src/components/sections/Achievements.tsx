@@ -4,7 +4,6 @@ import { Container } from "@/components/ui/Container";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { useMemo, useRef } from "react";
-import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 // Icon components
 const TrophyIcon = ({ className = "h-6 w-6 sm:h-8 sm:w-8", style }: { className?: string; style?: React.CSSProperties }) => (
@@ -124,7 +123,6 @@ const achievementsData = {
 
 export function Achievements() {
   const { theme } = useTheme();
-  const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,

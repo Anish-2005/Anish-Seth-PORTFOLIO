@@ -27,7 +27,7 @@ export function useMobileOptimization() {
  * On mobile: returns props with instant transitions
  * On desktop: returns original props
  */
-export function getMobileAnimation(isMobile: boolean, props: any) {
+export function getMobileAnimation(isMobile: boolean, props: Record<string, unknown>) {
   if (isMobile) {
     return {
       ...props,

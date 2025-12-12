@@ -223,7 +223,7 @@ export function Contact() {
           >
             <form
               onSubmit={onSubmit}
-              className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 backdrop-blur-xl"
+              className={`relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 ${isMobile ? "" : "backdrop-blur-xl"}`}
               style={{
                 background: palette.glassBg,
                 border: `1px solid ${palette.cardBorder}`,

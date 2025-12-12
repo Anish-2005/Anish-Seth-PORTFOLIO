@@ -294,7 +294,7 @@ export function About() {
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.5 + idx * 0.1 }}
-                    className="rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-semibold backdrop-blur-xl"
+                    className={`rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-semibold ${isMobile ? "" : "backdrop-blur-xl"}`}
                     style={{
                       background: palette.cardBg,
                       border: `1px solid ${palette.cardBorder}`,
@@ -327,7 +327,7 @@ export function About() {
                     delay: idx * 0.1,
                     ease: [0.22, 1, 0.36, 1]
                   }}
-                  className="group relative overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-xl"
+                  className={`group relative overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-6 ${isMobile ? "" : "backdrop-blur-xl"}`}
                   style={{
                     background: palette.cardBg,
                     border: `1px solid ${palette.cardBorder}`
@@ -417,7 +417,7 @@ export function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 backdrop-blur-xl"
+              className={`relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 ${isMobile ? "" : "backdrop-blur-xl"}`}
               style={{
                 background: palette.cardBg,
                 border: `1px solid ${palette.cardBorder}`
@@ -452,7 +452,7 @@ export function About() {
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.3, delay: idx * 0.05 }}
-                          className="rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium backdrop-blur-xl"
+                          className={`rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium ${isMobile ? "" : "backdrop-blur-xl"}`}
                           style={{
                             background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
                             border: `1px solid ${palette.cardBorder}`,
@@ -481,7 +481,7 @@ export function About() {
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.3, delay: idx * 0.05 }}
-                          className="rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium backdrop-blur-xl"
+                          className={`rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium ${isMobile ? "" : "backdrop-blur-xl"}`}
                           style={{
                             background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
                             border: `1px solid ${palette.cardBorder}`,
@@ -510,7 +510,7 @@ export function About() {
                           whileInView={{ opacity: 1, scale: 1 }}
                           viewport={{ once: true }}
                           transition={{ duration: 0.3, delay: idx * 0.05 }}
-                          className="rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium backdrop-blur-xl"
+                          className={`rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium ${isMobile ? "" : "backdrop-blur-xl"}`}
                           style={{
                             background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
                             border: `1px solid ${palette.cardBorder}`,
@@ -536,7 +536,7 @@ export function About() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 backdrop-blur-xl"
+              className={`relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 ${isMobile ? "" : "backdrop-blur-xl"}`}
               style={{
                 background: palette.cardBg,
                 border: `1px solid ${palette.cardBorder}`
@@ -622,7 +622,7 @@ export function About() {
             transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             className="mt-10 sm:mt-16 text-center"
           >
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-4 py-2 sm:px-6 sm:py-3 backdrop-blur-xl"
+            <div className={`inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-4 py-2 sm:px-6 sm:py-3 ${isMobile ? "" : "backdrop-blur-xl"}`}
               style={{
                 background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
                 border: `1px solid ${palette.cardBorder}`

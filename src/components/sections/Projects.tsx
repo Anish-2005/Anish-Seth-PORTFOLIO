@@ -252,7 +252,7 @@ export function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.4 }}
-                className="mx-auto mt-6 sm:mt-10 flex max-w-2xl items-center justify-center gap-4 sm:gap-8 md:gap-12 rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-xl"
+                className={`mx-auto mt-6 sm:mt-10 flex max-w-2xl items-center justify-center gap-4 sm:gap-8 md:gap-12 rounded-xl sm:rounded-2xl p-4 sm:p-6 ${isMobile ? "" : "backdrop-blur-xl"}`}
                 style={{
                   background: palette.cardBg,
                   border: `1px solid ${palette.cardBorder}`
@@ -284,7 +284,7 @@ export function Projects() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="relative overflow-hidden rounded-2xl sm:rounded-3xl backdrop-blur-2xl"
+              className={`relative overflow-hidden rounded-2xl sm:rounded-3xl ${isMobile ? "" : "backdrop-blur-2xl"}`}
               style={{
                 background: palette.glassBg,
                 border: `1px solid ${palette.cardBorder}`,
@@ -419,7 +419,7 @@ export function Projects() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.08 }}
                   onClick={() => setActiveProject(project)}
-                  className="group relative w-full overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-5 text-left backdrop-blur-xl transition-all"
+                  className={`group relative w-full overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-5 text-left ${isMobile ? "" : "backdrop-blur-xl"} transition-all`}
                   style={{
                     background: activeProject.id === project.id ? palette.glassBg : palette.cardBg,
                     border: `1px solid ${activeProject.id === project.id ? palette.highlight : palette.cardBorder}`,
@@ -479,7 +479,7 @@ export function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.5 }}
-                className="group flex items-center justify-between rounded-xl sm:rounded-2xl p-4 sm:p-5 backdrop-blur-xl"
+                className={`group flex items-center justify-between rounded-xl sm:rounded-2xl p-4 sm:p-5 ${isMobile ? "" : "backdrop-blur-xl"}`}
                 style={{
                   background: palette.cardBg,
                   border: `1px solid ${palette.cardBorder}`

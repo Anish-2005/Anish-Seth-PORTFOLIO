@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
 import { useMemo, useRef } from "react";
 
-// Icon components
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 const TrophyIcon = ({ className = "h-6 w-6 sm:h-8 sm:w-8", style }: { className?: string; style?: React.CSSProperties }) => (
   <svg className={className} style={style} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
@@ -123,6 +123,7 @@ const achievementsData = {
 
 export function Achievements() {
   const { theme } = useTheme();
+  const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -304,7 +305,7 @@ export function Achievements() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="group relative overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-xl"
+                  className={`group relative overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-6 ${isMobile ? "" : "backdrop-blur-xl"}`}
                   style={{
                     background: palette.cardBg,
                     border: `1px solid ${palette.cardBorder}`
@@ -385,7 +386,7 @@ export function Achievements() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="group relative overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-6 backdrop-blur-xl"
+                  className={`group relative overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-6 ${isMobile ? "" : "backdrop-blur-xl"}`}
                   style={{
                     background: palette.glassBg,
                     border: `1px solid ${palette.cardBorder}`
@@ -462,7 +463,7 @@ export function Achievements() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  className="relative overflow-hidden rounded-xl sm:rounded-2xl p-6 sm:p-8 backdrop-blur-xl"
+                  className={`relative overflow-hidden rounded-xl sm:rounded-2xl p-6 sm:p-8 ${isMobile ? "" : "backdrop-blur-xl"}`}
                   style={{
                     background: palette.cardBg,
                     border: `1px solid ${palette.cardBorder}`

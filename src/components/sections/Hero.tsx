@@ -32,16 +32,33 @@ export function Hero() {
   const opacityProgress = useTransform(scrollY, [0, 300], [1, 0.7]);
 
   const palette = useMemo(() => {
-    if (theme === "light") {
+    const isLight = theme === "light";
+
+    // MOBILE LIGHT MODE – clean, neutral pink
+    if (isLight && isMobile) {
       return {
-        accent: "rgba(211, 51, 51, 0.18)",
-        accentStrong: "rgba(211, 51, 51, 0.32)",
-        beam: "rgba(231, 73, 116, 0.12)",
-        glow: "rgba(211, 51, 51, 0.4)",
-        text: "#2c1810",
-        textSub: "#6b4a3a"
+        accent: "rgba(244, 114, 182, 0.12)",       // rose-400, cleaner
+        accentStrong: "rgba(244, 114, 182, 0.22)",
+        beam: "rgba(236, 72, 153, 0.08)",          // pink-500
+        glow: "rgba(236, 72, 153, 0.28)",
+        text: "#111827",                           // neutral slate
+        textSub: "#6b7280"
       };
     }
+
+    // DESKTOP LIGHT MODE – richer cinematic
+    if (isLight) {
+      return {
+        accent: "rgba(225, 29, 72, 0.14)",         // rose-600
+        accentStrong: "rgba(225, 29, 72, 0.26)",
+        beam: "rgba(236, 72, 153, 0.10)",
+        glow: "rgba(225, 29, 72, 0.35)",
+        text: "#1f2937",
+        textSub: "#6b7280"
+      };
+    }
+
+    // DARK MODE (unchanged – already fine)
     return {
       accent: "rgba(248, 113, 113, 0.16)",
       accentStrong: "rgba(248, 113, 113, 0.28)",
@@ -50,7 +67,7 @@ export function Hero() {
       text: "#fef2f2",
       textSub: "#fca5a5"
     };
-  }, [theme]);
+  }, [theme, isMobile]);
 
   return (
     <section id="info" className="relative overflow-hidden pt-20 sm:pt-24 md:pt-32">
@@ -86,16 +103,18 @@ export function Hero() {
       )}
 
       {/* Animated data grid overlay */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.35]"
-        style={{
-          backgroundImage: `
-            repeating-linear-gradient(90deg, ${palette.accent} 0, ${palette.accent} 1px, transparent 1px, transparent 12px),
-            repeating-linear-gradient(0deg, ${palette.accent} 0, ${palette.accent} 1px, transparent 1px, transparent 12px)
-          `
-        }}
-      />
+      {!(isMobile && theme === "light") && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.25]"
+          style={{
+            backgroundImage: `
+              repeating-linear-gradient(90deg, ${palette.accent} 0, ${palette.accent} 1px, transparent 1px, transparent 14px),
+              repeating-linear-gradient(0deg, ${palette.accent} 0, ${palette.accent} 1px, transparent 1px, transparent 14px)
+            `
+          }}
+        />
+      )}
 
       {/* Floating accent particles - disabled on mobile */}
       {!isMobile && (
@@ -128,7 +147,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 backdrop-blur-xl"
+            className={`inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-3 py-1.5 sm:px-4 ${isMobile ? "" : "backdrop-blur-xl"}`}
             style={{
               background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`,
               border: `1px solid ${palette.accentStrong}`
@@ -225,7 +244,7 @@ export function Hero() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.5 + idx * 0.08 }}
-                className="rounded-lg px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs font-medium backdrop-blur-xl"
+                className={`rounded-lg px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs font-medium ${isMobile ? "" : "backdrop-blur-xl"}`}
                 style={{
                   background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`,
                   border: `1px solid ${palette.accentStrong}`,
@@ -269,7 +288,7 @@ export function Hero() {
             {professionalData.stats.map((stat) => (
               <motion.div
                 key={stat.label}
-                className="rounded-lg sm:rounded-xl p-3 sm:p-4 backdrop-blur-xl"
+                className={`rounded-lg sm:rounded-xl p-3 sm:p-4 ${isMobile ? "" : "backdrop-blur-xl"}`}
                 style={{
                   background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`,
                   border: `1px solid ${palette.accentStrong}`

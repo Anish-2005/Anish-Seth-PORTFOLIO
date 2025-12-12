@@ -43,9 +43,14 @@ const SectionWrap = ({ index, children }: { index: number; children: React.React
 };
 
 export function SinglePagePortfolio() {
+  const [mounted, setMounted] = useState(false);
   const [tone, setTone] = useState<string>("top");
   const toneColor = useMotionValue<string>("rgba(34, 211, 238, 0.22)");
   const { theme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const sectionColors = useMemo(() => {
     const dark = {
@@ -88,7 +93,7 @@ export function SinglePagePortfolio() {
 
   return (
     <div className="relative min-h-screen isolate">
-      {theme === "light" ? <LightBackground /> : <DarkBackground />}
+      {mounted && (theme === "light" ? <LightBackground /> : <DarkBackground />)}
       <OrnamentLayer />
       <motion.div
         aria-hidden

@@ -3,7 +3,7 @@
 import { Container } from "@/components/ui/Container";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 // Icon components as SVG
@@ -85,15 +85,35 @@ export function About() {
   const { theme } = useTheme();
   const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
+  const [mounted, setMounted] = useState(false);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"]
   });
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.5]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
 
   const palette = useMemo(() => {
+    if (!mounted) {
+      // Use dark palette on server
+      return {
+        accent: "rgba(239, 68, 68, 0.15)",
+        accentStrong: "rgba(239, 68, 68, 0.25)",
+        beam: "rgba(248, 113, 113, 0.12)",
+        glow: "rgba(239, 68, 68, 0.35)",
+        text: "#ffffff",
+        textSub: "#9ca3af",
+        cardBg: "rgba(255, 255, 255, 0.05)",
+        cardBorder: "rgba(255, 255, 255, 0.1)",
+        highlight: "#fb7185",
+        shadow: "0 0 20px rgba(239, 68, 68, 0.2)"
+      };
+    }
     if (theme === "light") {
       return {
         accent: "rgba(211, 51, 51, 0.15)",

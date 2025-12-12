@@ -5,7 +5,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Image from "next/image";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
@@ -26,12 +26,36 @@ export function Hero() {
   const reduce = useReducedMotion();
   const { theme } = useTheme();
   const { isMobile } = useMobileOptimization();
+  const [mounted, setMounted] = useState(false);
   const { scrollY } = useScroll();
   const parallax = useTransform(scrollY, [0, 600], [0, reduce ? 0 : -80]);
   const scaleProgress = useTransform(scrollY, [0, 400], [1, reduce ? 1 : 0.92]);
   const opacityProgress = useTransform(scrollY, [0, 300], [1, 0.7]);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const palette = useMemo(() => {
+    if (!mounted) {
+      // Use dark desktop palette on server
+      return {
+        accent: "rgba(239, 68, 68, 0.15)",       // red-500
+        accentStrong: "rgba(239, 68, 68, 0.25)",
+        beam: "rgba(248, 113, 113, 0.12)",      // red-400
+        glow: "rgba(239, 68, 68, 0.35)",
+        text: "#ffffff",
+        textSub: "#9ca3af",
+        cardBg: "rgba(255, 255, 255, 0.05)",
+        cardBorder: "rgba(255, 255, 255, 0.1)",
+        highlight: "#fb7185",
+        shadow: "0 0 20px rgba(239, 68, 68, 0.2)",
+        core: "#ef4444",
+        node: "#f87171",
+        chipBg: "rgba(255, 255, 255, 0.05)",
+        chipBorder: "rgba(255, 255, 255, 0.1)"
+      };
+    }
     const isLight = theme === "light";
 
     // MOBILE LIGHT MODE – clean, neutral pink

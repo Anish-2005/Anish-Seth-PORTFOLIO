@@ -3,7 +3,7 @@
 import { Container } from "@/components/ui/Container";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { useMemo, useRef, useState } from "react";import { useMobileOptimization } from "@/hooks/useMobileOptimization";
+import { useMemo, useRef, useState, useEffect } from "react";import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 // Showcase projects with impactful visuals
 const showcaseProjects = [
   {
@@ -85,6 +85,11 @@ export function Projects() {
   const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
   const [activeProject, setActiveProject] = useState(showcaseProjects[0]);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -95,6 +100,20 @@ export function Projects() {
   const y = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
 
   const palette = useMemo(() => {
+    if (!mounted) {
+      // Use dark palette on server
+      return {
+        accent: "rgba(239, 68, 68, 0.15)",
+        accentStrong: "rgba(239, 68, 68, 0.25)",
+        glow: "rgba(239, 68, 68, 0.35)",
+        cardBg: "rgba(255, 255, 255, 0.05)",
+        cardBorder: "rgba(255, 255, 255, 0.1)",
+        glassBg: "rgba(255, 255, 255, 0.1)",
+        text: "#ffffff",
+        textSub: "#9ca3af",
+        highlight: "#fb7185"
+      };
+    }
     if (theme === "light") {
       return {
         accent: "rgba(211, 51, 51, 0.12)",

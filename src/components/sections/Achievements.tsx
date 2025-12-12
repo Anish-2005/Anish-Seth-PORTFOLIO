@@ -3,7 +3,7 @@
 import { Container } from "@/components/ui/Container";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 const TrophyIcon = ({ className = "h-6 w-6 sm:h-8 sm:w-8", style }: { className?: string; style?: React.CSSProperties }) => (
@@ -125,15 +125,34 @@ export function Achievements() {
   const { theme } = useTheme();
   const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
+  const [mounted, setMounted] = useState(false);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"]
   });
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.6]);
   const y = useTransform(scrollYProgress, [0, 0.5], [50, 0]);
 
   const palette = useMemo(() => {
+    if (!mounted) {
+      // Use dark palette on server
+      return {
+        accent: "rgba(239, 68, 68, 0.15)",
+        accentStrong: "rgba(239, 68, 68, 0.25)",
+        glow: "rgba(239, 68, 68, 0.35)",
+        cardBg: "rgba(255, 255, 255, 0.05)",
+        cardBorder: "rgba(255, 255, 255, 0.1)",
+        glassBg: "rgba(255, 255, 255, 0.1)",
+        text: "#ffffff",
+        textSub: "#9ca3af",
+        highlight: "#fb7185"
+      };
+    }
     if (theme === "light") {
       return {
         accent: "rgba(211, 51, 51, 0.12)",

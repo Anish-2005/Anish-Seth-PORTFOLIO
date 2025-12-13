@@ -3,7 +3,7 @@ export const siteConfig = {
   role: "Full-Stack Web & App Developer · ML & Web3",
   description:
     "Building polished web apps and immersive data experiences. Next.js, React, TypeScript, ML pipelines & blockchain integrations.",
-  url: "https://anishseth.xyz",
+  url: "http://www.anishseth.xyz",
   locale: "en-US",
   accent: "cyan",
   sameAs: {

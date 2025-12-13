@@ -55,10 +55,29 @@ export const metadata: Metadata = {
     "AI Developer",
     "Smart Contracts",
     "Ethereum Developer",
+    "Portfolio Website",
+    "Developer Portfolio",
+    "Anish Seth Portfolio",
+    "Smart India Hackathon",
+    "AI Developer India",
+    "Web3 Developer India",
+    "Blockchain Developer India",
+    "Machine Learning Engineer",
+    "React Native Developer",
+    "Expo Developer",
+    "Legal Tech",
+    "Social Impact Tech",
+    "Healthcare Tech",
+    "Agriculture Tech",
   ],
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
+  geo: {
+    region: "IN",
+    placename: "India",
+  },
+  category: "Technology",
   formatDetection: {
     email: false,
     address: false,
@@ -142,6 +161,15 @@ function StructuredData() {
       "Web3",
       "Blockchain",
     ],
+    hasOccupation: {
+      "@type": "Occupation",
+      name: siteConfig.role,
+      occupationLocation: {
+        "@type": "Country",
+        name: "India",
+      },
+    },
+    award: ["Smart India Hackathon 2024 Finalist"],
   };
 
   const websiteJsonLd = {
@@ -182,6 +210,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="me" href={siteConfig.sameAs.github} />
+        <link rel="me" href={siteConfig.sameAs.linkedIn} />
+      </head>
       <body
         className={`${heading.variable} ${body.variable} ${mono.variable} antialiased`}
       >

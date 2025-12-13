@@ -121,7 +121,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "your-google-site-verification-code", // Add your verification code
+    google: "CC99sQSiR-os5PBjY9ve-etZ4g2GdD7rF1nMRhC5SYI",
   },
   icons: {
     icon: "/favicon.ico",

@@ -152,12 +152,10 @@ export function Header() {
               boxShadow: scrolled ? "0 2px 10px rgba(211, 51, 51, 0.15)" : palette.shadow,
             }}
             whileHover={{ 
-              scale: 1.05, 
-              rotate: 5,
               boxShadow: palette.shadowHover
             }}
             whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.15 }}
           >
             AS
             <motion.div
@@ -219,9 +217,6 @@ export function Header() {
                   paddingBottom: scrolled ? "0.375rem" : "0.5rem",
                   fontSize: scrolled ? "0.8125rem" : "0.875rem",
                 }}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.2 }}
                 onClick={(e) => {
                   e.preventDefault();
                   const target = document.querySelector(item.href);
@@ -267,7 +262,7 @@ export function Header() {
             type="button"
             onClick={toggle}
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-            className="relative inline-flex items-center justify-center rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="relative inline-flex items-center justify-center rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 p-1"
             style={{
               background: palette.glass,
               border: `1px solid ${palette.border}`,
@@ -275,12 +270,10 @@ export function Header() {
               outlineColor: palette.accent,
             }}
             animate={{
-              height: scrolled ? "1.75rem" : "2.25rem",
-              width: scrolled ? "1.75rem" : "2.25rem",
+              height: scrolled ? "2rem" : "2.5rem",
+              width: scrolled ? "2rem" : "2.5rem",
             }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.15 }}
           >
             <motion.div
               animate={{
@@ -317,8 +310,6 @@ export function Header() {
               boxShadow: scrolled ? "0 2px 15px rgba(211, 51, 51, 0.2)" : palette.shadow,
             }}
             whileHover={{ 
-              scale: 1.02,
-              y: -1,
               boxShadow: palette.shadowHover
             }}
             whileTap={{ scale: 0.98, y: 0 }}
@@ -375,9 +366,8 @@ export function Header() {
               height: scrolled ? "1.75rem" : "2.25rem",
               width: scrolled ? "1.75rem" : "2.25rem",
             }}
-            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.15 }}
           >
             <motion.div
               animate={{

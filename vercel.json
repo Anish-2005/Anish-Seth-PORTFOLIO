@@ -1,5 +1,18 @@
 {
   "framework": "nextjs",
   "buildCommand": "npm run build",
-  "outputDirectory": ".next"
+  "outputDirectory": ".next",
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "anishseth.vercel.app"
+        }
+      ],
+      "destination": "https://anishseth.xyz/:path*",
+      "permanent": true
+    }
+  ]
 }

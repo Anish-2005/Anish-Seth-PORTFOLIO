@@ -206,6 +206,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="canonical" href="https://anishseth.xyz/" />
         <link rel="me" href={siteConfig.sameAs.github} />
         <link rel="me" href={siteConfig.sameAs.linkedIn} />
       </head>

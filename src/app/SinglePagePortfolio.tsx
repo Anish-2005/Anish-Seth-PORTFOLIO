@@ -1,18 +1,19 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Suspense, lazy } from "react";
 import { animate, motion, useMotionValue, useMotionValueEvent, type Variants } from "framer-motion";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
-import { About } from "@/components/sections/About";
-import { Projects } from "@/components/sections/Projects";
-import { Achievements } from "@/components/sections/Achievements";
-import { Contact } from "@/components/sections/Contact";
-import { OrnamentLayer } from "@/components/visuals/OrnamentLayer";
-import { LightBackground } from "@/components/visuals/LightBackground";
-import { DarkBackground } from "@/components/visuals/DarkBackground";
 import { useTheme } from "@/context/ThemeContext";
+
+const About = lazy(() => import("@/components/sections/About").then(m => ({ default: m.About })));
+const Projects = lazy(() => import("@/components/sections/Projects").then(m => ({ default: m.Projects })));
+const Achievements = lazy(() => import("@/components/sections/Achievements").then(m => ({ default: m.Achievements })));
+const Contact = lazy(() => import("@/components/sections/Contact").then(m => ({ default: m.Contact })));
+const OrnamentLayer = lazy(() => import("@/components/visuals/OrnamentLayer").then(m => ({ default: m.OrnamentLayer })));
+const LightBackground = lazy(() => import("@/components/visuals/LightBackground").then(m => ({ default: m.LightBackground })));
+const DarkBackground = lazy(() => import("@/components/visuals/DarkBackground").then(m => ({ default: m.DarkBackground })));
 
 // Section wrapper component for stagger animations
 const SectionWrap = ({ index, children }: { index: number; children: React.ReactNode }) => {
@@ -94,8 +95,14 @@ export function SinglePagePortfolio() {
 
   return (
     <div className="relative min-h-screen isolate">
-      {mounted && (theme === "light" ? <LightBackground /> : <DarkBackground />)}
-      <OrnamentLayer />
+      {mounted && (
+        <Suspense fallback={null}>
+          {theme === "light" ? <LightBackground /> : <DarkBackground />}
+        </Suspense>
+      )}
+      <Suspense fallback={null}>
+        <OrnamentLayer />
+      </Suspense>
       <motion.div
         aria-hidden
         className="pointer-events-none fixed inset-x-0 md:inset-x-[-10%] top-[32%] h-64 -z-[5]"
@@ -105,7 +112,6 @@ export function SinglePagePortfolio() {
         style={{
           background:
             "linear-gradient(110deg, color-mix(in_oklab, var(--section-color) 90%, transparent) 0%, color-mix(in_oklab, var(--section-color) 65%, transparent) 30%, transparent 72%), radial-gradient(90% 180% at 60% 40%, color-mix(in_oklab, var(--section-color) 60%, transparent), transparent)",
-          // maskImage removed to prevent black gradient overlay
           filter: "blur(10px)",
         }}
       />
@@ -123,26 +129,34 @@ export function SinglePagePortfolio() {
             <Hero />
           </motion.div>
         </SectionWrap>
-        <SectionWrap index={1}>
-          <motion.div onViewportEnter={() => setTone("about")}> 
-            <About />
-          </motion.div>
-        </SectionWrap>
-        <SectionWrap index={2}>
-          <motion.div onViewportEnter={() => setTone("work")}> 
-            <Projects />
-          </motion.div>
-        </SectionWrap>
-        <SectionWrap index={3}>
-          <motion.div onViewportEnter={() => setTone("achievements")}> 
-            <Achievements />
-          </motion.div>
-        </SectionWrap>
-        <SectionWrap index={4}>
-          <motion.div onViewportEnter={() => setTone("contact")}> 
-            <Contact />
-          </motion.div>
-        </SectionWrap>
+        <Suspense fallback={null}>
+          <SectionWrap index={1}>
+            <motion.div onViewportEnter={() => setTone("about")}> 
+              <About />
+            </motion.div>
+          </SectionWrap>
+        </Suspense>
+        <Suspense fallback={null}>
+          <SectionWrap index={2}>
+            <motion.div onViewportEnter={() => setTone("work")}> 
+              <Projects />
+            </motion.div>
+          </SectionWrap>
+        </Suspense>
+        <Suspense fallback={null}>
+          <SectionWrap index={3}>
+            <motion.div onViewportEnter={() => setTone("achievements")}> 
+              <Achievements />
+            </motion.div>
+          </SectionWrap>
+        </Suspense>
+        <Suspense fallback={null}>
+          <SectionWrap index={4}>
+            <motion.div onViewportEnter={() => setTone("contact")}> 
+              <Contact />
+            </motion.div>
+          </SectionWrap>
+        </Suspense>
       </main>
       <Footer />
     </div>

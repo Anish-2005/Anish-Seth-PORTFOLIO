@@ -3,34 +3,37 @@
 import { Container } from "@/components/ui/Container";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect, memo } from "react";
+import PrinciplesGrid from "./about/PrinciplesGrid";
+import SkillsCard from "./about/SkillsCard";
+import JourneyTimeline from "./about/JourneyTimeline";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
-// Icon components as SVG
-const ZapIcon = () => (
+// Icon components as SVG (memoized)
+const ZapIcon = memo(() => (
   <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
   </svg>
-);
+));
 
-const SparklesIcon = () => (
+const SparklesIcon = memo(() => (
   <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
   </svg>
-);
+));
 
-const EyeIcon = () => (
+const EyeIcon = memo(() => (
   <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
     <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
   </svg>
-);
+));
 
-const CodeIcon = () => (
+const CodeIcon = memo(() => (
   <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
   </svg>
-);
+));
 
 const aboutData = {
   headline: "Building the Future of Digital Experiences",
@@ -81,7 +84,7 @@ const aboutData = {
   ]
 };
 
-export function About() {
+function AboutInner() {
   const { theme } = useTheme();
   const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
@@ -152,15 +155,18 @@ export function About() {
         className="pointer-events-none absolute inset-0 -z-20"
         style={{
           opacity,
-          background: `radial-gradient(900px 700px at 30% 50%, ${palette.accent}, transparent 70%), radial-gradient(700px 500px at 70% 30%, ${palette.accentStrong}, transparent 80%)`
+          background: isMobile
+            ? `radial-gradient(420px 320px at 30% 50%, ${palette.accent}, transparent 70%), radial-gradient(340px 240px at 70% 30%, ${palette.accentStrong}, transparent 80%)`
+            : `radial-gradient(900px 700px at 30% 50%, ${palette.accent}, transparent 70%), radial-gradient(700px 500px at 70% 30%, ${palette.accentStrong}, transparent 80%)`
         }}
       />
 
       {/* Tech grid pattern */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-20 opacity-20"
+        className="pointer-events-none absolute inset-0 -z-20"
         style={{
+          opacity: isMobile ? 0.06 : 0.2,
           backgroundImage: `
             repeating-linear-gradient(0deg, ${palette.cardBorder} 0, ${palette.cardBorder} 1px, transparent 1px, transparent 40px),
             repeating-linear-gradient(90deg, ${palette.cardBorder} 0, ${palette.cardBorder} 1px, transparent 1px, transparent 40px)
@@ -334,305 +340,12 @@ export function About() {
           </div>
 
           {/* Principles Grid */}
-          <div className="mt-10 sm:mt-16 grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {aboutData.principles.map((principle, idx) => {
-              const IconComponent = principle.icon;
-              return (
-                <motion.div
-                  key={principle.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ 
-                    duration: 0.6, 
-                    delay: idx * 0.1,
-                    ease: [0.22, 1, 0.36, 1]
-                  }}
-                  className={`group relative overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-6 ${isMobile ? "" : "backdrop-blur-xl"}`}
-                  style={{
-                    background: palette.cardBg,
-                    border: `1px solid ${palette.cardBorder}`
-                  }}
-                  whileHover={{
-                    scale: 1.02,
-                    boxShadow: `0 0 30px ${palette.glow}`
-                  }}
-                >
-                  {/* Animated scan line */}
-                  <motion.div
-                    className="absolute inset-x-0 top-0 h-px"
-                    style={{
-                      background: `linear-gradient(90deg, transparent, ${palette.glow}, transparent)`
-                    }}
-                    animate={{
-                      x: ['-100%', '100%']
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      delay: idx * 0.5,
-                      ease: "linear"
-                    }}
-                  />
-
-                  {/* Hover gradient overlay */}
-                  <motion.div
-                    className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                    style={{
-                      background: `radial-gradient(circle at 50% 0%, ${palette.accent}, transparent 70%)`
-                    }}
-                  />
-
-                  {/* Corner accents */}
-                  <div className="absolute right-0 top-0 h-16 w-16 opacity-30"
-                    style={{
-                      background: `radial-gradient(circle at top right, ${palette.glow}, transparent 70%)`
-                    }}
-                  />
-
-                  <div className="relative">
-                    {/* Icon with glow */}
-                    <motion.div 
-                      className="inline-flex rounded-lg sm:rounded-xl p-2 sm:p-3"
-                      style={{
-                        background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
-                        border: `1px solid ${palette.cardBorder}`,
-                        color: palette.text
-                      }}
-                      whileHover={{
-                        boxShadow: `0 0 20px ${palette.glow}`
-                      }}
-                    >
-                      <IconComponent />
-                    </motion.div>
-                    
-                    <h3 className="mt-3 sm:mt-5 text-base sm:text-lg font-bold" style={{ color: palette.text }}>
-                      {principle.title}
-                    </h3>
-                    <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm leading-relaxed opacity-80" style={{ color: palette.text }}>
-                      {principle.description}
-                    </p>
-
-                    {/* Decorative line */}
-                    <motion.div
-                      className="mt-4 h-px w-0 group-hover:w-full"
-                      style={{
-                        background: `linear-gradient(90deg, ${palette.glow}, transparent)`
-                      }}
-                      transition={{
-                        duration: 0.5,
-                        ease: "easeOut"
-                      }}
-                    />
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+          <PrinciplesGrid principles={aboutData.principles} palette={palette} isMobile={isMobile} />
 
           {/* Skills & Journey Section */}
           <div className="mt-10 sm:mt-16 grid gap-6 sm:gap-8 lg:grid-cols-2">
-            {/* Skills Card */}
-            <motion.div
-              initial={{ opacity: 0, x: -40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className={`relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 ${isMobile ? "" : "backdrop-blur-xl"}`}
-              style={{
-                background: palette.cardBg,
-                border: `1px solid ${palette.cardBorder}`
-              }}
-            >
-              {/* Accent gradient */}
-              <div
-                className="absolute right-0 top-0 h-40 w-40 rounded-full blur-[100px]"
-                style={{
-                  background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
-                }}
-              />
-
-              <div className="relative">
-                <h3 className="text-xl sm:text-2xl font-bold" style={{ color: palette.text }}>
-                  Technical Arsenal
-                </h3>
-                <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm opacity-70" style={{ color: palette.text }}>
-                  Technologies I work with daily
-                </p>
-
-                <div className="mt-6 sm:mt-8 space-y-4 sm:space-y-6">
-                  <div>
-                    <h4 className="mb-2 sm:mb-3 text-[10px] sm:text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
-                      Frontend
-                    </h4>
-                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                      {aboutData.skills.frontend.map((skill, idx) => (
-                        <motion.span
-                          key={skill}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.3, delay: idx * 0.05 }}
-                          className={`rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium ${isMobile ? "" : "backdrop-blur-xl"}`}
-                          style={{
-                            background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
-                            border: `1px solid ${palette.cardBorder}`,
-                            color: palette.text
-                          }}
-                          whileHover={{
-                            scale: 1.05,
-                            boxShadow: `0 0 15px ${palette.glow}`
-                          }}
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="mb-2 sm:mb-3 text-[10px] sm:text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
-                      Backend
-                    </h4>
-                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                      {aboutData.skills.backend.map((skill, idx) => (
-                        <motion.span
-                          key={skill}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.3, delay: idx * 0.05 }}
-                          className={`rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium ${isMobile ? "" : "backdrop-blur-xl"}`}
-                          style={{
-                            background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
-                            border: `1px solid ${palette.cardBorder}`,
-                            color: palette.text
-                          }}
-                          whileHover={{
-                            scale: 1.05,
-                            boxShadow: `0 0 15px ${palette.glow}`
-                          }}
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="mb-2 sm:mb-3 text-[10px] sm:text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
-                      Tools & Platform
-                    </h4>
-                    <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                      {aboutData.skills.tools.map((skill, idx) => (
-                        <motion.span
-                          key={skill}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.3, delay: idx * 0.05 }}
-                          className={`rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium ${isMobile ? "" : "backdrop-blur-xl"}`}
-                          style={{
-                            background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
-                            border: `1px solid ${palette.cardBorder}`,
-                            color: palette.text
-                          }}
-                          whileHover={{
-                            scale: 1.05,
-                            boxShadow: `0 0 15px ${palette.glow}`
-                          }}
-                        >
-                          {skill}
-                        </motion.span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Journey Timeline Card */}
-            <motion.div
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className={`relative overflow-hidden rounded-2xl sm:rounded-3xl p-6 sm:p-8 ${isMobile ? "" : "backdrop-blur-xl"}`}
-              style={{
-                background: palette.cardBg,
-                border: `1px solid ${palette.cardBorder}`
-              }}
-            >
-              {/* Accent gradient */}
-              <div
-                className="absolute left-0 top-0 h-40 w-40 rounded-full blur-[100px]"
-                style={{
-                  background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
-                }}
-              />
-
-              <div className="relative">
-                <h3 className="text-xl sm:text-2xl font-bold" style={{ color: palette.text }}>
-                  My Journey
-                </h3>
-                <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm opacity-70" style={{ color: palette.text }}>
-                  Evolution as a developer
-                </p>
-
-                <div className="mt-6 sm:mt-8 space-y-6 sm:space-y-8">
-                  {aboutData.journey.map((item, idx) => (
-                    <motion.div
-                      key={item.year}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ 
-                        duration: 0.5, 
-                        delay: idx * 0.1,
-                        ease: [0.22, 1, 0.36, 1]
-                      }}
-                      className="relative pl-4 sm:pl-6"
-                    >
-                      {/* Timeline line */}
-                      <div
-                        className="absolute left-0 top-2 h-full w-px"
-                        style={{
-                          background: `linear-gradient(to bottom, ${palette.cardBorder}, transparent)`
-                        }}
-                      />
-                      {/* Timeline dot */}
-                      <motion.div
-                        className="absolute left-[-4px] top-2 h-2 w-2 rounded-full"
-                        style={{
-                          background: theme === "light" ? "#e74974" : "#fb7185",
-                          boxShadow: `0 0 10px ${palette.glow}`
-                        }}
-                        animate={{
-                          scale: [1, 1.3, 1],
-                          opacity: [1, 0.7, 1]
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          delay: idx * 0.3,
-                          ease: "easeInOut"
-                        }}
-                      />
-
-                      <div className="text-[10px] sm:text-xs font-bold uppercase tracking-wider opacity-60" style={{ color: palette.textSub }}>
-                        {item.year}
-                      </div>
-                      <h4 className="mt-0.5 sm:mt-1 text-sm sm:text-base font-bold" style={{ color: palette.text }}>
-                        {item.title}
-                      </h4>
-                      <p className="mt-1 text-xs sm:text-sm leading-relaxed opacity-80" style={{ color: palette.text }}>
-                        {item.description}
-                      </p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
+            <SkillsCard aboutData={aboutData} palette={palette} isMobile={isMobile} />
+            <JourneyTimeline aboutData={aboutData} palette={palette} isMobile={isMobile} theme={theme} />
           </div>
 
           {/* Call to Action */}
@@ -659,3 +372,5 @@ export function About() {
     </section>
   );
 }
+
+export const About = memo(AboutInner);

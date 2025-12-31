@@ -1,5 +1,5 @@
-import { SinglePagePortfolio } from "@/app/SinglePagePortfolio";
+import ClientSinglePage from "@/components/ClientSinglePage";
 
 export default function Home() {
-  return <SinglePagePortfolio />;
+  return <ClientSinglePage />;
 }

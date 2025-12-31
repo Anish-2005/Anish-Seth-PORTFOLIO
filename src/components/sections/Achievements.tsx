@@ -1,9 +1,9 @@
 "use client";
 
 import { Container } from "@/components/ui/Container";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { useMemo, useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect, memo } from "react";
 
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 const TrophyIcon = ({ className = "h-6 w-6 sm:h-8 sm:w-8", style }: { className?: string; style?: React.CSSProperties }) => (
@@ -121,7 +121,8 @@ const achievementsData = {
   ]
 };
 
-export function Achievements() {
+function AchievementsInner() {
+  const reduce = useReducedMotion();
   const { theme } = useTheme();
   const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
@@ -219,11 +220,11 @@ export function Achievements() {
             <motion.div
               className="pointer-events-none absolute -left-20 -top-10 h-40 w-40 rounded-full blur-3xl"
               style={{ background: palette.glow }}
-              animate={{
+              animate={reduce ? undefined : {
                 scale: [1, 1.2, 1],
                 opacity: [0.3, 0.5, 0.3],
               }}
-              transition={{
+              transition={reduce ? undefined : {
                 duration: 4,
                 repeat: Infinity,
                 ease: "easeInOut"
@@ -341,8 +342,8 @@ export function Achievements() {
                     style={{
                       background: `linear-gradient(90deg, transparent, ${palette.glow}, transparent)`
                     }}
-                    animate={{ x: ['-100%', '100%'] }}
-                    transition={{
+                    animate={reduce ? undefined : { x: ['-100%', '100%'] }}
+                    transition={reduce ? undefined : {
                       duration: 3,
                       repeat: Infinity,
                       delay: idx * 0.5,
@@ -428,8 +429,8 @@ export function Achievements() {
                     {cert.verified && (
                       <motion.div
                         className="flex-shrink-0"
-                        whileHover={{ rotate: 360 }}
-                        transition={{ duration: 0.6 }}
+                        whileHover={reduce ? undefined : { rotate: 360 }}
+                        transition={reduce ? undefined : { duration: 0.6 }}
                       >
                         <svg className="h-5 w-5 sm:h-6 sm:w-6" fill="currentColor" viewBox="0 0 20 20" style={{ color: palette.highlight }}>
                           <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -527,3 +528,5 @@ export function Achievements() {
     </section>
   );
 }
+
+export const Achievements = memo(AchievementsInner);

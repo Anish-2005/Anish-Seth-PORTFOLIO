@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import { useReducedMotion } from "framer-motion";
-import { Suspense, useMemo, useRef } from "react";
+import { Suspense, useMemo, useRef, useState, useEffect, memo } from "react";
 import * as THREE from "three";
 
 import { useTheme } from "@/context/ThemeContext";
@@ -138,9 +138,26 @@ function SceneContent({ theme }: { theme: ThemeName }) {
     </group>
   );
 }
-
-export function HeroMicroScene() {
+function HeroMicroSceneInner() {
   const { theme } = useTheme();
+  const reduce = useReducedMotion();
+  const [lowCap, setLowCap] = useState(false);
+
+  useEffect(() => {
+    if (typeof navigator === "undefined") return;
+    const dm = (navigator as { deviceMemory?: number }).deviceMemory;
+    const hc = (navigator as { hardwareConcurrency?: number }).hardwareConcurrency;
+    if (typeof dm === "number" && dm <= 4) setLowCap(true);
+    if (typeof hc === "number" && hc <= 4) setLowCap(true);
+  }, []);
+
+  const dpr = useMemo<number | [number, number]>(() => {
+    if (reduce || lowCap) return 1;
+    return [1, 1.5] as [number, number];
+  }, [reduce, lowCap]);
+
+  const glOptions = useMemo(() => ({ antialias: !lowCap, alpha: true }), [lowCap]);
+  const frameloop: "always" | "demand" = reduce || lowCap ? "demand" : "always";
 
   return (
     <div className="relative aspect-square w-full overflow-hidden rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-1)]">
@@ -152,8 +169,9 @@ export function HeroMicroScene() {
         }
       >
         <Canvas
-          dpr={[1, 1.5]}
-          gl={{ antialias: true, alpha: true }}
+          dpr={dpr}
+          frameloop={frameloop}
+          gl={glOptions}
           camera={{ position: [0, 0.2, 3.1], fov: 42 }}
         >
           <ambientLight intensity={0.55} />
@@ -164,3 +182,5 @@ export function HeroMicroScene() {
     </div>
   );
 }
+
+export const HeroMicroScene = memo(HeroMicroSceneInner);

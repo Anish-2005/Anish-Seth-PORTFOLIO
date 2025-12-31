@@ -1,10 +1,11 @@
-import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
-import { useEffect } from "react";
+import { motion, useMotionValue, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { useEffect, memo } from "react";
 
 import { useTheme } from "@/context/ThemeContext";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
-export function LightBackground() {
+function LightBackgroundInner() {
+  const reduce = useReducedMotion();
   const { isMobile } = useMobileOptimization();
   const { theme } = useTheme();
   const { scrollYProgress } = useScroll();
@@ -28,8 +29,8 @@ export function LightBackground() {
   const bandY = useTransform(scrollYProgress, [0, 1], isMobile ? [0, 0] : [0, -40]);
 
   useEffect(() => {
-    if (isMobile) return;
-    
+    if (isMobile || reduce) return;
+
     const handleMouseMove = (event: MouseEvent) => {
       const x = event.clientX / window.innerWidth;
       const y = event.clientY / window.innerHeight;
@@ -39,7 +40,7 @@ export function LightBackground() {
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [cursorX, cursorY, isMobile]);
+  }, [cursorX, cursorY, isMobile, reduce]);
 
   return (
     <div
@@ -144,8 +145,8 @@ export function LightBackground() {
               backgroundSize: "40px 40px",
               opacity: 0.3,
             }}
-            animate={{ backgroundPosition: ["0px 0px", "40px 40px"] }}
-            transition={{ duration: 25, ease: "linear", repeat: Infinity }}
+            animate={reduce ? undefined : { backgroundPosition: ["0px 0px", "40px 40px"] }}
+            transition={reduce ? undefined : { duration: 25, ease: "linear", repeat: Infinity }}
           />
 
           <motion.div
@@ -170,8 +171,8 @@ export function LightBackground() {
               x: mouseParallaxX,
               y: mouseParallaxY,
             }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 40, ease: "linear", repeat: Infinity }}
+            animate={reduce ? undefined : { rotate: 360 }}
+            transition={reduce ? undefined : { duration: 40, ease: "linear", repeat: Infinity }}
           >
             <div
               className="h-full w-full rounded-full"
@@ -199,8 +200,8 @@ export function LightBackground() {
               filter: "blur(1.2px)",
               transformStyle: "preserve-3d",
             }}
-            animate={{ rotate: 360 }}
-            transition={{ repeat: Infinity, duration: 50, ease: "linear" }}
+            animate={reduce ? undefined : { rotate: 360 }}
+            transition={reduce ? undefined : { repeat: Infinity, duration: 50, ease: "linear" }}
           />
 
           <motion.div
@@ -210,8 +211,8 @@ export function LightBackground() {
               x: mouseParallaxX,
               y: mouseParallaxY,
             }}
-            animate={{ rotate: -360 }}
-            transition={{ duration: 60, ease: "linear", repeat: Infinity }}
+            animate={reduce ? undefined : { rotate: -360 }}
+            transition={reduce ? undefined : { duration: 60, ease: "linear", repeat: Infinity }}
           >
             <div
               className="h-full w-full rounded-full"
@@ -250,3 +251,5 @@ export function LightBackground() {
     </div>
   );
 }
+
+export const LightBackground = memo(LightBackgroundInner);

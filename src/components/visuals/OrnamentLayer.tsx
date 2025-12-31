@@ -1,6 +1,9 @@
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { memo } from "react";
 
-export function OrnamentLayer() {
+function OrnamentLayerInner() {
+  const reduce = useReducedMotion();
+
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 -z-5 overflow-hidden hidden md:block">
       <motion.div
@@ -157,9 +160,11 @@ export function OrnamentLayer() {
           backgroundSize: "240px 240px",
           opacity: 0.28,
         }}
-        animate={{ y: [-4, 6, -4] }}
-        transition={{ repeat: Infinity, duration: 26, ease: "easeInOut" }}
+        animate={reduce ? undefined : { y: [-4, 6, -4] }}
+        transition={reduce ? undefined : { repeat: Infinity, duration: 26, ease: "easeInOut" }}
       />
     </div>
   );
 }
+
+export const OrnamentLayer = memo(OrnamentLayerInner);

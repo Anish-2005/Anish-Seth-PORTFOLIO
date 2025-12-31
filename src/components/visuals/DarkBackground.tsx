@@ -1,7 +1,8 @@
-import { motion, useMotionValue, useScroll, useTransform } from "framer-motion";
-import { useEffect, useState } from "react";
+import { motion, useMotionValue, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { useEffect, useState, memo } from "react";
 
-export function DarkBackground() {
+function DarkBackgroundInner() {
+  const reduce = useReducedMotion();
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < 768);
   const { scrollYProgress } = useScroll();
   
@@ -34,8 +35,8 @@ export function DarkBackground() {
   const meshOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0.1, 0.16, 0.2, 0.24]);
 
   useEffect(() => {
-    if (isMobile) return;
-    
+    if (isMobile || reduce) return;
+
     const handleMouseMove = (event: MouseEvent) => {
       const x = event.clientX / window.innerWidth;
       const y = event.clientY / window.innerHeight;
@@ -45,7 +46,7 @@ export function DarkBackground() {
 
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [cursorX, cursorY, isMobile]);
+  }, [cursorX, cursorY, isMobile, reduce]);
 
   return (
     <div
@@ -146,8 +147,8 @@ export function DarkBackground() {
               backgroundSize: "40px 40px",
               opacity: 0.4,
             }}
-            animate={{ backgroundPosition: ["0px 0px", "40px 40px"] }}
-            transition={{ duration: 30, ease: "linear", repeat: Infinity }}
+            animate={reduce ? undefined : { backgroundPosition: ["0px 0px", "40px 40px"] }}
+            transition={reduce ? undefined : { duration: 30, ease: "linear", repeat: Infinity }}
           />
 
           <motion.div
@@ -172,8 +173,8 @@ export function DarkBackground() {
               x: mouseParallaxX,
               y: mouseParallaxY,
             }}
-            animate={{ rotate: -360 }}
-            transition={{ duration: 45, ease: "linear", repeat: Infinity }}
+            animate={reduce ? undefined : { rotate: -360 }}
+            transition={reduce ? undefined : { duration: 45, ease: "linear", repeat: Infinity }}
           >
             <div
               className="h-full w-full rounded-full"
@@ -201,8 +202,8 @@ export function DarkBackground() {
               filter: "blur(1.2px)",
               transformStyle: "preserve-3d",
             }}
-            animate={{ rotate: -360 }}
-            transition={{ repeat: Infinity, duration: 52, ease: "linear" }}
+            animate={reduce ? undefined : { rotate: -360 }}
+            transition={reduce ? undefined : { repeat: Infinity, duration: 52, ease: "linear" }}
           />
 
           <motion.div
@@ -212,8 +213,8 @@ export function DarkBackground() {
               x: mouseParallaxX,
               y: mouseParallaxY,
             }}
-            animate={{ rotate: 360 }}
-            transition={{ duration: 65, ease: "linear", repeat: Infinity }}
+            animate={reduce ? undefined : { rotate: 360 }}
+            transition={reduce ? undefined : { duration: 65, ease: "linear", repeat: Infinity }}
           >
             <div
               className="h-full w-full rounded-full"
@@ -252,3 +253,5 @@ export function DarkBackground() {
     </div>
   );
 }
+
+export const DarkBackground = memo(DarkBackgroundInner);

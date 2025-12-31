@@ -2,8 +2,9 @@ import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/motion/Reveal";
 import { HeroMicroSceneGate } from "@/components/three/HeroMicroSceneGate";
+import { memo } from "react";
 
-export function ThreeShowcase() {
+function ThreeShowcaseInner() {
   return (
     <section className="relative border-t border-[color:var(--border)] overflow-hidden">
       <div
@@ -38,3 +39,5 @@ export function ThreeShowcase() {
     </section>
   );
 }
+
+export const ThreeShowcase = memo(ThreeShowcaseInner);

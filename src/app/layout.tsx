@@ -3,6 +3,7 @@ import { Inter, Roboto_Mono, Roboto } from "next/font/google";
 import "./globals.css";
 
 import { ThemeProvider } from "@/context/ThemeContext";
+import { FloatingThemeToggle } from "@/components/ui/FloatingThemeToggle";
 import { siteConfig } from "@/lib/site.config";
 
 const heading = Inter({
@@ -215,6 +216,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <StructuredData />
+          <FloatingThemeToggle />
           {children}
         </ThemeProvider>
       </body>

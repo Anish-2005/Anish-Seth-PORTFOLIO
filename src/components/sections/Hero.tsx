@@ -5,7 +5,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, memo } from "react";
 import Image from "next/image";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
@@ -22,7 +22,7 @@ const professionalData = {
   ]
 };
 
-export function Hero() {
+function HeroInner() {
   const reduce = useReducedMotion();
   const { theme } = useTheme();
   const { isMobile } = useMobileOptimization();
@@ -115,11 +115,11 @@ export function Hero() {
             background: `linear-gradient(125deg, ${palette.accentStrong}, ${palette.beam}, transparent 55%)`,
             opacity: opacityProgress
           }}
-          animate={{
+          animate={reduce ? undefined : {
             rotate: [-1.5, -2.2, -1.5],
             scaleX: [1, 1.08, 1]
           }}
-          transition={{
+          transition={reduce ? undefined : {
             duration: 12,
             repeat: Infinity,
             ease: "easeInOut"
@@ -149,12 +149,12 @@ export function Hero() {
           style={{
             background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
           }}
-          animate={{
+          animate={reduce ? undefined : {
             y: [0, -25, 0],
             x: [0, 15, 0],
             scale: [1, 1.12, 1]
           }}
-          transition={{
+          transition={reduce ? undefined : {
             duration: 18,
             repeat: Infinity,
             ease: "easeInOut"
@@ -181,11 +181,11 @@ export function Hero() {
             <motion.div
               className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full"
               style={{ backgroundColor: palette.textSub }}
-              animate={{
+              animate={reduce ? undefined : {
                 scale: [1, 1.3, 1],
                 opacity: [1, 0.6, 1]
               }}
-              transition={{
+              transition={reduce ? undefined : {
                 duration: 2,
                 repeat: Infinity,
                 ease: "easeInOut"
@@ -261,25 +261,18 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="mt-4 sm:mt-6 flex flex-wrap gap-1.5 sm:gap-2"
           >
-            {professionalData.expertise.map((skill, idx) => (
-              <motion.span
+            {professionalData.expertise.map((skill) => (
+              <span
                 key={skill}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 + idx * 0.08 }}
                 className={`rounded-lg px-2.5 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs font-medium ${isMobile ? "" : "backdrop-blur-xl"}`}
                 style={{
                   background: `linear-gradient(135deg, ${palette.accent}, ${palette.beam})`,
                   border: `1px solid ${palette.accentStrong}`,
                   color: palette.text
                 }}
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: `0 0 20px ${palette.glow}`
-                }}
               >
                 {skill}
-              </motion.span>
+              </span>
             ))}
           </motion.div>
 
@@ -346,11 +339,11 @@ export function Hero() {
               style={{
                 background: `radial-gradient(circle at 50% 50%, ${palette.glow}, transparent 65%)`
               }}
-              animate={{
+              animate={reduce ? undefined : {
                 scale: [1, 1.2, 1],
                 opacity: [0.4, 0.65, 0.4]
               }}
-              transition={{
+              transition={reduce ? undefined : {
                 duration: 8,
                 repeat: Infinity,
                 ease: "easeInOut"
@@ -369,10 +362,10 @@ export function Hero() {
                     : "conic-gradient(from 0deg, #f87171, #fb7185, #f87171, #fb7185, #f87171)",
                   opacity: 0.4
                 }}
-                animate={{
+                animate={reduce ? undefined : {
                   rotate: 360
                 }}
-                transition={{
+                transition={reduce ? undefined : {
                   duration: 12,
                   repeat: Infinity,
                   ease: "linear"
@@ -431,11 +424,11 @@ export function Hero() {
                   background: theme === "light" ? "#e74974" : "#fb7185",
                   boxShadow: `0 0 15px ${palette.glow}`
                 }}
-                animate={{
+                animate={reduce ? undefined : {
                   y: [0, -12, 0],
                   scale: [1, 1.2, 1]
                 }}
-                transition={{
+                transition={reduce ? undefined : {
                   duration: 3,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -448,11 +441,11 @@ export function Hero() {
                   background: theme === "light" ? "#d73333" : "#f87171",
                   boxShadow: `0 0 12px ${palette.glow}`
                 }}
-                animate={{
+                animate={reduce ? undefined : {
                   y: [0, 10, 0],
                   scale: [1, 1.3, 1]
                 }}
-                transition={{
+                transition={reduce ? undefined : {
                   duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut",
@@ -467,3 +460,5 @@ export function Hero() {
     </section>
   );
 }
+
+export const Hero = memo(HeroInner);

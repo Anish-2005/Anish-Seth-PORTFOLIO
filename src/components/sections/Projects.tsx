@@ -1,9 +1,10 @@
 "use client";
 
 import { Container } from "@/components/ui/Container";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useTheme } from "@/context/ThemeContext";
-import { useMemo, useRef, useState, useEffect } from "react";import { useMobileOptimization } from "@/hooks/useMobileOptimization";
+import { useMemo, useRef, useState, useEffect, memo } from "react";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 // Showcase projects with impactful visuals
 const showcaseProjects = [
   {
@@ -80,7 +81,8 @@ const showcaseProjects = [
   }
 ];
 
-export function Projects() {
+function ProjectsInner() {
+  const reduce = useReducedMotion();
   const { theme } = useTheme();
   const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
@@ -182,11 +184,11 @@ export function Projects() {
               <motion.div
                 className="pointer-events-none absolute -left-20 -top-10 h-40 w-40 rounded-full blur-3xl"
                 style={{ background: palette.glow }}
-                animate={{
+                animate={reduce ? undefined : {
                   scale: [1, 1.2, 1],
                   opacity: [0.3, 0.5, 0.3],
                 }}
-                transition={{
+                transition={reduce ? undefined : {
                   duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -521,3 +523,5 @@ export function Projects() {
     </section>
   );
 }
+
+export const Projects = memo(ProjectsInner);

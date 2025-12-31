@@ -105,8 +105,7 @@ export function SinglePagePortfolio() {
         style={{
           background:
             "linear-gradient(110deg, color-mix(in_oklab, var(--section-color) 90%, transparent) 0%, color-mix(in_oklab, var(--section-color) 65%, transparent) 30%, transparent 72%), radial-gradient(90% 180% at 60% 40%, color-mix(in_oklab, var(--section-color) 60%, transparent), transparent)",
-          maskImage:
-            "linear-gradient(180deg, transparent 0%, black 14%, black 86%, transparent 100%)",
+          // maskImage removed to prevent black gradient overlay
           filter: "blur(10px)",
         }}
       />

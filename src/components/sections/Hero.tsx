@@ -207,8 +207,6 @@ export function Hero() {
               lineHeight: 1.1
             }}
           >
-            {professionalData.name.split(" ")[0]}
-            <br />
             <span
               className="bg-clip-text text-transparent"
               style={{
@@ -219,7 +217,7 @@ export function Hero() {
                 animation: "shimmer 6s ease-in-out infinite"
               }}
             >
-              {professionalData.name.split(" ")[1]}
+              {professionalData.name}
             </span>
           </motion.h1>
 

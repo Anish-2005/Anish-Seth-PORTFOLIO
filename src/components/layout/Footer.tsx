@@ -48,10 +48,6 @@ export function Footer() {
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          maskImage:
-            "linear-gradient(0deg, transparent 0%, black 20%, black 80%, transparent 100%)",
-        }}
       >
         {/* Disable heavy animations on mobile */}
         {!isMobile ? (

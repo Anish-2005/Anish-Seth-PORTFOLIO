@@ -41,16 +41,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme]);
 
   const setTheme = useCallback((next: ThemeName) => {
-    setThemeState(next);
-    if (typeof window !== "undefined") {
-      localStorage.setItem(STORAGE_KEY, next);
-    }
+    setThemeState(() => {
+      if (typeof window !== "undefined") {
+        localStorage.setItem(STORAGE_KEY, next);
+      }
+      return next;
+    });
   }, []);
 
   const toggle = useCallback(() => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-  }, [theme, setTheme]);
+    setThemeState((prev) => {
+      const next = prev === "dark" ? "light" : "dark";
+      if (typeof window !== "undefined") {
+        localStorage.setItem(STORAGE_KEY, next);
+      }
+      return next;
+    });
+  }, []);
 
   const value = useMemo<ThemeContextValue>(
     () => ({

@@ -27,29 +27,29 @@ export function Header() {
     () =>
       theme === "light"
         ? {
-            bg: "rgba(255, 255, 255, 0.75)",
-            border: "rgba(211, 51, 51, 0.12)",
-            glass: "rgba(255, 255, 255, 0.85)",
-            accent: "#d73333",
-            accentSoft: "rgba(211, 51, 51, 0.1)",
-            accentGlow: "rgba(211, 51, 51, 0.25)",
-            text: "#2c1810",
-            textSub: "#6b4a3a",
-            shadow: "0 4px 20px rgba(211, 51, 51, 0.08)",
-            shadowHover: "0 8px 30px rgba(211, 51, 51, 0.15)",
-          }
+          bg: "rgba(255, 255, 255, 0.75)",
+          border: "rgba(211, 51, 51, 0.12)",
+          glass: "rgba(255, 255, 255, 0.85)",
+          accent: "#d73333",
+          accentSoft: "rgba(211, 51, 51, 0.1)",
+          accentGlow: "rgba(211, 51, 51, 0.25)",
+          text: "#2c1810",
+          textSub: "#6b4a3a",
+          shadow: "0 4px 20px rgba(211, 51, 51, 0.08)",
+          shadowHover: "0 8px 30px rgba(211, 51, 51, 0.15)",
+        }
         : {
-            bg: "rgba(15, 6, 11, 0.75)",
-            border: "rgba(248, 113, 113, 0.15)",
-            glass: "rgba(15, 6, 11, 0.85)",
-            accent: "#fb7185",
-            accentSoft: "rgba(248, 113, 113, 0.12)",
-            accentGlow: "rgba(248, 113, 113, 0.3)",
-            text: "#fef2f2",
-            textSub: "#fca5a5",
-            shadow: "0 4px 20px rgba(248, 113, 113, 0.1)",
-            shadowHover: "0 8px 30px rgba(248, 113, 113, 0.2)",
-          },
+          bg: "rgba(15, 6, 11, 0.75)",
+          border: "rgba(248, 113, 113, 0.15)",
+          glass: "rgba(15, 6, 11, 0.85)",
+          accent: "#fb7185",
+          accentSoft: "rgba(248, 113, 113, 0.12)",
+          accentGlow: "rgba(248, 113, 113, 0.3)",
+          text: "#fef2f2",
+          textSub: "#fca5a5",
+          shadow: "0 4px 20px rgba(248, 113, 113, 0.1)",
+          shadowHover: "0 8px 30px rgba(248, 113, 113, 0.2)",
+        },
     [theme]
   );
 
@@ -69,7 +69,7 @@ export function Header() {
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
     >
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 pointer-events-none"
         style={{
           backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
           WebkitBackdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
@@ -79,14 +79,16 @@ export function Header() {
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       />
+
       <motion.div
-        className="absolute inset-x-0 bottom-0 h-px"
+        className="absolute inset-x-0 bottom-0 h-px pointer-events-none"
         animate={{
           opacity: scrolled ? 1 : 0,
           background: scrolled ? palette.border : "transparent",
         }}
         transition={{ duration: 0.3 }}
       />
+
       <motion.div
         className="absolute inset-0 pointer-events-none"
         animate={{
@@ -116,7 +118,7 @@ export function Header() {
         />
       )}
 
-      <motion.div 
+      <motion.div
         className="relative mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
         animate={{
           height: scrolled ? "3.5rem" : "4rem",
@@ -151,7 +153,7 @@ export function Header() {
               width: scrolled ? "1.75rem" : "2.25rem",
               boxShadow: scrolled ? "0 2px 10px rgba(211, 51, 51, 0.15)" : palette.shadow,
             }}
-            whileHover={{ 
+            whileHover={{
               boxShadow: palette.shadowHover
             }}
             whileTap={{ scale: 0.95 }}
@@ -169,8 +171,8 @@ export function Header() {
               transition={{ duration: 0.3 }}
             />
           </motion.div>
-          
-          <motion.span 
+
+          <motion.span
             className="relative text-sm sm:text-base font-bold tracking-tight"
             style={{ color: palette.text }}
             animate={{
@@ -193,7 +195,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <motion.nav 
+        <motion.nav
           className="hidden lg:flex items-center"
           animate={{
             gap: scrolled ? "0.125rem" : "0.25rem",
@@ -206,7 +208,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className="group relative rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-                style={{ 
+                style={{
                   color: palette.textSub,
                   outlineColor: palette.accent,
                 }}
@@ -256,11 +258,14 @@ export function Header() {
         </motion.nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="relative z-10 flex items-center gap-1.5 sm:gap-2">
           {/* Theme Toggle */}
           <motion.button
             type="button"
-            onClick={toggle}
+            onPointerDown={(e) => {
+              e.preventDefault();
+              toggle();
+            }}
             aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
             className="relative inline-flex items-center justify-center rounded-lg transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 p-1"
             style={{
@@ -275,6 +280,7 @@ export function Header() {
             }}
             transition={{ duration: 0.15 }}
           >
+
             <motion.div
               animate={{
                 scale: scrolled ? 0.75 : 0.85,
@@ -309,7 +315,7 @@ export function Header() {
               fontSize: scrolled ? "0.75rem" : "0.875rem",
               boxShadow: scrolled ? "0 2px 15px rgba(211, 51, 51, 0.2)" : palette.shadow,
             }}
-            whileHover={{ 
+            whileHover={{
               boxShadow: palette.shadowHover
             }}
             whileTap={{ scale: 0.98, y: 0 }}
@@ -334,11 +340,11 @@ export function Header() {
               transition={{ duration: 0.3 }}
             />
             <span className="relative z-10">Contact</span>
-            <motion.svg 
-              className="relative z-10 h-3 w-3 sm:h-4 sm:w-4" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor" 
+            <motion.svg
+              className="relative z-10 h-3 w-3 sm:h-4 sm:w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
               strokeWidth={2}
               animate={{
                 scale: scrolled ? 0.85 : 1,
@@ -425,19 +431,19 @@ export function Header() {
                   }, 100);
                 }}
                 className="group relative rounded-lg px-4 py-3 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 text-left w-full cursor-pointer"
-                style={{ 
+                style={{
                   color: palette.textSub,
                   outlineColor: palette.accent,
                   border: `1px solid ${palette.border}`,
                   background: "transparent",
                 }}
                 initial={{ opacity: 0, x: -20 }}
-                animate={{ 
+                animate={{
                   opacity: mobileMenuOpen ? 1 : 0,
                   x: mobileMenuOpen ? 0 : -20,
                 }}
-                transition={{ 
-                  duration: 0.3, 
+                transition={{
+                  duration: 0.3,
                   delay: mobileMenuOpen ? index * 0.05 : 0,
                 }}
                 whileTap={{ scale: 0.98 }}
@@ -453,7 +459,7 @@ export function Header() {
                 <span className="relative z-10">{item.label}</span>
               </motion.button>
             ))}
-            
+
             {/* Mobile Contact Button */}
             <motion.button
               onClick={(e) => {
@@ -474,12 +480,12 @@ export function Header() {
                 outlineColor: palette.accent,
               }}
               initial={{ opacity: 0, y: 10 }}
-              animate={{ 
+              animate={{
                 opacity: mobileMenuOpen ? 1 : 0,
                 y: mobileMenuOpen ? 0 : 10,
               }}
-              transition={{ 
-                duration: 0.3, 
+              transition={{
+                duration: 0.3,
                 delay: mobileMenuOpen ? NAV_ITEMS.length * 0.05 : 0,
               }}
               whileTap={{ scale: 0.98 }}

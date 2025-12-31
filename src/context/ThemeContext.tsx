@@ -26,7 +26,13 @@ function applyThemeVars(theme: ThemeName) {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeName>("dark");
+  const [theme, setThemeState] = useState<ThemeName>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem(STORAGE_KEY) as ThemeName | null;
+      if (stored && themes[stored]) return stored;
+    }
+    return "dark";
+  });
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY) as ThemeName | null;

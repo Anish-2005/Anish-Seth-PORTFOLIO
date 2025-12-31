@@ -20,6 +20,10 @@
 	--beam-1: rgba(255, 255, 255, 0.16);
 	--beam-2: rgba(102, 237, 255, 0.24);
 	--section-color: rgba(34, 211, 238, 0.18);
+	--scrollbar-bg: rgba(255,255,255,0.02);
+	--scrollbar-thumb: rgba(34,211,238,0.18);
+	--scrollbar-thumb-hover: rgba(34,211,238,0.28);
+	--scrollbar-width: 12px;
 }
 
 * {
@@ -184,4 +188,36 @@ body {
 		-webkit-backface-visibility: hidden;
 		backface-visibility: hidden;
 	}
+}
+
+/* Custom scrollbars (theming-friendly) */
+* {
+	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
+	scrollbar-width: thin;
+}
+
+/* WebKit-based browsers */
+::-webkit-scrollbar {
+	width: var(--scrollbar-width);
+	height: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+	background: var(--scrollbar-bg);
+	border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--scrollbar-thumb);
+	border-radius: 999px;
+	border: 3px solid var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--scrollbar-thumb-hover);
+}
+
+/* Ensure high-contrast focus for keyboard users */
+*:focus {
+	outline-color: color-mix(in_oklab, var(--accent) 40%, transparent);
 }

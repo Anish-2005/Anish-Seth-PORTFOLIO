@@ -29,6 +29,10 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
       "--beam-1": "rgba(255, 255, 255, 0.2)",
       "--beam-2": "rgba(82, 227, 255, 0.22)",
       "--section-color": "rgba(34, 211, 238, 0.22)",
+      "--scrollbar-bg": "rgba(255,255,255,0.02)",
+      "--scrollbar-thumb": "rgba(34,211,238,0.18)",
+      "--scrollbar-thumb-hover": "rgba(34,211,238,0.28)",
+      "--scrollbar-width": "12px",
     },
   },
   light: {
@@ -53,6 +57,10 @@ export const themes: Record<ThemeName, ThemeDefinition> = {
       "--beam-1": "rgba(12, 74, 110, 0.12)",
       "--beam-2": "rgba(94, 234, 212, 0.16)",
       "--section-color": "rgba(20, 184, 166, 0.14)",
+      "--scrollbar-bg": "rgba(12, 18, 32, 0.04)",
+      "--scrollbar-thumb": "rgba(12, 18, 32, 0.18)",
+      "--scrollbar-thumb-hover": "rgba(12, 18, 32, 0.26)",
+      "--scrollbar-width": "12px",
     },
   },
 };

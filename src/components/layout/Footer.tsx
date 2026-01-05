@@ -33,7 +33,7 @@ export function Footer() {
 
   const socialLinks = [
     { label: "GitHub", href: siteConfig.sameAs.github },
-    { label: "LinkedIn", href: siteConfig.sameAs.linkedIn },
+    { label: "LinkedIn", href: siteConfig.sameAs.linkedin },
     { label: "Email", href: siteConfig.sameAs.email },
   ];
 

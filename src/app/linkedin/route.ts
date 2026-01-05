@@ -2,5 +2,5 @@ import { NextResponse } from "next/server";
 import { siteConfig } from "@/lib/site.config";
 
 export async function GET() {
-  return NextResponse.redirect(siteConfig.sameAs.linkedIn, 308);
+  return NextResponse.redirect(siteConfig.sameAs.linkedin, 308);
 }

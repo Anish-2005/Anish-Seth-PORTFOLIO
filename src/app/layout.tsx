@@ -210,6 +210,9 @@ export default function RootLayout({
         <link rel="canonical" href="https://anishseth.xyz/" />
         <link rel="me" href={siteConfig.sameAs.github} />
         <link rel="me" href={siteConfig.sameAs.linkedIn} />
+        <link rel="icon" type="image/png" href="/favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </head>
       <body
         className={`${heading.variable} ${body.variable} ${mono.variable} antialiased`}

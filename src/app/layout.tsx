@@ -145,8 +145,9 @@ function StructuredData() {
     },
     sameAs: [
       siteConfig.sameAs.github,
-      siteConfig.sameAs.linkedIn,
+      siteConfig.sameAs.linkedin,
       siteConfig.sameAs.email,
+      siteConfig.sameAs.website,
     ].filter(Boolean),
     knowsAbout: [
       "Full-Stack Development",
@@ -208,8 +209,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="canonical" href="https://anishseth.xyz/" />
-        <link rel="me" href={siteConfig.sameAs.github} />
-        <link rel="me" href={siteConfig.sameAs.linkedIn} />
+             <link rel="me" href={siteConfig.sameAs.github} />
+             <link rel="me" href={siteConfig.sameAs.linkedin} />
         <link rel="icon" type="image/png" href="/favicon.ico" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

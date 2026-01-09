@@ -1,7 +1,14 @@
 import { motion } from "framer-motion";
 import { memo } from "react";
+import type { AboutData, AboutPalette } from "./types";
 
-const SkillsCard = memo(function SkillsCard({ aboutData, palette, isMobile }: any) {
+type SkillsCardProps = {
+  aboutData: AboutData;
+  palette: AboutPalette;
+  isMobile: boolean;
+};
+
+const SkillsCard = memo(function SkillsCard({ aboutData, palette, isMobile }: SkillsCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -40 }}

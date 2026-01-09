@@ -1,10 +1,17 @@
 import { motion } from "framer-motion";
 import { memo } from "react";
+import type { AboutPalette, Principle } from "./types";
 
-const PrinciplesGrid = memo(function PrinciplesGrid({ principles, palette, isMobile }: any) {
+type PrinciplesGridProps = {
+  principles: Principle[];
+  palette: AboutPalette;
+  isMobile: boolean;
+};
+
+const PrinciplesGrid = memo(function PrinciplesGrid({ principles, palette, isMobile }: PrinciplesGridProps) {
   return (
     <div className="mt-10 sm:mt-16 grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {principles.map((principle: any, idx: number) => {
+      {principles.map((principle, idx) => {
         const IconComponent = principle.icon;
         return (
           <motion.div

@@ -1,7 +1,16 @@
 import { motion } from "framer-motion";
 import { memo } from "react";
+import type { AboutData, AboutPalette } from "./types";
+import type { ThemeName } from "@/lib/themes";
 
-const JourneyTimeline = memo(function JourneyTimeline({ aboutData, palette, isMobile, theme }: any) {
+type JourneyTimelineProps = {
+  aboutData: AboutData;
+  palette: AboutPalette;
+  isMobile: boolean;
+  theme: ThemeName;
+};
+
+const JourneyTimeline = memo(function JourneyTimeline({ aboutData, palette, isMobile, theme }: JourneyTimelineProps) {
   return (
     <motion.div
       initial={{ opacity: 0, x: 40 }}
@@ -29,7 +38,7 @@ const JourneyTimeline = memo(function JourneyTimeline({ aboutData, palette, isMo
           Evolution as a developer
         </p>
         <div className="mt-6 sm:mt-8 space-y-6 sm:space-y-8">
-          {aboutData.journey.map((item: any, idx: number) => (
+          {aboutData.journey.map((item, idx) => (
             <motion.div
               key={item.year}
               initial={{ opacity: 0, x: -20 }}

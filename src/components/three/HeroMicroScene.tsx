@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Html } from "@react-three/drei";
 import { useReducedMotion } from "framer-motion";
-import { Suspense, useMemo, useRef, useState, useEffect, memo } from "react";
+import { Suspense, useMemo, useRef, memo } from "react";
 import * as THREE from "three";
 
 import { useTheme } from "@/context/ThemeContext";
@@ -138,18 +138,18 @@ function SceneContent({ theme }: { theme: ThemeName }) {
     </group>
   );
 }
+const hasLowCapability = () => {
+  if (typeof navigator === "undefined") return false;
+  const { deviceMemory, hardwareConcurrency } = navigator as { deviceMemory?: number; hardwareConcurrency?: number };
+  const limitedMemory = typeof deviceMemory === "number" && deviceMemory <= 4;
+  const limitedCores = typeof hardwareConcurrency === "number" && hardwareConcurrency <= 4;
+  return limitedMemory || limitedCores;
+};
+
 function HeroMicroSceneInner() {
   const { theme } = useTheme();
   const reduce = useReducedMotion();
-  const [lowCap, setLowCap] = useState(false);
-
-  useEffect(() => {
-    if (typeof navigator === "undefined") return;
-    const dm = (navigator as { deviceMemory?: number }).deviceMemory;
-    const hc = (navigator as { hardwareConcurrency?: number }).hardwareConcurrency;
-    if (typeof dm === "number" && dm <= 4) setLowCap(true);
-    if (typeof hc === "number" && hc <= 4) setLowCap(true);
-  }, []);
+  const lowCap = useMemo(() => hasLowCapability(), []);
 
   const dpr = useMemo<number | [number, number]>(() => {
     if (reduce || lowCap) return 1;

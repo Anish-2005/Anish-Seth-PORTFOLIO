@@ -130,6 +130,7 @@ export function Header() {
         {/* Logo */}
         <Link
           href="#info"
+          aria-label="Return to the introduction section"
           className="group relative inline-flex items-center gap-2 sm:gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
           style={{
             outlineColor: palette.accent
@@ -145,23 +146,69 @@ export function Header() {
           }}
         >
           <motion.div
-            className="relative flex items-center justify-center overflow-hidden rounded-lg text-xs sm:text-sm font-bold"
-            style={{
-              background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentGlow})`,
-              color: "white",
-            }}
+            className="relative flex items-center justify-center"
+            style={{}}
             animate={{
-              height: scrolled ? "1.75rem" : "2.25rem",
-              width: scrolled ? "1.75rem" : "2.25rem",
-              boxShadow: scrolled ? "0 2px 10px rgba(211, 51, 51, 0.15)" : palette.shadow,
+              height: scrolled ? "2.25rem" : "2.75rem",
+              width: scrolled ? "2.25rem" : "2.75rem",
+              boxShadow: "none",
             }}
-            whileHover={{
-              boxShadow: palette.shadowHover
-            }}
+            whileHover={{}}
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.15 }}
           >
-            AS
+            <motion.svg
+              aria-hidden
+              viewBox="0 0 64 64"
+              className="relative z-10 h-8 w-8 sm:h-10 sm:w-10"
+              animate={{
+                rotate: scrolled ? 0 : -2,
+                scale: scrolled ? 0.9 : 1,
+              }}
+              whileHover={{ rotate: 3 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+            >
+              <defs>
+                <linearGradient id="brandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor={palette.accent} />
+                  <stop offset="100%" stopColor={palette.text} stopOpacity={0.6} />
+                </linearGradient>
+                <radialGradient id="brandGlow" cx="35%" cy="30%" r="80%">
+                  <stop offset="0%" stopColor={palette.accent} stopOpacity={0.95} />
+                  <stop offset="60%" stopColor={palette.accentGlow} stopOpacity={0.6} />
+                  <stop offset="100%" stopColor="rgba(15, 6, 11, 0)" stopOpacity={0} />
+                </radialGradient>
+              </defs>
+              <circle cx="32" cy="32" r="28" fill="url(#brandGlow)" opacity="0.85" />
+              <circle cx="32" cy="32" r="22" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" />
+              <path
+                d="M20 44c0-5.5 3.8-8 9.5-8h8.5c5.7 0 9.5-2.5 9.5-8s-3.8-8-9.5-8H28.5c-5.7 0-9.5-2.5-9.5-8"
+                fill="none"
+                stroke="url(#brandGradient)"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeOpacity={0.9}
+              />
+              <path
+                d="M20 46L32 18l12 28"
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeOpacity={0.85}
+              />
+              <path
+                d="M24 36h16"
+                stroke="#ffffff"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeOpacity={0.65}
+              />
+              <circle cx="45" cy="18" r="3" fill="#ffffff" fillOpacity={0.85} />
+            </motion.svg>
+
             <motion.div
               aria-hidden
               className="absolute inset-0"
@@ -173,27 +220,7 @@ export function Header() {
               transition={{ duration: 0.3 }}
             />
           </motion.div>
-
-          <motion.span
-            className="relative text-sm sm:text-base font-bold tracking-tight"
-            style={{ color: palette.text }}
-            animate={{
-              fontSize: scrolled ? "0.875rem" : "1rem",
-              opacity: scrolled ? 0.9 : 1,
-            }}
-            transition={{ duration: 0.2 }}
-          >
-            <span className="hidden sm:inline">Anish Seth</span>
-            <span className="sm:hidden">AS</span>
-            <motion.span
-              aria-hidden
-              className="absolute -bottom-1 left-0 h-0.5 rounded-full"
-              style={{ background: palette.accent }}
-              initial={{ width: 0 }}
-              whileHover={{ width: "100%" }}
-              transition={{ duration: 0.3 }}
-            />
-          </motion.span>
+          <span className="sr-only">Anish Seth</span>
         </Link>
 
         {/* Desktop Navigation */}

@@ -10,6 +10,7 @@ import { useTheme } from "@/context/ThemeContext";
 const About = lazy(() => import("@/components/sections/About").then(m => ({ default: m.About })));
 const Projects = lazy(() => import("@/components/sections/Projects").then(m => ({ default: m.Projects })));
 const Achievements = lazy(() => import("@/components/sections/Achievements").then(m => ({ default: m.Achievements })));
+const GitHubStreak = lazy(() => import("@/components/sections/GitHubStreak").then(m => ({ default: m.GitHubStreak })));
 const Contact = lazy(() => import("@/components/sections/Contact").then(m => ({ default: m.Contact })));
 const OrnamentLayer = lazy(() => import("@/components/visuals/OrnamentLayer").then(m => ({ default: m.OrnamentLayer })));
 const LightBackground = lazy(() => import("@/components/visuals/LightBackground").then(m => ({ default: m.LightBackground })));
@@ -152,6 +153,13 @@ export function SinglePagePortfolio() {
         </Suspense>
         <Suspense fallback={null}>
           <SectionWrap index={4}>
+            <motion.div onViewportEnter={() => setTone("showcase")}> 
+              <GitHubStreak />
+            </motion.div>
+          </SectionWrap>
+        </Suspense>
+        <Suspense fallback={null}>
+          <SectionWrap index={5}>
             <motion.div onViewportEnter={() => setTone("contact")}> 
               <Contact />
             </motion.div>

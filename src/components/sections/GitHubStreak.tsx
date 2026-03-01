@@ -2,13 +2,181 @@
 
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { useTheme } from "@/context/ThemeContext";
+import { useEffect, useMemo, useState } from "react";
+
+type ContributionDay = {
+  date: string;
+  count: number;
+  level: number;
+};
+
+type ContributionResponse = {
+  total?: Record<string, number>;
+  contributions?: ContributionDay[];
+};
+
+function toISODateUtc(date: Date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function parseISODateUtc(dateString: string) {
+  return new Date(`${dateString}T00:00:00.000Z`);
+}
 
 export function GitHubStreak() {
   const { theme } = useTheme();
+  const [contributions, setContributions] = useState<ContributionDay[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedRange, setSelectedRange] = useState<string>("last-365");
 
-  const streakTheme = theme === "light" ? "default" : "tokyonight";
-  const streakImageUrl = `https://streak-stats.demolab.com?user=Anish-2005&theme=${streakTheme}&hide_border=true&border_radius=16&background=transparent&ring=fb7185&fire=fb7185&currStreakLabel=fca5a5&dates=94a3b8&sideNums=f8fafc&currStreakNum=f8fafc`;
+  useEffect(() => {
+    let active = true;
+
+    const loadContributions = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch("https://github-contributions-api.jogruber.de/v4/Anish-2005", {
+          cache: "no-store"
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to load contributions (${response.status})`);
+        }
+
+        const data = (await response.json()) as ContributionResponse;
+        if (!active) {
+          return;
+        }
+
+        const normalized = Array.isArray(data.contributions) ? data.contributions : [];
+        setContributions(normalized);
+      } catch (err) {
+        if (!active) {
+          return;
+        }
+        const message = err instanceof Error ? err.message : "Unable to load contribution data";
+        setError(message);
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    };
+
+    void loadContributions();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const sortedDays = useMemo(() => {
+    return [...contributions].sort((a, b) => a.date.localeCompare(b.date));
+  }, [contributions]);
+
+  const availableYears = useMemo(() => {
+    const years = new Set<number>();
+    for (const day of sortedDays) {
+      years.add(parseISODateUtc(day.date).getUTCFullYear());
+    }
+    return Array.from(years).sort((a, b) => b - a);
+  }, [sortedDays]);
+
+  const filteredDays = useMemo(() => {
+    if (sortedDays.length === 0) {
+      return [] as ContributionDay[];
+    }
+
+    const byDate = new Map(sortedDays.map((entry) => [entry.date, entry]));
+    const days: ContributionDay[] = [];
+    const today = new Date();
+    const endDate = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()));
+
+    let startDate: Date;
+    let rangeEndDate: Date;
+
+    if (selectedRange === "last-365") {
+      startDate = new Date(endDate);
+      startDate.setUTCDate(startDate.getUTCDate() - 364);
+      rangeEndDate = endDate;
+    } else {
+      const year = Number(selectedRange);
+      if (Number.isNaN(year)) {
+        return [] as ContributionDay[];
+      }
+      startDate = new Date(Date.UTC(year, 0, 1));
+      const yearEnd = new Date(Date.UTC(year, 11, 31));
+      rangeEndDate = year === endDate.getUTCFullYear() ? endDate : yearEnd;
+    }
+
+    const cursor = new Date(startDate);
+    while (cursor <= rangeEndDate) {
+      const key = toISODateUtc(cursor);
+      days.push(byDate.get(key) ?? { date: key, count: 0, level: 0 });
+      cursor.setUTCDate(cursor.getUTCDate() + 1);
+    }
+
+    return days;
+  }, [selectedRange, sortedDays]);
+
+  const totalForRange = useMemo(() => {
+    return filteredDays.reduce((total, day) => total + day.count, 0);
+  }, [filteredDays]);
+
+  const gridData = useMemo(() => {
+    if (filteredDays.length === 0) {
+      return { weeks: [] as ContributionDay[][], monthLabels: [] as Array<{ index: number; label: string }> };
+    }
+
+    const byDate = new Map(filteredDays.map((entry) => [entry.date, entry]));
+    const firstDate = parseISODateUtc(filteredDays[0].date);
+    const lastDate = parseISODateUtc(filteredDays[filteredDays.length - 1].date);
+
+    const start = new Date(firstDate);
+    start.setUTCDate(start.getUTCDate() - start.getUTCDay());
+
+    const end = new Date(lastDate);
+    end.setUTCDate(end.getUTCDate() + (6 - end.getUTCDay()));
+
+    const weeks: ContributionDay[][] = [];
+    const monthLabels: Array<{ index: number; label: string }> = [];
+
+    let cursor = new Date(start);
+    let weekIndex = 0;
+    let previousMonth: number | null = null;
+
+    while (cursor <= end) {
+      const week: ContributionDay[] = [];
+
+      for (let i = 0; i < 7; i++) {
+        const key = toISODateUtc(cursor);
+        week.push(byDate.get(key) ?? { date: key, count: 0, level: 0 });
+        cursor.setUTCDate(cursor.getUTCDate() + 1);
+      }
+
+      const month = parseISODateUtc(week[0].date).getUTCMonth();
+      if (month !== previousMonth) {
+        monthLabels.push({
+          index: weekIndex,
+          label: parseISODateUtc(week[0].date).toLocaleString("en-US", { month: "short", timeZone: "UTC" })
+        });
+        previousMonth = month;
+      }
+
+      weeks.push(week);
+      weekIndex += 1;
+    }
+
+    return { weeks, monthLabels };
+  }, [filteredDays]);
+
+  const levelColors =
+    theme === "light"
+      ? ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"]
+      : ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
 
   return (
     <section id="streak" className="relative border-t border-[color:var(--border)] py-16 sm:py-20 md:py-24 lg:py-28">
@@ -20,17 +188,12 @@ export function GitHubStreak() {
           transition={{ duration: 0.6 }}
           className="mx-auto max-w-5xl"
         >
-          <div className="text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.28em] text-[color:var(--accent)]">
-              GitHub Momentum
-            </p>
-            <h2 className="mt-3 text-3xl font-bold tracking-tight text-[color:var(--text-0)] sm:text-4xl md:text-5xl">
-              Commit Streak
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[color:var(--text-1)] sm:text-base">
-              A live snapshot of my consistency and shipping rhythm from GitHub activity.
-            </p>
-          </div>
+          <SectionHeading
+            className="mx-auto text-center"
+            eyebrow="GITHUB MOMENTUM"
+            title="Commit streak"
+            description="Daily GitHub contribution heatmap with year-long activity totals."
+          />
 
           <motion.div
             initial={{ opacity: 0, y: 18 }}
@@ -39,19 +202,104 @@ export function GitHubStreak() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-8 overflow-hidden rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-1)] p-3 shadow-[var(--glow)] sm:mt-10 sm:rounded-3xl sm:p-5"
           >
-            <div className="overflow-hidden rounded-xl sm:rounded-2xl">
-              <img
-                src={streakImageUrl}
-                alt="GitHub commit streak for Anish Seth"
-                loading="lazy"
-                className="block h-auto w-full"
-              />
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3 sm:mb-5">
+              <p className="text-xs text-[color:var(--text-2)] sm:text-sm">Contribution range</p>
+              <label className="inline-flex items-center gap-2 text-xs text-[color:var(--text-2)] sm:text-sm">
+                <span className="sr-only">Select contribution year range</span>
+                <select
+                  value={selectedRange}
+                  onChange={(event) => setSelectedRange(event.target.value)}
+                  className="rounded-md border border-[color:var(--border)] bg-[color:var(--surface-2)] px-2.5 py-1.5 text-xs font-medium text-[color:var(--text-0)] outline-none transition focus:ring-2 focus:ring-[color:var(--accent)] sm:text-sm"
+                >
+                  <option value="last-365">Last 365 days</option>
+                  {availableYears.map((year) => (
+                    <option key={year} value={String(year)}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
+
+            {loading ? (
+              <div className="rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] p-4 sm:rounded-2xl sm:p-5">
+                <p className="text-sm text-[color:var(--text-1)]">Loading contribution graph...</p>
+              </div>
+            ) : error || gridData.weeks.length === 0 ? (
+              <div className="rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] p-4 sm:rounded-2xl sm:p-5">
+                <p className="text-sm text-[color:var(--text-1)]">Unable to load live graph right now.</p>
+                <a
+                  href="https://github.com/Anish-2005"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--text-0)] underline underline-offset-4"
+                >
+                  View contributions on GitHub
+                </a>
+              </div>
+            ) : (
+              <div className="overflow-x-auto rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] p-3 sm:rounded-2xl sm:p-4">
+                <div className="min-w-[780px]">
+                  <div className="relative mb-3 h-5 pl-8 text-[11px] text-[color:var(--text-2)] sm:text-xs">
+                    {gridData.monthLabels.map((month) => (
+                      <span
+                        key={`${month.label}-${month.index}`}
+                        className="absolute"
+                        style={{ left: `${month.index * 14}px` }}
+                      >
+                        {month.label}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="flex gap-2">
+                    <div className="flex w-6 flex-col justify-between py-[2px] text-[10px] text-[color:var(--text-2)] sm:text-xs">
+                      <span>Mon</span>
+                      <span>Wed</span>
+                      <span>Fri</span>
+                    </div>
+
+                    <div className="flex gap-[3px]">
+                      {gridData.weeks.map((week, weekIndex) => (
+                        <div key={`week-${weekIndex}`} className="flex flex-col gap-[3px]">
+                          {week.map((day) => (
+                            <div
+                              key={day.date}
+                              title={`${day.count} contributions on ${day.date}`}
+                              className="h-[11px] w-[11px] rounded-[2px]"
+                              style={{ backgroundColor: levelColors[Math.min(Math.max(day.level, 0), 4)] }}
+                            />
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 sm:mt-5">
               <p className="text-xs text-[color:var(--text-2)] sm:text-sm">
-                Live data powered by GitHub streak stats
+                {totalForRange > 0
+                  ? selectedRange === "last-365"
+                    ? `${totalForRange.toLocaleString()} contributions in the last 365 days`
+                    : `${totalForRange.toLocaleString()} contributions in ${selectedRange}`
+                  : "Live data powered by GitHub contributions"}
               </p>
+              <div className="flex items-center gap-2 text-[10px] text-[color:var(--text-2)] sm:text-xs">
+                <span>Less</span>
+                {levelColors.map((color, index) => (
+                  <span
+                    key={`legend-${index}`}
+                    className="h-2.5 w-2.5 rounded-[2px]"
+                    style={{ backgroundColor: color }}
+                  />
+                ))}
+                <span>More</span>
+              </div>
+            </div>
+
+            <div className="mt-4">
               <a
                 href="https://github.com/Anish-2005"
                 target="_blank"

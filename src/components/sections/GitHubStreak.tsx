@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { useTheme } from "@/context/ThemeContext";
 import { useEffect, useMemo, useState } from "react";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 type ContributionDay = {
   date: string;
@@ -27,6 +27,7 @@ function parseISODateUtc(dateString: string) {
 
 export function GitHubStreak() {
   const { theme } = useTheme();
+  const { isMobile } = useMobileOptimization();
   const [contributions, setContributions] = useState<ContributionDay[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -178,6 +179,26 @@ export function GitHubStreak() {
       ? ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"]
       : ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
 
+  const headerPalette = useMemo(() => {
+    if (theme === "light") {
+      return {
+        text: "#2c1810",
+        textSub: "#6b4a3a",
+        highlight: "#d73333",
+        border: "rgba(211, 51, 51, 0.15)",
+        glow: "rgba(211, 51, 51, 0.35)"
+      };
+    }
+
+    return {
+      text: "#fef2f2",
+      textSub: "#fca5a5",
+      highlight: "#fb7185",
+      border: "rgba(248, 113, 113, 0.12)",
+      glow: "rgba(248, 113, 113, 0.35)"
+    };
+  }, [theme]);
+
   return (
     <section id="streak" className="relative border-t border-[color:var(--border)] py-16 sm:py-20 md:py-24 lg:py-28">
       <Container>
@@ -188,12 +209,90 @@ export function GitHubStreak() {
           transition={{ duration: 0.6 }}
           className="mx-auto max-w-5xl"
         >
-          <SectionHeading
-            className="mx-auto text-center"
-            eyebrow="GITHUB MOMENTUM"
-            title="Commit streak"
-            description="Daily GitHub contribution heatmap with year-long activity totals."
-          />
+          <div className="relative">
+            {!isMobile && (
+              <motion.div
+                className="pointer-events-none absolute -right-20 -top-10 h-40 w-40 rounded-full blur-3xl"
+                style={{ background: headerPalette.glow }}
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.5, 0.3],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+            )}
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative"
+            >
+              <div className="mb-4 sm:mb-6 flex items-center gap-2 sm:gap-4">
+                <motion.div
+                  className="h-px flex-1"
+                  style={{ background: `linear-gradient(to right, transparent, ${headerPalette.border}, transparent)` }}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+                <span
+                  className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em]"
+                  style={{ color: headerPalette.highlight }}
+                >
+                  GitHub Momentum
+                </span>
+                <motion.div
+                  className="h-px flex-1"
+                  style={{ background: `linear-gradient(to left, transparent, ${headerPalette.border}, transparent)` }}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                />
+              </div>
+
+              <h2 className="mx-auto max-w-4xl text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
+                <span style={{ color: headerPalette.text }}>GitHub </span>
+                <span
+                  className="relative inline-block"
+                  style={{
+                    backgroundImage: `linear-gradient(135deg, ${headerPalette.highlight}, ${headerPalette.textSub})`,
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text"
+                  }}
+                >
+                  Contributions
+                  <motion.span
+                    className="absolute -bottom-1 sm:-bottom-2 left-0 h-0.5 sm:h-1 rounded-full"
+                    style={{ background: headerPalette.highlight }}
+                    initial={{ width: 0 }}
+                    whileInView={{ width: "100%" }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.5 }}
+                  />
+                </span>
+              </h2>
+
+              <motion.p
+                className="mx-auto mt-4 max-w-2xl text-center text-sm leading-relaxed sm:mt-5 sm:text-base"
+                style={{ color: headerPalette.textSub }}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                Daily GitHub contribution heatmap with year-long activity totals.
+              </motion.p>
+            </motion.div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 18 }}

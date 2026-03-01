@@ -78,6 +78,54 @@ const showcaseProjects = [
     link: "https://github.com/Anish-2005/MedRadar",
     image: "/placeholder-med.svg",
     featured: false
+  },
+  {
+    id: "deckfolio",
+    title: "Deckfolio",
+    subtitle: "Recruiter-Ready SIH Deck Showcase",
+    description: "A polished portfolio layer for finalist deck storytelling, with adaptive dark mode, performant interactions, and curated project collections designed for fast evaluation.",
+    impact: "Improves project communication for reviewers and recruiters",
+    tech: ["Next.js", "React", "TypeScript", "Tailwind CSS"],
+    metrics: { status: "Launched Jan 2026", category: "Portfolio Product" },
+    link: "https://github.com/Anish-2005/Deckfolio",
+    image: "/placeholder-lawai.svg",
+    featured: false
+  },
+  {
+    id: "whystack",
+    title: "WhyStack",
+    subtitle: "Deterministic Incident Explanation Engine",
+    description: "An auditable observability assistant that ranks candidate root causes using rules and evidence trails, producing human-readable incident explanations without black-box inference.",
+    impact: "Turns noisy incident data into traceable explanations",
+    tech: ["TypeScript", "Rules Engine", "Logs", "Metrics"],
+    metrics: { status: "Updated Feb 2026", category: "DevTools" },
+    link: "https://github.com/Anish-2005/WhyStack",
+    image: "/placeholder-nyantra.svg",
+    featured: false
+  },
+  {
+    id: "traceveil",
+    title: "Traceveil",
+    subtitle: "Real-Time Behavioral Fraud Intelligence",
+    description: "A multi-modal detection system focused on transaction risk, bot patterns, and exam-integrity signals with low-latency scoring and production-minded monitoring flows.",
+    impact: "Strengthens trust and fraud resilience in critical flows",
+    tech: ["TypeScript", "AI Systems", "Realtime", "Security"],
+    metrics: { status: "Updated Feb 2026", category: "AI Security" },
+    link: "https://github.com/Anish-2005/Traceveil",
+    image: "/placeholder-ticket.svg",
+    featured: false
+  },
+  {
+    id: "neuramark",
+    title: "NeuraMark",
+    subtitle: "Exam Progress and Collaboration Platform",
+    description: "A full-stack study platform with progress visualization, module tracking, collaborative chat spaces, and admin-oriented analytics for coordinated learning outcomes.",
+    impact: "Improves exam planning and collaborative preparation",
+    tech: ["Next.js", "TypeScript", "Firebase", "Tailwind CSS"],
+    metrics: { status: "Updated Feb 2026", stars: "1" },
+    link: "https://github.com/Anish-2005/NeuraMark",
+    image: "/placeholder-med.svg",
+    featured: false
   }
 ];
 
@@ -433,64 +481,68 @@ function ProjectsInner() {
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="space-y-3 sm:space-y-4"
             >
-              {showcaseProjects.map((project, idx) => (
-                <motion.button
-                  key={project.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.08 }}
-                  onClick={() => setActiveProject(project)}
-                  className={`group relative w-full overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-5 text-left ${isMobile ? "" : "backdrop-blur-xl"} transition-all`}
-                  style={{
-                    background: activeProject.id === project.id ? palette.glassBg : palette.cardBg,
-                    border: `1px solid ${activeProject.id === project.id ? palette.highlight : palette.cardBorder}`,
-                    boxShadow: activeProject.id === project.id ? `0 0 30px ${palette.glow}` : 'none'
-                  }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {/* Active indicator */}
-                  {activeProject.id === project.id && (
-                    <motion.div
-                      layoutId="activeProject"
-                      className="absolute left-0 top-0 h-full w-1 sm:w-1.5"
-                      style={{ background: palette.highlight }}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    />
-                  )}
-
-                  <div className="relative pl-3 sm:pl-4">
-                    <h4 className="text-base sm:text-lg font-bold leading-tight" style={{ color: palette.text }}>
-                      {project.title}
-                    </h4>
-                    <p className="mt-1 sm:mt-1.5 text-xs sm:text-sm font-medium opacity-75" style={{ color: palette.text }}>
-                      {project.subtitle}
-                    </p>
-                    
-                    {/* Tech preview */}
-                    <div className="mt-2 sm:mt-3 flex flex-wrap gap-1 sm:gap-1.5">
-                      {project.tech.slice(0, 3).map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded px-2 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-medium"
-                          style={{
-                            background: palette.accent,
-                            color: palette.text
-                          }}
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                      {project.tech.length > 3 && (
-                        <span className="px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium opacity-60" style={{ color: palette.text }}>
-                          +{project.tech.length - 3}
-                        </span>
+              <div className="max-h-[42rem] overflow-y-auto pr-1 sm:pr-2 [scrollbar-gutter:stable]">
+                <div className="space-y-3 sm:space-y-4">
+                  {showcaseProjects.map((project, idx) => (
+                    <motion.button
+                      key={project.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5, delay: idx * 0.08 }}
+                      onClick={() => setActiveProject(project)}
+                      className={`group relative w-full overflow-hidden rounded-xl sm:rounded-2xl p-4 sm:p-5 text-left ${isMobile ? "" : "backdrop-blur-xl"} transition-all`}
+                      style={{
+                        background: activeProject.id === project.id ? palette.glassBg : palette.cardBg,
+                        border: `1px solid ${activeProject.id === project.id ? palette.highlight : palette.cardBorder}`,
+                        boxShadow: activeProject.id === project.id ? `0 0 30px ${palette.glow}` : 'none'
+                      }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {/* Active indicator */}
+                      {activeProject.id === project.id && (
+                        <motion.div
+                          layoutId="activeProject"
+                          className="absolute left-0 top-0 h-full w-1 sm:w-1.5"
+                          style={{ background: palette.highlight }}
+                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                        />
                       )}
-                    </div>
-                  </div>
-                </motion.button>
-              ))}
+
+                      <div className="relative pl-3 sm:pl-4">
+                        <h4 className="text-base sm:text-lg font-bold leading-tight" style={{ color: palette.text }}>
+                          {project.title}
+                        </h4>
+                        <p className="mt-1 sm:mt-1.5 text-xs sm:text-sm font-medium opacity-75" style={{ color: palette.text }}>
+                          {project.subtitle}
+                        </p>
+                        
+                        {/* Tech preview */}
+                        <div className="mt-2 sm:mt-3 flex flex-wrap gap-1 sm:gap-1.5">
+                          {project.tech.slice(0, 3).map((tech) => (
+                            <span
+                              key={tech}
+                              className="rounded px-2 py-0.5 sm:px-2.5 sm:py-1 text-[10px] sm:text-xs font-medium"
+                              style={{
+                                background: palette.accent,
+                                color: palette.text
+                              }}
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                          {project.tech.length > 3 && (
+                            <span className="px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium opacity-60" style={{ color: palette.text }}>
+                              +{project.tech.length - 3}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </motion.button>
+                  ))}
+                </div>
+              </div>
 
               {/* View All CTA */}
               <motion.a

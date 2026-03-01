@@ -46,7 +46,7 @@ const CodeIcon = memo(function CodeIcon() {
 
 const aboutData: AboutData = {
   headline: "Building the Future of Digital Experiences",
-  description: "Full-stack developer specializing in high-performance web applications with immersive UI/UX. Passionate about merging cutting-edge technology with exceptional design to create products that make an impact.",
+  description: "Full-stack developer specializing in high-performance web applications with immersive UI/UX. Passionate about merging cutting-edge technology with exceptional design to create products that make an impact. Recently expanded this focus through practical AI systems, scalable product architecture, and fast shipping cycles through Feb 2026.",
   principles: [
     {
       icon: ZapIcon,
@@ -71,14 +71,14 @@ const aboutData: AboutData = {
   ],
   skills: {
     frontend: ["React", "Next.js", "TypeScript", "React Native", "Flutter", "Three.js", "Framer Motion", "Tailwind CSS"],
-    backend: ["Node.js", "Express", "PostgreSQL", "MongoDB", "REST APIs", "GraphQL"],
-    tools: ["Git", "Docker", "Vercel", "AWS", "Figma", "VS Code"]
+    backend: ["Node.js", "Express", "FastAPI", "PostgreSQL", "MongoDB", "REST APIs", "GraphQL"],
+    tools: ["Git", "Docker", "Vercel", "Firebase", "AWS", "Figma", "VS Code"]
   },
   journey: [
     {
-      year: "2024-Present",
+      year: "2024-Feb 2026",
       title: "AI & Full-Stack Innovation",
-      description: "SIH 2024 & 2025 Finalist • Hack4Bengal 2025 Finalist • Building LawAI (AI-powered legal assistant) & intelligent ticketing systems • Exploring Blockchain development • Mastering React Native, Next.js, FastAPI & AI/ML integration"
+      description: "SIH 2024 & 2025 Finalist • Hack4Bengal 2025 Finalist • Building LawAI (AI-powered legal assistant) & intelligent ticketing systems • Exploring Blockchain development • Mastering React Native, Next.js, FastAPI & AI/ML integration • Added Jan-Feb 2026 releases including Deckfolio, WhyStack, Traceveil, and NeuraMark with a stronger focus on explainable AI and production-ready UX"
     },
     {
       year: "2023-2024",

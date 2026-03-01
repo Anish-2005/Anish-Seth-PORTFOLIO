@@ -109,8 +109,7 @@ export function GitHubStreak() {
         return [] as ContributionDay[];
       }
       startDate = new Date(Date.UTC(year, 0, 1));
-      const yearEnd = new Date(Date.UTC(year, 11, 31));
-      rangeEndDate = year === endDate.getUTCFullYear() ? endDate : yearEnd;
+      rangeEndDate = new Date(Date.UTC(year, 11, 31));
     }
 
     const cursor = new Date(startDate);
@@ -126,6 +125,10 @@ export function GitHubStreak() {
   const totalForRange = useMemo(() => {
     return filteredDays.reduce((total, day) => total + day.count, 0);
   }, [filteredDays]);
+
+  const totalAllTime = useMemo(() => {
+    return sortedDays.reduce((total, day) => total + day.count, 0);
+  }, [sortedDays]);
 
   const gridData = useMemo(() => {
     if (filteredDays.length === 0) {
@@ -445,13 +448,18 @@ export function GitHubStreak() {
             )}
 
             <div className="mt-4 flex flex-wrap items-center justify-between gap-3 sm:mt-5">
-              <p className="text-xs text-[color:var(--text-2)] sm:text-sm">
-                {totalForRange > 0
-                  ? selectedRange === "last-365"
-                    ? `${totalForRange.toLocaleString()} contributions in the last 365 days`
-                    : `${totalForRange.toLocaleString()} contributions in ${selectedRange}`
-                  : "Live data powered by GitHub contributions"}
-              </p>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <p className="text-xs text-[color:var(--text-2)] sm:text-sm">
+                  {totalForRange > 0
+                    ? selectedRange === "last-365"
+                      ? `${totalForRange.toLocaleString()} contributions in the last 365 days`
+                      : `${totalForRange.toLocaleString()} contributions in ${selectedRange}`
+                    : "Live data powered by GitHub contributions"}
+                </p>
+                <p className="text-xs font-semibold text-[color:var(--text-1)] sm:text-sm">
+                  {totalAllTime > 0 ? `${totalAllTime.toLocaleString()} all-time contributions` : "All-time contributions unavailable"}
+                </p>
+              </div>
               <div className="flex items-center gap-2 text-[10px] text-[color:var(--text-2)] sm:text-xs">
                 <span>Less</span>
                 {heatmapPalette.levelColors.map((color, index) => (

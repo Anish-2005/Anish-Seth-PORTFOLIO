@@ -174,10 +174,45 @@ export function GitHubStreak() {
     return { weeks, monthLabels };
   }, [filteredDays]);
 
-  const levelColors =
-    theme === "light"
-      ? ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"]
-      : ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
+  const heatmapPalette = useMemo(() => {
+    if (theme === "light") {
+      return {
+        levelColors: ["#fdf2f2", "#fecdd3", "#fda4af", "#fb7185", "#e11d48"],
+        cellBorder: "rgba(190, 24, 93, 0.18)",
+        gridBorder: "rgba(211, 51, 51, 0.2)",
+        gridBg: "rgba(255, 255, 255, 0.85)",
+        panelBorder: "rgba(211, 51, 51, 0.24)",
+        panelBg: "rgba(255, 247, 247, 0.88)",
+        panelShadow: "0 0 32px rgba(211, 51, 51, 0.16)",
+        controlBg: "rgba(255, 255, 255, 0.92)",
+        controlBorder: "rgba(190, 24, 93, 0.28)",
+        controlText: "#3f1d1d",
+        controlFocus: "rgba(225, 29, 72, 0.35)",
+        buttonBg: "rgba(255, 237, 240, 0.95)",
+        buttonHoverBg: "rgba(254, 205, 211, 0.95)",
+        buttonBorder: "rgba(190, 24, 93, 0.32)",
+        buttonText: "#9f1239"
+      };
+    }
+
+    return {
+      levelColors: ["#140a10", "#3f1220", "#7f1d3a", "#be185d", "#fb7185"],
+      cellBorder: "rgba(251, 113, 133, 0.22)",
+      gridBorder: "rgba(248, 113, 113, 0.2)",
+      gridBg: "rgba(15, 6, 11, 0.82)",
+      panelBorder: "rgba(248, 113, 113, 0.24)",
+      panelBg: "rgba(22, 8, 14, 0.82)",
+      panelShadow: "0 0 34px rgba(248, 113, 113, 0.2)",
+      controlBg: "rgba(33, 11, 22, 0.9)",
+      controlBorder: "rgba(251, 113, 133, 0.35)",
+      controlText: "#ffe4e6",
+      controlFocus: "rgba(251, 113, 133, 0.42)",
+      buttonBg: "rgba(63, 18, 32, 0.78)",
+      buttonHoverBg: "rgba(127, 29, 58, 0.72)",
+      buttonBorder: "rgba(251, 113, 133, 0.36)",
+      buttonText: "#fecdd3"
+    };
+  }, [theme]);
 
   const headerPalette = useMemo(() => {
     if (theme === "light") {
@@ -299,7 +334,12 @@ export function GitHubStreak() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-8 overflow-hidden rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-1)] p-3 shadow-[var(--glow)] sm:mt-10 sm:rounded-3xl sm:p-5"
+            className="mt-8 overflow-hidden rounded-2xl border p-3 sm:mt-10 sm:rounded-3xl sm:p-5"
+            style={{
+              borderColor: heatmapPalette.panelBorder,
+              background: heatmapPalette.panelBg,
+              boxShadow: heatmapPalette.panelShadow
+            }}
           >
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3 sm:mb-5">
               <p className="text-xs text-[color:var(--text-2)] sm:text-sm">Contribution range</p>
@@ -308,7 +348,13 @@ export function GitHubStreak() {
                 <select
                   value={selectedRange}
                   onChange={(event) => setSelectedRange(event.target.value)}
-                  className="rounded-md border border-[color:var(--border)] bg-[color:var(--surface-2)] px-2.5 py-1.5 text-xs font-medium text-[color:var(--text-0)] outline-none transition focus:ring-2 focus:ring-[color:var(--accent)] sm:text-sm"
+                  className="rounded-md border px-2.5 py-1.5 text-xs font-medium outline-none transition focus:ring-2 sm:text-sm"
+                  style={{
+                    borderColor: heatmapPalette.controlBorder,
+                    background: heatmapPalette.controlBg,
+                    color: heatmapPalette.controlText,
+                    boxShadow: `0 0 0 0 ${heatmapPalette.controlFocus}`
+                  }}
                 >
                   <option value="last-365">Last 365 days</option>
                   {availableYears.map((year) => (
@@ -331,20 +377,33 @@ export function GitHubStreak() {
                   href="https://github.com/Anish-2005"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-2 text-xs font-semibold text-[color:var(--text-0)] underline underline-offset-4"
+                  className="mt-3 inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition"
+                  style={{
+                    borderColor: heatmapPalette.buttonBorder,
+                    background: heatmapPalette.buttonBg,
+                    color: heatmapPalette.buttonText
+                  }}
                 >
                   View contributions on GitHub
                 </a>
               </div>
             ) : (
-              <div className="overflow-x-auto rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-2)] p-3 sm:rounded-2xl sm:p-4">
-                <div className="min-w-[780px]">
+              <div
+                className="overflow-x-auto rounded-xl border p-3 sm:rounded-2xl sm:p-4"
+                style={{
+                  borderColor: heatmapPalette.gridBorder,
+                  background: heatmapPalette.gridBg
+                }}
+              >
+                <div className="w-full min-w-[780px]">
                   <div className="relative mb-3 h-5 pl-8 text-[11px] text-[color:var(--text-2)] sm:text-xs">
                     {gridData.monthLabels.map((month) => (
                       <span
                         key={`${month.label}-${month.index}`}
                         className="absolute"
-                        style={{ left: `${month.index * 14}px` }}
+                        style={{
+                          left: `${Math.max(0, (month.index / Math.max(gridData.weeks.length, 1)) * 100)}%`
+                        }}
                       >
                         {month.label}
                       </span>
@@ -358,15 +417,23 @@ export function GitHubStreak() {
                       <span>Fri</span>
                     </div>
 
-                    <div className="flex gap-[3px]">
+                    <div
+                      className="grid flex-1 gap-[3px]"
+                      style={{
+                        gridTemplateColumns: `repeat(${Math.max(gridData.weeks.length, 1)}, minmax(0, 1fr))`
+                      }}
+                    >
                       {gridData.weeks.map((week, weekIndex) => (
                         <div key={`week-${weekIndex}`} className="flex flex-col gap-[3px]">
                           {week.map((day) => (
                             <div
                               key={day.date}
                               title={`${day.count} contributions on ${day.date}`}
-                              className="h-[11px] w-[11px] rounded-[2px]"
-                              style={{ backgroundColor: levelColors[Math.min(Math.max(day.level, 0), 4)] }}
+                              className="aspect-square w-full rounded-[2px]"
+                              style={{
+                                backgroundColor: heatmapPalette.levelColors[Math.min(Math.max(day.level, 0), 4)],
+                                border: `1px solid ${heatmapPalette.cellBorder}`
+                              }}
                             />
                           ))}
                         </div>
@@ -387,11 +454,14 @@ export function GitHubStreak() {
               </p>
               <div className="flex items-center gap-2 text-[10px] text-[color:var(--text-2)] sm:text-xs">
                 <span>Less</span>
-                {levelColors.map((color, index) => (
+                {heatmapPalette.levelColors.map((color, index) => (
                   <span
                     key={`legend-${index}`}
                     className="h-2.5 w-2.5 rounded-[2px]"
-                    style={{ backgroundColor: color }}
+                    style={{
+                      backgroundColor: color,
+                      border: `1px solid ${heatmapPalette.cellBorder}`
+                    }}
                   />
                 ))}
                 <span>More</span>
@@ -403,7 +473,18 @@ export function GitHubStreak() {
                 href="https://github.com/Anish-2005"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-lg border border-[color:var(--border)] bg-[color:var(--surface-2)] px-3 py-2 text-xs font-semibold text-[color:var(--text-0)] transition hover:opacity-90 sm:text-sm"
+                className="inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition sm:text-sm"
+                style={{
+                  borderColor: heatmapPalette.buttonBorder,
+                  background: heatmapPalette.buttonBg,
+                  color: heatmapPalette.buttonText
+                }}
+                onMouseEnter={(event) => {
+                  event.currentTarget.style.background = heatmapPalette.buttonHoverBg;
+                }}
+                onMouseLeave={(event) => {
+                  event.currentTarget.style.background = heatmapPalette.buttonBg;
+                }}
               >
                 View GitHub Profile
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

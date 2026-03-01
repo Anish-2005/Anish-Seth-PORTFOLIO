@@ -295,7 +295,12 @@ export function Header() {
           <span className="lg:hidden">
             <motion.button
               type="button"
-              onClick={toggle}
+              onClick={(event) => {
+                const rect = event.currentTarget.getBoundingClientRect();
+                const x = event.clientX || rect.left + rect.width / 2;
+                const y = event.clientY || rect.top + rect.height / 2;
+                toggle({ x, y });
+              }}
               aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
               className="relative inline-flex items-center justify-center rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 mr-1"
               style={{

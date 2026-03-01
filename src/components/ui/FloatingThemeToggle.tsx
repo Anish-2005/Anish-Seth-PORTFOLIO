@@ -4,10 +4,18 @@ import { useTheme } from "@/context/ThemeContext";
 
 export function FloatingThemeToggle() {
   const { theme, toggle } = useTheme();
+
+  const handleToggle = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX || rect.left + rect.width / 2;
+    const y = event.clientY || rect.top + rect.height / 2;
+    toggle({ x, y });
+  };
+
   return (
     <motion.button
       type="button"
-      onClick={toggle}
+      onClick={handleToggle}
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
       className="hidden lg:flex fixed left-4 bottom-4 z-50 items-center justify-center rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
       style={{

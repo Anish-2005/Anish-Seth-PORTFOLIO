@@ -39,6 +39,38 @@ body {
 	overflow-x: hidden;
 }
 
+html {
+	color-scheme: light dark;
+}
+
+html.theme-transitioning,
+html.theme-transitioning * {
+	transition-property: color, background-color, border-color, fill, stroke, box-shadow, filter, backdrop-filter;
+	transition-duration: 380ms;
+	transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+	z-index: 1;
+}
+
+::view-transition-new(root) {
+	z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html.theme-transitioning,
+	html.theme-transitioning * {
+		transition-duration: 0.01ms;
+	}
+}
+
 /* Performance optimizations for mobile */
 @media (max-width: 768px) {
 	html, body {

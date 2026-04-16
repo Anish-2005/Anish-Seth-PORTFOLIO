@@ -43,11 +43,12 @@ html {
 	color-scheme: light dark;
 }
 
-html.theme-transitioning,
-html.theme-transitioning * {
-	transition-property: color, background-color, border-color, fill, stroke, box-shadow, filter, backdrop-filter;
-	transition-duration: 380ms;
-	transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+.theme-fade-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	pointer-events: none;
+	will-change: opacity;
 }
 
 ::view-transition-old(root),
@@ -64,10 +65,28 @@ html.theme-transitioning * {
 	z-index: 2;
 }
 
+html.theme-vt-active::view-transition-old(root) {
+	animation: theme-old-fade 280ms cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+html.theme-vt-active::view-transition-new(root) {
+	animation: theme-new-fade 460ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes theme-old-fade {
+	from { opacity: 1; filter: saturate(1) brightness(1); }
+	to { opacity: 0; filter: saturate(0.96) brightness(0.98); }
+}
+
+@keyframes theme-new-fade {
+	from { opacity: 0; filter: saturate(1.04) brightness(1.02); }
+	to { opacity: 1; filter: saturate(1) brightness(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-	html.theme-transitioning,
-	html.theme-transitioning * {
-		transition-duration: 0.01ms;
+	html.theme-vt-active::view-transition-old(root),
+	html.theme-vt-active::view-transition-new(root) {
+		animation-duration: 0.01ms;
 	}
 }
 
@@ -77,12 +96,6 @@ html.theme-transitioning * {
 		overflow-x: hidden;
 		width: 100%;
 		position: relative;
-	}
-	* {
-		-webkit-transform: translateZ(0);
-		transform: translateZ(0);
-		-webkit-backface-visibility: hidden;
-		backface-visibility: hidden;
 	}
 	
 	/* Reduce backdrop blur on mobile for better performance */
@@ -170,58 +183,6 @@ html.theme-transitioning * {
 		background-position: 100% 50%; 
 	}
 }
-
-/* Aggressive mobile performance optimizations */
-@media (max-width: 768px) {
-	/* Disable ALL animations */
-	*, *::before, *::after {
-		animation-duration: 0.01ms !important;
-		animation-delay: 0ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
-		transition-delay: 0ms !important;
-	}
-	
-	/* Remove ALL backdrop blur effects */
-	* {
-		backdrop-filter: none !important;
-		-webkit-backdrop-filter: none !important;
-	}
-	
-	/* Fallback solid backgrounds for backdrop-blur elements */
-	.backdrop-blur-xl,
-	.backdrop-blur-2xl,
-	.backdrop-blur-lg,
-	.backdrop-blur-md,
-	.backdrop-blur-sm,
-	.backdrop-blur {
-		background-color: rgba(0, 0, 0, 0.4) !important;
-	}
-	
-	/* Remove ALL box shadows */
-	* {
-		box-shadow: none !important;
-	}
-	
-	/* Remove ALL blur filters */
-	*[style*="blur"] {
-		filter: none !important;
-	}
-	
-	/* Hardware acceleration */
-	html, body {
-		perspective: 1000px;
-		-webkit-perspective: 1000px;
-	}
-	
-	* {
-		-webkit-transform: translateZ(0);
-		transform: translateZ(0);
-		-webkit-backface-visibility: hidden;
-		backface-visibility: hidden;
-	}
-}
-
 /* Custom scrollbars (theming-friendly) */
 * {
 	scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);

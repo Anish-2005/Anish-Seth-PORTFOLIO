@@ -14,6 +14,7 @@ type ThemeTransitionOrigin = {
 
 type ViewTransitionLike = {
   ready: Promise<void>;
+  finished?: Promise<void>;
 };
 
 type DocumentWithViewTransition = Document & {
@@ -37,6 +38,41 @@ function applyThemeVars(theme: ThemeName) {
     root.style.setProperty(key, value);
   });
   root.dataset.theme = theme;
+}
+
+function runFallbackThemeFade(applyTheme: () => void) {
+  const root = document.documentElement;
+  const overlay = document.createElement("div");
+  const currentSurface = getComputedStyle(root).getPropertyValue("--surface-0").trim() || "#0b0f1b";
+
+  overlay.setAttribute("aria-hidden", "true");
+  overlay.className = "theme-fade-overlay";
+  overlay.style.background = currentSurface;
+
+  document.body.appendChild(overlay);
+
+  const animation = overlay.animate(
+    [
+      { opacity: 0 },
+      { opacity: 0.24, offset: 0.35 },
+      { opacity: 0 },
+    ],
+    {
+      duration: 460,
+      easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+      fill: "forwards",
+    }
+  );
+
+  window.setTimeout(() => {
+    applyTheme();
+  }, 120);
+
+  animation.finished
+    .catch(() => undefined)
+    .finally(() => {
+      overlay.remove();
+    });
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
@@ -69,6 +105,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const runThemeTransition = useCallback(
     (next: ThemeName, origin?: ThemeTransitionOrigin) => {
       if (typeof window === "undefined") return;
+      if (next === theme) return;
+      void origin;
 
       const root = document.documentElement;
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -83,48 +121,28 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         persistTheme(next);
       };
 
-      if (!supportsViewTransition || prefersReducedMotion) {
-        root.classList.add("theme-transitioning");
+      if (prefersReducedMotion) {
         applyNextTheme();
-        window.setTimeout(() => {
-          root.classList.remove("theme-transitioning");
-        }, 450);
         return;
       }
 
-      const centerX = origin?.x ?? window.innerWidth / 2;
-      const centerY = origin?.y ?? window.innerHeight / 2;
-      const endRadius = Math.hypot(
-        Math.max(centerX, window.innerWidth - centerX),
-        Math.max(centerY, window.innerHeight - centerY)
-      );
+      if (!supportsViewTransition) {
+        runFallbackThemeFade(applyNextTheme);
+        return;
+      }
 
+      root.classList.add("theme-vt-active");
       const transition = docWithTransition.startViewTransition!(applyNextTheme);
+      const onDone = () => root.classList.remove("theme-vt-active");
 
-      transition.ready
-        .then(() => {
-          root.animate(
-            {
-              clipPath: [
-                `circle(0px at ${centerX}px ${centerY}px)`,
-                `circle(${endRadius}px at ${centerX}px ${centerY}px)`,
-              ],
-            },
-            {
-              duration: 700,
-              easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-              pseudoElement: "::view-transition-new(root)",
-            }
-          );
-        })
+      (transition.finished ?? transition.ready)
+        .then(onDone)
         .catch(() => {
-          root.classList.add("theme-transitioning");
-          window.setTimeout(() => {
-            root.classList.remove("theme-transitioning");
-          }, 300);
+          onDone();
+          runFallbackThemeFade(applyNextTheme);
         });
     },
-    [persistTheme]
+    [persistTheme, theme]
   );
 
   const setTheme = useCallback(

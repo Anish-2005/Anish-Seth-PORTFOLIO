@@ -9,15 +9,15 @@ type BaseProps = {
 };
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-xl font-medium transition will-change-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)] hover:-translate-y-[1px] hover:shadow-[0_10px_30px_rgba(6,182,212,0.18)]";
+  "inline-flex items-center justify-center gap-2 rounded-xl font-medium will-change-transform transition-[background-color,border-color,color,box-shadow,filter,transform] duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--surface-0)] hover:-translate-y-[1px] hover:shadow-[0_10px_30px_var(--cta-hover-shadow)]";
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "bg-[linear-gradient(135deg,#d73333,#e74974)] text-white hover:brightness-110 shadow-[0_0_20px_rgba(211,51,51,0.3)]",
+    "bg-[linear-gradient(135deg,var(--cta-primary-start),var(--cta-primary-end))] text-white hover:brightness-105 shadow-[0_0_20px_var(--cta-primary-shadow)]",
   secondary:
-    "border border-[color:var(--border)] bg-[color:var(--surface-1)] text-[color:var(--text-0)] hover:bg-[color:var(--surface-2)]",
+    "border border-[color:var(--border)] bg-[color:var(--surface-1)] text-[color:var(--text-0)] hover:bg-[color:var(--surface-2)] hover:border-[color:var(--cta-secondary-border-hover)]",
   ghost:
-    "text-[color:var(--text-0)] hover:bg-[color:var(--surface-1)]",
+    "text-[color:var(--text-0)] hover:bg-[color:var(--surface-1)] hover:text-[color:var(--cta-ghost-text-hover)]",
 };
 
 const sizes = {

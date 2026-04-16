@@ -5,9 +5,8 @@ import { useEffect, useState } from "react";
  * Returns isMobile boolean that can be used to conditionally render animations
  */
 export function useMobileOptimization() {
-  const [isMobile, setIsMobile] = useState(() => 
-    typeof window !== 'undefined' && window.innerWidth < 768
-  );
+  // Keep SSR and first client render identical; resolve viewport only after mount.
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {

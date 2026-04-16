@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+export const runtime = 'edge';
+
 const FACEBOOK_PROFILE_URL = 'https://www.facebook.com/anish.seth.313/';
 
 export function GET() {

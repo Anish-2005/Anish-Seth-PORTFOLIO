@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 
+export const runtime = 'edge';
+
 const GFG_PROFILE_URL = 'https://www.geeksforgeeks.org/profile/anishse10t1';
 
 export function GET() {

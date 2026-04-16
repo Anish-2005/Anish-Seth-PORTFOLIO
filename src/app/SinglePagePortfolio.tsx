@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useState, Suspense, lazy } from "react";
-import { animate, motion, useMotionValue, useMotionValueEvent, type Variants } from "framer-motion";
+import { useEffect, useMemo, useRef, useState, Suspense, lazy } from "react";
+import { animate, motion, useInView, useMotionValue, useMotionValueEvent, type Variants } from "framer-motion";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
@@ -15,6 +15,33 @@ const Contact = lazy(() => import("@/components/sections/Contact").then(m => ({ 
 const OrnamentLayer = lazy(() => import("@/components/visuals/OrnamentLayer").then(m => ({ default: m.OrnamentLayer })));
 const LightBackground = lazy(() => import("@/components/visuals/LightBackground").then(m => ({ default: m.LightBackground })));
 const DarkBackground = lazy(() => import("@/components/visuals/DarkBackground").then(m => ({ default: m.DarkBackground })));
+
+type LazySectionProps = {
+  id: string;
+  tone: string;
+  index: number;
+  minHeightClass: string;
+  children: React.ReactNode;
+  onTone: (nextTone: string) => void;
+};
+
+function LazySection({ id, tone, index, minHeightClass, children, onTone }: LazySectionProps) {
+  const hostRef = useRef<HTMLElement | null>(null);
+  const isNearViewport = useInView(hostRef, {
+    margin: "260px 0px",
+    once: true,
+  });
+
+  return (
+    <section id={id} ref={hostRef} className={minHeightClass}>
+      {isNearViewport ? (
+        <SectionWrap index={index}>
+          <motion.div onViewportEnter={() => onTone(tone)}>{children}</motion.div>
+        </SectionWrap>
+      ) : null}
+    </section>
+  );
+}
 
 // Section wrapper component for stagger animations
 const SectionWrap = ({ index, children }: { index: number; children: React.ReactNode }) => {
@@ -46,6 +73,7 @@ const SectionWrap = ({ index, children }: { index: number; children: React.React
 
 export function SinglePagePortfolio() {
   const [mounted, setMounted] = useState(false);
+  const [allowVisuals, setAllowVisuals] = useState(false);
   const [tone, setTone] = useState<string>("top");
   const toneColor = useMotionValue<string>("rgba(34, 211, 238, 0.22)");
   const { theme } = useTheme();
@@ -53,6 +81,19 @@ export function SinglePagePortfolio() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
+
+    const idle =
+      typeof window !== "undefined" && "requestIdleCallback" in window
+        ? window.requestIdleCallback(() => setAllowVisuals(true), { timeout: 1200 })
+        : null;
+    const fallback = window.setTimeout(() => setAllowVisuals(true), 800);
+
+    return () => {
+      if (idle !== null && "cancelIdleCallback" in window) {
+        window.cancelIdleCallback(idle);
+      }
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   const sectionColors = useMemo(() => {
@@ -96,14 +137,16 @@ export function SinglePagePortfolio() {
 
   return (
     <div className="relative min-h-screen isolate">
-      {mounted && (
+      {mounted && allowVisuals && (
         <Suspense fallback={null}>
           {theme === "light" ? <LightBackground /> : <DarkBackground />}
         </Suspense>
       )}
-      <Suspense fallback={null}>
-        <OrnamentLayer />
-      </Suspense>
+      {allowVisuals ? (
+        <Suspense fallback={null}>
+          <OrnamentLayer />
+        </Suspense>
+      ) : null}
       <motion.div
         aria-hidden
         className="pointer-events-none fixed inset-x-0 md:inset-x-[-10%] top-[32%] h-64 -z-[5]"
@@ -131,39 +174,59 @@ export function SinglePagePortfolio() {
           </motion.div>
         </SectionWrap>
         <Suspense fallback={null}>
-          <SectionWrap index={1}>
-            <motion.div onViewportEnter={() => setTone("about")}> 
-              <About />
-            </motion.div>
-          </SectionWrap>
+          <LazySection
+            id="about"
+            tone="about"
+            index={1}
+            minHeightClass="min-h-[55vh]"
+            onTone={setTone}
+          >
+            <About />
+          </LazySection>
         </Suspense>
         <Suspense fallback={null}>
-          <SectionWrap index={2}>
-            <motion.div onViewportEnter={() => setTone("work")}> 
-              <Projects />
-            </motion.div>
-          </SectionWrap>
+          <LazySection
+            id="projects"
+            tone="work"
+            index={2}
+            minHeightClass="min-h-[60vh]"
+            onTone={setTone}
+          >
+            <Projects />
+          </LazySection>
         </Suspense>
         <Suspense fallback={null}>
-          <SectionWrap index={3}>
-            <motion.div onViewportEnter={() => setTone("achievements")}> 
-              <Achievements />
-            </motion.div>
-          </SectionWrap>
+          <LazySection
+            id="achievements"
+            tone="achievements"
+            index={3}
+            minHeightClass="min-h-[45vh]"
+            onTone={setTone}
+          >
+            <Achievements />
+          </LazySection>
         </Suspense>
         <Suspense fallback={null}>
-          <SectionWrap index={4}>
-            <motion.div onViewportEnter={() => setTone("showcase")}> 
-              <GitHubStreak />
-            </motion.div>
-          </SectionWrap>
+          <LazySection
+            id="github-streak"
+            tone="showcase"
+            index={4}
+            minHeightClass="min-h-[38vh]"
+            onTone={setTone}
+          >
+            <GitHubStreak />
+          </LazySection>
         </Suspense>
         <Suspense fallback={null}>
-          <SectionWrap index={5}>
-            <motion.div onViewportEnter={() => setTone("contact")}> 
-              <Contact />
-            </motion.div>
-          </SectionWrap>
+          <LazySection
+            id="contact"
+            tone="contact"
+            index={5}
+            minHeightClass="min-h-[52vh]"
+            onTone={setTone}
+          >
+            <Contact />
+          </LazySection>
         </Suspense>
       </main>
       <Footer />

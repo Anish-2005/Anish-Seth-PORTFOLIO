@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { ThemeProvider } from "@/context/ThemeContext";
 import ClientFloatingThemeToggle from "@/components/ClientFloatingThemeToggle";
+import WebVitalsReporter from "@/components/perf/WebVitalsReporter";
 import { siteConfig } from "@/lib/site.config";
 
 const heading = Inter({
@@ -220,6 +221,7 @@ export default function RootLayout({
       >
         <ThemeProvider>
           <StructuredData />
+          <WebVitalsReporter />
           <ClientFloatingThemeToggle />
           {children}
         </ThemeProvider>

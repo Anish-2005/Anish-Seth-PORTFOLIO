@@ -47,6 +47,9 @@ body {
 
 html {
 	color-scheme: light dark;
+	--vt-origin-x: 50vw;
+	--vt-origin-y: 50vh;
+	--vt-radius: 150vmax;
 }
 
 .theme-fade-overlay {
@@ -55,6 +58,16 @@ html {
 	z-index: 9999;
 	pointer-events: none;
 	will-change: opacity;
+}
+
+html.theme-sync-lock .theme-sync-target {
+	transition-duration: 180ms !important;
+}
+
+html.theme-sync-lock .theme-sync-target:hover {
+	transform: none !important;
+	filter: none !important;
+	box-shadow: inherit !important;
 }
 
 ::view-transition-old(root),
@@ -76,28 +89,51 @@ html {
 	z-index: 2;
 }
 
-html.theme-vt-active::view-transition-old(root) {
-	animation: theme-old-fade 140ms cubic-bezier(0.33, 0, 0.67, 1) both;
+html.theme-vt-active.theme-vt-radial::view-transition-old(root) {
+	animation: theme-vt-old-fade 260ms cubic-bezier(0.33, 0, 0.67, 1) both;
 }
 
-html.theme-vt-active::view-transition-new(root) {
-	animation: theme-new-fade 280ms cubic-bezier(0.22, 1, 0.36, 1) both;
+html.theme-vt-active.theme-vt-radial::view-transition-new(root) {
+	clip-path: circle(0px at var(--vt-origin-x) var(--vt-origin-y));
+	transform-origin: var(--vt-origin-x) var(--vt-origin-y);
+	animation: theme-vt-radial-reveal 440ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes theme-old-fade {
-	from { opacity: 1; filter: saturate(1) brightness(1); }
-	to { opacity: 0; filter: saturate(0.96) brightness(0.98); }
+@keyframes theme-vt-old-fade {
+	0% {
+		opacity: 1;
+		filter: saturate(1) brightness(1) blur(0px);
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0.22;
+		filter: saturate(0.94) brightness(0.9) blur(1.6px);
+		transform: scale(0.992);
+	}
 }
 
-@keyframes theme-new-fade {
-	from { opacity: 0; filter: saturate(1.04) brightness(1.02); }
-	to { opacity: 1; filter: saturate(1) brightness(1); }
+@keyframes theme-vt-radial-reveal {
+	0% {
+		clip-path: circle(0px at var(--vt-origin-x) var(--vt-origin-y));
+		opacity: 0.14;
+		filter: saturate(1.18) brightness(1.14) contrast(1.06);
+		transform: scale(1.012);
+	}
+	35% {
+		opacity: 0.72;
+		filter: saturate(1.08) brightness(1.06) contrast(1.03);
+	}
+	100% {
+		clip-path: circle(var(--vt-radius) at var(--vt-origin-x) var(--vt-origin-y));
+		opacity: 1;
+		filter: saturate(1) brightness(1) contrast(1);
+		transform: scale(1);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	html.theme-vt-active::view-transition-old(root),
-	html.theme-vt-active::view-transition-new(root) {
-		animation-duration: 0.01ms;
+	.theme-fade-overlay {
+		display: none;
 	}
 }
 

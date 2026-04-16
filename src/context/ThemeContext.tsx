@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, startTransition, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 
 import { themes, type ThemeName } from "@/lib/themes";
 
@@ -19,6 +20,13 @@ type ViewTransitionLike = {
 type DocumentWithViewTransition = Document & {
   startViewTransition?: (update: () => void) => ViewTransitionLike;
 };
+
+function getRevealRadius(x: number, y: number) {
+  return Math.hypot(
+    Math.max(x, window.innerWidth - x),
+    Math.max(y, window.innerHeight - y)
+  );
+}
 
 export type ThemeContextValue = {
   theme: ThemeName;
@@ -77,17 +85,15 @@ function runFallbackThemeFade(applyTheme: () => void) {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeName>(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem(STORAGE_KEY) as ThemeName | null;
-      if (stored && themes[stored]) return stored;
-    }
-    return "dark";
-  });
+  // Keep first client render identical to server render to avoid hydration mismatch.
+  const [theme, setThemeState] = useState<ThemeName>("dark");
+  const themeRef = useRef<ThemeName>("dark");
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY) as ThemeName | null;
-    if (stored && themes[stored]) {
+    if (stored && themes[stored] && stored !== themeRef.current) {
+      themeRef.current = stored;
+      applyThemeVars(stored);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setThemeState(stored);
     }
@@ -96,8 +102,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     applyThemeVars(theme);
   }, [theme]);
-
-  const themeRef = useRef<ThemeName>(theme);
 
   useEffect(() => {
     themeRef.current = theme;
@@ -113,28 +117,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const queuedThemeRef = useRef<ThemeName | null>(null);
 
   const applyThemeImmediately = useCallback(
-    (next: ThemeName) => {
+    (next: ThemeName, syncState: boolean) => {
       themeRef.current = next;
+
+      if (syncState) {
+        flushSync(() => {
+          setThemeState(next);
+        });
+      } else {
+        startTransition(() => {
+          setThemeState(next);
+        });
+      }
+
       applyThemeVars(next);
       persistTheme(next);
     },
     [persistTheme]
   );
-
-  const syncReactThemeState = useCallback((next: ThemeName) => {
-    const apply = () => {
-      startTransition(() => {
-        setThemeState(next);
-      });
-    };
-
-    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
-      window.requestIdleCallback(apply, { timeout: 900 });
-      return;
-    }
-
-    globalThis.setTimeout(apply, 120);
-  }, []);
 
   const runThemeTransition = useCallback(
     (next: ThemeName, origin?: ThemeTransitionOrigin) => {
@@ -150,13 +150,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       isTransitioningRef.current = true;
 
       const root = document.documentElement;
+      root.classList.add("theme-sync-lock");
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const docWithTransition = document as DocumentWithViewTransition;
       const supportsViewTransition = typeof docWithTransition.startViewTransition === "function";
 
       const finish = () => {
-        syncReactThemeState(next);
         isTransitioningRef.current = false;
+        root.classList.remove("theme-sync-lock");
 
         const queued = queuedThemeRef.current;
         queuedThemeRef.current = null;
@@ -166,35 +167,51 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       };
 
       if (prefersReducedMotion) {
-        applyThemeImmediately(next);
+        applyThemeImmediately(next, false);
         finish();
         return;
       }
 
       if (!supportsViewTransition) {
-        runFallbackThemeFade(() => applyThemeImmediately(next));
+        runFallbackThemeFade(() => applyThemeImmediately(next, true));
         window.setTimeout(finish, 320);
         return;
       }
 
       root.classList.add("theme-vt-active");
+      const centerX = origin?.x ?? window.innerWidth / 2;
+      const centerY = origin?.y ?? window.innerHeight / 2;
+      const revealRadius = getRevealRadius(centerX, centerY);
+      root.classList.add("theme-vt-radial");
+      root.style.setProperty("--vt-origin-x", `${centerX}px`);
+      root.style.setProperty("--vt-origin-y", `${centerY}px`);
+      root.style.setProperty("--vt-radius", `${revealRadius}px`);
+
       const transition = docWithTransition.startViewTransition!(() => {
-        applyThemeImmediately(next);
+        // Capture the full new themed tree in the new transition snapshot.
+        applyThemeImmediately(next, true);
       });
-      const onDone = () => {
-        root.classList.remove("theme-vt-active");
-        finish();
-      };
 
       (transition.finished ?? transition.ready)
-        .then(onDone)
+        .then(() => {
+          root.classList.remove("theme-vt-active");
+          root.classList.remove("theme-vt-radial");
+          root.style.removeProperty("--vt-origin-x");
+          root.style.removeProperty("--vt-origin-y");
+          root.style.removeProperty("--vt-radius");
+          finish();
+        })
         .catch(() => {
           root.classList.remove("theme-vt-active");
-          runFallbackThemeFade(() => applyThemeImmediately(next));
+          root.classList.remove("theme-vt-radial");
+          root.style.removeProperty("--vt-origin-x");
+          root.style.removeProperty("--vt-origin-y");
+          root.style.removeProperty("--vt-radius");
+          runFallbackThemeFade(() => applyThemeImmediately(next, true));
           window.setTimeout(finish, 320);
         });
     },
-    [applyThemeImmediately, syncReactThemeState]
+    [applyThemeImmediately]
   );
 
   const setTheme = useCallback(

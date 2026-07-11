@@ -3,6 +3,8 @@
 import { Container } from "@/components/ui/Container";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMemo, useState } from "react";
+import { useTheme } from "@/context/ThemeContext";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 import { siteConfig } from "@/lib/site.config";
 
 const faqItems = [
@@ -40,6 +42,40 @@ const faqItems = [
 
 export function FAQ() {
   const [openIndex, setOpenIndex] = useState(0);
+  const { theme } = useTheme();
+  const { isMobile } = useMobileOptimization();
+
+  const palette = useMemo(() => {
+    if (theme === "light") {
+      return {
+        border: "rgba(211, 51, 51, 0.14)",
+        accent: "rgba(211, 51, 51, 0.18)",
+        accentStrong: "rgba(211, 51, 51, 0.28)",
+        glow: "rgba(211, 51, 51, 0.22)",
+        surface: "rgba(255, 250, 248, 0.82)",
+        surfaceSoft: "rgba(255, 255, 255, 0.58)",
+        card: "rgba(255, 255, 255, 0.72)",
+        cardStrong: "rgba(255, 255, 255, 0.9)",
+        text: "#2c1810",
+        textSub: "#6b4a3a",
+        highlight: "#d73333",
+      };
+    }
+
+    return {
+      border: "rgba(248, 113, 113, 0.14)",
+      accent: "rgba(248, 113, 113, 0.16)",
+      accentStrong: "rgba(248, 113, 113, 0.26)",
+      glow: "rgba(248, 113, 113, 0.18)",
+      surface: "rgba(22, 10, 15, 0.74)",
+      surfaceSoft: "rgba(18, 8, 12, 0.58)",
+      card: "rgba(24, 10, 16, 0.72)",
+      cardStrong: "rgba(32, 14, 22, 0.82)",
+      text: "#fef2f2",
+      textSub: "#fca5a5",
+      highlight: "#fb7185",
+    };
+  }, [theme]);
 
   const faqJsonLd = useMemo(
     () => ({
@@ -64,7 +100,9 @@ export function FAQ() {
         className="pointer-events-none absolute inset-0 -z-20"
         style={{
           background:
-            "radial-gradient(900px 520px at 20% 20%, rgba(251,113,133,0.14), transparent 62%), radial-gradient(700px 440px at 82% 28%, rgba(244,114,182,0.12), transparent 58%)",
+            theme === "light"
+              ? "radial-gradient(900px 520px at 20% 20%, rgba(211,51,51,0.12), transparent 62%), radial-gradient(700px 440px at 82% 28%, rgba(233, 87, 129, 0.1), transparent 58%)"
+              : "radial-gradient(900px 520px at 20% 20%, rgba(251,113,133,0.14), transparent 62%), radial-gradient(700px 440px at 82% 28%, rgba(244,114,182,0.12), transparent 58%)",
         }}
       />
 
@@ -72,18 +110,18 @@ export function FAQ() {
         <div className="mb-10 sm:mb-14 flex items-center gap-2 sm:gap-4">
           <motion.div
             className="h-px flex-1"
-            style={{ background: "linear-gradient(to right, transparent, var(--border), transparent)" }}
+            style={{ background: `linear-gradient(to right, transparent, ${palette.border}, transparent)` }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.15 }}
           />
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[color:var(--text-2)]">
+          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em]" style={{ color: palette.highlight }}>
             FAQ
           </span>
           <motion.div
             className="h-px flex-1"
-            style={{ background: "linear-gradient(to left, transparent, var(--border), transparent)" }}
+            style={{ background: `linear-gradient(to left, transparent, ${palette.border}, transparent)` }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
@@ -97,21 +135,32 @@ export function FAQ() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative overflow-hidden rounded-[1.75rem] border border-[color:var(--border)] bg-[color:var(--surface-1)] p-6 sm:p-8"
+            className="relative overflow-hidden rounded-[1.9rem] border p-6 sm:p-8"
+            style={{
+              borderColor: palette.border,
+              background: `linear-gradient(180deg, ${palette.surface}, ${palette.surfaceSoft})`,
+              boxShadow: `0 24px 70px ${theme === "light" ? "rgba(211,51,51,0.08)" : "rgba(0,0,0,0.25)"}`,
+            }}
           >
             <motion.div
               aria-hidden
               className="pointer-events-none absolute -right-16 -top-12 h-40 w-40 rounded-full blur-3xl"
-              style={{ background: "rgba(251,113,133,0.14)" }}
+              style={{ background: palette.glow }}
+            />
+
+            <motion.div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-px"
+              style={{ background: `linear-gradient(90deg, transparent, ${palette.accentStrong}, transparent)` }}
             />
 
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--text-2)]">
               Portfolio clarity
             </p>
-            <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-tight text-[color:var(--text-0)] sm:text-4xl">
+            <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl" style={{ color: palette.text }}>
               Common questions about Anish Seth
             </h2>
-            <p className="mt-4 max-w-xl text-sm leading-7 text-[color:var(--text-1)] sm:text-base">
+            <p className="mt-4 max-w-xl text-sm leading-7 sm:text-base" style={{ color: palette.textSub }}>
               This block is built to feel like the rest of the site: restrained, high-contrast, and product-grade. It also gives search engines explicit answers for the name, handles, and portfolio domain.
             </p>
 
@@ -124,20 +173,24 @@ export function FAQ() {
               ].map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface-0)] px-4 py-3"
+                  className="rounded-2xl border px-4 py-3 backdrop-blur-xl"
+                  style={{
+                    borderColor: palette.border,
+                    background: theme === "light" ? "rgba(255,255,255,0.5)" : "rgba(255,255,255,0.04)",
+                  }}
                 >
-                  <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[color:var(--text-2)]">
+                  <p className="text-[10px] font-bold uppercase tracking-[0.2em]" style={{ color: palette.highlight }}>
                     {item.label}
                   </p>
-                  <p className="mt-1 text-sm font-semibold text-[color:var(--text-0)]">
+                  <p className="mt-1 text-sm font-semibold" style={{ color: palette.text }}>
                     {item.value}
                   </p>
                 </div>
               ))}
             </div>
 
-            <p className="mt-6 text-xs leading-6 text-[color:var(--text-2)]">
-              Official site: <span className="font-semibold text-[color:var(--text-0)]">{siteConfig.url.replace(/^https?:\/\//, "")}</span>
+            <p className="mt-6 text-xs leading-6" style={{ color: palette.textSub }}>
+              Official site: <span className="font-semibold" style={{ color: palette.text }}>{siteConfig.url.replace(/^https?:\/\//, "")}</span>
             </p>
           </motion.div>
 
@@ -151,19 +204,27 @@ export function FAQ() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
-                  className="overflow-hidden rounded-[1.5rem] border border-[color:var(--border)] bg-[color:var(--surface-1)]"
+                  className="overflow-hidden rounded-[1.5rem] border backdrop-blur-xl"
+                  style={{
+                    borderColor: palette.border,
+                    background: open
+                      ? `linear-gradient(180deg, ${palette.cardStrong}, ${palette.card})`
+                      : `linear-gradient(180deg, ${palette.card}, ${theme === "light" ? "rgba(255,255,255,0.58)" : "rgba(255,255,255,0.03)"})`,
+                    boxShadow: open ? `0 18px 50px ${theme === "light" ? "rgba(211,51,51,0.08)" : "rgba(0,0,0,0.18)"}` : "none",
+                  }}
                 >
                   <button
                     type="button"
                     onClick={() => setOpenIndex(open ? -1 : index)}
                     className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-6"
                   >
-                    <span className="text-sm font-semibold leading-6 text-[color:var(--text-0)] sm:text-base">
+                    <span className="text-sm font-semibold leading-6 sm:text-base" style={{ color: palette.text }}>
                       {item.question}
                     </span>
                     <span
                       aria-hidden
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-[color:var(--border)] bg-[color:var(--surface-0)] text-[color:var(--text-2)]"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border"
+                      style={{ borderColor: palette.border, background: theme === "light" ? "rgba(255,255,255,0.58)" : "rgba(255,255,255,0.04)", color: palette.textSub }}
                     >
                       <motion.span
                         animate={{ rotate: open ? 180 : 0 }}
@@ -184,8 +245,8 @@ export function FAQ() {
                         transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
                       >
                         <div className="px-5 pb-5 sm:px-6">
-                          <div className="h-px w-full bg-[color:var(--border)]/80" />
-                          <p className="mt-4 max-w-3xl text-sm leading-7 text-[color:var(--text-1)] sm:text-base">
+                          <div className="h-px w-full" style={{ background: `linear-gradient(90deg, transparent, ${palette.border}, transparent)` }} />
+                          <p className="mt-4 max-w-3xl text-sm leading-7 sm:text-base" style={{ color: palette.textSub }}>
                             {item.answer}
                           </p>
                         </div>

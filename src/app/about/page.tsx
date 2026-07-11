@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { About } from "@/components/sections/About";
-import { Container } from "@/components/ui/Container";
+import { SubpageShell } from "@/components/layout/SubpageShell";
 import { siteConfig } from "@/lib/site.config";
 
 export const dynamic = "force-static";
@@ -23,18 +23,18 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <main>
-      <Container className="py-20 sm:py-24">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--text-2)]">About</p>
-        <h1 className="mt-4 max-w-3xl text-4xl font-bold tracking-tight text-[color:var(--text-0)] sm:text-5xl">
-          Anish Seth builds performance-first web products with strong design systems.
-        </h1>
-        <p className="mt-5 max-w-3xl text-lg leading-8 text-[color:var(--text-1)]">
-          This page exists to make the portfolio easier to discover for people searching for Anish Seth, the portfolio, or the work behind the name.
-        </p>
-      </Container>
-
+    <SubpageShell
+      eyebrow="About"
+      title="Anish Seth builds performance-first web products with strong design systems."
+      description="This page exists to make the portfolio easier to discover for people searching for Anish Seth, the portfolio, or the work behind the name."
+      chips={[
+        "Next.js",
+        "React",
+        "AI Systems",
+        "Performance Design",
+      ]}
+    >
       <About />
-    </main>
+    </SubpageShell>
   );
 }

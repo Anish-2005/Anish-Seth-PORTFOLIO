@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-import { Container } from "@/components/ui/Container";
+import { SubpageShell } from "@/components/layout/SubpageShell";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { seoNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
@@ -50,21 +50,24 @@ export default async function NotePage({ params }: Props) {
   }
 
   return (
-    <main>
-      <Container className="py-20 sm:py-24">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--text-2)]">Note</p>
-        <h1 className="mt-4 max-w-3xl text-4xl font-bold tracking-tight text-[color:var(--text-0)] sm:text-5xl">{note.title}</h1>
-        <p className="mt-4 max-w-3xl text-lg leading-8 text-[color:var(--text-1)]">{note.summary}</p>
-        <p className="mt-3 text-sm font-medium tracking-[0.18em] text-[color:var(--text-2)]">{note.date}</p>
-        <article className="mt-10 rounded-3xl border border-[color:var(--border)] bg-[color:var(--surface-1)] p-6 sm:p-8">
-          <MarkdownRenderer content={note.body} />
-        </article>
-        <div className="mt-8">
-          <Link href="/notes" className="font-medium text-[color:var(--accent)] underline underline-offset-4">
-            Back to all notes
-          </Link>
+    <SubpageShell
+      eyebrow="Note"
+      title={note.title}
+      description={note.summary}
+      chips={[note.date, "Frontend", "Performance"]}
+    >
+      <article className="rounded-[1.8rem] border border-[color:var(--border)] bg-[color:var(--surface-1)] p-6 sm:p-8 shadow-[0_18px_48px_rgba(0,0,0,0.16)]">
+        <div className="mb-6 flex items-center gap-3">
+          <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--accent)] shadow-[0_0_18px_var(--accent)]" />
+          <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--text-2)]">Article</span>
         </div>
-      </Container>
-    </main>
+        <MarkdownRenderer content={note.body} />
+      </article>
+      <div className="mt-6">
+        <Link href="/notes" className="font-medium text-[color:var(--accent)] underline underline-offset-4">
+          Back to all notes
+        </Link>
+      </div>
+    </SubpageShell>
   );
 }

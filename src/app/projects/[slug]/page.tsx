@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
-import { Container } from "@/components/ui/Container";
+import { SubpageShell } from "@/components/layout/SubpageShell";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
 import { seoProjects } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
@@ -50,59 +50,57 @@ export default async function ProjectPage({ params }: Props) {
   }
 
   return (
-    <main>
-      <Container className="py-20 sm:py-24">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--text-2)]">Project</p>
-        <h1 className="mt-4 max-w-3xl text-4xl font-bold tracking-tight text-[color:var(--text-0)] sm:text-5xl">{project.title}</h1>
-        <p className="mt-4 max-w-3xl text-lg leading-8 text-[color:var(--text-1)]">{project.tagline}</p>
-        <div className="mt-8 flex flex-wrap gap-2 text-sm text-[color:var(--text-2)]">
-          {project.stack.map((tech) => (
-            <span key={tech} className="rounded-full border border-[color:var(--border)] px-3 py-1">
-              {tech}
-            </span>
-          ))}
-        </div>
-        <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(280px,0.8fr)]">
-          <article className="rounded-3xl border border-[color:var(--border)] bg-[color:var(--surface-1)] p-6 sm:p-8">
-            <MarkdownRenderer content={project.body} />
-          </article>
-          <aside className="rounded-3xl border border-[color:var(--border)] bg-[color:var(--surface-1)] p-6 sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--text-2)]">Project details</p>
-            <dl className="mt-4 space-y-4 text-sm">
-              <div>
-                <dt className="text-[color:var(--text-2)]">Period</dt>
-                <dd className="mt-1 font-medium text-[color:var(--text-0)]">{project.period}</dd>
-              </div>
-              <div>
-                <dt className="text-[color:var(--text-2)]">Highlights</dt>
-                <dd className="mt-1 space-y-2 text-[color:var(--text-1)]">
-                  {project.highlights.map((highlight) => (
-                    <p key={highlight}>{highlight}</p>
-                  ))}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-[color:var(--text-2)]">Links</dt>
-                <dd className="mt-1 space-y-2">
-                  {project.links.map((link) => (
-                    <a key={link.href} href={link.href} className="block font-medium text-[color:var(--accent)] underline underline-offset-4">
-                      {link.label}
-                    </a>
-                  ))}
-                </dd>
-              </div>
-              <div>
-                <dt className="text-[color:var(--text-2)]">Portfolio</dt>
-                <dd className="mt-1">
-                  <Link href="/projects" className="font-medium text-[color:var(--accent)] underline underline-offset-4">
-                    Back to all projects
-                  </Link>
-                </dd>
-              </div>
-            </dl>
-          </aside>
-        </div>
-      </Container>
-    </main>
+    <SubpageShell
+      eyebrow="Project"
+      title={project.title}
+      description={project.tagline}
+      chips={project.stack}
+    >
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)]">
+        <article className="rounded-[1.8rem] border border-[color:var(--border)] bg-[color:var(--surface-1)] p-6 sm:p-8 shadow-[0_18px_48px_rgba(0,0,0,0.16)]">
+          <div className="mb-6 flex items-center gap-3">
+            <span className="h-2.5 w-2.5 rounded-full bg-[color:var(--accent)] shadow-[0_0_18px_var(--accent)]" />
+            <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[color:var(--text-2)]">Case study</span>
+          </div>
+          <MarkdownRenderer content={project.body} />
+        </article>
+
+        <aside className="rounded-[1.8rem] border border-[color:var(--border)] bg-[color:var(--surface-1)] p-6 sm:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--text-2)]">Project details</p>
+          <dl className="mt-4 space-y-5 text-sm">
+            <div>
+              <dt className="text-[color:var(--text-2)]">Period</dt>
+              <dd className="mt-1 font-medium text-[color:var(--text-0)]">{project.period}</dd>
+            </div>
+            <div>
+              <dt className="text-[color:var(--text-2)]">Highlights</dt>
+              <dd className="mt-1 space-y-2 text-[color:var(--text-1)]">
+                {project.highlights.map((highlight) => (
+                  <p key={highlight}>{highlight}</p>
+                ))}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[color:var(--text-2)]">Links</dt>
+              <dd className="mt-2 space-y-2">
+                {project.links.map((link) => (
+                  <a key={link.href} href={link.href} className="block rounded-xl border border-[color:var(--border)] bg-[color:var(--surface-0)] px-4 py-3 font-medium text-[color:var(--accent)] transition-colors hover:bg-[color:var(--surface-2)]">
+                    {link.label}
+                  </a>
+                ))}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-[color:var(--text-2)]">Portfolio</dt>
+              <dd className="mt-1">
+                <Link href="/projects" className="font-medium text-[color:var(--accent)] underline underline-offset-4">
+                  Back to all projects
+                </Link>
+              </dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
+    </SubpageShell>
   );
 }

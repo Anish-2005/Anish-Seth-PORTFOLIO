@@ -254,6 +254,16 @@ function HeroInner() {
             {professionalData.description}
           </motion.p>
 
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.48, ease: [0.22, 1, 0.36, 1] }}
+            className="mt-3 max-w-2xl text-xs sm:text-sm leading-6 opacity-80"
+            style={{ color: palette.textSub }}
+          >
+            Also known as <span className="font-semibold" style={{ color: palette.text }}>@AnishSeth170734</span> on X and <span className="font-semibold" style={{ color: palette.text }}>@_anish.seth_</span> on Instagram. Primary site: <span className="font-semibold" style={{ color: palette.text }}>anishseth.xyz</span>.
+          </motion.p>
+
           {/* Expertise tags */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -289,7 +299,7 @@ function HeroInner() {
             <ButtonLink href={siteConfig.resume.href} variant="secondary">
               View Resume
             </ButtonLink>
-            <ButtonLink href="#projects" variant="ghost">
+            <ButtonLink href="/projects" variant="ghost">
               Explore Work
             </ButtonLink>
           </motion.div>

@@ -157,6 +157,15 @@ function StructuredData() {
       siteConfig.sameAs.x,
       siteConfig.sameAs.website,
     ].filter(Boolean),
+    contactPoint: [
+      {
+        "@type": "ContactPoint",
+        contactType: "professional inquiry",
+        email: "anishseth0510@gmail.com",
+        areaServed: "IN",
+        availableLanguage: ["English"],
+      },
+    ],
     knowsAbout: [
       "Full-Stack Development",
       "React",
@@ -183,6 +192,13 @@ function StructuredData() {
     name: siteConfig.name,
     url: siteConfig.url,
     description: siteConfig.description,
+    inLanguage: siteConfig.locale,
+    sameAs: [
+      siteConfig.sameAs.github,
+      siteConfig.sameAs.linkedin,
+      siteConfig.sameAs.instagram,
+      siteConfig.sameAs.x,
+    ].filter(Boolean),
     author: {
       "@type": "Person",
       name: siteConfig.name,
@@ -195,6 +211,7 @@ function StructuredData() {
     name: `${siteConfig.name} portfolio`,
     description: siteConfig.description,
     url: siteConfig.url,
+    inLanguage: siteConfig.locale,
     mainEntity: {
       "@type": "Person",
       name: siteConfig.name,

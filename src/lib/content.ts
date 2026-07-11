@@ -46,6 +46,10 @@ export function getProjects(): Project[] {
   return projects;
 }
 
+export function getProjectById(id: string): Project | undefined {
+  return getProjects().find((project) => project.id === id);
+}
+
 export function getNotes(): Note[] {
   const files = readAllFiles("src/content/notes");
   const notes = files.map((file) => {
@@ -65,4 +69,8 @@ export function getNotes(): Note[] {
   });
 
   return notes.sort((a, b) => (a.date < b.date ? 1 : -1));
+}
+
+export function getNoteBySlug(slug: string): Note | undefined {
+  return getNotes().find((note) => note.slug === slug);
 }

@@ -98,10 +98,7 @@ function AboutInner() {
   const { isMobile } = useMobileOptimization();
   const sectionRef = useRef<HTMLElement>(null);
   const [mounted, setMounted] = useState(false);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
+  const { scrollYProgress } = useScroll();
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect

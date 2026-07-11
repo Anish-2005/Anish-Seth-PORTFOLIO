@@ -142,10 +142,7 @@ function ProjectsInner() {
     setMounted(true);
   }, []);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
+  const { scrollYProgress } = useScroll();
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.6]);
   const y = useTransform(scrollYProgress, [0, 0.5], [50, 0]);

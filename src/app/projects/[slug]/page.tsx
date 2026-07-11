@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { SubpageShell } from "@/components/layout/SubpageShell";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { seoProjects } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
@@ -56,6 +57,33 @@ export default async function ProjectPage({ params }: Props) {
       description={project.tagline}
       chips={project.stack}
     >
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: siteConfig.url },
+            { "@type": "ListItem", position: 2, name: "Projects", item: `${siteConfig.url}/projects` },
+            { "@type": "ListItem", position: 3, name: project.title, item: `${siteConfig.url}/projects/${project.slug}` },
+          ],
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          name: project.title,
+          description: project.tagline,
+          url: `${siteConfig.url}/projects/${project.slug}`,
+          author: {
+            "@type": "Person",
+            name: siteConfig.name,
+          },
+          inLanguage: siteConfig.locale,
+          keywords: project.stack,
+          about: project.highlights,
+        }}
+      />
       <div className="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)]">
         <article className="rounded-[1.8rem] border border-[color:var(--border)] bg-[color:var(--surface-1)] p-6 sm:p-8 shadow-[0_18px_48px_rgba(0,0,0,0.16)]">
           <div className="mb-6 flex items-center gap-3">

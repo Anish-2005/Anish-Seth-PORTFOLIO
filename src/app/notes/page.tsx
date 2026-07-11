@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Notes } from "@/components/sections/Notes";
 import { SubpageShell } from "@/components/layout/SubpageShell";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { seoNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
@@ -25,6 +26,12 @@ export const metadata: Metadata = {
 
 export default function NotesPage() {
   const notes = seoNotes;
+  const itemList = notes.map((note, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: note.title,
+    url: `${siteConfig.url}/notes/${note.slug}`,
+  }));
 
   return (
     <SubpageShell
@@ -41,6 +48,29 @@ export default function NotesPage() {
       <p className="max-w-3xl text-sm leading-7 text-[color:var(--text-2)]">
         The notes here help search engines connect Anish Seth with practical frontend and portfolio engineering topics.
       </p>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: siteConfig.url },
+            { "@type": "ListItem", position: 2, name: "Notes", item: `${siteConfig.url}/notes` },
+          ],
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: `Notes — ${siteConfig.name}`,
+          description: "Read short notes from Anish Seth on shipping polish, performance, UX details, and practical frontend lessons.",
+          url: `${siteConfig.url}/notes`,
+          mainEntity: {
+            "@type": "ItemList",
+            itemListElement: itemList,
+          },
+        }}
+      />
       <Notes notes={notes} />
 
       <div className="mt-8 grid gap-4 md:grid-cols-2">

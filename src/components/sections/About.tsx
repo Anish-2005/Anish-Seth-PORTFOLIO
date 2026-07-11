@@ -155,7 +155,8 @@ function AboutInner() {
       ref={sectionRef}
       className="relative overflow-hidden border-t py-16 sm:py-20 md:py-24 lg:py-32"
       style={{
-        borderColor: palette.cardBorder
+        borderColor: palette.cardBorder,
+        position: "relative",
       }}
     >
       {/* Animated background gradient */}

@@ -5,6 +5,7 @@ import { animate, motion, useInView, useMotionValue, useMotionValueEvent, type V
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/components/sections/Hero";
+import { FAQ } from "@/components/sections/FAQ";
 import { useTheme } from "@/context/ThemeContext";
 
 const About = lazy(() => import("@/components/sections/About").then(m => ({ default: m.About })));
@@ -228,6 +229,7 @@ export function SinglePagePortfolio() {
             <Contact />
           </LazySection>
         </Suspense>
+        <FAQ />
       </main>
       <Footer />
     </div>

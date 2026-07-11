@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Notes } from "@/components/sections/Notes";
 import { Container } from "@/components/ui/Container";
-import { getNotes } from "@/lib/content";
+import { seoNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
 export const dynamic = "force-static";
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 };
 
 export default function NotesPage() {
-  const notes = getNotes();
+  const notes = seoNotes;
 
   return (
     <main>

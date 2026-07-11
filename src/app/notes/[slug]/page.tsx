@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Container } from "@/components/ui/Container";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
-import { getNoteBySlug, getNotes } from "@/lib/content";
+import { seoNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
 type Props = {
@@ -15,12 +15,12 @@ export const dynamic = "force-static";
 export const revalidate = false;
 
 export function generateStaticParams() {
-  return getNotes().map((note) => ({ slug: note.slug }));
+  return seoNotes.map((note) => ({ slug: note.slug }));
 }
 
 export function generateMetadata({ params }: Props): Metadata {
   const { slug } = params;
-  const note = getNoteBySlug(slug);
+  const note = seoNotes.find((entry) => entry.slug === slug);
 
   if (!note) {
     return { title: "Note not found" };
@@ -43,7 +43,7 @@ export function generateMetadata({ params }: Props): Metadata {
 
 export default async function NotePage({ params }: Props) {
   const { slug } = params;
-  const note = getNoteBySlug(slug);
+  const note = seoNotes.find((entry) => entry.slug === slug);
 
   if (!note) {
     notFound();

@@ -75,18 +75,16 @@ export function Header() {
         style={{
           backdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
           WebkitBackdropFilter: scrolled ? "blur(12px)" : "blur(0px)",
-        }}
-        animate={{
-          background: scrolled ? palette.bg : "transparent",
+          backgroundColor: scrolled ? palette.bg : "rgba(0, 0, 0, 0)",
         }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
       />
 
       <motion.div
         className="absolute inset-x-0 bottom-0 h-px pointer-events-none"
-        animate={{
+        style={{
           opacity: scrolled ? 1 : 0,
-          background: scrolled ? palette.border : "transparent",
+          backgroundColor: scrolled ? palette.border : "rgba(0, 0, 0, 0)",
         }}
         transition={{ duration: 0.3 }}
       />

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Container } from "@/components/ui/Container";
 import { MarkdownRenderer } from "@/components/content/MarkdownRenderer";
-import { getProjectById, getProjects } from "@/lib/content";
+import { seoProjects } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
 type Props = {
@@ -15,12 +15,12 @@ export const dynamic = "force-static";
 export const revalidate = false;
 
 export function generateStaticParams() {
-  return getProjects().map((project) => ({ slug: project.id }));
+  return seoProjects.map((project) => ({ slug: project.slug }));
 }
 
 export function generateMetadata({ params }: Props): Metadata {
   const { slug } = params;
-  const project = getProjectById(slug);
+  const project = seoProjects.find((entry) => entry.slug === slug);
 
   if (!project) {
     return { title: "Project not found" };
@@ -30,12 +30,12 @@ export function generateMetadata({ params }: Props): Metadata {
     title: project.title,
     description: project.tagline || project.body.slice(0, 160),
     alternates: {
-      canonical: `/projects/${project.id}`,
+      canonical: `/projects/${project.slug}`,
     },
     openGraph: {
       title: `${project.title} — ${siteConfig.name}`,
       description: project.tagline || project.body.slice(0, 160),
-      url: `${siteConfig.url}/projects/${project.id}`,
+      url: `${siteConfig.url}/projects/${project.slug}`,
       type: "article",
     },
   };
@@ -43,7 +43,7 @@ export function generateMetadata({ params }: Props): Metadata {
 
 export default async function ProjectPage({ params }: Props) {
   const { slug } = params;
-  const project = getProjectById(slug);
+  const project = seoProjects.find((entry) => entry.slug === slug);
 
   if (!project) {
     notFound();

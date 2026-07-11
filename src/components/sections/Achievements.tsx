@@ -186,7 +186,7 @@ function AchievementsInner() {
       id="achievements"
       ref={sectionRef}
       className="relative overflow-hidden border-t py-16 sm:py-20 md:py-24 lg:py-32"
-      style={{ borderColor: palette.cardBorder }}
+      style={{ borderColor: palette.cardBorder, position: "relative" }}
     >
       {/* Background effects */}
       <motion.div

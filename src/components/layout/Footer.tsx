@@ -34,6 +34,8 @@ export function Footer() {
   const socialLinks = [
     { label: "GitHub", href: siteConfig.sameAs.github },
     { label: "LinkedIn", href: siteConfig.sameAs.linkedin },
+    { label: "Instagram / _anish.seth_", href: siteConfig.sameAs.instagram },
+    { label: "X / @AnishSeth170734", href: siteConfig.sameAs.x },
     { label: "Email", href: siteConfig.sameAs.email },
   ];
 

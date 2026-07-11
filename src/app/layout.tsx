@@ -60,6 +60,9 @@ export const metadata: Metadata = {
     "Portfolio Website",
     "Developer Portfolio",
     "Anish Seth Portfolio",
+    "AnishSeth170734",
+    "_anish.seth_",
+    "anishseth",
     "Smart India Hackathon",
     "AI Developer India",
     "Web3 Developer India",
@@ -92,10 +95,10 @@ export const metadata: Metadata = {
     locale: siteConfig.locale,
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: `${siteConfig.name} - ${siteConfig.role}`,
+        alt: `${siteConfig.name} portfolio and personal website`,
       },
     ],
   },
@@ -103,8 +106,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} — ${siteConfig.role}`,
     description: siteConfig.description,
-    images: ["/og-image.jpg"],
-    creator: "@anishseth", // Update if you have Twitter
+    images: ["/twitter-image"],
+    creator: "@AnishSeth170734",
   },
   robots: {
     index: true,
@@ -132,14 +135,17 @@ export const viewport = {
 };
 
 function StructuredData() {
+  const profileImage = `${siteConfig.url}/profile.jpg`;
+
   const personJsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: siteConfig.name,
-    alternateName: ["Anish", "ANISH SETH"],
+    alternateName: ["Anish", "ANISH SETH", "anishseth", "_anish.seth_"],
     jobTitle: siteConfig.role,
     description: siteConfig.description,
     url: siteConfig.url,
+    image: profileImage,
     address: {
       "@type": "PostalAddress",
       addressCountry: siteConfig.location,
@@ -147,7 +153,8 @@ function StructuredData() {
     sameAs: [
       siteConfig.sameAs.github,
       siteConfig.sameAs.linkedin,
-      siteConfig.sameAs.email,
+      siteConfig.sameAs.instagram,
+      siteConfig.sameAs.x,
       siteConfig.sameAs.website,
     ].filter(Boolean),
     knowsAbout: [
@@ -180,10 +187,17 @@ function StructuredData() {
       "@type": "Person",
       name: siteConfig.name,
     },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteConfig.url}/search?q={search_term_string}`,
-      "query-input": "required name=search_term_string",
+  };
+
+  const profilePageJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    name: `${siteConfig.name} portfolio`,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    mainEntity: {
+      "@type": "Person",
+      name: siteConfig.name,
     },
   };
 
@@ -197,6 +211,10 @@ function StructuredData() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }}
+      />
     </>
   );
 }
@@ -209,9 +227,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="canonical" href="https://anishseth.xyz/" />
-             <link rel="me" href={siteConfig.sameAs.github} />
-             <link rel="me" href={siteConfig.sameAs.linkedin} />
+        <link rel="canonical" href={siteConfig.url} />
+        <link rel="me" href={siteConfig.sameAs.github} />
+        <link rel="me" href={siteConfig.sameAs.linkedin} />
+        <link rel="me" href={siteConfig.sameAs.instagram} />
+        <link rel="me" href={siteConfig.sameAs.x} />
         <link rel="icon" type="image/png" href="/favicon.ico" />
         <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

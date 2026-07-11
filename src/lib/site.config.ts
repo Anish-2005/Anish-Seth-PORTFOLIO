@@ -1,15 +1,17 @@
 export const siteConfig = {
   name: "Anish Seth",
   role: "Full-Stack Developer | Next.js, React, Web Apps & AI",
-  description: "Portfolio of Anish Seth, a full-stack developer building scalable web and app solutions using Next.js, React, TypeScript, AI/ML, and Web3 technologies.",
-  url: "https://www.anishseth.xyz",
+  description: "Anish Seth is a full-stack developer building high-performance web apps with Next.js, React, TypeScript, AI/ML, and Web3. Find his portfolio, projects, and social profiles at anishseth.xyz.",
+  url: "https://anishseth.xyz",
   locale: "en-US",
   accent: "cyan",
   sameAs: {
-  linkedin: "https://www.linkedin.com/in/anishseth",
-  github: "https://github.com/Anish-2005",
-  email: "mailto:anishseth0510@gmail.com",
-  website: "https://www.anishseth.xyz",
+    linkedin: "https://www.linkedin.com/in/anishseth",
+    github: "https://github.com/Anish-2005",
+    instagram: "https://www.instagram.com/_anish.seth_/",
+    x: "https://x.com/AnishSeth170734",
+    email: "mailto:anishseth0510@gmail.com",
+    website: "https://anishseth.xyz",
   },
 
   location: "India",

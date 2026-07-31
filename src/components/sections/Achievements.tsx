@@ -117,6 +117,34 @@ const achievementsData = {
       description: "Founded and organized EDUC-A-THON, bringing together developers, designers, and innovators to solve educational challenges through technology",
       date: "2025",
       metric: "Event Leadership"
+    },
+    {
+      id: "ide-bootcamp-2026",
+      title: "IDE Bootcamp 2026 Finalist",
+      description: "Recognized as a finalist at the Innovation, Design, and Entrepreneurship (IDE) Bootcamp.",
+      date: "2026",
+      metric: "Finalist"
+    },
+    {
+      id: "samarth-outreach-head",
+      title: "Outreach Head @ Samarth",
+      description: "Leading outreach initiatives at Samarth, the Educational society of Techno Main Salt Lake.",
+      date: "Present",
+      metric: "Leadership"
+    },
+    {
+      id: "gfg-campus-mantri",
+      title: "GeeksForGeeks Campus Mantri",
+      description: "Represented GeeksForGeeks on campus, fostering a coding culture and organizing tech events.",
+      date: "Jan - Jun 2026",
+      metric: "Community"
+    },
+    {
+      id: "google-student-ambassador",
+      title: "Google Student Ambassador",
+      description: "Served as a Google Student Ambassador, bridging the gap between Google and the student developer community.",
+      date: "Jul - Dec 2026",
+      metric: "Ambassadorship"
     }
   ]
 };
@@ -473,7 +501,7 @@ function AchievementsInner() {
               style={{ color: palette.text }}
             >
               <StarIcon className="h-6 w-6 sm:h-7 sm:w-7" style={{ color: palette.highlight }} />
-              Recognition
+              Recognition & Roles
             </motion.h3>
 
             <div className="grid gap-4 sm:gap-6 md:grid-cols-2">

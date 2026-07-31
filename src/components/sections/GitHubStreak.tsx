@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Container } from "@/components/ui/Container";
 import { useTheme } from "@/context/ThemeContext";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 type ContributionDay = {
@@ -32,6 +32,8 @@ export function GitHubStreak() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedRange, setSelectedRange] = useState<string>("last-365");
+  const [rangeMenuOpen, setRangeMenuOpen] = useState(false);
+  const rangeMenuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -85,6 +87,33 @@ export function GitHubStreak() {
     }
     return Array.from(years).sort((a, b) => b - a);
   }, [sortedDays]);
+
+  const rangeOptions = useMemo(
+    () => [
+      { value: "last-365", label: "Last 365 days" },
+      ...availableYears.map((year) => ({ value: String(year), label: String(year) }))
+    ],
+    [availableYears]
+  );
+
+  useEffect(() => {
+    const closeMenu = (event: PointerEvent) => {
+      if (!rangeMenuRef.current?.contains(event.target as Node)) {
+        setRangeMenuOpen(false);
+      }
+    };
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setRangeMenuOpen(false);
+    };
+
+    document.addEventListener("pointerdown", closeMenu);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("pointerdown", closeMenu);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, []);
 
   const filteredDays = useMemo(() => {
     if (sortedDays.length === 0) {
@@ -191,6 +220,9 @@ export function GitHubStreak() {
         controlBorder: "rgba(190, 24, 93, 0.28)",
         controlText: "#3f1d1d",
         controlFocus: "rgba(225, 29, 72, 0.35)",
+        controlMenuBg: "#fffdfc",
+        controlActiveBg: "#ffe4e6",
+        controlHoverBg: "#fff1f2",
         buttonBg: "rgba(255, 237, 240, 0.95)",
         buttonHoverBg: "rgba(254, 205, 211, 0.95)",
         buttonBorder: "rgba(190, 24, 93, 0.32)",
@@ -210,6 +242,9 @@ export function GitHubStreak() {
       controlBorder: "rgba(251, 113, 133, 0.35)",
       controlText: "#ffe4e6",
       controlFocus: "rgba(251, 113, 133, 0.42)",
+      controlMenuBg: "#210b16",
+      controlActiveBg: "rgba(127, 29, 58, 0.72)",
+      controlHoverBg: "rgba(63, 18, 32, 0.9)",
       buttonBg: "rgba(63, 18, 32, 0.78)",
       buttonHoverBg: "rgba(127, 29, 58, 0.72)",
       buttonBorder: "rgba(251, 113, 133, 0.36)",
@@ -346,12 +381,14 @@ export function GitHubStreak() {
           >
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3 sm:mb-5">
               <p className="text-xs text-[color:var(--text-2)] sm:text-sm">Contribution range</p>
-              <label className="inline-flex items-center gap-2 text-xs text-[color:var(--text-2)] sm:text-sm">
-                <span className="sr-only">Select contribution year range</span>
-                <select
-                  value={selectedRange}
-                  onChange={(event) => setSelectedRange(event.target.value)}
-                  className="rounded-md border px-2.5 py-1.5 text-xs font-medium outline-none transition focus:ring-2 sm:text-sm"
+              <div ref={rangeMenuRef} className="relative">
+                <button
+                  type="button"
+                  aria-haspopup="listbox"
+                  aria-expanded={rangeMenuOpen}
+                  aria-controls="contribution-range-menu"
+                  onClick={() => setRangeMenuOpen((isOpen) => !isOpen)}
+                  className="inline-flex min-w-36 items-center justify-between gap-3 rounded-lg border px-3 py-2 text-xs font-semibold outline-none transition focus-visible:ring-2 sm:text-sm"
                   style={{
                     borderColor: heatmapPalette.controlBorder,
                     background: heatmapPalette.controlBg,
@@ -359,14 +396,55 @@ export function GitHubStreak() {
                     boxShadow: `0 0 0 0 ${heatmapPalette.controlFocus}`
                   }}
                 >
-                  <option value="last-365">Last 365 days</option>
-                  {availableYears.map((year) => (
-                    <option key={year} value={String(year)}>
-                      {year}
-                    </option>
-                  ))}
-                </select>
-              </label>
+                  <span>{rangeOptions.find((option) => option.value === selectedRange)?.label ?? "Last 365 days"}</span>
+                  <svg className={`h-3.5 w-3.5 transition-transform ${rangeMenuOpen ? "rotate-180" : ""}`} viewBox="0 0 16 16" fill="none" aria-hidden>
+                    <path d="m3.5 6 4.5 4 4.5-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                {rangeMenuOpen ? (
+                  <div
+                    id="contribution-range-menu"
+                    role="listbox"
+                    aria-label="Select contribution year range"
+                    className="absolute right-0 z-20 mt-2 min-w-full overflow-hidden rounded-xl border p-1 shadow-xl"
+                    style={{
+                      borderColor: heatmapPalette.controlBorder,
+                      background: heatmapPalette.controlMenuBg,
+                      color: heatmapPalette.controlText,
+                    }}
+                  >
+                    {rangeOptions.map((option) => {
+                      const isSelected = option.value === selectedRange;
+                      return (
+                        <button
+                          key={option.value}
+                          type="button"
+                          role="option"
+                          aria-selected={isSelected}
+                          onClick={() => {
+                            setSelectedRange(option.value);
+                            setRangeMenuOpen(false);
+                          }}
+                          className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-xs font-medium transition sm:text-sm"
+                          style={{
+                            background: isSelected ? heatmapPalette.controlActiveBg : "transparent",
+                            color: heatmapPalette.controlText,
+                          }}
+                          onMouseEnter={(event) => {
+                            if (!isSelected) event.currentTarget.style.background = heatmapPalette.controlHoverBg;
+                          }}
+                          onMouseLeave={(event) => {
+                            if (!isSelected) event.currentTarget.style.background = "transparent";
+                          }}
+                        >
+                          {option.label}
+                          {isSelected ? <span aria-hidden>✓</span> : null}
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : null}
+              </div>
             </div>
 
             {loading ? (

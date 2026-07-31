@@ -96,6 +96,46 @@ const SkillsCard = memo(function SkillsCard({ aboutData, palette, isMobile }: Sk
               ))}
             </div>
           </div>
+          <div>
+            <h4 className="mb-2 sm:mb-3 text-[10px] sm:text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
+              Data & AI
+            </h4>
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
+              {aboutData.skills.dataAndAi.map((skill: string) => (
+                <span
+                  key={skill}
+                  className={`rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium ${isMobile ? "" : "backdrop-blur-xl"}`}
+                  style={{
+                    background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
+                    border: `1px solid ${palette.cardBorder}`,
+                    color: palette.text
+                  }}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h4 className="mb-2 sm:mb-3 text-[10px] sm:text-sm font-semibold uppercase tracking-wider opacity-60" style={{ color: palette.text }}>
+              Core CS
+            </h4>
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
+              {aboutData.skills.fundamentals.map((skill: string) => (
+                <span
+                  key={skill}
+                  className={`rounded-md sm:rounded-lg px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-sm font-medium ${isMobile ? "" : "backdrop-blur-xl"}`}
+                  style={{
+                    background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
+                    border: `1px solid ${palette.cardBorder}`,
+                    color: palette.text
+                  }}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </motion.div>

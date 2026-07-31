@@ -2,38 +2,68 @@
   "clusters": [
     {
       "name": "Web",
-      "weight": 40,
+      "weight": 25,
       "skills": [
-        { "name": "Next.js", "weight": 12, "examples": ["atlas", "signal"] },
-        { "name": "React", "weight": 10, "examples": ["signal"] },
-        { "name": "TypeScript", "weight": 10, "examples": ["atlas", "signal"] },
-        { "name": "Accessibility", "weight": 8, "examples": ["atlas"] }
+        { "name": "Next.js", "weight": 8, "examples": ["atlas", "signal"] },
+        { "name": "React", "weight": 6, "examples": ["signal"] },
+        { "name": "TypeScript", "weight": 6, "examples": ["atlas", "signal"] },
+        { "name": "JavaScript", "weight": 3, "examples": [] },
+        { "name": "Accessibility", "weight": 2, "examples": ["atlas"] }
       ]
     },
     {
       "name": "Mobile",
-      "weight": 15,
+      "weight": 10,
       "skills": [
-        { "name": "React Native", "weight": 8, "examples": [] },
-        { "name": "Expo", "weight": 7, "examples": [] }
+        { "name": "React Native", "weight": 4, "examples": [] },
+        { "name": "Expo", "weight": 3, "examples": [] },
+        { "name": "Flutter", "weight": 3, "examples": [] }
       ]
     },
     {
       "name": "ML",
-      "weight": 25,
+      "weight": 20,
       "skills": [
-        { "name": "Pipelines", "weight": 10, "examples": [] },
-        { "name": "Python", "weight": 8, "examples": [] },
-        { "name": "Model Serving", "weight": 7, "examples": [] }
+        { "name": "Pipelines", "weight": 5, "examples": [] },
+        { "name": "Python", "weight": 5, "examples": [] },
+        { "name": "Model Serving", "weight": 3, "examples": [] },
+        { "name": "Basic ML", "weight": 3, "examples": [] },
+        { "name": "Predictive Modelling", "weight": 2, "examples": [] },
+        { "name": "OCR Extraction", "weight": 2, "examples": [] }
       ]
     },
     {
       "name": "Blockchain",
-      "weight": 20,
+      "weight": 10,
       "skills": [
-        { "name": "Ethers", "weight": 8, "examples": ["chainkit"] },
-        { "name": "Solidity", "weight": 7, "examples": ["chainkit"] },
-        { "name": "Indexing", "weight": 5, "examples": [] }
+        { "name": "Ethers", "weight": 4, "examples": ["chainkit"] },
+        { "name": "Solidity", "weight": 3, "examples": ["chainkit"] },
+        { "name": "Indexing", "weight": 3, "examples": [] }
+      ]
+    },
+    {
+      "name": "Data & BI",
+      "weight": 25,
+      "skills": [
+        { "name": "SQL", "weight": 5, "examples": [] },
+        { "name": "Excel", "weight": 4, "examples": [] },
+        { "name": "Power BI", "weight": 4, "examples": [] },
+        { "name": "Pandas", "weight": 3, "examples": [] },
+        { "name": "NumPy", "weight": 2, "examples": [] },
+        { "name": "Statistical Analysis", "weight": 3, "examples": [] },
+        { "name": "Data Cleaning & EDA", "weight": 2, "examples": [] },
+        { "name": "Data Visualisation", "weight": 2, "examples": [] }
+      ]
+    },
+    {
+      "name": "Databases",
+      "weight": 10,
+      "skills": [
+        { "name": "PostgreSQL", "weight": 3, "examples": [] },
+        { "name": "SQL Server", "weight": 2, "examples": [] },
+        { "name": "MongoDB", "weight": 2, "examples": [] },
+        { "name": "Firebase", "weight": 2, "examples": [] },
+        { "name": "DBMS", "weight": 1, "examples": [] }
       ]
     }
   ]

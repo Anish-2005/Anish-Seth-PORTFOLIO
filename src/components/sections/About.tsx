@@ -71,8 +71,10 @@ const aboutData: AboutData = {
   ],
   skills: {
     frontend: ["React", "Next.js", "TypeScript", "React Native", "Flutter", "Three.js", "Framer Motion", "Tailwind CSS"],
-    backend: ["Node.js", "Express", "FastAPI", "PostgreSQL", "MongoDB", "REST APIs", "GraphQL"],
-    tools: ["Git", "Docker", "Vercel", "Firebase", "AWS", "Figma", "VS Code"]
+    backend: ["Node.js", "Express", "FastAPI", "Django", "PostgreSQL", "SQL Server", "MongoDB", "REST APIs", "GraphQL"],
+    dataAndAi: ["SQL", "Excel", "Python", "Pandas", "NumPy", "Power BI", "Matplotlib", "Seaborn", "Statistical Analysis", "Data Cleaning", "EDA", "Dashboards", "Basic ML", "Predictive Modelling", "OCR Extraction"],
+    tools: ["Git", "Docker", "Vercel", "Firebase", "AWS", "Figma", "VS Code", "JavaScript", "Java", "C++"],
+    fundamentals: ["DBMS", "DSA", "OOP", "Operating Systems", "Computer Networks"]
   },
   journey: [
     {

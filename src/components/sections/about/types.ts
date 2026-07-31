@@ -9,7 +9,9 @@ export type Principle = {
 export type AboutSkills = {
   frontend: string[];
   backend: string[];
+  dataAndAi: string[];
   tools: string[];
+  fundamentals: string[];
 };
 
 export type JourneyEntry = {

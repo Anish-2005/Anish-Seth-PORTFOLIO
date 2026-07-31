@@ -28,9 +28,9 @@ function HeroInner() {
   const { isMobile } = useMobileOptimization();
   const [mounted, setMounted] = useState(false);
   const { scrollY } = useScroll();
-  const parallax = useTransform(scrollY, [0, 600], [0, reduce ? 0 : -80]);
-  const scaleProgress = useTransform(scrollY, [0, 400], [1, reduce ? 1 : 0.92]);
-  const opacityProgress = useTransform(scrollY, [0, 300], [1, 0.7]);
+  const parallax = useTransform(scrollY, [0, 600], [0, reduce || isMobile ? 0 : -36]);
+  const scaleProgress = useTransform(scrollY, [0, 400], [1, reduce || isMobile ? 1 : 0.97]);
+  const opacityProgress = useTransform(scrollY, [0, 300], [1, reduce || isMobile ? 1 : 0.82]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -115,15 +115,6 @@ function HeroInner() {
             background: `linear-gradient(125deg, ${palette.accentStrong}, ${palette.beam}, transparent 55%)`,
             opacity: opacityProgress
           }}
-          animate={reduce ? undefined : {
-            rotate: [-1.5, -2.2, -1.5],
-            scaleX: [1, 1.08, 1]
-          }}
-          transition={reduce ? undefined : {
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
         />
       )}
 
@@ -149,16 +140,6 @@ function HeroInner() {
           style={{
             background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
           }}
-          animate={reduce ? undefined : {
-            y: [0, -25, 0],
-            x: [0, 15, 0],
-            scale: [1, 1.12, 1]
-          }}
-          transition={reduce ? undefined : {
-            duration: 18,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
         />
       )}
 
@@ -181,15 +162,6 @@ function HeroInner() {
             <motion.div
               className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full"
               style={{ backgroundColor: palette.textSub }}
-              animate={reduce ? undefined : {
-                scale: [1, 1.3, 1],
-                opacity: [1, 0.6, 1]
-              }}
-              transition={reduce ? undefined : {
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
             />
             <span className="text-[10px] sm:text-xs font-medium tracking-wide" style={{ color: palette.text }}>
               Available for Opportunities
@@ -349,15 +321,6 @@ function HeroInner() {
               style={{
                 background: `radial-gradient(circle at 50% 50%, ${palette.glow}, transparent 65%)`
               }}
-              animate={reduce ? undefined : {
-                scale: [1, 1.2, 1],
-                opacity: [0.4, 0.65, 0.4]
-              }}
-              transition={reduce ? undefined : {
-                duration: 8,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
             />
 
             {/* Profile photo container */}
@@ -371,14 +334,6 @@ function HeroInner() {
                     ? "conic-gradient(from 0deg, #d73333, #e74974, #d73333, #e74974, #d73333)"
                     : "conic-gradient(from 0deg, #f87171, #fb7185, #f87171, #fb7185, #f87171)",
                   opacity: 0.4
-                }}
-                animate={reduce ? undefined : {
-                  rotate: 360
-                }}
-                transition={reduce ? undefined : {
-                  duration: 12,
-                  repeat: Infinity,
-                  ease: "linear"
                 }}
               />
 
@@ -434,15 +389,6 @@ function HeroInner() {
                   background: theme === "light" ? "#e74974" : "#fb7185",
                   boxShadow: `0 0 15px ${palette.glow}`
                 }}
-                animate={reduce ? undefined : {
-                  y: [0, -12, 0],
-                  scale: [1, 1.2, 1]
-                }}
-                transition={reduce ? undefined : {
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
               />
               <motion.div
                 aria-hidden
@@ -450,16 +396,6 @@ function HeroInner() {
                 style={{
                   background: theme === "light" ? "#d73333" : "#f87171",
                   boxShadow: `0 0 12px ${palette.glow}`
-                }}
-                animate={reduce ? undefined : {
-                  y: [0, 10, 0],
-                  scale: [1, 1.3, 1]
-                }}
-                transition={reduce ? undefined : {
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.5
                 }}
               />
             </div>

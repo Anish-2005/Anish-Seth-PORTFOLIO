@@ -39,6 +39,9 @@ export function Header() {
           textSub: "#6b4a3a",
           shadow: "0 4px 20px rgba(211, 51, 51, 0.08)",
           shadowHover: "0 8px 30px rgba(211, 51, 51, 0.15)",
+          logoSurface: "rgba(255, 255, 255, 0.94)",
+          logoRing: "rgba(132, 48, 60, 0.36)",
+          logoInk: "#2c1810",
         }
         : {
           bg: "rgba(15, 6, 11, 0.75)",
@@ -51,6 +54,9 @@ export function Header() {
           textSub: "#fca5a5",
           shadow: "0 4px 20px rgba(248, 113, 113, 0.1)",
           shadowHover: "0 8px 30px rgba(248, 113, 113, 0.2)",
+          logoSurface: "rgba(15, 6, 11, 0.9)",
+          logoRing: "rgba(255, 228, 230, 0.32)",
+          logoInk: "#fff1f2",
         },
     [theme]
   );
@@ -99,22 +105,10 @@ export function Header() {
 
       {/* Floating orb effects - only when scrolled and not on mobile */}
       {!isMobile && (
-        <motion.div
+        <div
           aria-hidden
           className="pointer-events-none absolute left-1/4 top-0 h-20 w-20 rounded-full blur-2xl"
-          style={{ background: palette.accentGlow }}
-          animate={{
-            opacity: scrolled ? 0.6 : 0,
-            x: scrolled ? [0, 30, -15, 0] : 0,
-            y: scrolled ? [0, -10, 5, 0] : 0,
-            scale: scrolled ? [1, 1.1, 0.95, 1] : 1,
-          }}
-          transition={{
-            opacity: { duration: 0.3 },
-            x: { duration: 8, ease: "easeInOut", repeat: Infinity },
-            y: { duration: 8, ease: "easeInOut", repeat: Infinity },
-            scale: { duration: 8, ease: "easeInOut", repeat: Infinity },
-          }}
+          style={{ background: palette.accentGlow, opacity: scrolled ? 0.35 : 0 }}
         />
       )}
 
@@ -173,12 +167,13 @@ export function Header() {
                 </linearGradient>
                 <radialGradient id="brandGlow" cx="35%" cy="30%" r="80%">
                   <stop offset="0%" stopColor={palette.accent} stopOpacity={0.95} />
-                  <stop offset="60%" stopColor={palette.accentGlow} stopOpacity={0.6} />
-                  <stop offset="100%" stopColor="rgba(15, 6, 11, 0)" stopOpacity={0} />
+                  <stop offset="65%" stopColor={palette.accentGlow} stopOpacity={0.28} />
+                  <stop offset="100%" stopColor={palette.logoSurface} stopOpacity={0} />
                 </radialGradient>
               </defs>
-              <circle cx="32" cy="32" r="28" fill="url(#brandGlow)" opacity="0.85" />
-              <circle cx="32" cy="32" r="22" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="1.5" />
+              <circle cx="32" cy="32" r="27" fill={palette.logoSurface} />
+              <circle cx="32" cy="32" r="27" fill="url(#brandGlow)" opacity="0.55" />
+              <circle cx="32" cy="32" r="22" fill="none" stroke={palette.logoRing} strokeWidth="1.5" />
               <path
                 d="M20 44c0-5.5 3.8-8 9.5-8h8.5c5.7 0 9.5-2.5 9.5-8s-3.8-8-9.5-8H28.5c-5.7 0-9.5-2.5-9.5-8"
                 fill="none"
@@ -191,7 +186,7 @@ export function Header() {
               <path
                 d="M20 46L32 18l12 28"
                 fill="none"
-                stroke="#ffffff"
+                stroke={palette.logoInk}
                 strokeWidth="2.2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -199,12 +194,12 @@ export function Header() {
               />
               <path
                 d="M24 36h16"
-                stroke="#ffffff"
+                stroke={palette.logoInk}
                 strokeWidth="1.8"
                 strokeLinecap="round"
                 strokeOpacity={0.65}
               />
-              <circle cx="45" cy="18" r="3" fill="#ffffff" fillOpacity={0.85} />
+              <circle cx="45" cy="18" r="3" fill={palette.accent} fillOpacity={0.9} />
             </motion.svg>
 
             <motion.div

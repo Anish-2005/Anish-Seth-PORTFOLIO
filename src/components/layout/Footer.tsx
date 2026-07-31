@@ -20,6 +20,9 @@ export function Footer() {
             accentB: "rgba(226,38,114,0.24)",
             orbA: "rgba(213,45,45,0.2)",
             orbB: "rgba(226,38,114,0.16)",
+            logoSurface: "rgba(255, 255, 255, 0.94)",
+            logoRing: "rgba(132, 48, 60, 0.36)",
+            logoInk: "#2c1810",
           }
         : {
             beam: "radial-gradient(140% 120% at 50% 90%, rgba(239,68,68,0.2), transparent 60%)",
@@ -27,6 +30,9 @@ export function Footer() {
             accentB: "rgba(244,114,182,0.22)",
             orbA: "rgba(239,68,68,0.22)",
             orbB: "rgba(244,114,182,0.18)",
+            logoSurface: "rgba(15, 6, 11, 0.9)",
+            logoRing: "rgba(255, 228, 230, 0.32)",
+            logoInk: "#fff1f2",
           },
     [theme]
   );
@@ -139,16 +145,30 @@ export function Footer() {
           >
             <motion.span
               aria-hidden
-              className="inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded text-[10px] sm:text-xs font-semibold"
-              style={{
-                background: `linear-gradient(135deg, ${palette.accentA}, ${palette.accentB})`,
-                color: theme === "light" ? "#1a0f12" : "#fdf2f8",
-                boxShadow: `0 4px 16px ${palette.accentA}`,
-              }}
+              className="inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center"
               whileHover={{ rotate: 8, scale: 1.1 }}
               transition={{ duration: 0.3, ease: [0.34, 1.56, 0.64, 1] }}
             >
-              AS
+              <svg viewBox="0 0 64 64" className="h-full w-full">
+                <defs>
+                  <linearGradient id="footerBrandGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor={theme === "light" ? "#d73333" : "#fb7185"} />
+                    <stop offset="100%" stopColor={palette.logoInk} stopOpacity={0.6} />
+                  </linearGradient>
+                  <radialGradient id="footerBrandGlow" cx="35%" cy="30%" r="80%">
+                    <stop offset="0%" stopColor={theme === "light" ? "#d73333" : "#fb7185"} stopOpacity={0.95} />
+                    <stop offset="65%" stopColor={palette.accentA} stopOpacity={0.28} />
+                    <stop offset="100%" stopColor={palette.logoSurface} stopOpacity={0} />
+                  </radialGradient>
+                </defs>
+                <circle cx="32" cy="32" r="27" fill={palette.logoSurface} />
+                <circle cx="32" cy="32" r="27" fill="url(#footerBrandGlow)" opacity="0.55" />
+                <circle cx="32" cy="32" r="22" fill="none" stroke={palette.logoRing} strokeWidth="1.5" />
+                <path d="M20 44c0-5.5 3.8-8 9.5-8h8.5c5.7 0 9.5-2.5 9.5-8s-3.8-8-9.5-8H28.5c-5.7 0-9.5-2.5-9.5-8" fill="none" stroke="url(#footerBrandGradient)" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" strokeOpacity={0.9} />
+                <path d="M20 46L32 18l12 28" fill="none" stroke={palette.logoInk} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" strokeOpacity={0.85} />
+                <path d="M24 36h16" stroke={palette.logoInk} strokeWidth="1.8" strokeLinecap="round" strokeOpacity={0.65} />
+                <circle cx="45" cy="18" r="3" fill={theme === "light" ? "#d73333" : "#fb7185"} fillOpacity={0.9} />
+              </svg>
             </motion.span>
             <span>
               © {new Date().getFullYear()} {siteConfig.name}

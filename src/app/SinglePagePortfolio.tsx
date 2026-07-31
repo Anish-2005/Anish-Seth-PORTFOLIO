@@ -13,7 +13,6 @@ const Projects = lazy(() => import("@/components/sections/Projects").then(m => (
 const Achievements = lazy(() => import("@/components/sections/Achievements").then(m => ({ default: m.Achievements })));
 const GitHubStreak = lazy(() => import("@/components/sections/GitHubStreak").then(m => ({ default: m.GitHubStreak })));
 const Contact = lazy(() => import("@/components/sections/Contact").then(m => ({ default: m.Contact })));
-const OrnamentLayer = lazy(() => import("@/components/visuals/OrnamentLayer").then(m => ({ default: m.OrnamentLayer })));
 const LightBackground = lazy(() => import("@/components/visuals/LightBackground").then(m => ({ default: m.LightBackground })));
 const DarkBackground = lazy(() => import("@/components/visuals/DarkBackground").then(m => ({ default: m.DarkBackground })));
 
@@ -66,6 +65,7 @@ const SectionWrap = ({ index, children }: { index: number; children: React.React
       whileInView="visible"
       viewport={{ once: true, margin: "-10%" }}
       custom={index}
+      style={{ contentVisibility: "auto", containIntrinsicSize: "auto 760px" }}
     >
       {children}
     </motion.div>
@@ -143,11 +143,6 @@ export function SinglePagePortfolio() {
           {theme === "light" ? <LightBackground /> : <DarkBackground />}
         </Suspense>
       )}
-      {allowVisuals ? (
-        <Suspense fallback={null}>
-          <OrnamentLayer />
-        </Suspense>
-      ) : null}
       <motion.div
         aria-hidden
         className="pointer-events-none fixed inset-x-0 md:inset-x-[-10%] top-[32%] h-64 -z-[5]"

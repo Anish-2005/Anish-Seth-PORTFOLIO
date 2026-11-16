@@ -44,34 +44,33 @@ export default async function ProjectPage({ params }: Props) {
   const prev = projects[(index - 1 + projects.length) % projects.length];
   const next = projects[(index + 1) % projects.length];
 
+  const details = [
+    { label: "Year", value: project.year },
+    { label: "Category", value: project.categories.map((c) => categoryLabels[c]).join(" · ") },
+    ...(project.badge ? [{ label: "Recognition", value: project.badge }] : []),
+    { label: "Stack", value: project.stack.join(" / ") },
+  ];
+
   return (
     <SubpageShell
-      eyebrow={project.kicker}
+      eyebrow={`Case study ${String(index + 1).padStart(2, "0")} — ${project.kicker}`}
       title={project.title}
       description={project.summary}
       crumbs={[{ label: "Case studies", href: "/projects" }, { label: project.title }]}
       meta={
         <div className="flex flex-wrap items-center gap-3">
           {project.links.live ? (
-            <ButtonLink href={project.links.live} size="md">
+            <ButtonLink href={project.links.live}>
               Visit live site <Icon name="arrow-up-right" size={15} />
             </ButtonLink>
           ) : null}
           {project.links.github ? (
-            <ButtonLink href={project.links.github} size="md" variant="secondary">
-              <Icon name="github" size={16} /> View source
+            <ButtonLink href={project.links.github} variant="secondary">
+              View source <Icon name="github" size={15} />
             </ButtonLink>
           ) : null}
           {!project.links.live && !project.links.github ? (
-            <span className="chip !h-9 !px-4">
-              <Icon name="shield" size={14} /> Private build — walkthrough available on request
-            </span>
-          ) : null}
-          {project.badge ? (
-            <span className="inline-flex h-9 items-center gap-1.5 rounded-full bg-accent-soft px-4 text-[0.82rem] font-medium text-accent-ink">
-              <Icon name="trophy" size={14} />
-              {project.badge}
-            </span>
+            <p className="label">Private build — walkthrough available on request</p>
           ) : null}
         </div>
       }
@@ -102,83 +101,85 @@ export default async function ProjectPage({ params }: Props) {
         }}
       />
 
-      <div className="card fade-in aspect-[16/8] overflow-hidden p-0 sm:aspect-[21/8]" style={{ "--d": "320ms" } as React.CSSProperties}>
-        <ProjectArt kind={project.art} id={`hero-${project.slug}`} />
-      </div>
+      <div className="grid lg:grid-cols-12">
+        {/* Specs column */}
+        <aside className="mb-12 lg:col-span-3 lg:mb-0 lg:pr-10">
+          <dl className="border-t border-line lg:sticky lg:top-28" data-reveal>
+            {details.map((d) => (
+              <div key={d.label} className="border-b border-line py-4">
+                <dt className="label">{d.label}</dt>
+                <dd className="mt-1.5 text-[0.92rem] leading-snug">{d.value}</dd>
+              </div>
+            ))}
+            <div className="py-5">
+              <Link href="/#contact" className="link-u inline-flex items-center gap-2 text-[0.9rem]">
+                Discuss this project <Icon name="arrow-right" size={14} className="text-accent-ink" />
+              </Link>
+            </div>
+          </dl>
+        </aside>
 
-      <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-16">
-        <article className="lg:col-span-8">
-          <section aria-labelledby="problem" data-reveal>
-            <p className="eyebrow">01 — Context</p>
-            <h2 id="problem" className="mt-3 text-[1.6rem] font-semibold tracking-tight">
-              The problem
-            </h2>
-            <p className="mt-4 text-[1.08rem] leading-[1.8] text-muted text-pretty">{project.problem}</p>
+        <article className="min-w-0 lg:col-span-9 lg:pl-10">
+          <figure className="fade-in" style={{ "--d": "320ms" } as React.CSSProperties}>
+            <div className="relative">
+              <div className="aspect-[16/9] overflow-hidden bg-bg-elev">
+                <ProjectArt kind={project.art} id={`hero-${project.slug}`} />
+              </div>
+              <span aria-hidden className="xh left-0 top-0" />
+              <span aria-hidden className="xh left-full top-0" />
+              <span aria-hidden className="xh left-0 top-full" />
+              <span aria-hidden className="xh left-full top-full" />
+            </div>
+            <figcaption className="label mt-4">Fig. 01 — {project.title}, schematic</figcaption>
+          </figure>
+
+          <section aria-labelledby="problem" className="mt-16 grid gap-4 border-t border-line pt-8 md:grid-cols-[10rem_1fr] md:gap-10" data-reveal>
+            <p className="label text-accent-ink">01 / Context</p>
+            <div>
+              <h2 id="problem" className="text-[1.6rem] font-semibold tracking-[-0.025em] [font-stretch:110%]">
+                The problem
+              </h2>
+              <p className="mt-4 text-[1.06rem] leading-[1.8] text-muted text-pretty">{project.problem}</p>
+            </div>
           </section>
 
-          <section aria-labelledby="approach" className="mt-14" data-reveal>
-            <p className="eyebrow">02 — Engineering</p>
-            <h2 id="approach" className="mt-3 text-[1.6rem] font-semibold tracking-tight">
-              The approach
-            </h2>
-            <ol className="mt-6 space-y-4">
-              {project.approach.map((step, i) => (
-                <li key={step} className="card flex gap-5 p-5 sm:p-6">
-                  <span className="font-mono text-sm text-accent-ink">{String(i + 1).padStart(2, "0")}</span>
-                  <p className="text-[1rem] leading-relaxed text-fg/90 text-pretty">{step}</p>
-                </li>
-              ))}
-            </ol>
+          <section aria-labelledby="approach" className="mt-14 grid gap-4 border-t border-line pt-8 md:grid-cols-[10rem_1fr] md:gap-10" data-reveal>
+            <p className="label text-accent-ink">02 / Engineering</p>
+            <div>
+              <h2 id="approach" className="text-[1.6rem] font-semibold tracking-[-0.025em] [font-stretch:110%]">
+                The approach
+              </h2>
+              <ol className="mt-6 border-t border-line">
+                {project.approach.map((step, i) => (
+                  <li key={step} className="grid grid-cols-[2.5rem_1fr] gap-2 border-b border-line py-5">
+                    <span className="font-mono text-[0.75rem] text-subtle">{String(i + 1).padStart(2, "0")}</span>
+                    <p className="text-[1rem] leading-relaxed text-pretty">{step}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
           </section>
 
-          <section aria-labelledby="outcomes" className="mt-14" data-reveal>
-            <p className="eyebrow">03 — Result</p>
-            <h2 id="outcomes" className="mt-3 text-[1.6rem] font-semibold tracking-tight">
-              What shipped
-            </h2>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-3">
-              {project.outcomes.map((o) => (
-                <li key={o} className="rounded-2xl border border-line bg-bg-elev-2/50 p-5">
-                  <Icon name="check" size={18} className="text-accent-ink" />
-                  <p className="mt-3 text-[0.94rem] leading-snug">{o}</p>
-                </li>
-              ))}
-            </ul>
+          <section aria-labelledby="outcomes" className="mt-14 grid gap-4 border-t border-line pt-8 md:grid-cols-[10rem_1fr] md:gap-10" data-reveal>
+            <p className="label text-accent-ink">03 / Result</p>
+            <div>
+              <h2 id="outcomes" className="text-[1.6rem] font-semibold tracking-[-0.025em] [font-stretch:110%]">
+                What shipped
+              </h2>
+              <ul className="mt-6 grid gap-px border-y border-line bg-line sm:grid-cols-3">
+                {project.outcomes.map((o, i) => (
+                  <li key={o} className={`bg-bg py-5 sm:pr-5 ${i > 0 ? "sm:pl-5" : ""}`}>
+                    <Icon name="check" size={16} className="text-accent-ink" />
+                    <p className="mt-3 text-[0.94rem] leading-snug">{o}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </section>
         </article>
-
-        <aside className="lg:col-span-4">
-          <div className="card p-6 lg:sticky lg:top-28" data-reveal>
-            <dl className="space-y-5 text-[0.9rem]">
-              <div>
-                <dt className="eyebrow !text-[0.64rem]">Year</dt>
-                <dd className="mt-1.5 font-medium">{project.year}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow !text-[0.64rem]">Category</dt>
-                <dd className="mt-1.5 font-medium">{project.categories.map((c) => categoryLabels[c]).join(" · ")}</dd>
-              </div>
-              <div>
-                <dt className="eyebrow !text-[0.64rem]">Stack</dt>
-                <dd className="mt-2.5 flex flex-wrap gap-1.5">
-                  {project.stack.map((s) => (
-                    <span key={s} className="chip">
-                      {s}
-                    </span>
-                  ))}
-                </dd>
-              </div>
-            </dl>
-            <div className="hairline my-6" />
-            <p className="text-[0.9rem] text-muted">Want the deeper technical walkthrough?</p>
-            <ButtonLink href="/#contact" size="md" className="mt-4 w-full">
-              Let&apos;s talk <Icon name="arrow-right" size={15} />
-            </ButtonLink>
-          </div>
-        </aside>
       </div>
 
-      <nav aria-label="More case studies" className="mt-20 grid gap-4 border-t border-line pt-10 sm:grid-cols-2">
+      <nav aria-label="More case studies" className="mt-24 grid gap-px border-y border-line bg-line sm:grid-cols-2">
         {[
           { p: prev, dir: "Previous" },
           { p: next, dir: "Next" },
@@ -186,14 +187,12 @@ export default async function ProjectPage({ params }: Props) {
           <Link
             key={dir}
             href={`/projects/${p.slug}`}
-            className={`card group flex flex-col p-6 transition-colors hover:border-line-strong ${dir === "Next" ? "sm:items-end sm:text-right" : ""}`}
+            className={`group flex flex-col bg-bg py-8 ${dir === "Next" ? "sm:items-end sm:pl-8 sm:text-right" : "sm:pr-8"}`}
           >
-            <span className="eyebrow flex items-center gap-1.5">
-              {dir === "Previous" ? <Icon name="arrow-right" size={12} className="rotate-180" /> : null}
-              {dir}
-              {dir === "Next" ? <Icon name="arrow-right" size={12} /> : null}
+            <span className="label">{dir === "Previous" ? "← Previous" : "Next →"}</span>
+            <span className="mt-3 text-[1.35rem] font-semibold tracking-[-0.025em] transition-colors [font-stretch:110%] group-hover:text-accent-ink">
+              {p.title}
             </span>
-            <span className="mt-3 text-[1.15rem] font-semibold tracking-tight transition-colors group-hover:text-accent-ink">{p.title}</span>
             <span className="mt-1 text-[0.86rem] text-subtle">{p.kicker}</span>
           </Link>
         ))}

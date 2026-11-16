@@ -1,153 +1,152 @@
 import Image from "next/image";
 
-import { AgentConsole } from "@/components/hero/AgentConsole";
+import { Wordmark } from "@/components/hero/Wordmark";
+import { SectionRule } from "@/components/site/Frame";
+import { LocalTime } from "@/components/site/LocalTime";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { PORTRAIT } from "@/components/site/Portrait";
 import { heroStats, profile } from "@/data/portfolio";
 import { formatCompact } from "@/lib/utils";
-
-const HEADLINE = ["I", "build", "agentic", "AI", "systems", "that", "hold", "up"];
 
 type HeroProps = { contributions: number; repos: number };
 
 export function Hero({ contributions, repos }: HeroProps) {
   const stats = [
-    { value: formatCompact(contributions), label: "GitHub contributions, last 12 months" },
+    { value: formatCompact(contributions), label: "GitHub contributions · 12 mo" },
     { value: String(repos), label: "Public repositories" },
     ...heroStats,
   ];
 
   return (
-    <section id="intro" aria-labelledby="hero-title" className="relative isolate overflow-hidden pb-16 pt-28 md:pb-24 md:pt-36">
-      {/* Atmosphere */}
+    <section id="intro" aria-label="Introduction" className="relative isolate overflow-hidden pt-24 md:pt-28">
+      {/* Dot field — the accent layer follows the pointer (or the idle wave) via --hx / --hy */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="bg-grid mask-fade-b absolute inset-0" />
-        <div
-          className="aurora aurora-a left-[-18%] top-[-30%] h-[680px] w-[680px] md:left-[-8%]"
-          style={{ background: "radial-gradient(closest-side, var(--aurora-1), transparent)" }}
-        />
-        <div
-          className="aurora aurora-b right-[-25%] top-[-5%] h-[600px] w-[600px] md:right-[-10%]"
-          style={{ background: "radial-gradient(closest-side, var(--aurora-2), transparent)" }}
-        />
-        <div
-          className="aurora left-[30%] top-[45%] h-[420px] w-[520px]"
-          style={{ background: "radial-gradient(closest-side, var(--aurora-3), transparent)" }}
-        />
+        <div className="dots absolute inset-0 [mask-image:linear-gradient(to_bottom,#000_20%,transparent_92%)]" />
+        <div className="dots-accent absolute inset-0 opacity-80" />
       </div>
 
-      <div className="container-x grid items-center gap-14 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-14">
-        <div>
-          {/* Identity */}
-          <div className="fade-in flex items-center gap-3" style={{ "--d": "0ms" } as React.CSSProperties}>
-            <Image
-              src="/profile.jpg"
-              alt="Portrait of Anish Seth"
-              width={44}
-              height={44}
-              sizes="44px"
-              priority
-              className="size-11 rounded-full object-cover object-[50%_30%] ring-1 ring-line-strong"
-            />
-            <div className="leading-tight">
-              <p className="text-[0.92rem] font-semibold tracking-tight">{profile.name}</p>
-              <p className="text-[0.8rem] text-subtle">
-                {profile.role} · {profile.location}
-              </p>
+      <div className="relative">
+        <div className="container-x lg:pb-24">
+          {/* Masthead */}
+          <dl
+            className="fade-in grid grid-cols-2 gap-x-6 gap-y-5 border-b border-line pb-5 text-[0.88rem] lg:grid-cols-12 lg:gap-x-0"
+            style={{ "--d": "40ms" } as React.CSSProperties}
+          >
+            <div className="lg:col-span-3 lg:pr-10">
+              <dt className="label">Role</dt>
+              <dd className="mt-1.5">{profile.role}</dd>
             </div>
-          </div>
-
-          {/* Current role */}
-          <a
-            href="#experience"
-            className="fade-in group mt-8 inline-flex max-w-full items-center gap-2.5 rounded-full border border-line bg-bg-elev/70 py-1 pl-1 pr-3.5 text-[0.8rem] backdrop-blur transition-colors hover:border-line-strong"
-            style={{ "--d": "80ms" } as React.CSSProperties}
-          >
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--ok)_14%,transparent)] px-2.5 py-1 font-medium text-ok">
-              <span className="pulse-dot size-1.5 rounded-full bg-ok text-ok" />
-              Now
-            </span>
-            <span className="truncate text-muted">
-              {profile.current.title} at <span className="font-medium text-fg">{profile.current.company}</span>
-            </span>
-            <Icon name="arrow-right" size={14} className="shrink-0 text-subtle transition-transform group-hover:translate-x-0.5" />
-          </a>
-
-          <h1
-            id="hero-title"
-            className="rise mt-6 text-[clamp(2.55rem,6.4vw,4.6rem)] font-semibold leading-[1.0] tracking-[-0.045em] text-balance"
-          >
-            {HEADLINE.map((w, i) => (
-              <span key={w + i} style={{ "--i": i } as React.CSSProperties}>
-                {w}
-                {" "}
-              </span>
-            ))}
-            <span className="serif-em pr-1 text-[1.06em]" style={{ "--i": HEADLINE.length } as React.CSSProperties}>
-              in production.
-            </span>
-          </h1>
-
-          <p
-            className="fade-in mt-6 max-w-xl text-[1.06rem] leading-relaxed text-muted text-pretty md:text-[1.12rem]"
-            style={{ "--d": "520ms" } as React.CSSProperties}
-          >
-            AI/ML engineer specialising in <span className="text-fg">multi-agent orchestration</span>,{" "}
-            <span className="text-fg">RAG &amp; GraphRAG</span> and <span className="text-fg">enterprise automation</span> on AWS
-            Bedrock — with the guardrails, observability and cost discipline that real financial workflows demand.
-          </p>
-
-          <div className="fade-in mt-9 flex flex-wrap items-center gap-3" style={{ "--d": "640ms" } as React.CSSProperties}>
-            <ButtonLink href="#work" size="lg">
-              See selected work
-              <Icon name="arrow-right" size={16} className="transition-transform group-hover/btn:translate-x-0.5" />
-            </ButtonLink>
-            <ButtonLink href={profile.links.resume} size="lg" variant="secondary">
-              Download résumé
-              <Icon name="download" size={16} className="transition-transform group-hover/btn:translate-y-px" />
-            </ButtonLink>
-            <div className="ml-1 hidden items-center gap-1 sm:flex">
-              {[
-                { href: profile.links.github, icon: "github" as const, label: "GitHub profile" },
-                { href: profile.links.linkedin, icon: "linkedin" as const, label: "LinkedIn profile" },
-              ].map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="grid size-11 place-items-center rounded-full text-muted transition-colors hover:bg-bg-elev-2 hover:text-fg"
-                >
-                  <Icon name={s.icon} size={18} />
-                </a>
-              ))}
+            <div className="lg:col-span-3 lg:pl-10">
+              <dt className="label">Focus</dt>
+              <dd className="mt-1.5">Agentic AI &amp; LLM systems</dd>
             </div>
-          </div>
-        </div>
-
-        <div className="fade-in relative" style={{ "--d": "380ms" } as React.CSSProperties}>
-          <div
-            aria-hidden
-            className="absolute -inset-6 -z-10 rounded-[2rem] opacity-70 blur-2xl"
-            style={{ background: "radial-gradient(60% 60% at 60% 40%, var(--aurora-1), transparent 70%)" }}
-          />
-          <AgentConsole />
-        </div>
-      </div>
-
-      {/* Proof row */}
-      <div className="container-x mt-16 md:mt-20">
-        <dl className="fade-in grid grid-cols-2 overflow-hidden rounded-2xl border border-line bg-line [gap:1px] md:grid-cols-4" style={{ "--d": "760ms" } as React.CSSProperties}>
-          {stats.map((s) => (
-            <div key={s.label} className="flex flex-col-reverse justify-end bg-bg px-5 py-5 md:px-6 md:py-6">
-              <dt className="mt-2 text-[0.8rem] leading-snug text-subtle">{s.label}</dt>
-              <dd className="text-[1.9rem] font-semibold leading-none tracking-[-0.04em] tabular-nums md:text-[2.3rem]">
-                {s.value}
+            <div className="lg:col-span-3 lg:pl-10">
+              <dt className="label">Currently</dt>
+              <dd className="mt-1.5 flex items-center gap-2">
+                <span className="pulse-dot size-1.5 rounded-full bg-ok text-ok" aria-hidden />
+                {profile.current.company}
               </dd>
             </div>
-          ))}
-        </dl>
+            <div className="lg:col-span-3 lg:text-right">
+              <dt className="label">Kolkata, India</dt>
+              <dd className="mt-1.5 font-mono text-[0.82rem] tabular-nums">
+                <LocalTime />
+              </dd>
+            </div>
+          </dl>
+
+          <div className="mt-12 md:mt-16">
+            <Wordmark hostId="intro" />
+          </div>
+
+          <div className="mt-10 grid gap-8 border-t border-line pt-8 md:mt-14 lg:grid-cols-12 lg:gap-0">
+            <p className="label fade-in hidden lg:col-span-3 lg:block lg:pr-10" style={{ "--d": "700ms" } as React.CSSProperties}>
+              AI/ML Engineer
+              <br />
+              <span className="text-subtle/80">Est. 2023 — Kolkata</span>
+            </p>
+            <div className="lg:col-span-5 lg:pl-10 lg:pr-6">
+              <p
+                className="fade-in text-[clamp(1.3rem,2.05vw,1.7rem)] leading-[1.3] tracking-[-0.02em] text-balance [font-stretch:104%]"
+                style={{ "--d": "760ms" } as React.CSSProperties}
+              >
+                I build agentic AI systems that hold up in production
+                <span className="text-subtle">
+                  {" "}
+                  — multi-agent orchestration, RAG &amp; GraphRAG and enterprise automation on AWS Bedrock, with the
+                  guardrails real financial workflows demand.
+                </span>
+              </p>
+              <div className="fade-in mt-9 flex flex-wrap items-center gap-3" style={{ "--d": "860ms" } as React.CSSProperties}>
+                <ButtonLink href="#work" size="lg">
+                  Selected work
+                  <Icon name="arrow-right" size={16} className="transition-transform duration-500 group-hover/btn:translate-x-1" />
+                </ButtonLink>
+                <ButtonLink href={profile.links.resume} size="lg" variant="secondary">
+                  Résumé
+                  <Icon name="arrow-up-right" size={15} />
+                </ButtonLink>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/*
+          Portrait: in flow on small screens; on desktop it stands on the stats rule in the
+          right-hand columns, its head rising in front of the wordmark like a magazine cover.
+        */}
+        <div className="container-x pointer-events-none mt-12 flex h-[340px] justify-end sm:h-[420px] lg:absolute lg:inset-x-0 lg:bottom-0 lg:mt-0 lg:h-[530px] xl:h-[560px]">
+          <figure className="portrait-in relative h-full">
+            <div
+              aria-hidden
+              className="absolute -inset-x-[18%] bottom-[18%] top-[-4%] -z-10"
+              style={{ background: "radial-gradient(closest-side, var(--portrait-halo), transparent)" }}
+            />
+            <Image
+              src={PORTRAIT.src}
+              alt={PORTRAIT.alt}
+              width={PORTRAIT.width}
+              height={PORTRAIT.height}
+              preload
+              sizes="(min-width: 1280px) 397px, (min-width: 1024px) 376px, (min-width: 640px) 298px, 241px"
+              className="h-full w-auto select-none object-contain object-bottom"
+              draggable={false}
+            />
+            <figcaption className="label absolute bottom-3 left-0 hidden -translate-x-[calc(100%+0.75rem)] whitespace-nowrap text-right sm:block">
+              Fig. 01
+              <br />
+              <span className="text-fg">Anish Seth</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      {/* Proof row — the portrait stands on this rule */}
+      <div className="relative z-[2]">
+        <SectionRule />
+        <div className="container-x">
+          <dl className="grid grid-cols-2 lg:grid-cols-4">
+            {stats.map((s, i) => (
+              <div
+                key={s.label}
+                className={[
+                  "flex flex-col-reverse justify-end py-7 md:py-9",
+                  i % 2 === 1 ? "border-l border-line pl-5 sm:pl-8" : "pr-5",
+                  i >= 2 ? "border-t border-line lg:border-t-0" : "",
+                  i === 2 ? "lg:border-l lg:pl-10" : "",
+                  i === 1 ? "lg:pl-10" : "",
+                  i === 3 ? "lg:pl-10" : "",
+                ].join(" ")}
+              >
+                <dt className="label mt-3">{s.label}</dt>
+                <dd className="text-[clamp(2.3rem,4.4vw,3.6rem)] font-medium leading-none tracking-[-0.045em] tabular-nums [font-stretch:112%]">
+                  {s.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </div>
     </section>
   );

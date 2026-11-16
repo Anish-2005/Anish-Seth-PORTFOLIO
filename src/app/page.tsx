@@ -6,7 +6,6 @@ import { FAQ } from "@/components/sections/FAQ";
 import { Hero } from "@/components/sections/Hero";
 import { OpenSource } from "@/components/sections/OpenSource";
 import { Recognition } from "@/components/sections/Recognition";
-import { StackMarquee } from "@/components/sections/StackMarquee";
 import { Work } from "@/components/sections/Work";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getGitHubStats } from "@/lib/github";
@@ -30,7 +29,6 @@ export default async function Home() {
         }}
       />
       <Hero contributions={stats.contributionsLastYear} repos={stats.publicRepos} />
-      <StackMarquee />
       <About />
       <Experience />
       <Work repoCount={stats.publicRepos} />

@@ -29,7 +29,7 @@ export function ThemeToggle({ className }: { className?: string }) {
       aria-label={theme ? `Switch to ${next} theme` : "Toggle theme"}
       title={theme ? `Switch to ${next} theme` : "Toggle theme"}
       className={cn(
-        "relative grid size-9 place-items-center rounded-full text-muted transition-colors hover:bg-bg-elev-2 hover:text-fg",
+        "relative grid size-9 place-items-center text-muted transition-colors hover:text-fg",
         className,
       )}
     >

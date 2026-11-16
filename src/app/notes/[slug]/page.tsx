@@ -61,7 +61,7 @@ export default async function NotePage({ params }: Props) {
           inLanguage: siteConfig.locale,
         }}
       />
-      <article className="mx-auto max-w-2xl border-t border-line pt-10">
+      <article className="max-w-2xl lg:ml-[25%] lg:pl-10">
         <MarkdownRenderer content={note.body} />
         <div className="mt-14 flex items-center justify-between border-t border-line pt-6">
           <Link href="/notes" className="inline-flex items-center gap-2 text-[0.9rem] text-muted transition-colors hover:text-fg">

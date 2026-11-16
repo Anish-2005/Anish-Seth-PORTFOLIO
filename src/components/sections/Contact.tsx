@@ -1,79 +1,65 @@
 import { ContactForm } from "@/components/contact/ContactForm";
 import { CopyEmail } from "@/components/contact/CopyEmail";
-import { Icon, type IconName } from "@/components/ui/Icon";
+import { Icon } from "@/components/ui/Icon";
+import { Section } from "@/components/ui/Section";
 import { profile } from "@/data/portfolio";
 
-const socials: { label: string; handle: string; href: string; icon: IconName }[] = [
-  { label: "LinkedIn", handle: "in/anishseth", href: profile.links.linkedin, icon: "linkedin" },
-  { label: "GitHub", handle: "@Anish-2005", href: profile.links.github, icon: "github" },
-  { label: "X", handle: "@AnishSeth170734", href: profile.links.x, icon: "x" },
-  { label: "LeetCode", handle: "Anish_Seth", href: profile.links.leetcode, icon: "leetcode" },
+const socials = [
+  { label: "LinkedIn", handle: "in/anishseth", href: profile.links.linkedin },
+  { label: "GitHub", handle: "@Anish-2005", href: profile.links.github },
+  { label: "X", handle: "@AnishSeth170734", href: profile.links.x },
+  { label: "LeetCode", handle: "Anish_Seth", href: profile.links.leetcode },
 ];
 
 export function Contact() {
   return (
-    <section id="contact" aria-labelledby="contact-title" className="section-y relative isolate overflow-hidden">
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div
-          className="absolute left-[-10%] top-[12%] h-[560px] w-[760px] rounded-full opacity-80"
-          style={{ background: "radial-gradient(closest-side, var(--aurora-1), transparent)" }}
-        />
+    <Section
+      id="contact"
+      index="07"
+      label="Contact"
+      note="Open to conversations about AI/ML engineering roles, agentic systems and ambitious products."
+      titleClassName="!text-[clamp(2.6rem,6.4vw,5.4rem)] !leading-[0.96] !tracking-[-0.045em]"
+      title={
+        <>
+          Let&apos;s build something <span className="text-accent">reliable.</span>
+        </>
+      }
+    >
+      <div data-reveal>
+        <CopyEmail email={profile.email} />
       </div>
-      <div className="container-x">
-        <div className="mb-6 flex items-center gap-4" data-reveal>
-          <span className="font-mono text-xs text-accent-ink">07</span>
-          <span className="eyebrow">Contact</span>
-          <span className="hairline flex-1" aria-hidden />
+
+      <div className="mt-16 grid gap-14 border-t border-line pt-10 md:grid-cols-[minmax(0,1fr)_15rem] md:gap-12">
+        <div data-reveal>
+          <ContactForm />
         </div>
 
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-14">
-          <div className="lg:col-span-5">
-            <h2 id="contact-title" className="display !text-[clamp(2.6rem,6vw,4.4rem)]" data-reveal>
-              Let&apos;s build something <span className="serif-em">reliable.</span>
-            </h2>
-            <p className="mt-6 max-w-md text-[1.06rem] leading-relaxed text-muted text-pretty" data-reveal style={{ "--d": "80ms" } as React.CSSProperties}>
-              Open to conversations about AI/ML engineering roles, agentic systems and ambitious products. I usually reply within a day.
-            </p>
-
-            <div className="mt-9" data-reveal style={{ "--d": "140ms" } as React.CSSProperties}>
-              <CopyEmail email={profile.email} />
-            </div>
-
-            <ul className="mt-4 grid grid-cols-2 gap-2" data-reveal style={{ "--d": "200ms" } as React.CSSProperties}>
-              {socials.map((s) => (
-                <li key={s.label}>
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group flex items-center gap-3 rounded-xl border border-line px-3.5 py-3 transition-colors hover:border-line-strong hover:bg-bg-elev"
-                  >
-                    <Icon name={s.icon} size={16} className="shrink-0 text-muted group-hover:text-fg" />
-                    <span className="min-w-0">
-                      <span className="block text-[0.84rem] font-medium">{s.label}</span>
-                      <span className="block truncate text-[0.74rem] text-subtle">{s.handle}</span>
-                    </span>
-                    <Icon name="arrow-up-right" size={13} className="ml-auto shrink-0 text-subtle opacity-0 transition-opacity group-hover:opacity-100" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-7" data-reveal style={{ "--d": "120ms" } as React.CSSProperties}>
-            <div className="card relative p-6 shadow-[var(--shadow-pop)] sm:p-8">
-              <div className="mb-6 flex items-center justify-between gap-4">
-                <p className="text-[1.05rem] font-semibold tracking-tight">Send a message</p>
-                <span className="inline-flex items-center gap-1.5 font-mono text-[10.5px] text-subtle">
-                  <span className="pulse-dot size-1.5 rounded-full bg-ok text-ok" />
-                  Usually replies in &lt; 24h
-                </span>
-              </div>
-              <ContactForm />
-            </div>
-          </div>
+        <div data-reveal style={{ "--d": "100ms" } as React.CSSProperties}>
+          <p className="label mb-3">Elsewhere</p>
+          <ul className="border-t border-line">
+            {socials.map((s) => (
+              <li key={s.label} className="border-b border-line">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between gap-3 py-3.5 transition-[padding] duration-500 ease-[var(--ease-out-expo)] hover:pl-1.5"
+                >
+                  <span>
+                    <span className="block text-[0.95rem]">{s.label}</span>
+                    <span className="block font-mono text-[0.72rem] text-subtle">{s.handle}</span>
+                  </span>
+                  <Icon
+                    name="arrow-up-right"
+                    size={15}
+                    className="text-subtle transition-all duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent-ink"
+                  />
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

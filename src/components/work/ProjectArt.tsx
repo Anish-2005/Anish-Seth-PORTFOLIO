@@ -8,10 +8,8 @@ import { cn } from "@/lib/utils";
  * crisp at every density, and it re-colours with the active theme.
  */
 export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string; className?: string }) {
-  const g = `art-g-${id}`;
-  const glow = `art-glow-${id}`;
   const grid = `art-grid-${id}`;
-  const A = `url(#${g})`;
+  const A = "var(--accent)";
   const L = "var(--line-strong)";
   const S = "var(--fg-subtle)";
   const E = "var(--bg-elev-2)";
@@ -67,7 +65,7 @@ export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string;
         {[60, 100, 140, 180].map((y) => (
           <line key={y} x1="40" x2="360" y1={y} y2={y} stroke={L} strokeDasharray="2 5" />
         ))}
-        <path d="M40 185 L80 170 L115 176 L150 140 L185 150 L220 112 L255 120 L290 84 L325 92 L360 55 L360 200 L40 200 Z" fill={A} opacity="0.14" />
+        <path d="M40 185 L80 170 L115 176 L150 140 L185 150 L220 112 L255 120 L290 84 L325 92 L360 55 L360 200 L40 200 Z" fill={A} opacity="0.08" />
         <path d="M40 185 L80 170 L115 176 L150 140 L185 150 L220 112 L255 120 L290 84 L325 92 L360 55" fill="none" stroke={A} strokeWidth="2.5" strokeLinejoin="round" />
         {[[70, 150, 30], [110, 160, 22], [150, 125, 28], [190, 132, 26], [230, 98, 30], [270, 100, 22], [310, 72, 26]].map(([x, y, h], i) => (
           <rect key={i} x={x - 4} y={y} width="8" height={h} rx="2" fill={i % 3 === 1 ? "var(--fg-subtle)" : E} stroke={L} opacity="0.9" />
@@ -248,20 +246,11 @@ export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string;
   return (
     <svg viewBox="0 0 400 240" className={cn("h-full w-full", className)} role="presentation" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
       <defs>
-        <linearGradient id={g} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="var(--accent)" />
-          <stop offset="1" stopColor="var(--accent-2)" />
-        </linearGradient>
-        <radialGradient id={glow} cx="0.5" cy="0.45" r="0.6">
-          <stop offset="0" stopColor="var(--accent)" stopOpacity="0.16" />
-          <stop offset="1" stopColor="var(--accent)" stopOpacity="0" />
-        </radialGradient>
         <pattern id={grid} width="20" height="20" patternUnits="userSpaceOnUse">
           <path d="M20 0H0V20" fill="none" stroke="var(--grid)" strokeWidth="1" />
         </pattern>
       </defs>
       <rect width="400" height="240" fill={`url(#${grid})`} />
-      <rect width="400" height="240" fill={`url(#${glow})`} />
       {motifs[kind]}
     </svg>
   );

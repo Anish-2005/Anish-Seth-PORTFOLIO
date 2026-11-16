@@ -27,7 +27,7 @@ export default function AboutPage() {
         title={
           <>
             {profile.name} — {profile.role.toLowerCase().replace("ai/ml", "AI/ML")} building{" "}
-            <span className="serif-em">trustworthy agents.</span>
+            <span className="text-subtle">trustworthy agents.</span>
           </>
         }
         description={profile.summary}
@@ -44,7 +44,7 @@ export default function AboutPage() {
         }
       />
       <div className="[&>section:first-child]:pt-6 md:[&>section:first-child]:pt-10">
-        <About />
+        <About portrait />
         <Experience />
         <Recognition />
       </div>

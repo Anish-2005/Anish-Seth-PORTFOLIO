@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { Icon } from "@/components/ui/Icon";
+import { SectionRule } from "@/components/site/Frame";
 
 type Crumb = { label: string; href?: string };
 
@@ -15,68 +15,68 @@ type SubpageShellProps = {
   children?: ReactNode;
 };
 
+/** Subpage masthead on the same 3/9 grid as the home sections. */
 export function SubpageShell({ eyebrow, title, description, chips = [], crumbs = [], meta, children }: SubpageShellProps) {
   const trail: Crumb[] = [{ label: "Home", href: "/" }, ...crumbs];
   return (
     <>
-      <section className="relative isolate overflow-hidden pb-12 pt-32 md:pb-16 md:pt-40">
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          <div className="bg-grid mask-fade-b absolute inset-0" />
-          <div
-            className="aurora aurora-a left-[-10%] top-[-40%] h-[560px] w-[560px]"
-            style={{ background: "radial-gradient(closest-side, var(--aurora-1), transparent)" }}
-          />
-        </div>
-        <div className="container-x">
-          <nav aria-label="Breadcrumb" className="fade-in">
-            <ol className="flex flex-wrap items-center gap-1.5 text-[0.8rem] text-subtle">
-              {trail.map((c, i) => (
-                <li key={c.label} className="flex items-center gap-1.5">
-                  {i > 0 ? <Icon name="arrow-right" size={11} className="opacity-60" /> : null}
-                  {c.href ? (
-                    <Link href={c.href} className="transition-colors hover:text-fg">
-                      {c.label}
-                    </Link>
-                  ) : (
-                    <span aria-current="page" className="text-muted">
-                      {c.label}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </nav>
-          <p className="eyebrow fade-in mt-8" style={{ "--d": "60ms" } as React.CSSProperties}>
-            {eyebrow}
-          </p>
-          <h1 className="heading fade-in mt-4 max-w-4xl !text-[clamp(2.3rem,5.4vw,4rem)]" style={{ "--d": "120ms" } as React.CSSProperties}>
-            {title}
-          </h1>
-          {description ? (
-            <p
-              className="fade-in mt-5 max-w-2xl text-[1.06rem] leading-relaxed text-muted text-pretty md:text-[1.12rem]"
-              style={{ "--d": "180ms" } as React.CSSProperties}
-            >
-              {description}
+      <section className="relative isolate overflow-hidden pt-28 md:pt-32">
+        <div aria-hidden className="dots pointer-events-none absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,#000,transparent_85%)]" />
+        <div className="container-x grid pb-14 md:pb-20 lg:grid-cols-12">
+          <div className="mb-8 lg:col-span-3 lg:mb-0 lg:pr-10">
+            <nav aria-label="Breadcrumb" className="fade-in">
+              <ol className="label flex flex-wrap items-center gap-x-2 gap-y-1">
+                {trail.map((c, i) => (
+                  <li key={c.label} className="flex items-center gap-2">
+                    {i > 0 ? <span aria-hidden>/</span> : null}
+                    {c.href ? (
+                      <Link href={c.href} className="link-u hover:text-fg">
+                        {c.label}
+                      </Link>
+                    ) : (
+                      <span aria-current="page" className="text-fg">
+                        {c.label}
+                      </span>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          </div>
+          <div className="min-w-0 lg:col-span-9 lg:pl-10">
+            <p className="label fade-in text-accent-ink" style={{ "--d": "60ms" } as React.CSSProperties}>
+              {eyebrow}
             </p>
-          ) : null}
-          {chips.length ? (
-            <ul className="fade-in mt-7 flex flex-wrap gap-2" style={{ "--d": "240ms" } as React.CSSProperties}>
-              {chips.map((c) => (
-                <li key={c} className="chip">
-                  {c}
-                </li>
-              ))}
-            </ul>
-          ) : null}
-          {meta ? (
-            <div className="fade-in mt-8" style={{ "--d": "300ms" } as React.CSSProperties}>
-              {meta}
-            </div>
-          ) : null}
+            <h1
+              className="fade-in mt-5 max-w-4xl text-[clamp(2.4rem,5.6vw,4.6rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-balance [font-stretch:112%]"
+              style={{ "--d": "120ms" } as React.CSSProperties}
+            >
+              {title}
+            </h1>
+            {description ? (
+              <p className="lede fade-in mt-6 max-w-2xl" style={{ "--d": "180ms" } as React.CSSProperties}>
+                {description}
+              </p>
+            ) : null}
+            {chips.length ? (
+              <p className="fade-in mt-7 font-mono text-[0.75rem] text-subtle" style={{ "--d": "240ms" } as React.CSSProperties}>
+                {chips.join("  /  ")}
+              </p>
+            ) : null}
+            {meta ? (
+              <div className="fade-in mt-9" style={{ "--d": "300ms" } as React.CSSProperties}>
+                {meta}
+              </div>
+            ) : null}
+          </div>
         </div>
       </section>
-      {children ? <div className="container-x pb-24 md:pb-32">{children}</div> : null}
+      {children ? (
+        <>
+          <SectionRule />
+          <div className="container-x pb-24 pt-14 md:pb-32 md:pt-20">{children}</div>
+        </>
+      ) : null}
     </>
   );
 }

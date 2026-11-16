@@ -7,23 +7,28 @@ type Variant = "primary" | "secondary" | "ghost";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "group/btn relative inline-flex select-none items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-[transform,background-color,border-color,color,box-shadow] duration-300 ease-[var(--ease-out-expo)] active:scale-[0.97] disabled:pointer-events-none disabled:opacity-60";
+  "group/btn relative inline-flex select-none items-center justify-center gap-2.5 overflow-hidden whitespace-nowrap rounded-[3px] font-medium tracking-[-0.005em] transition-[background-color,border-color,color] duration-300 ease-[var(--ease-out-expo)] disabled:pointer-events-none disabled:opacity-60";
 
 const variants: Record<Variant, string> = {
+  // Ink button; an accent panel wipes in from the left on hover.
   primary:
-    "bg-accent text-accent-fg shadow-[inset_0_1px_0_rgba(255,255,255,0.25),0_10px_30px_-10px_color-mix(in_oklab,var(--accent)_70%,transparent)] hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.3),0_14px_40px_-10px_color-mix(in_oklab,var(--accent)_85%,transparent)] hover:-translate-y-px",
-  secondary:
-    "border border-line-strong bg-bg-elev/70 text-fg backdrop-blur hover:border-[color-mix(in_oklab,var(--accent)_45%,var(--line-strong))] hover:bg-bg-elev-2 hover:-translate-y-px",
-  ghost: "text-muted hover:text-fg hover:bg-bg-elev-2",
+    "bg-fg text-bg before:absolute before:inset-0 before:origin-left before:scale-x-0 before:bg-accent before:transition-transform before:duration-500 before:ease-[var(--ease-out-expo)] hover:text-accent-fg hover:before:scale-x-100 [&>*]:relative",
+  secondary: "border border-line-strong text-fg hover:border-fg",
+  ghost: "text-muted hover:text-fg",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-4 text-[0.82rem]",
-  md: "h-11 px-5 text-[0.92rem]",
-  lg: "h-12 px-6 text-[0.95rem]",
+  sm: "h-9 px-3.5 text-[0.82rem]",
+  md: "h-11 px-5 text-[0.9rem]",
+  lg: "h-12 px-6 text-[0.94rem]",
 };
 
 type CommonProps = { variant?: Variant; size?: Size; className?: string; children: ReactNode };
+
+/** Wraps text nodes so the primary button's hover panel stays behind them. */
+function Inner({ children }: { children: ReactNode }) {
+  return <span className="relative inline-flex items-center gap-2.5">{children}</span>;
+}
 
 export function ButtonLink({
   href,
@@ -43,13 +48,13 @@ export function ButtonLink({
         {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
         {...rest}
       >
-        {children}
+        <Inner>{children}</Inner>
       </a>
     );
   }
   return (
     <Link href={href} className={classes} {...rest}>
-      {children}
+      <Inner>{children}</Inner>
     </Link>
   );
 }
@@ -63,7 +68,7 @@ export function Button({
 }: CommonProps & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button className={cn(base, variants[variant], sizes[size], className)} {...rest}>
-      {children}
+      <Inner>{children}</Inner>
     </button>
   );
 }

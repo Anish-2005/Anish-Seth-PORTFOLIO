@@ -1,8 +1,8 @@
 import Link from "next/link";
 
+import { SectionRule } from "@/components/site/Frame";
 import { LocalTime } from "@/components/site/LocalTime";
 import { LogoMark } from "@/components/site/Logo";
-import { Icon } from "@/components/ui/Icon";
 import { profile } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
 
@@ -31,42 +31,61 @@ const columns = [
   },
 ];
 
+function StaticWordmark() {
+  const words = ["Anish", "Seth"];
+  return (
+    <p
+      aria-hidden
+      className="wordmark wordmark-static select-none bg-gradient-to-b from-[var(--line-strong)] to-transparent bg-clip-text pb-[0.04em] text-transparent"
+    >
+      {words.map((word, w) => (
+        <span key={word} className="wordmark-word">
+          {word.split("").map((ch, c) => (
+            <span key={c} data-ch>
+              {ch}
+            </span>
+          ))}
+          {w === 0 ? <span data-space /> : null}
+        </span>
+      ))}
+    </p>
+  );
+}
+
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="relative border-t border-line">
-      <div className="container-x grid gap-12 py-14 md:grid-cols-12 md:py-16">
-        <div className="md:col-span-5">
+    <footer className="relative z-[1]">
+      <SectionRule />
+      <div className="container-x grid gap-12 py-16 lg:grid-cols-12 lg:gap-0">
+        <div className="lg:col-span-3 lg:pr-10">
           <div className="flex items-center gap-3">
             <LogoMark />
-            <div>
-              <p className="font-semibold tracking-tight">{profile.name}</p>
-              <p className="text-[0.8rem] text-subtle">{siteConfig.shortRole}</p>
-            </div>
+            <p className="font-semibold tracking-[-0.01em] [font-stretch:108%]">{profile.name}</p>
           </div>
-          <p className="mt-5 max-w-sm text-[0.9rem] leading-relaxed text-muted">
+          <p className="mt-5 max-w-[16rem] text-[0.9rem] leading-relaxed text-muted">
             Agentic AI, LLM systems and full-stack products — engineered for production.
           </p>
-          <p className="mt-5 flex items-center gap-2 font-mono text-[0.75rem] text-subtle">
-            <span className="pulse-dot size-1.5 rounded-full bg-ok text-ok" />
-            {profile.location} · <LocalTime />
+          <p className="label mt-6 flex items-center gap-2">
+            <span className="pulse-dot size-1.5 rounded-full bg-ok text-ok" aria-hidden />
+            Kolkata · <LocalTime />
           </p>
         </div>
 
-        <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:col-span-7">
+        <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-9 lg:pl-10">
           {columns.map((col) => (
             <div key={col.title}>
-              <p className="eyebrow">{col.title}</p>
+              <p className="label">{col.title}</p>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map((l) => {
                   const ext = l.href.startsWith("http");
-                  const cls = "inline-flex items-center gap-1 text-[0.88rem] text-muted transition-colors hover:text-fg";
+                  const cls = "link-u text-[0.9rem] text-muted transition-colors hover:text-fg";
                   return (
                     <li key={l.label}>
                       {ext || l.href.endsWith(".pdf") ? (
                         <a href={l.href} className={cls} {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
                           {l.label}
-                          {ext ? <Icon name="arrow-up-right" size={12} className="text-subtle" /> : null}
+                          {ext ? " ↗" : ""}
                         </a>
                       ) : (
                         <Link href={l.href} className={cls}>
@@ -82,22 +101,17 @@ export function Footer() {
         </nav>
       </div>
 
-      <div className="border-t border-line">
-        <div className="container-x flex flex-col items-start justify-between gap-3 py-6 text-[0.8rem] text-subtle sm:flex-row sm:items-center">
-          <p>
-            © {year} {profile.name}. Designed &amp; engineered in Kolkata.
-          </p>
-          <a href="#top" className="inline-flex items-center gap-1.5 transition-colors hover:text-fg">
-            Back to top <Icon name="arrow-up" size={13} />
-          </a>
-        </div>
+      <div className="container-x overflow-hidden">
+        <StaticWordmark />
       </div>
 
-      {/* Oversized wordmark */}
-      <div aria-hidden className="pointer-events-none select-none overflow-hidden">
-        <p className="container-x -mb-[0.2em] whitespace-nowrap text-center bg-[linear-gradient(180deg,var(--line-strong),transparent_80%)] bg-clip-text text-[clamp(4rem,17vw,15rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-transparent">
-          Anish Seth
+      <div className="container-x flex flex-col items-start justify-between gap-3 border-t border-line py-6 sm:flex-row sm:items-center">
+        <p className="label">
+          © {year} {profile.name} — Designed &amp; engineered in Kolkata
         </p>
+        <a href="#top" className="label link-u hover:text-fg">
+          Back to top ↑
+        </a>
       </div>
     </footer>
   );

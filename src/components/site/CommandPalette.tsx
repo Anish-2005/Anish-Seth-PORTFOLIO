@@ -198,7 +198,7 @@ export function CommandPalette() {
     <dialog
       ref={dialogRef}
       aria-label="Command menu"
-      className="m-0 mx-auto mt-[12vh] w-[min(640px,calc(100vw-24px))] max-w-none overflow-hidden rounded-2xl border border-line-strong bg-bg-elev p-0 text-fg shadow-[var(--shadow-pop)] backdrop:bg-transparent open:animate-[fade-in_.35s_var(--ease-out-expo)]"
+      className="m-0 mx-auto mt-[12vh] w-[min(640px,calc(100vw-24px))] max-w-none overflow-hidden rounded-[4px] border border-line-strong bg-bg-elev p-0 text-fg shadow-[var(--shadow-pop)] backdrop:bg-transparent open:animate-[fade-in_.35s_var(--ease-out-expo)]"
       onClick={(e) => {
         if (e.target === dialogRef.current) close();
       }}
@@ -243,13 +243,13 @@ export function CommandPalette() {
                   onMouseMove={() => setActiveIndex(i)}
                   onClick={() => execute(c)}
                   className={cn(
-                    "flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors",
+                    "flex cursor-pointer items-center gap-3 rounded-[3px] px-3 py-2.5 text-sm transition-colors",
                     i === activeIndex ? "bg-bg-elev-2 text-fg" : "text-muted",
                   )}
                 >
                   <span
                     className={cn(
-                      "grid size-8 shrink-0 place-items-center rounded-lg border border-line",
+                      "grid size-8 shrink-0 place-items-center rounded-[3px] border border-line",
                       i === activeIndex ? "text-accent-ink" : "text-subtle",
                     )}
                   >

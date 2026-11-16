@@ -14,7 +14,9 @@ export function RevealObserver() {
     const root = document.documentElement;
     root.classList.add("reveal-ready");
 
-    const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-revealed])"));
+    const nodes = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-revealed]), .rule:not([data-revealed])"),
+    );
     if (!("IntersectionObserver" in window)) {
       nodes.forEach((n) => n.setAttribute("data-revealed", ""));
       return;

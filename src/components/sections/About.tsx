@@ -1,124 +1,117 @@
-import Image from "next/image";
-
-import { LocalTime } from "@/components/site/LocalTime";
-import { Icon, type IconName } from "@/components/ui/Icon";
-import { SectionHeader } from "@/components/ui/SectionHeader";
+import { PortraitPlate } from "@/components/site/Portrait";
+import { Section } from "@/components/ui/Section";
 import { education, principles, profile } from "@/data/portfolio";
 
-const facts: { label: string; value: string; icon: IconName }[] = [
-  { label: "Currently", value: `${profile.current.title}, ${profile.current.company}`, icon: "branch" },
-  { label: "Focus", value: "Agentic AI · LLM systems · Automation", icon: "spark" },
-  { label: "Education", value: education[0].degree.replace("B.Tech, ", "B.Tech — "), icon: "cap" },
-  { label: "Based in", value: profile.location, icon: "pin" },
+const facts = [
+  { label: "Currently", value: `${profile.current.title}, ${profile.current.company}` },
+  { label: "Focus", value: "Agentic AI · LLM systems · Automation" },
+  { label: "Stack", value: "Python, TypeScript, AWS, LangGraph" },
+  { label: "Based in", value: profile.location },
 ];
 
-export function About() {
+/** `portrait` shows the photo plate — off on the home page, where the hero already features it. */
+export function About({ portrait = false }: { portrait?: boolean }) {
   return (
-    <section id="about" aria-labelledby="about-title" className="section-y">
-      <div className="container-x">
-        <SectionHeader
-          id="about-title"
-          index="01"
-          label="About"
-          title={
-            <>
-              Engineering AI that <span className="serif-em">earns trust.</span>
-            </>
-          }
-        />
-
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
-          {/* Portrait */}
-          <figure className="lg:col-span-5" data-reveal>
-            <div className="group card relative mx-auto aspect-[4/5] max-w-md overflow-hidden rounded-[1.6rem] p-0 lg:max-w-none">
-              <Image
-                src="/profile.jpg"
-                alt="Anish Seth, AI/ML engineer, photographed outdoors in Kolkata"
-                fill
-                sizes="(min-width: 1024px) 460px, (min-width: 640px) 448px, 100vw"
-                className="object-cover object-[50%_30%] transition-[filter,transform] duration-700 ease-[var(--ease-out-expo)] [filter:saturate(0.92)_contrast(1.04)_brightness(1.04)] group-hover:scale-[1.02] group-hover:[filter:saturate(1.02)_brightness(1.06)]"
-              />
-              <div
-                aria-hidden
-                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_62%,color-mix(in_oklab,var(--bg)_70%,transparent))]"
-              />
-              <figcaption className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3 rounded-2xl border border-line-strong bg-[var(--bg-glass)] px-4 py-3 backdrop-blur-md">
-                <span className="flex items-center gap-2 text-[0.82rem] font-medium">
-                  <Icon name="pin" size={15} className="text-accent-ink" />
-                  {profile.location}
-                </span>
-                <span className="flex items-center gap-1.5 font-mono text-[0.72rem] text-muted">
-                  <Icon name="clock" size={13} />
-                  <LocalTime />
-                </span>
-              </figcaption>
-            </div>
-          </figure>
-
-          {/* Story */}
-          <div className="flex flex-col lg:col-span-7">
-            <div className="space-y-5 text-[1.08rem] leading-[1.75] text-muted text-pretty md:text-[1.15rem]">
-              {profile.intro.map((p, i) => (
-                <p key={i} data-reveal style={{ "--d": `${i * 80}ms` } as React.CSSProperties} className={i === 0 ? "text-fg" : undefined}>
-                  {p}
-                </p>
-              ))}
-            </div>
-
-            <dl className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2" data-reveal>
-              {facts.map((f) => (
-                <div key={f.label} className="flex gap-3.5 bg-bg-elev px-5 py-4">
-                  <Icon name={f.icon} size={17} className="mt-0.5 shrink-0 text-accent-ink" />
-                  <div className="min-w-0">
-                    <dt className="eyebrow !text-[0.65rem]">{f.label}</dt>
-                    <dd className="mt-1 text-[0.92rem] leading-snug text-fg">{f.value}</dd>
-                  </div>
-                </div>
-              ))}
-            </dl>
-
-            <div className="mt-auto pt-10" data-reveal>
-              <p className="eyebrow mb-4">Education</p>
-              <ol className="space-y-3">
-                {education.map((e) => (
-                  <li key={e.degree} className="flex items-start justify-between gap-4 border-b border-line pb-3 last:border-0">
-                    <span className="min-w-0">
-                      <span className="block text-[0.95rem] text-fg">{e.degree}</span>
-                      <span className="mt-0.5 block text-[0.84rem] text-subtle">{e.school}</span>
-                    </span>
-                    <span className="shrink-0 pt-0.5 font-mono text-xs text-subtle">{e.period}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+    <Section
+      id="about"
+      index="01"
+      label="About"
+      note="Who I am, how I work and where I studied."
+      title={
+        <>
+          Engineering AI that earns trust<span className="text-subtle"> — precise, observable, dependable.</span>
+        </>
+      }
+    >
+      <div className="grid gap-12 md:grid-cols-9 md:gap-10">
+        {portrait ? (
+          <div className="self-start md:sticky md:top-28 md:col-span-4" data-reveal>
+            <PortraitPlate />
           </div>
-        </div>
+        ) : null}
 
-        {/* Principles */}
-        <div className="mt-20">
-          <div className="mb-8 flex items-center gap-4" data-reveal>
-            <h3 className="text-xl font-semibold tracking-tight">How I build</h3>
-            <span className="hairline flex-1" aria-hidden />
-          </div>
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {principles.map((p, i) => (
-              <li
-                key={p.title}
+        <div className="md:col-span-5">
+          <div className="space-y-5 text-[1.04rem] leading-[1.75] text-muted">
+            {profile.intro.map((p, i) => (
+              <p
+                key={i}
                 data-reveal
-                data-spotlight
-                style={{ "--d": `${i * 70}ms` } as React.CSSProperties}
-                className="card p-6"
+                style={{ "--d": `${i * 80}ms` } as React.CSSProperties}
+                className={i === 0 ? "text-[1.18rem] leading-[1.6] tracking-[-0.01em] text-fg" : undefined}
               >
-                <span className="grid size-10 place-items-center rounded-xl border border-line bg-bg-elev-2 text-accent-ink">
-                  <Icon name={p.icon as IconName} size={18} />
-                </span>
-                <h4 className="mt-5 text-[1.02rem] font-semibold tracking-tight">{p.title}</h4>
-                <p className="mt-2 text-[0.9rem] leading-relaxed text-muted">{p.body}</p>
-              </li>
+                {p}
+              </p>
             ))}
-          </ul>
+          </div>
+          {portrait ? <Facts className="mt-10" /> : null}
         </div>
+
+        {portrait ? null : (
+          <div className="md:col-span-4">
+            <Facts />
+          </div>
+        )}
       </div>
-    </section>
+
+      {/* Principles: a ruled four-column strip */}
+      <div className="mt-20">
+        <p className="label mb-5" data-reveal>
+          How I build
+        </p>
+        <ol className="grid border-t border-line sm:grid-cols-2 xl:grid-cols-4">
+          {principles.map((p, i) => (
+            <li
+              key={p.title}
+              data-reveal
+              style={{ "--d": `${i * 70}ms` } as React.CSSProperties}
+              className={[
+                "group relative border-b border-line py-7 sm:px-6",
+                i % 2 === 1 ? "sm:border-l" : "sm:pl-0",
+                i === 2 ? "xl:border-l xl:pl-6" : "",
+                i === 0 ? "xl:pl-0" : "",
+              ].join(" ")}
+            >
+              <span className="font-mono text-[0.72rem] text-accent-ink">0{i + 1}</span>
+              <h3 className="mt-6 text-[1.06rem] font-semibold tracking-[-0.01em] [font-stretch:108%]">{p.title}</h3>
+              <p className="mt-2.5 text-[0.9rem] leading-relaxed text-muted">{p.body}</p>
+              <span
+                aria-hidden
+                className="absolute -top-px left-0 h-px w-0 bg-accent transition-[width] duration-700 ease-[var(--ease-out-expo)] group-hover:w-full"
+              />
+            </li>
+          ))}
+        </ol>
+      </div>
+    </Section>
+  );
+}
+
+function Facts({ className }: { className?: string }) {
+  return (
+    <div className={className}>
+      <dl className="border-t border-line" data-reveal>
+        {facts.map((f) => (
+          <div key={f.label} className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-line py-3.5">
+            <dt className="label pt-0.5">{f.label}</dt>
+            <dd className="text-[0.94rem]">{f.value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <div className="mt-10" data-reveal>
+        <p className="label mb-3">Education</p>
+        <ol className="border-t border-line">
+          {education.map((e) => (
+            <li key={e.degree} className="flex items-start justify-between gap-4 border-b border-line py-3.5">
+              <span className="min-w-0">
+                <span className="block text-[0.94rem]">{e.degree}</span>
+                <span className="mt-0.5 block text-[0.84rem] text-subtle">{e.school}</span>
+              </span>
+              <span className="shrink-0 pt-0.5 font-mono text-[0.76rem] text-subtle">{e.period}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
   );
 }

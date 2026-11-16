@@ -1,121 +1,88 @@
-import { Icon } from "@/components/ui/Icon";
-import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 import { experience, leadership } from "@/data/portfolio";
-import { cn } from "@/lib/utils";
-
-function initials(name: string) {
-  return name
-    .split(/\s+/)
-    .filter((w) => /^[A-Z]/.test(w))
-    .slice(0, 2)
-    .map((w) => w[0])
-    .join("");
-}
 
 export function Experience() {
   return (
-    <section id="experience" aria-labelledby="experience-title" className="section-y relative">
-      <div className="container-x">
-        <SectionHeader
-          id="experience-title"
-          index="02"
-          label="Experience"
-          title={
-            <>
-              Where the work <span className="serif-em">ships.</span>
-            </>
-          }
-          lede="Production agentic systems at Digital Alpha, built on three years of shipping end-to-end products in public."
-        />
+    <Section
+      id="experience"
+      index="02"
+      label="Experience"
+      note="Production work first, then the open-source track record behind it."
+      title={
+        <>
+          Where the work ships<span className="text-subtle"> — production first, open source behind it.</span>
+        </>
+      }
+    >
+      <ol className="border-t border-line">
+        {experience.map((job, i) => (
+          <li
+            key={job.company + job.role}
+            data-reveal
+            style={{ "--d": `${i * 80}ms` } as React.CSSProperties}
+            className="group relative grid gap-5 border-b border-line py-10 md:grid-cols-[11rem_1fr] md:gap-10 md:py-12"
+          >
+            <span
+              aria-hidden
+              className="absolute -top-px left-0 h-px w-0 bg-accent transition-[width] duration-700 ease-[var(--ease-out-expo)] group-hover:w-full"
+            />
+            <div>
+              <p className="font-mono text-[0.78rem] tabular-nums">{job.period}</p>
+              <p className="label mt-1.5">{job.type}</p>
+              {job.current ? (
+                <p className="mt-4 inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.08em] text-ok">
+                  <span className="pulse-dot size-1.5 rounded-full bg-ok text-ok" aria-hidden />
+                  Current
+                </p>
+              ) : null}
+            </div>
 
-        <ol className="relative md:before:absolute md:before:bottom-6 md:before:left-[219px] md:before:top-3 md:before:w-px md:before:bg-gradient-to-b md:before:from-line-strong md:before:via-line md:before:to-transparent">
-          {experience.map((job, i) => (
-            <li key={job.company + job.role} className="relative grid gap-4 pb-10 md:grid-cols-[200px_1fr] md:gap-10 md:pb-14">
-              <div className="relative md:pt-7" data-reveal>
-                <span
-                  aria-hidden
-                  className={cn(
-                    "absolute -right-[25px] top-[34px] hidden size-[11px] rounded-full border-2 border-bg md:block",
-                    job.current ? "pulse-dot bg-accent text-accent" : "bg-line-strong",
-                  )}
-                />
-                <p className="font-mono text-[0.78rem] text-fg">{job.period}</p>
-                <p className="mt-1 text-[0.82rem] text-subtle">{job.type}</p>
-              </div>
+            <div className="min-w-0">
+              <h3 className="text-[1.45rem] font-semibold leading-tight tracking-[-0.025em] [font-stretch:110%] md:text-[1.7rem]">
+                {job.role}
+              </h3>
+              <p className="mt-1.5 text-[0.98rem]">
+                {job.company}
+                <span className="text-subtle"> — {job.summary}</span>
+              </p>
 
-              <article
-                data-reveal
-                data-spotlight
-                style={{ "--d": `${80 + i * 60}ms` } as React.CSSProperties}
-                className="card p-5 sm:p-8"
-              >
-                <header className="flex items-start gap-3.5 sm:gap-4">
-                  <span
-                    aria-hidden
-                    className={cn(
-                      "grid size-11 shrink-0 place-items-center rounded-xl border font-mono text-sm font-semibold sm:size-12",
-                      job.current ? "border-transparent bg-accent text-accent-fg" : "border-line bg-bg-elev-2 text-muted",
-                    )}
-                  >
-                    {job.current ? initials(job.company) : <Icon name="github" size={20} />}
+              <ul className="mt-6 space-y-3">
+                {job.bullets.map((b) => (
+                  <li key={b} className="grid grid-cols-[1.4rem_1fr] text-[0.96rem] leading-relaxed text-muted">
+                    <span aria-hidden className="mt-[0.78em] h-px w-3 bg-line-strong transition-colors group-hover:bg-accent" />
+                    <span className="text-pretty">{b}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="mt-7 font-mono text-[0.75rem] leading-relaxed text-subtle">
+                {job.stack.map((s, j) => (
+                  <span key={s}>
+                    {/* Real spaces around the slash so the line can wrap on phones. */}
+                    {j > 0 ? <span className="text-line-strong">{" / "}</span> : null}
+                    <span className="whitespace-nowrap">{s}</span>
                   </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-                      <h3 className="text-[1.15rem] font-semibold leading-snug tracking-tight sm:text-[1.3rem]">{job.role}</h3>
-                      {job.current ? (
-                        <span className="inline-flex items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--ok)_35%,transparent)] px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-ok">
-                          <span className="size-1.5 rounded-full bg-ok" />
-                          Current
-                        </span>
-                      ) : null}
-                    </div>
-                    <p className="mt-0.5 text-[0.95rem] font-medium text-muted">{job.company}</p>
-                  </div>
-                </header>
-                <p className="mt-4 text-[0.92rem] text-subtle">{job.summary}</p>
+                ))}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
 
-                <ul className="mt-6 space-y-3">
-                  {job.bullets.map((b) => (
-                    <li key={b} className="flex gap-3 text-[0.96rem] leading-relaxed text-muted">
-                      <span aria-hidden className="mt-[0.7em] h-px w-3 shrink-0 bg-accent" />
-                      <span className="text-pretty">{b}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <ul className="mt-6 flex flex-wrap gap-2" aria-label="Technologies">
-                  {job.stack.map((s) => (
-                    <li key={s} className="chip">
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              </article>
+      <div className="mt-16" data-reveal>
+        <p className="label mb-4">Community &amp; leadership</p>
+        <ul className="grid border-t border-line sm:grid-cols-2">
+          {leadership.map((l, i) => (
+            <li key={l.role} className={`border-b border-line py-5 ${i % 2 === 1 ? "sm:border-l sm:pl-6" : "sm:pr-6"}`}>
+              <p className="text-[0.98rem] font-medium">{l.role}</p>
+              <p className="mt-1 flex flex-wrap justify-between gap-x-4 text-[0.84rem] text-subtle">
+                <span>{l.org}</span>
+                <span className="font-mono text-[0.74rem]">{l.period}</span>
+              </p>
             </li>
           ))}
-        </ol>
-
-        {/* Leadership */}
-        <div className="mt-6 grid gap-6 md:grid-cols-[200px_1fr] md:gap-10">
-          <div data-reveal>
-            <p className="font-mono text-[0.78rem] text-fg">Community</p>
-            <p className="mt-1 text-[0.82rem] text-subtle">Leadership roles</p>
-          </div>
-          <ul className="grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2" data-reveal>
-            {leadership.map((l) => (
-              <li key={l.role} className="flex items-start gap-3.5 bg-bg-elev px-5 py-4">
-                <Icon name="users" size={17} className="mt-0.5 shrink-0 text-accent-ink" />
-                <div className="min-w-0">
-                  <p className="text-[0.95rem] font-medium leading-snug">{l.role}</p>
-                  <p className="mt-0.5 text-[0.84rem] text-subtle">
-                    {l.org} · <span className="font-mono text-[0.76rem]">{l.period}</span>
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        </ul>
       </div>
-    </section>
+    </Section>
   );
 }

@@ -1,78 +1,58 @@
-import { Icon } from "@/components/ui/Icon";
-import { SectionHeader } from "@/components/ui/SectionHeader";
+import { Section } from "@/components/ui/Section";
 import { awards, certifications } from "@/data/portfolio";
 
 export function Recognition() {
   return (
-    <section id="recognition" aria-labelledby="recognition-title" className="section-y relative">
-      <div className="container-x">
-        <SectionHeader
-          id="recognition-title"
-          index="06"
-          label="Recognition"
-          title={
-            <>
-              Tested under <span className="serif-em">pressure.</span>
-            </>
-          }
-          lede="National hackathon finals, industry certifications and community leadership."
-        />
-
-        <div className="grid gap-5 lg:grid-cols-12">
-          <div className="card overflow-hidden p-0 lg:col-span-7" data-reveal>
-            <div className="flex items-center gap-3 border-b border-line px-6 py-5 sm:px-8">
-              <Icon name="trophy" size={18} className="text-accent-ink" />
-              <h3 className="text-[1.02rem] font-semibold tracking-tight">Hackathons &amp; awards</h3>
-            </div>
-            <ol>
-              {awards.map((a) => {
-                const national = a.result.startsWith("National");
-                return (
-                  <li
-                    key={a.title + a.year}
-                    className="group grid grid-cols-[52px_1fr] items-start gap-4 border-b border-line px-6 py-5 transition-colors last:border-0 hover:bg-bg-elev-2/60 sm:grid-cols-[64px_1fr_auto] sm:px-8"
-                  >
-                    <span className="pt-0.5 font-mono text-[0.8rem] text-subtle">{a.year}</span>
-                    <div className="min-w-0">
-                      <p className="text-[1.02rem] font-medium leading-snug">{a.title}</p>
-                      <p className="mt-0.5 text-[0.88rem] text-muted">{a.detail}</p>
-                      <span
-                        className={`mt-2.5 inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-[11px] font-medium sm:hidden ${national ? "bg-accent text-accent-fg" : "border border-line text-muted"}`}
-                      >
+    <Section
+      id="recognition"
+      index="06"
+      label="Recognition"
+      note="National hackathon finals, certifications and programs."
+      title={
+        <>
+          Tested under pressure<span className="text-subtle"> — two national finals.</span>
+        </>
+      }
+    >
+      <div className="grid gap-px border-y border-line bg-line lg:grid-cols-2">
+        <div className="bg-bg py-8 lg:pr-8" data-reveal>
+          <p className="label mb-5">Hackathons &amp; awards</p>
+          <ol className="border-t border-line">
+            {awards.map((a) => {
+              const national = a.result.startsWith("National");
+              return (
+                <li key={a.title + a.year} className="grid grid-cols-[3.25rem_1fr] gap-3 border-b border-line py-4 last:border-0">
+                  <span className="pt-1 font-mono text-[0.76rem] tabular-nums text-subtle">{a.year}</span>
+                  <div className="min-w-0">
+                    <p className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+                      <span className="text-[1.02rem] font-medium">{a.title}</span>
+                      <span className={`font-mono text-[0.68rem] uppercase tracking-[0.07em] ${national ? "text-accent-ink" : "text-subtle"}`}>
                         {a.result}
                       </span>
-                    </div>
-                    <span
-                      className={`hidden items-center gap-1.5 rounded-full px-3 py-1 text-[11.5px] font-medium sm:inline-flex ${national ? "bg-accent text-accent-fg" : "border border-line text-muted"}`}
-                    >
-                      {national ? <Icon name="award" size={13} /> : null}
-                      {a.result}
-                    </span>
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
-
-          <div className="card overflow-hidden p-0 lg:col-span-5" data-reveal style={{ "--d": "80ms" } as React.CSSProperties}>
-            <div className="flex items-center gap-3 border-b border-line px-6 py-5 sm:px-8">
-              <Icon name="award" size={18} className="text-accent-ink" />
-              <h3 className="text-[1.02rem] font-semibold tracking-tight">Certifications &amp; programs</h3>
-            </div>
-            <ul>
-              {certifications.map((c) => (
-                <li key={c.title} className="flex items-start justify-between gap-4 border-b border-line px-6 py-4 last:border-0 sm:px-8">
-                  <div className="min-w-0">
-                    <p className="text-[0.95rem] font-medium leading-snug">{c.title}</p>
-                    <p className="mt-0.5 text-[0.84rem] text-subtle">{c.issuer}</p>
+                    </p>
+                    <p className="mt-1 text-[0.86rem] text-subtle">{a.detail}</p>
                   </div>
-                  <span className="shrink-0 pt-0.5 font-mono text-[0.76rem] text-subtle">{c.year}</span>
                 </li>
-              ))}
-            </ul>
-          </div>
+              );
+            })}
+          </ol>
+        </div>
+
+        <div className="bg-bg py-8 lg:pl-8" data-reveal style={{ "--d": "80ms" } as React.CSSProperties}>
+          <p className="label mb-5">Certifications &amp; programs</p>
+          <ul className="border-t border-line">
+            {certifications.map((c) => (
+              <li key={c.title} className="grid grid-cols-[3.25rem_1fr] gap-3 border-b border-line py-4 last:border-0">
+                <span className="pt-1 font-mono text-[0.76rem] tabular-nums text-subtle">{c.year}</span>
+                <div className="min-w-0">
+                  <p className="text-[1.02rem] font-medium leading-snug">{c.title}</p>
+                  <p className="mt-1 text-[0.86rem] text-subtle">{c.issuer}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

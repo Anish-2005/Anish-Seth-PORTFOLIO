@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
 
 import "./globals.css";
 
 import { CommandPalette } from "@/components/site/CommandPalette";
 import { Footer } from "@/components/site/Footer";
 import { Nav } from "@/components/site/Nav";
-import { PointerFX } from "@/components/site/PointerFX";
+import { Frame } from "@/components/site/Frame";
 import { RevealObserver } from "@/components/site/RevealObserver";
 import WebVitalsReporter from "@/components/perf/WebVitalsReporter";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -14,13 +14,19 @@ import { education, profile, skillGroups } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
 import { themeBootScript } from "@/lib/theme";
 
-const sans = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
-const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
-const serif = Instrument_Serif({
+// One variable grotesk (weight + width axes) carries the whole typographic system:
+// expanded for display, normal width for reading. Plex Mono handles technical labels.
+const sans = Archivo({
   subsets: ["latin"],
-  weight: "400",
-  style: ["italic"],
-  variable: "--font-instrument",
+  weight: "variable",
+  axes: ["wdth"],
+  variable: "--font-archivo",
+  display: "swap",
+});
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-plex-mono",
   display: "swap",
 });
 
@@ -107,7 +113,7 @@ const personJsonLd = {
   jobTitle: "AI/ML Engineer",
   description: siteConfig.description,
   url: siteConfig.url,
-  image: `${siteConfig.url}/profile.jpg`,
+  image: `${siteConfig.url}/portrait.webp`,
   email: `mailto:${profile.email}`,
   address: { "@type": "PostalAddress", addressLocality: "Kolkata", addressRegion: "West Bengal", addressCountry: "IN" },
   worksFor: { "@type": "Organization", name: profile.current.company },
@@ -135,7 +141,7 @@ const websiteJsonLd = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" data-theme="dark" data-scroll-behavior="smooth" suppressHydrationWarning className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
+    <html lang="en" data-theme="dark" data-scroll-behavior="smooth" suppressHydrationWarning className={`${sans.variable} ${mono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <link rel="me" href={siteConfig.sameAs.github} />
@@ -151,13 +157,14 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to content
         </a>
-        <div className="scroll-progress" aria-hidden />
+        <Frame />
         <Nav />
-        <main id="content">{children}</main>
+        <main id="content" className="relative z-[1]">
+          {children}
+        </main>
         <Footer />
         <CommandPalette />
         <RevealObserver />
-        <PointerFX />
         <WebVitalsReporter />
         <div className="noise" aria-hidden />
       </body>

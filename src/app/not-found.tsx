@@ -3,23 +3,25 @@ import { Icon } from "@/components/ui/Icon";
 
 export default function NotFound() {
   return (
-    <section className="relative isolate grid min-h-[80dvh] place-items-center overflow-hidden pt-24">
-      <div aria-hidden className="bg-grid mask-fade-b absolute inset-0 -z-10" />
-      <div className="container-x text-center">
-        <p className="eyebrow">Error 404</p>
-        <h1 className="display mt-5">
-          This route <span className="serif-em">hallucinated.</span>
-        </h1>
-        <p className="mx-auto mt-5 max-w-md text-muted">
-          The page you asked for doesn&apos;t exist — but the grounded answers are one click away.
+    <section className="relative isolate grid min-h-[80dvh] items-center overflow-hidden pt-24">
+      <div aria-hidden className="dots absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_center,#000,transparent_70%)]" />
+      <div className="container-x grid lg:grid-cols-12">
+        <p className="label mb-6 lg:col-span-3 lg:mb-0 lg:pr-10">
+          <span className="text-accent-ink">404</span> — Not found
         </p>
-        <div className="mt-9 flex flex-wrap justify-center gap-3">
-          <ButtonLink href="/">
-            Back home <Icon name="arrow-right" size={15} />
-          </ButtonLink>
-          <ButtonLink href="/projects" variant="secondary">
-            Browse case studies
-          </ButtonLink>
+        <div className="lg:col-span-9 lg:pl-10">
+          <h1 className="text-[clamp(2.6rem,7vw,5.6rem)] font-semibold leading-[0.95] tracking-[-0.045em] [font-stretch:112%]">
+            This route <span className="text-subtle">hallucinated.</span>
+          </h1>
+          <p className="lede mt-6 max-w-md">The page you asked for doesn&apos;t exist — but the grounded answers are one click away.</p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <ButtonLink href="/">
+              Back home <Icon name="arrow-right" size={15} />
+            </ButtonLink>
+            <ButtonLink href="/projects" variant="secondary">
+              Case studies
+            </ButtonLink>
+          </div>
         </div>
       </div>
     </section>

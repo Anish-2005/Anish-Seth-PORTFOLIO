@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 
 import { SubpageShell } from "@/components/site/SubpageShell";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { FeaturedProjectCard, ProjectCard } from "@/components/work/ProjectCard";
-import { WorkFilter } from "@/components/work/WorkFilter";
-import { categoryLabels, projects, type ProjectCategory } from "@/data/portfolio";
+import { FeaturedGrid } from "@/components/work/FeaturedGrid";
+import { ProjectIndex } from "@/components/work/ProjectIndex";
+import { projects } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
 
 const description =
@@ -20,18 +20,13 @@ export const metadata: Metadata = {
 export default function ProjectsPage() {
   const featured = projects.filter((p) => p.featured);
   const rest = projects.filter((p) => !p.featured);
-  const cats = Object.keys(categoryLabels) as ProjectCategory[];
-  const tabs = [
-    { id: "all", label: "All", count: rest.length },
-    ...cats.map((c) => ({ id: c, label: categoryLabels[c], count: rest.filter((p) => p.categories.includes(c)).length })),
-  ];
 
   return (
     <SubpageShell
       eyebrow={`${projects.length} case studies`}
       title={
         <>
-          Work, with the <span className="serif-em">reasoning</span> left in.
+          Work, with the reasoning <span className="text-subtle">left in.</span>
         </>
       }
       description="Every project below lists the problem, the approach and what shipped — the engineering decisions, not just the screenshots."
@@ -55,19 +50,10 @@ export default function ProjectsPage() {
           },
         }}
       />
-      <div className="grid gap-5 md:grid-cols-2 md:gap-6">
-        {featured.map((p, i) => (
-          <FeaturedProjectCard key={p.slug} project={p} index={i} />
-        ))}
-      </div>
-      <div className="mt-16">
-        <WorkFilter tabs={tabs}>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-            {rest.map((p) => (
-              <ProjectCard key={p.slug} project={p} />
-            ))}
-          </div>
-        </WorkFilter>
+      <FeaturedGrid projects={featured} />
+      <div className="mt-20">
+        <h2 className="mb-8 text-[1.3rem] font-semibold tracking-[-0.02em] [font-stretch:110%]">Index</h2>
+        <ProjectIndex projects={rest} startAt={featured.length + 1} />
       </div>
     </SubpageShell>
   );

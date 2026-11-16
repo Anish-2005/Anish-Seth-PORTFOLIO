@@ -8,10 +8,10 @@ import { cn } from "@/lib/utils";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
+// Underlined fields: an accent rule draws across on focus.
 const field =
-  "peer w-full rounded-xl border border-line bg-bg px-4 pb-2.5 pt-6 text-[0.95rem] text-fg outline-none transition-[border-color,box-shadow] placeholder:text-transparent focus:border-accent focus:shadow-[0_0_0_4px_var(--accent-soft)] aria-[invalid=true]:border-accent";
-const label =
-  "pointer-events-none absolute left-4 top-4 origin-left text-[0.92rem] text-subtle transition-all duration-200 peer-focus:top-2 peer-focus:text-[0.7rem] peer-[:not(:placeholder-shown)]:top-2 peer-[:not(:placeholder-shown)]:text-[0.7rem]";
+  "w-full border-0 border-b border-line-strong bg-transparent px-0 py-2.5 text-[1rem] text-fg outline-none transition-[border-color] duration-300 placeholder:text-subtle/70 focus:border-accent aria-[invalid=true]:border-accent";
+const labelCls = "label block";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -55,13 +55,13 @@ export function ContactForm() {
 
   if (status === "sent") {
     return (
-      <div className="flex min-h-[420px] flex-col items-center justify-center text-center" role="status">
-        <span className="grid size-14 place-items-center rounded-full bg-[color-mix(in_oklab,var(--ok)_16%,transparent)] text-ok">
+      <div className="flex min-h-[320px] flex-col items-start justify-center border-t border-line pt-10" role="status">
+        <span className="grid size-12 place-items-center border border-line-strong text-ok">
           <Icon name="check" size={26} strokeWidth={2.2} />
         </span>
-        <p className="mt-5 text-xl font-semibold tracking-tight">Message sent</p>
+        <p className="mt-6 text-[1.4rem] font-semibold tracking-[-0.02em] [font-stretch:110%]">Message sent</p>
         <p className="mt-2 max-w-xs text-[0.92rem] text-muted">Thanks for reaching out — I&apos;ll get back to you within a day or two.</p>
-        <button type="button" onClick={() => setStatus("idle")} className="mt-6 text-[0.86rem] text-accent-ink underline underline-offset-4">
+        <button type="button" onClick={() => setStatus("idle")} className="link-u mt-6 text-[0.88rem] text-fg">
           Send another message
         </button>
       </div>
@@ -69,43 +69,43 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="flex flex-col gap-4" aria-describedby={error ? "form-error" : undefined}>
-      <div className="grid gap-4 sm:grid-cols-2">
-        <div className="relative">
-          <input id="cf-name" name="name" autoComplete="name" placeholder="Name" maxLength={120} aria-invalid={invalid.name || undefined} className={field} />
-          <label htmlFor="cf-name" className={label}>
+    <form onSubmit={onSubmit} noValidate className="relative flex flex-col gap-8" aria-describedby={error ? "form-error" : undefined}>
+      <div className="grid gap-8 sm:grid-cols-2">
+        <div>
+          <label htmlFor="cf-name" className={labelCls}>
             Name
           </label>
+          <input id="cf-name" name="name" autoComplete="name" placeholder="Your name" maxLength={120} aria-invalid={invalid.name || undefined} className={field} />
         </div>
-        <div className="relative">
+        <div>
+          <label htmlFor="cf-email" className={labelCls}>
+            Email
+          </label>
           <input
             id="cf-email"
             name="email"
             type="email"
             autoComplete="email"
-            placeholder="Email"
+            placeholder="you@company.com"
             maxLength={200}
             aria-invalid={invalid.email || undefined}
             className={field}
           />
-          <label htmlFor="cf-email" className={label}>
-            Email
-          </label>
         </div>
       </div>
-      <div className="relative">
+      <div>
+        <label htmlFor="cf-message" className={labelCls}>
+          Message
+        </label>
         <textarea
           id="cf-message"
           name="message"
-          rows={6}
-          placeholder="Message"
+          rows={4}
+          placeholder="What are you building?"
           maxLength={5000}
           aria-invalid={invalid.message || undefined}
           className={cn(field, "resize-none")}
         />
-        <label htmlFor="cf-message" className={label}>
-          What are you building?
-        </label>
       </div>
       {/* Honeypot — hidden from people, tempting to bots */}
       <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
@@ -120,11 +120,11 @@ export function ContactForm() {
       ) : null}
 
       <div className="mt-1 flex flex-wrap items-center justify-between gap-4">
-        <p className="text-[0.8rem] text-subtle">Goes straight to my inbox. No newsletters, ever.</p>
+        <p className="label">Goes straight to my inbox</p>
         <Button type="submit" size="lg" disabled={status === "sending"} className="w-full sm:w-auto">
           {status === "sending" ? (
             <>
-              <span className="size-4 animate-spin rounded-full border-2 border-accent-fg/30 border-t-accent-fg" aria-hidden />
+              <span className="size-3.5 animate-spin rounded-full border-2 border-current border-t-transparent" aria-hidden />
               Sending…
             </>
           ) : (

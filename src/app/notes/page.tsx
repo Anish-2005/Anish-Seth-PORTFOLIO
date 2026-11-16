@@ -23,7 +23,7 @@ export default function NotesPage() {
       eyebrow="Notes"
       title={
         <>
-          Short notes, <span className="serif-em">long half-life.</span>
+          Short notes, <span className="text-subtle">long half-life.</span>
         </>
       }
       description="Compact write-ups on implementation details and lessons from shipping."
@@ -42,7 +42,7 @@ export default function NotesPage() {
           },
         }}
       />
-      <ol className="border-t border-line">
+      <ol className="border-t border-line lg:ml-[25%] lg:pl-10">
         {notes.map((n) => (
           <li key={n.slug} data-reveal>
             <Link

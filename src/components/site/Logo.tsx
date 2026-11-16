@@ -7,25 +7,21 @@ export function LogoMark({ className }: { className?: string }) {
     <span
       aria-hidden
       className={cn(
-        "relative grid size-8 place-items-center overflow-hidden rounded-[10px] bg-fg font-mono text-[11px] font-semibold tracking-tight text-bg",
+        "relative grid size-7 place-items-center bg-fg text-[11px] font-bold tracking-[-0.02em] text-bg [font-stretch:118%]",
         className,
       )}
     >
       AS
-      <span className="absolute right-[5px] top-[5px] size-[5px] rounded-full bg-accent" />
+      <span className="absolute -right-[3px] -top-[3px] size-[6px] bg-accent" />
     </span>
   );
 }
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <Link
-      href="/"
-      className={cn("group flex items-center gap-2.5 rounded-xl", className)}
-      aria-label="Anish Seth — home"
-    >
-      <LogoMark className="transition-transform duration-500 ease-[var(--ease-spring)] group-hover:-rotate-6" />
-      <span className="text-[0.95rem] font-semibold tracking-tight">Anish Seth</span>
+    <Link href="/" className={cn("group flex items-center gap-3", className)} aria-label="Anish Seth — home">
+      <LogoMark />
+      <span className="text-[0.92rem] font-semibold tracking-[-0.01em] [font-stretch:108%]">Anish Seth</span>
     </Link>
   );
 }

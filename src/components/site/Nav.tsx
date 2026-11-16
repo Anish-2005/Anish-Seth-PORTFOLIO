@@ -87,11 +87,11 @@ export function Nav() {
             : "border-b border-transparent",
         )}
       >
-        <nav aria-label="Primary" className="container-x flex h-16 items-center justify-between gap-4 md:h-[4.5rem]">
+        <nav aria-label="Primary" className="container-x flex h-16 items-center justify-between gap-6">
           <Logo />
 
-          <ul className="hidden items-center gap-1 rounded-full border border-line bg-bg-elev/60 p-1 backdrop-blur md:flex">
-            {siteConfig.nav.map((item) => {
+          <ul className="hidden items-center gap-7 md:flex">
+            {siteConfig.nav.map((item, i) => {
               const isActive = isHome && active === item.id;
               return (
                 <li key={item.id}>
@@ -99,39 +99,49 @@ export function Nav() {
                     href={item.href}
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
-                      "relative block rounded-full px-3.5 py-1.5 text-[0.84rem] transition-colors duration-300",
-                      isActive ? "bg-bg-elev-2 text-fg shadow-[inset_0_0_0_1px_var(--line)]" : "text-muted hover:text-fg",
+                      "group/nav relative flex items-baseline gap-1.5 text-[0.86rem] transition-colors duration-300",
+                      isActive ? "text-fg" : "text-muted hover:text-fg",
                     )}
                   >
+                    <span className={cn("font-mono text-[10px] transition-colors", isActive ? "text-accent-ink" : "text-subtle")}>
+                      0{i + 1}
+                    </span>
                     {item.label}
+                    <span
+                      aria-hidden
+                      className={cn(
+                        "absolute -bottom-1.5 left-0 h-px bg-accent transition-[width] duration-500 ease-[var(--ease-out-expo)]",
+                        isActive ? "w-full" : "w-0 group-hover/nav:w-full",
+                      )}
+                    />
                   </Link>
                 </li>
               );
             })}
           </ul>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             <button
               type="button"
               onClick={openPalette}
-              className="hidden h-9 items-center gap-2 rounded-full border border-line px-3 text-[0.8rem] text-muted transition-colors hover:border-line-strong hover:text-fg lg:inline-flex"
+              className="hidden h-8 items-center gap-2 rounded-[3px] border border-line px-2.5 font-mono text-[10.5px] text-subtle transition-colors hover:border-line-strong hover:text-fg lg:inline-flex"
               aria-label="Open command menu"
             >
-              <Icon name="search" size={14} />
-              <span>Search</span>
-              <kbd className="ml-1 rounded border border-line bg-bg-elev-2 px-1.5 py-px font-mono text-[10px] text-subtle">
-                {isMac ? "⌘" : "Ctrl"} K
-              </kbd>
+              <Icon name="search" size={12} />
+              {isMac ? "⌘K" : "Ctrl K"}
             </button>
             <ThemeToggle />
-            <ButtonLink href={profile.links.resume} size="sm" variant="secondary" className="hidden sm:inline-flex">
-              Résumé
-              <Icon name="download" size={14} className="transition-transform group-hover/btn:translate-y-px" />
-            </ButtonLink>
+            <a
+              href={profile.links.resume}
+              className="group hidden h-8 items-center gap-1.5 pl-2 text-[0.86rem] text-fg sm:inline-flex"
+            >
+              <span className="link-u">Résumé</span>
+              <Icon name="arrow-up-right" size={13} className="text-accent-ink transition-transform duration-300 group-hover:-translate-y-px group-hover:translate-x-px" />
+            </a>
             <button
               ref={menuButtonRef}
               type="button"
-              className="grid size-9 place-items-center rounded-full text-fg transition-colors hover:bg-bg-elev-2 md:hidden"
+              className="grid size-9 place-items-center text-fg md:hidden"
               aria-expanded={open}
               aria-controls="mobile-menu"
               aria-label={open ? "Close menu" : "Open menu"}
@@ -147,7 +157,7 @@ export function Nav() {
       <div
         id="mobile-menu"
         className={cn(
-          "fixed inset-0 z-40 flex flex-col bg-bg/95 pt-20 backdrop-blur-xl transition-[opacity,visibility] duration-500 md:hidden",
+          "fixed inset-0 z-40 flex flex-col bg-bg pt-20 transition-[opacity,visibility] duration-500 md:hidden",
           open ? "visible opacity-100" : "invisible opacity-0",
         )}
         aria-hidden={!open}
@@ -167,7 +177,7 @@ export function Nav() {
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between py-5 text-3xl font-semibold tracking-tight"
+                  className="flex items-center justify-between py-5 text-[2rem] font-semibold tracking-[-0.03em] [font-stretch:112%]"
                 >
                   {item.label}
                   <span className="font-mono text-xs text-subtle">0{i + 1}</span>
@@ -192,7 +202,7 @@ export function Nav() {
                   aria-label={s.label}
                   target={s.href.startsWith("http") ? "_blank" : undefined}
                   rel={s.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="grid size-11 place-items-center rounded-full border border-line text-muted hover:text-fg"
+                  className="grid size-11 place-items-center border border-line text-muted hover:text-fg"
                 >
                   <Icon name={s.icon} size={18} />
                 </a>

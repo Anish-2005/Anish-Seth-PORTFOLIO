@@ -1,3 +1,7 @@
+import { agentObservability } from "../content/notes/agent-observability";
+import { graphragAgent } from "../content/notes/graphrag-agent";
+import { safeToRetry } from "../content/notes/safe-to-retry";
+
 export type SeoNote = {
   slug: string;
   title: string;
@@ -5,9 +9,19 @@ export type SeoNote = {
   summary: string;
   tags: string[];
   body: string;
+  /** Slug of the project this write-up is about, if any (linked both ways). */
+  project?: string;
 };
 
+/** Rough reading time at ~220 words a minute, never less than one. */
+export function readingMinutes(body: string) {
+  return Math.max(1, Math.round(body.split(/\s+/).length / 220));
+}
+
 export const seoNotes: SeoNote[] = [
+  safeToRetry,
+  agentObservability,
+  graphragAgent,
   {
     slug: "shipping-polish",
     title: "Polish without the slowdown",

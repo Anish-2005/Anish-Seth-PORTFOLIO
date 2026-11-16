@@ -955,6 +955,42 @@ details[open] .faq-icon {
   background: var(--bg-elev-2);
   color: var(--fg);
 }
+.prose-x em {
+  color: var(--fg);
+}
+.prose-x ol {
+  list-style: decimal;
+  padding-left: 1.4em;
+}
+.prose-x ol > li + li {
+  margin-top: 0.5em;
+}
+.prose-x ol > li::marker {
+  color: var(--fg-subtle);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+.prose-x pre {
+  margin-top: 1.5em;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  background: var(--bg-elev);
+  padding: 1rem 1.15rem;
+  font-size: 0.8rem;
+  line-height: 1.7;
+  tab-size: 4;
+}
+.prose-x pre code {
+  padding: 0;
+  background: none;
+  font-size: inherit;
+  color: var(--fg);
+}
+.prose-x blockquote {
+  border-left: 1px solid var(--accent);
+  padding-left: 1.1em;
+  color: var(--fg);
+}
 
 @media print {
   .noise,

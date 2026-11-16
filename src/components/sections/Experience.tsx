@@ -1,3 +1,6 @@
+import Link from "next/link";
+
+import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
 import { experience, leadership } from "@/data/portfolio";
 
@@ -55,6 +58,22 @@ export function Experience() {
                   </li>
                 ))}
               </ul>
+
+              {job.writeups?.length ? (
+                <div className="mt-7">
+                  <p className="label">I wrote about this</p>
+                  <ul className="mt-3 space-y-2">
+                    {job.writeups.map((w) => (
+                      <li key={w.href}>
+                        <Link href={w.href} className="link-u inline-flex items-center gap-2 text-[0.95rem] text-fg">
+                          {w.title}
+                          <Icon name="arrow-right" size={14} className="text-accent-ink" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
 
               <p className="mt-7 font-mono text-[0.75rem] leading-relaxed text-subtle">
                 {job.stack.map((s, j) => (

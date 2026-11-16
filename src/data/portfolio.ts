@@ -125,6 +125,8 @@ export type ExperienceItem = {
   bullets: string[];
   stack: string[];
   current?: boolean;
+  /** Longer write-ups about this work. */
+  writeups?: { title: string; href: string }[];
 };
 
 export const experience: ExperienceItem[] = [
@@ -142,6 +144,10 @@ export const experience: ExperienceItem[] = [
       "Set up CloudWatch logging, cost tracking per run, and tests for the messy cases: retries, broken model output and runs that fail halfway.",
     ],
     stack: ["Python", "AWS Bedrock", "AgentCore", "MCP", "Nango", "CloudWatch", "Boto3"],
+    writeups: [
+      { title: "Making AI agents safe to retry", href: "/notes/safe-to-retry-ai-agents" },
+      { title: "What did my agent just do, and what did it cost?", href: "/notes/agent-observability-and-cost" },
+    ],
   },
   {
     role: "Open source, side projects and hackathons",

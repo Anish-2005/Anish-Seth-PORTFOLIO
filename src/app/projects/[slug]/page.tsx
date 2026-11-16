@@ -9,6 +9,7 @@ import { Icon } from "@/components/ui/Icon";
 import { ProjectArt } from "@/components/work/ProjectArt";
 import { categoryLabels, getProject, projects } from "@/data/portfolio";
 import { abs, ids, personRef } from "@/lib/seo";
+import { seoNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -41,6 +42,7 @@ export default async function ProjectPage({ params }: Props) {
   const project = getProject(slug);
   if (!project) notFound();
 
+  const writeup = seoNotes.find((n) => n.project === project.slug);
   const index = projects.findIndex((p) => p.slug === project.slug);
   const prev = projects[(index - 1 + projects.length) % projects.length];
   const next = projects[(index + 1) % projects.length];
@@ -110,6 +112,16 @@ export default async function ProjectPage({ params }: Props) {
                 <dd className="mt-1.5 text-[0.92rem] leading-snug">{d.value}</dd>
               </div>
             ))}
+            {writeup ? (
+              <div className="border-b border-line py-4">
+                <dt className="label">Write-up</dt>
+                <dd className="mt-1.5">
+                  <Link href={`/notes/${writeup.slug}`} className="link-u inline-flex items-center gap-2 text-[0.92rem] leading-snug text-fg">
+                    {writeup.title} <Icon name="arrow-right" size={14} className="shrink-0 text-accent-ink" />
+                  </Link>
+                </dd>
+              </div>
+            ) : null}
             <div className="py-5">
               <Link href="/#contact" className="link-u inline-flex items-center gap-2 text-[0.9rem]">
                 Ask me about this one <Icon name="arrow-right" size={14} className="text-accent-ink" />

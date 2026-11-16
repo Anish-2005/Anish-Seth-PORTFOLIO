@@ -18,7 +18,7 @@ type Action =
 
 type Command = {
   id: string;
-  group: "Navigate" | "Case studies" | "Actions" | "Profiles";
+  group: "Navigate" | "Projects" | "Actions" | "Profiles";
   label: string;
   hint?: string;
   icon: IconName;
@@ -65,7 +65,7 @@ const COMMANDS: Command[] = [
   },
   ...projects.map((p) => ({
     id: `p-${p.slug}`,
-    group: "Case studies" as const,
+    group: "Projects" as const,
     label: p.title,
     hint: p.kicker,
     icon: "file" as const,
@@ -213,7 +213,7 @@ export function CommandPalette() {
             setActiveIndex(0);
           }}
           onKeyDown={onInputKey}
-          placeholder="Search sections, case studies, actions…"
+          placeholder="Jump to a section, project or link…"
           className="h-14 flex-1 bg-transparent text-[0.95rem] text-fg outline-none placeholder:text-subtle"
           role="combobox"
           aria-expanded="true"

@@ -1,156 +1,92 @@
+import { ContributionRing } from "@/components/oss/ContributionRing";
 import { Section } from "@/components/ui/Section";
 import { profile } from "@/data/portfolio";
 import type { ContributionDay, GitHubStats } from "@/lib/github";
 
-const CELL = 11;
-const GAP = 3;
-const STEP = CELL + GAP;
-const LEFT = 30;
-const TOP = 18;
-const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-function utc(date: string) {
-  return new Date(`${date}T00:00:00Z`);
-}
+const utc = (date: string) => new Date(`${date}T00:00:00Z`);
+const fmtDate = (date: string) =>
+  utc(date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 
-function days(n: number) {
-  return `${n} day${n === 1 ? "" : "s"}`;
-}
-
-function fmtDate(date: string) {
-  return utc(date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
-}
-
-function Heatmap({ days }: { days: ContributionDay[] }) {
-  const offset = days.length ? utc(days[0].date).getUTCDay() : 0;
-  const weeks = Math.ceil((days.length + offset) / 7);
-  const width = LEFT + weeks * STEP;
-  const height = TOP + 7 * STEP;
-
-  const monthLabels: { x: number; label: string }[] = [];
-  let lastCol = -10;
-  days.forEach((d, i) => {
+/** Little, human facts pulled out of a year of commits. */
+function funFacts(days: ContributionDay[]) {
+  if (!days.length) return null;
+  const byMonth = new Map<string, { label: string; count: number }>();
+  const byWeekday = Array(7).fill(0) as number[];
+  let daysOff = 0;
+  for (const d of days) {
     const date = utc(d.date);
-    if (date.getUTCDate() <= 7 && date.getUTCDay() === 0) {
-      const col = Math.floor((i + offset) / 7);
-      if (col - lastCol >= 3) {
-        monthLabels.push({ x: LEFT + col * STEP, label: MONTHS[date.getUTCMonth()] });
-        lastCol = col;
-      }
-    }
-  });
-
-  return (
-    <svg viewBox={`0 0 ${width} ${height}`} className="h-auto w-full" role="img" aria-label="Daily GitHub contributions over the last twelve months">
-      {monthLabels.map((m) => (
-        <text key={`${m.label}-${m.x}`} x={m.x} y={10} fontSize="9.5" fill="var(--fg-subtle)" fontFamily="var(--font-mono)">
-          {m.label}
-        </text>
-      ))}
-      {[
-        [1, "Mon"],
-        [3, "Wed"],
-        [5, "Fri"],
-      ].map(([row, label]) => (
-        <text key={label} x={0} y={TOP + (row as number) * STEP + 9} fontSize="9" fill="var(--fg-subtle)" fontFamily="var(--font-mono)">
-          {label}
-        </text>
-      ))}
-      {days.map((d, i) => {
-        const idx = i + offset;
-        const col = Math.floor(idx / 7);
-        const row = idx % 7;
-        return (
-          <rect
-            key={d.date}
-            x={LEFT + col * STEP}
-            y={TOP + row * STEP}
-            width={CELL}
-            height={CELL}
-            rx={1.5}
-            fill={`var(--heat-${d.level})`}
-            className="heat-cell"
-            style={{ "--c": col, "--r": row } as React.CSSProperties}
-          >
-            <title>{`${d.count} contribution${d.count === 1 ? "" : "s"} · ${fmtDate(d.date)}`}</title>
-          </rect>
-        );
-      })}
-    </svg>
-  );
+    const key = `${date.getUTCFullYear()}-${date.getUTCMonth()}`;
+    const m = byMonth.get(key) ?? { label: MONTHS[date.getUTCMonth()], count: 0 };
+    m.count += d.count;
+    byMonth.set(key, m);
+    byWeekday[date.getUTCDay()] += d.count;
+    if (d.count === 0) daysOff++;
+  }
+  const busiest = [...byMonth.values()].sort((a, b) => b.count - a.count)[0];
+  const favDay = WEEKDAYS[byWeekday.indexOf(Math.max(...byWeekday))];
+  return { busiest, favDay, daysOff };
 }
 
 export function OpenSource({ stats }: { stats: GitHubStats }) {
+  const facts = funFacts(stats.days);
 
-  const tiles = [
-    { label: "Longest streak", value: stats.longestStreak ? days(stats.longestStreak) : "—" },
-    { label: "Current streak", value: stats.currentStreak ? days(stats.currentStreak) : "—" },
-    { label: "Best day", value: stats.bestDay ? `${stats.bestDay.count}` : "—", hint: stats.bestDay ? fmtDate(stats.bestDay.date) : undefined },
-  ];
+  const rows = [
+    facts ? { label: "Busiest month", value: facts.busiest.label, note: `${facts.busiest.count.toLocaleString("en-US")} contributions` } : null,
+    facts ? { label: "Favourite day to ship", value: facts.favDay, note: "by total contributions" } : null,
+    stats.longestStreak ? { label: "Longest streak", value: `${stats.longestStreak} days`, note: "in a row, no breaks" } : null,
+    stats.bestDay ? { label: "Best single day", value: `${stats.bestDay.count}`, note: fmtDate(stats.bestDay.date) } : null,
+    facts ? { label: "Days off", value: `${facts.daysOff}`, note: "everyone needs a break" } : null,
+  ].filter(Boolean) as { label: string; value: string; note: string }[];
 
   return (
     <Section
       id="open-source"
-      motif="rings"
       detail="hatch"
       index="05"
       label="Open source"
       note={
-        <>
-          <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="link-u text-fg">
-            @Anish-2005 ↗
-          </a>
-        </>
+        <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="link-u text-fg">
+          @Anish-2005 ↗
+        </a>
       }
-      title={
-        <>
-          I push code most days.
-        </>
-      }
+      title={<>I push code most days.</>}
     >
-      <div data-reveal>
-        <div className="flex flex-wrap items-end justify-between gap-6 border-t border-line pt-8">
-          <p>
-            <span className="block text-[clamp(3rem,7vw,5.6rem)] font-medium leading-[0.9] tracking-[-0.05em] tabular-nums [font-stretch:112%]">
-              {stats.contributionsLastYear.toLocaleString("en-US")}
-            </span>
-            <span className="label mt-3 block">Contributions in the last 12 months</span>
-          </p>
-          <div className="flex items-center gap-1.5 font-mono text-[10px] text-subtle" aria-hidden>
-            Less
-            {[0, 1, 2, 3, 4].map((l) => (
-              <span key={l} className="size-[10px]" style={{ background: `var(--heat-${l})` }} />
-            ))}
-            More
-          </div>
-        </div>
-
+      <div className="grid items-center gap-12 border-t border-line pt-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:gap-10" data-reveal>
         {stats.days.length ? (
-          <div className="mt-8 overflow-x-auto [direction:rtl] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            <div className="min-w-[640px] [direction:ltr]">
-              <Heatmap days={stats.days} />
-            </div>
-          </div>
+          <ContributionRing days={stats.days} total={stats.contributionsLastYear} />
         ) : (
-          <p className="mt-6 text-sm text-subtle">Daily activity is temporarily unavailable — totals are from the latest snapshot.</p>
+          <div className="py-10 text-center">
+            <p className="text-[clamp(3rem,7vw,5rem)] font-medium leading-none tracking-[-0.05em] tabular-nums [font-stretch:112%]">
+              {stats.contributionsLastYear.toLocaleString("en-US")}
+            </p>
+            <p className="label mt-3">Contributions in the last 12 months</p>
+            <p className="mt-4 text-sm text-subtle">GitHub didn&apos;t send the daily numbers this time, so this is the last saved total.</p>
+          </div>
         )}
 
-        <dl className="mt-10 grid grid-cols-3 gap-px border-y border-line bg-line">
-          {tiles.map((t, i) => (
-            <div
-              key={t.label}
-              className={`flex flex-col-reverse justify-end bg-bg py-5 pr-4 ${i > 0 ? "pl-4 sm:pl-5" : ""}`}
-            >
-              <dt className="label mt-2">
-                {t.label}
-                {t.hint ? <span className="mt-0.5 block normal-case tracking-normal">{t.hint}</span> : null}
-              </dt>
-              <dd className="text-[1.6rem] font-medium tracking-[-0.03em] tabular-nums [font-stretch:110%]">{t.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <div>
+          <p className="max-w-sm text-[0.95rem] leading-relaxed text-muted">
+            Every spoke is one day of the last year, starting at the top and going clockwise to today. Longer means
+            busier. Hover over the ring to read any day.
+          </p>
+          {rows.length ? (
+            <dl className="mt-8 border-t border-line">
+              {rows.map((r) => (
+                <div key={r.label} className="flex items-baseline justify-between gap-4 border-b border-line py-3.5">
+                  <dt className="label">{r.label}</dt>
+                  <dd className="text-right">
+                    <span className="block text-[1.05rem] font-medium tracking-[-0.01em] [font-stretch:108%]">{r.value}</span>
+                    <span className="block font-mono text-[0.7rem] text-subtle">{r.note}</span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          ) : null}
+        </div>
       </div>
-
     </Section>
   );
 }

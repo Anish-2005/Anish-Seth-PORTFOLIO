@@ -11,7 +11,7 @@ import { profile } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
 
 const description =
-  "About Anish Seth: AI/ML engineer at Digital Alpha, B.Tech student at Techno Main Salt Lake in Kolkata, and two-time Smart India Hackathon national finalist.";
+  "About Anish Seth: AI/ML engineer at Digital Alpha, B.Tech student at Techno Main Salt Lake in Kolkata, and a national finalist at Smart India Hackathon (twice) and IDE Bootcamp (twice).";
 
 export const metadata: Metadata = {
   title: "About",

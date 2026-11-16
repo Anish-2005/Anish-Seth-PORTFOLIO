@@ -5,7 +5,7 @@ import { Lockup } from "@/components/site/Logo";
 import { profile } from "@/data/portfolio";
 
 const links = [
-  { label: "Case studies", href: "/projects" },
+  { label: "Projects", href: "/projects" },
   { label: "About", href: "/about" },
   { label: "Résumé", href: profile.links.resume },
   { label: "GitHub", href: profile.links.github },

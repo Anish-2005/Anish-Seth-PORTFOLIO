@@ -89,7 +89,7 @@ export const githubSnapshot = {
 };
 
 export const heroStats = [
-  { value: "2×", label: "SIH national finalist" },
+  { value: "4×", label: "National finalist · SIH & IDE" },
   { value: "50+", label: "Projects shipped" },
 ] as const;
 
@@ -152,7 +152,7 @@ export const experience: ExperienceItem[] = [
     bullets: [
       "Built more than 25 full-stack and AI apps, and shipped 50+ projects across 78 public repositories.",
       "Made 3,800+ GitHub contributions in the last year, on everything from AI pipelines to a Git clone written in Java.",
-      "Reached the Smart India Hackathon national finals twice (2024 and 2025), plus the finals at Hack4Bengal 2025 and IDE Bootcamp 2026.",
+      "Reached the Smart India Hackathon national finals twice (2024 and 2025) and the IDE Bootcamp national finals twice in 2026 (Phase 1 in April, Phase 3 in May), plus the Hack4Bengal 2025 finals.",
     ],
     stack: ["TypeScript", "Next.js", "FastAPI", "Django", "n8n", "Gemini", "Neo4j"],
   },
@@ -379,7 +379,7 @@ export const projects: Project[] = [
     problem:
       "Relief for victims under the SC/ST (Prevention of Atrocities) Act still moves through paper and phone calls. Applicants lose track, and officers can't see where cases get stuck.",
     approach: [
-      "Mapped out the whole journey of applications, payments and complaints so officers can report on it easily.",
+      "Mapped out every step an application goes through, from payment to complaint, so officers can report on it easily.",
       "Built officer dashboards that show payment trends and where cases are getting stuck.",
       "Built a Flutter app for citizens that works offline, for areas with patchy internet.",
     ],
@@ -550,11 +550,13 @@ export const projects: Project[] = [
   },
 ];
 
+/** Newest first. "National" results get the accent colour in the Recognition section. */
 export const awards = [
+  { title: "IDE Bootcamp", result: "National finalist", detail: "Phase 3, May · Innovation, Design & Entrepreneurship", year: "2026" },
+  { title: "IDE Bootcamp", result: "National finalist", detail: "Phase 1, April · Innovation, Design & Entrepreneurship", year: "2026" },
   { title: "Smart India Hackathon", result: "National finalist", detail: "With Nyantra, our benefits platform", year: "2025" },
-  { title: "Smart India Hackathon", result: "National finalist", detail: "With LawAI, our legal help app", year: "2024" },
   { title: "Hack4Bengal", result: "Finalist", detail: "Made it to the finals with my team", year: "2025" },
-  { title: "IDE Bootcamp", result: "Finalist", detail: "Innovation, Design & Entrepreneurship", year: "2026" },
+  { title: "Smart India Hackathon", result: "National finalist", detail: "With LawAI, our legal help app", year: "2024" },
 ] as const;
 
 export const certifications = [

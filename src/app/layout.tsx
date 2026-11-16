@@ -126,7 +126,12 @@ const personJsonLd = {
     siteConfig.sameAs.leetcode,
   ],
   knowsAbout: Array.from(new Set(skillGroups.slice(0, 5).flatMap((g) => g.items))).slice(0, 30),
-  award: ["Smart India Hackathon 2024, national finalist", "Smart India Hackathon 2025, national finalist"],
+  award: [
+    "Smart India Hackathon 2024, national finalist",
+    "Smart India Hackathon 2025, national finalist",
+    "IDE Bootcamp 2026 Phase 1, national finalist",
+    "IDE Bootcamp 2026 Phase 3, national finalist",
+  ],
 };
 
 const websiteJsonLd = {

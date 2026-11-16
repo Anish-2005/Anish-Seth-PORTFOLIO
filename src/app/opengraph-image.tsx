@@ -117,7 +117,7 @@ export default async function OpenGraphImage() {
           <span>AWS BEDROCK</span>
           <span>MCP</span>
           <span>GRAPHRAG</span>
-          <span style={{ color: ACCENT }}>2× SIH NATIONAL FINALIST</span>
+          <span style={{ color: ACCENT }}>4× NATIONAL FINALIST</span>
         </div>
       </div>
     ),

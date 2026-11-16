@@ -179,7 +179,7 @@ export default async function ProjectPage({ params }: Props) {
         </article>
       </div>
 
-      <nav aria-label="More case studies" className="mt-24 grid gap-px border-y border-line bg-line sm:grid-cols-2">
+      <nav aria-label="More projects" className="mt-24 grid gap-px border-y border-line bg-line sm:grid-cols-2">
         {[
           { p: prev, dir: "Previous" },
           { p: next, dir: "Next" },

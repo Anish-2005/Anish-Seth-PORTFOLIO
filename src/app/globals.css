@@ -28,11 +28,6 @@
   --portrait-halo: rgba(255, 226, 196, 0.11);
   --shadow-pop: 0 30px 80px -24px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.07);
   --noise-opacity: 0.04;
-  --heat-0: rgba(255, 255, 255, 0.055);
-  --heat-1: #4f1a24;
-  --heat-2: #8d2638;
-  --heat-3: #d93a52;
-  --heat-4: #ff8a99;
 }
 
 [data-theme="light"] {
@@ -57,11 +52,6 @@
   --portrait-halo: rgba(176, 128, 84, 0.16);
   --shadow-pop: 0 30px 80px -28px rgba(17, 17, 16, 0.3), 0 0 0 1px rgba(17, 17, 16, 0.08);
   --noise-opacity: 0.03;
-  --heat-0: rgba(17, 17, 16, 0.065);
-  --heat-1: #f3c6cf;
-  --heat-2: #e58397;
-  --heat-3: #cf2f52;
-  --heat-4: #8c0e2b;
 }
 
 @theme inline {
@@ -687,25 +677,15 @@
   }
 }
 
-/* Contribution heatmap ripples in, column by column. */
+/* Year ring: spokes sweep in clockwise when the section is revealed. */
+.ring-spoke {
+  stroke-dasharray: 1 1.01;
+}
 @media (prefers-reduced-motion: no-preference) {
-  [data-reveal]:not([data-revealed]) .heat-cell {
-    opacity: 0;
+  [data-revealed] .ring-spoke {
+    animation: art-draw 0.5s var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 3ms + 150ms);
   }
-  [data-revealed] .heat-cell {
-    animation: cell-in 0.6s var(--ease-out-expo) both;
-    animation-delay: calc(var(--c, 0) * 14ms + var(--r, 0) * 24ms + 150ms);
-  }
-}
-@keyframes cell-in {
-  from {
-    opacity: 0;
-    transform: scale(0.4);
-  }
-}
-.heat-cell {
-  transform-box: fill-box;
-  transform-origin: center;
 }
 
 /* Signature trace under the contact headline (echoes the logo stroke + node). */

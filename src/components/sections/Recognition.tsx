@@ -22,7 +22,7 @@ export function Recognition() {
             {awards.map((a) => {
               const national = a.result.startsWith("National");
               return (
-                <li key={a.title + a.year} className="grid grid-cols-[3.25rem_1fr] gap-3 border-b border-line py-4 last:border-0">
+                <li key={`${a.title}-${a.year}-${a.detail}`} className="grid grid-cols-[3.25rem_1fr] gap-3 border-b border-line py-4 last:border-0">
                   <span className="pt-1 font-mono text-[0.76rem] tabular-nums text-subtle">{a.year}</span>
                   <div className="min-w-0">
                     <p className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">

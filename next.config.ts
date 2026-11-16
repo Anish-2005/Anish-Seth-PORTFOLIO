@@ -22,6 +22,14 @@ const nextConfig: NextConfig = {
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
+  async redirects() {
+    // Retired placeholder case studies from the previous version of the site.
+    return ["atlas", "chainkit", "signal"].map((slug) => ({
+      source: `/projects/${slug}`,
+      destination: "/projects",
+      permanent: true,
+    }));
+  },
 };
 
 export default withBundleAnalyzer(nextConfig);

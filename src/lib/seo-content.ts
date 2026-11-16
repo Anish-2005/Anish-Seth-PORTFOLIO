@@ -10,38 +10,38 @@ export type SeoNote = {
 export const seoNotes: SeoNote[] = [
   {
     slug: "shipping-polish",
-    title: "Shipping Polish Without Slowing Down",
+    title: "Polish without the slowdown",
     date: "2025-11-01",
-    summary: "A short note on building interfaces that feel calm, fast, and confident.",
+    summary: "Small details make a site feel good. Here's how I add them without missing deadlines.",
     tags: ["Frontend", "UX"],
-    body: "The best polish is the kind users notice only when it is missing. For portfolio work, that means crisp spacing, gentle motion, stable layout, and clear content hierarchy without piling on unnecessary effects.\n\nThe idea is simple: finish the fundamentals first, then add motion as a support layer instead of the main event.",
+    body: "Most polish goes unnoticed until it's missing. Even spacing, motion that doesn't fight you, and a layout that doesn't jump around while the page loads.\n\nMy rule is simple. Get the basics solid first: type, spacing and loading. Then add motion as the finishing touch, not the main event. If an animation makes something harder to read, it goes.",
   },
   {
     slug: "seo-entity-signals",
-    title: "SEO Entity Signals for a Personal Portfolio",
+    title: "Getting Google to know who you are",
     date: "2026-07-11",
-    summary: "What actually helps a personal site connect a name, handle, and domain in search.",
+    summary: "What actually helped my name, my handle and my domain show up together in search.",
     tags: ["SEO", "Next.js"],
     body:
-      "For a personal portfolio, the strongest signals are consistent naming, visible profile links, accurate structured data, and enough indexable content for the site to look like a real authority page.\n\nThe biggest wins usually come from:\n\n- A clear canonical domain\n- Matching person/schema data\n- Real internal content pages\n- External links from social profiles and GitHub\n- Text on the homepage that repeats the exact name and handle users search",
+      "For a personal site, Google mostly needs to be sure that the name, the social profiles and the domain all belong to the same person.\n\nWhat made the biggest difference for me:\n\n- One main domain, used everywhere\n- Structured data that says who I am and links to my profiles\n- A few real pages beyond the homepage\n- Links back to the site from GitHub and my socials\n- My actual name and handle written on the page, not just in the logo",
   },
   {
     slug: "nextjs-indexing",
-    title: "Next.js Indexing Basics That Actually Matter",
+    title: "Next.js SEO basics that actually matter",
     date: "2026-07-10",
-    summary: "A practical checklist for making a portfolio easier for search engines to crawl.",
+    summary: "A short checklist for making a Next.js site easy for search engines to read.",
     tags: ["Next.js", "SEO"],
     body:
-      "In Next.js, the fastest SEO gains usually come from server-rendered metadata, useful internal links, crawlable content pages, and a sitemap that only lists URLs that actually exist.\n\nA simple rule: if a route helps a visitor understand your work, it probably helps search too.",
+      "Most of the easy wins come from four things: metadata rendered on the server, sensible internal links, pages with real content on them, and a sitemap that only lists pages that actually exist.\n\nA good test: if a page helps a person understand your work, it probably helps search engines too.",
   },
   {
     slug: "portfolio-case-study",
-    title: "How to Turn a Portfolio Into a Searchable Case Study Library",
+    title: "Why a one-page portfolio isn't enough",
     date: "2026-07-09",
-    summary: "Why a single-page portfolio is weaker than a portfolio with supporting pages.",
+    summary: "Turning my portfolio into a small library of project pages made it much easier to find.",
     tags: ["Portfolio", "Content"],
     body:
-      "One homepage can rank, but multiple supportive pages usually create a much better topic cluster. Projects, notes, about pages, and FAQs make the site feel more complete and more discoverable.\n\nFor personal brands, that extra surface area matters a lot. The goal is not just more pages — it is more useful pages that answer real search intent and reinforce the same identity.",
+      "A single homepage can rank, but a handful of supporting pages does a lot more. Project write-ups, notes and an about page give people and search engines more ways in.\n\nThe point isn't more pages for the sake of it. Each page should answer a real question someone might have about you or your work.",
   },
 ];
 

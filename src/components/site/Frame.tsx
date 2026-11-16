@@ -13,6 +13,7 @@ export function Frame() {
         {/* Guides draw downward on load, like the section rules. */}
         <div className="absolute inset-y-0 left-0 w-px">
           <div className="guide-line absolute inset-0 bg-[var(--guide)]" />
+          <div className="ruler ruler-left absolute inset-y-0 left-0 hidden xl:block" />
           {/* Small screens: the marker rides the edge; ≥lg the trace fill takes over. */}
           <div className="scroll-marker lg:hidden" />
         </div>
@@ -20,7 +21,10 @@ export function Frame() {
           <div className="guide-line absolute inset-0 bg-[var(--guide)]" style={{ "--d": "140ms" } as React.CSSProperties} />
           <div className="trace-fill absolute inset-0" />
         </div>
-        <div className="guide-line absolute inset-y-0 right-0 w-px bg-[var(--guide)]" style={{ "--d": "280ms" } as React.CSSProperties} />
+        <div className="absolute inset-y-0 right-0 w-px">
+          <div className="guide-line absolute inset-0 bg-[var(--guide)]" style={{ "--d": "280ms" } as React.CSSProperties} />
+          <div className="ruler ruler-right absolute inset-y-0 right-0 hidden xl:block" />
+        </div>
       </div>
     </div>
   );

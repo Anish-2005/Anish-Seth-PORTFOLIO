@@ -21,9 +21,9 @@ export function Contact() {
       titleClassName="!text-[clamp(2.6rem,6.4vw,5.4rem)] !leading-[0.96] !tracking-[-0.045em]"
       title={
         <>
-          Let&apos;s build something{" "}
+          Got an idea?{" "}
           <span className="relative inline-block whitespace-nowrap">
-            reliable.
+            Let&apos;s talk.
             {/* Signature trace — the logo's stroke-and-node, drawn under the promise. */}
             <svg
               aria-hidden

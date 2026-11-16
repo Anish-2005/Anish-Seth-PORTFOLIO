@@ -7,13 +7,13 @@ import { Icon } from "@/components/ui/Icon";
 import { formatNoteDate, seoNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
-const description = "Short engineering notes from Anish Seth on shipping polish, performance, search and product craft.";
+const description = "Short notes from Anish Seth on building websites, getting found on Google and shipping without the stress.";
 
 export const metadata: Metadata = {
   title: "Notes",
   description,
   alternates: { canonical: "/notes" },
-  openGraph: { title: `Notes — ${siteConfig.name}`, description, url: `${siteConfig.url}/notes`, type: "website" },
+  openGraph: { title: `Notes · ${siteConfig.name}`, description, url: `${siteConfig.url}/notes`, type: "website" },
 };
 
 export default function NotesPage() {
@@ -23,17 +23,17 @@ export default function NotesPage() {
       eyebrow="Notes"
       title={
         <>
-          Short notes, <span className="text-subtle">long half-life.</span>
+          Notes, <span className="text-subtle">mostly to my future self.</span>
         </>
       }
-      description="Compact write-ups on implementation details and lessons from shipping."
+      description="Short write-ups on things I learned the hard way while building."
       crumbs={[{ label: "Notes" }]}
     >
       <JsonLd
         data={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: `Notes — ${siteConfig.name}`,
+          name: `Notes · ${siteConfig.name}`,
           description,
           url: `${siteConfig.url}/notes`,
           mainEntity: {

@@ -29,7 +29,7 @@ export function ContactForm() {
     };
     setInvalid(nextInvalid);
     if (Object.values(nextInvalid).some(Boolean)) {
-      setError("Please add your name, a valid email and a short message (10+ characters).");
+      setError("Almost there. I need your name, an email I can reply to, and a message of at least 10 characters.");
       return;
     }
 
@@ -60,7 +60,7 @@ export function ContactForm() {
           <Icon name="check" size={26} strokeWidth={2.2} />
         </span>
         <p className="mt-6 text-[1.4rem] font-semibold tracking-[-0.02em] [font-stretch:110%]">Message sent</p>
-        <p className="mt-2 max-w-xs text-[0.92rem] text-muted">Thanks for reaching out — I&apos;ll get back to you within a day or two.</p>
+        <p className="mt-2 max-w-xs text-[0.92rem] text-muted">Thanks for writing. I&apos;ll get back to you within a day or two.</p>
         <button type="button" onClick={() => setStatus("idle")} className="link-u mt-6 text-[0.88rem] text-fg">
           Send another message
         </button>
@@ -101,7 +101,7 @@ export function ContactForm() {
           id="cf-message"
           name="message"
           rows={4}
-          placeholder="What are you building?"
+          placeholder="Tell me a little about it"
           maxLength={5000}
           aria-invalid={invalid.message || undefined}
           className={cn(field, "resize-none")}

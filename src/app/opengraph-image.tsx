@@ -5,7 +5,7 @@ import { ImageResponse } from "next/og";
 
 import { profile } from "@/data/portfolio";
 
-export const alt = "Anish Seth — AI/ML Engineer building agentic AI, LLM systems and enterprise automation";
+export const alt = "Anish Seth, AI/ML engineer in Kolkata who builds AI agents";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -90,13 +90,13 @@ export default async function OpenGraphImage() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", marginTop: 92, maxWidth: 640 }}>
-            <div style={{ display: "flex", fontSize: 20, letterSpacing: 2.5, color: ACCENT }}>AI/ML ENGINEER — KOLKATA</div>
+            <div style={{ display: "flex", fontSize: 20, letterSpacing: 2.5, color: ACCENT }}>AI/ML ENGINEER · KOLKATA</div>
             <div style={{ display: "flex", flexDirection: "column", marginTop: 18, fontSize: 116, fontWeight: 700, lineHeight: 0.88, letterSpacing: -3 }}>
               <span>ANISH</span>
               <span>SETH</span>
             </div>
             <div style={{ display: "flex", marginTop: 30, fontSize: 30, lineHeight: 1.3, color: MUTED, maxWidth: 600 }}>
-              Agentic AI systems that hold up in production.
+              I build AI agents that do real work.
             </div>
           </div>
         </div>

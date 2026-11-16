@@ -11,8 +11,9 @@ export function Work({ repoCount }: { repoCount: number }) {
     <Section
       id="work"
       motif="grid"
+      detail="waves"
       index="03"
-      label="Selected work"
+      label="Work"
       note={
         <>
           <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="link-u text-fg">
@@ -22,7 +23,7 @@ export function Work({ repoCount }: { repoCount: number }) {
       }
       title={
         <>
-          Systems designed, built and shipped.
+          Things I&apos;ve built.
         </>
       }
     >
@@ -30,12 +31,12 @@ export function Work({ repoCount }: { repoCount: number }) {
 
       <div className="mt-20" data-reveal>
         <div className="mb-8 flex items-baseline justify-between gap-4">
-          <h3 className="text-[1.3rem] font-semibold tracking-[-0.02em] [font-stretch:110%]">Index</h3>
+          <h3 className="text-[1.3rem] font-semibold tracking-[-0.02em] [font-stretch:110%]">More projects</h3>
           <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="link-u text-[0.86rem] text-muted hover:text-fg lg:hidden">
             All {repoCount} repositories ↗
           </a>
         </div>
-        <ProjectIndex projects={rest} startAt={featured.length + 1} />
+        <ProjectIndex projects={rest} />
       </div>
     </Section>
   );

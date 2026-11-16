@@ -11,13 +11,13 @@ import { profile } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
 
 const description =
-  "About Anish Seth — AI/ML engineer at Digital Alpha building agentic AI, LLM systems and enterprise automation; B.Tech CSBS at Techno Main Salt Lake; two-time Smart India Hackathon national finalist.";
+  "About Anish Seth: AI/ML engineer at Digital Alpha, B.Tech student at Techno Main Salt Lake in Kolkata, and two-time Smart India Hackathon national finalist.";
 
 export const metadata: Metadata = {
   title: "About",
   description,
   alternates: { canonical: "/about" },
-  openGraph: { title: `About — ${siteConfig.name}`, description, url: `${siteConfig.url}/about`, type: "profile" },
+  openGraph: { title: `About · ${siteConfig.name}`, description, url: `${siteConfig.url}/about`, type: "profile" },
 };
 
 export default function AboutPage() {
@@ -27,8 +27,7 @@ export default function AboutPage() {
         eyebrow="About"
         title={
           <>
-            {profile.name} — {profile.role.toLowerCase().replace("ai/ml", "AI/ML")} building{" "}
-            <span className="text-subtle">trustworthy agents.</span>
+            Hi, I&apos;m Anish. <span className="text-subtle">Nice to meet you.</span>
           </>
         }
         description={profile.summary}

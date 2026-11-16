@@ -37,16 +37,16 @@ export function Hero({ contributions, repos }: HeroProps) {
                 className="fade-in text-[clamp(1.3rem,2.05vw,1.7rem)] leading-[1.3] tracking-[-0.02em] text-balance [font-stretch:104%]"
                 style={{ "--d": "760ms" } as React.CSSProperties}
               >
-                I build agentic AI systems that hold up in production
+                I build AI agents that do real work with real data.
                 <span className="text-subtle">
                   {" "}
-                  — multi-agent orchestration, RAG &amp; GraphRAG and enterprise automation on AWS Bedrock, with the
-                  guardrails real financial workflows demand.
+                  Right now that&apos;s at Digital Alpha, mostly in Python on AWS Bedrock, and I care a lot about what
+                  happens when things go wrong.
                 </span>
               </p>
               <div className="fade-in mt-9 flex flex-wrap items-center gap-3" style={{ "--d": "860ms" } as React.CSSProperties}>
                 <ButtonLink href="#work" size="lg">
-                  Selected work
+                  See my work
                   <Icon name="arrow-right" size={16} className="transition-transform duration-500 group-hover/btn:translate-x-1" />
                 </ButtonLink>
                 <ButtonLink href={profile.links.resume} size="lg" variant="secondary">

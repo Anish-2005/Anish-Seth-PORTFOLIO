@@ -9,7 +9,7 @@ export function FAQ() {
       id="faq"
       index="08"
       label="FAQ"
-      title="Quick answers."
+      title="Things people ask me."
       titleClassName="!text-[clamp(1.6rem,2.6vw,2.1rem)]"
     >
       <JsonLd
@@ -26,14 +26,13 @@ export function FAQ() {
       <div className="border-t border-line" data-reveal>
         {faqs.map((f, i) => (
           <details key={f.question} className="group border-b border-line" open={i === 0}>
-            <summary className="grid cursor-pointer grid-cols-[2.25rem_1fr_auto] items-baseline gap-3 py-5 text-[1.02rem] font-medium transition-colors hover:text-accent-ink">
-              <span className="font-mono text-[0.7rem] text-subtle">{String(i + 1).padStart(2, "0")}</span>
+            <summary className="grid cursor-pointer grid-cols-[1fr_auto] items-baseline gap-3 py-5 text-[1.02rem] font-medium transition-colors hover:text-accent-ink">
               {f.question}
               <span className="faq-icon grid size-6 place-items-center text-subtle transition-transform duration-500 ease-[var(--ease-out-expo)]">
                 <Icon name="plus" size={15} />
               </span>
             </summary>
-            <p className="max-w-2xl pb-6 pl-12 pr-8 text-[0.95rem] leading-relaxed text-muted">{f.answer}</p>
+            <p className="max-w-2xl pb-6 pr-8 text-[0.95rem] leading-relaxed text-muted">{f.answer}</p>
           </details>
         ))}
       </div>

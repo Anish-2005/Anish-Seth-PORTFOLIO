@@ -344,6 +344,30 @@
   background-position: right bottom;
 }
 
+/* Diagonal hatching, like a technical-drawing section fill. */
+.decor-hatch {
+  background-image: repeating-linear-gradient(-45deg, var(--line-strong) 0 1px, transparent 1px 9px);
+  border-top: 1px solid var(--line-strong);
+}
+
+/* Ruler ticks along the outer frame lines (minor every 16px, major every 80px). */
+.ruler {
+  width: 10px;
+  background-image:
+    linear-gradient(to bottom, var(--line-strong) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+  background-size:
+    10px 80px,
+    5px 16px;
+  background-repeat: repeat-y;
+}
+.ruler-left {
+  background-position: left top;
+}
+.ruler-right {
+  background-position: right top;
+}
+
 /* Dot field */
 .dots {
   background-image: radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 1.4px);

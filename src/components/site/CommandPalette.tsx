@@ -32,7 +32,7 @@ const COMMANDS: Command[] = [
     [
       ["about", "About", "users"],
       ["experience", "Experience", "branch"],
-      ["work", "Selected work", "layers"],
+      ["work", "Work", "layers"],
       ["skills", "Skills & capabilities", "cpu"],
       ["open-source", "Open source activity", "github"],
       ["recognition", "Awards & certifications", "trophy"],

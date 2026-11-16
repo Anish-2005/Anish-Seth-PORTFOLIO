@@ -11,12 +11,9 @@ export function FeaturedGrid({ projects }: { projects: Project[] }) {
       {projects.map((p, i) => (
         <li key={p.slug} data-reveal style={{ "--d": `${(i % 2) * 90}ms` } as React.CSSProperties} className={`bg-bg ${i % 2 === 0 ? "md:pr-8" : "md:pl-8"}`}>
           <article className="group relative flex h-full flex-col py-8 md:py-10">
-            <div className="flex items-baseline justify-between gap-4">
-              <span className="font-mono text-[0.72rem] text-accent-ink">{String(i + 1).padStart(2, "0")}</span>
-              <span className="label">
-                {p.kicker} · {p.year}
-              </span>
-            </div>
+            <p className="label">
+              {p.kicker} · {p.year}
+            </p>
 
             <div className="relative mt-6 aspect-[16/10] overflow-hidden bg-bg-elev">
               <ProjectArt

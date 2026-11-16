@@ -6,11 +6,12 @@ export function Recognition() {
     <Section
       id="recognition"
       motif="grid"
+      detail="waves"
       index="06"
       label="Recognition"
       title={
         <>
-          Tested under pressure.
+          A few wins along the way.
         </>
       }
     >

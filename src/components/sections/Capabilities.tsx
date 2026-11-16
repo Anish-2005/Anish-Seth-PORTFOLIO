@@ -8,11 +8,12 @@ export function Capabilities() {
     <Section
       id="skills"
       motif="dots"
+      detail="graph"
       index="04"
-      label="Capabilities"
+      label="Skills"
       title={
         <>
-          A full stack, AI-first.
+          What I work with.
         </>
       }
     >
@@ -29,13 +30,10 @@ export function Capabilities() {
               className="absolute -top-px left-0 h-px w-0 bg-accent transition-[width] duration-700 ease-[var(--ease-out-expo)] group-hover:w-full"
             />
             <dt>
-              <p className="flex items-baseline gap-3">
-                <span className="font-mono text-[0.7rem] text-accent-ink">{String(i + 1).padStart(2, "0")}</span>
-                <span className="text-[1.05rem] font-semibold tracking-[-0.01em] [font-stretch:108%]">{g.title}</span>
-              </p>
-              <p className="mt-2 pl-7 text-[0.86rem] leading-relaxed text-subtle">{g.blurb}</p>
+              <p className="text-[1.05rem] font-semibold tracking-[-0.01em] [font-stretch:108%]">{g.title}</p>
+              <p className="mt-2 text-[0.86rem] leading-relaxed text-subtle">{g.blurb}</p>
             </dt>
-            <dd className="pl-7 md:pl-0">
+            <dd>
               <ul className="flex flex-wrap gap-x-2 gap-y-1.5 text-[0.98rem] leading-relaxed">
                 {g.items.map((s, j) => (
                   <li key={s} className="text-fg/90">

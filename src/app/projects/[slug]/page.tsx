@@ -23,11 +23,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = getProject(slug);
   if (!project) return { title: "Project not found" };
   return {
-    title: `${project.title} — ${project.kicker}`,
+    title: `${project.title} · ${project.kicker}`,
     description: project.summary,
     alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {
-      title: `${project.title} — ${siteConfig.name}`,
+      title: `${project.title} · ${siteConfig.name}`,
       description: project.summary,
       url: `${siteConfig.url}/projects/${project.slug}`,
       type: "article",
@@ -53,10 +53,10 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <SubpageShell
-      eyebrow={`Case study ${String(index + 1).padStart(2, "0")} — ${project.kicker}`}
+      eyebrow={project.kicker}
       title={project.title}
       description={project.summary}
-      crumbs={[{ label: "Case studies", href: "/projects" }, { label: project.title }]}
+      crumbs={[{ label: "Projects", href: "/projects" }, { label: project.title }]}
       meta={
         <div className="flex flex-wrap items-center gap-3">
           {project.links.live ? (
@@ -70,7 +70,7 @@ export default async function ProjectPage({ params }: Props) {
             </ButtonLink>
           ) : null}
           {!project.links.live && !project.links.github ? (
-            <p className="label">Private build — walkthrough available on request</p>
+            <p className="label">Private project. Happy to walk you through it.</p>
           ) : null}
         </div>
       }
@@ -81,7 +81,7 @@ export default async function ProjectPage({ params }: Props) {
           "@type": "BreadcrumbList",
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "Home", item: siteConfig.url },
-            { "@type": "ListItem", position: 2, name: "Case studies", item: `${siteConfig.url}/projects` },
+            { "@type": "ListItem", position: 2, name: "Projects", item: `${siteConfig.url}/projects` },
             { "@type": "ListItem", position: 3, name: project.title, item: `${siteConfig.url}/projects/${project.slug}` },
           ],
         }}
@@ -91,7 +91,7 @@ export default async function ProjectPage({ params }: Props) {
           "@context": "https://schema.org",
           "@type": "CreativeWork",
           name: project.title,
-          headline: `${project.title} — ${project.kicker}`,
+          headline: `${project.title} · ${project.kicker}`,
           description: project.summary,
           url: `${siteConfig.url}/projects/${project.slug}`,
           dateCreated: project.year,
@@ -113,7 +113,7 @@ export default async function ProjectPage({ params }: Props) {
             ))}
             <div className="py-5">
               <Link href="/#contact" className="link-u inline-flex items-center gap-2 text-[0.9rem]">
-                Discuss this project <Icon name="arrow-right" size={14} className="text-accent-ink" />
+                Ask me about this one <Icon name="arrow-right" size={14} className="text-accent-ink" />
               </Link>
             </div>
           </dl>
@@ -130,11 +130,11 @@ export default async function ProjectPage({ params }: Props) {
               <span aria-hidden className="xh left-0 top-full" />
               <span aria-hidden className="xh left-full top-full" />
             </div>
-            <figcaption className="label mt-4">Fig. 01 — {project.title}, schematic</figcaption>
+            <figcaption className="label mt-4">{project.title}, sketched</figcaption>
           </figure>
 
           <section aria-labelledby="problem" className="mt-16 grid gap-4 border-t border-line pt-8 md:grid-cols-[10rem_1fr] md:gap-10" data-reveal>
-            <p className="label text-accent-ink">01 / Context</p>
+            <p className="label text-accent-ink">Context</p>
             <div>
               <h2 id="problem" className="text-[1.6rem] font-semibold tracking-[-0.025em] [font-stretch:110%]">
                 The problem
@@ -144,15 +144,15 @@ export default async function ProjectPage({ params }: Props) {
           </section>
 
           <section aria-labelledby="approach" className="mt-14 grid gap-4 border-t border-line pt-8 md:grid-cols-[10rem_1fr] md:gap-10" data-reveal>
-            <p className="label text-accent-ink">02 / Engineering</p>
+            <p className="label text-accent-ink">Approach</p>
             <div>
               <h2 id="approach" className="text-[1.6rem] font-semibold tracking-[-0.025em] [font-stretch:110%]">
-                The approach
+                How I built it
               </h2>
               <ol className="mt-6 border-t border-line">
-                {project.approach.map((step, i) => (
-                  <li key={step} className="grid grid-cols-[2.5rem_1fr] gap-2 border-b border-line py-5">
-                    <span className="font-mono text-[0.75rem] text-subtle">{String(i + 1).padStart(2, "0")}</span>
+                {project.approach.map((step) => (
+                  <li key={step} className="grid grid-cols-[1.4rem_1fr] border-b border-line py-5">
+                    <span aria-hidden className="mt-[0.72em] h-px w-3 bg-accent" />
                     <p className="text-[1rem] leading-relaxed text-pretty">{step}</p>
                   </li>
                 ))}
@@ -161,10 +161,10 @@ export default async function ProjectPage({ params }: Props) {
           </section>
 
           <section aria-labelledby="outcomes" className="mt-14 grid gap-4 border-t border-line pt-8 md:grid-cols-[10rem_1fr] md:gap-10" data-reveal>
-            <p className="label text-accent-ink">03 / Result</p>
+            <p className="label text-accent-ink">Result</p>
             <div>
               <h2 id="outcomes" className="text-[1.6rem] font-semibold tracking-[-0.025em] [font-stretch:110%]">
-                What shipped
+                What came out of it
               </h2>
               <ul className="mt-6 grid gap-px border-y border-line bg-line sm:grid-cols-3">
                 {project.outcomes.map((o, i) => (

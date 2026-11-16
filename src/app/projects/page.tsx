@@ -8,13 +8,13 @@ import { projects } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
 
 const description =
-  "Case studies by Anish Seth — agentic AI pipelines, GraphRAG knowledge systems, fraud detection, and full-stack products built with Next.js, FastAPI and Django.";
+  "Projects by Anish Seth: AI agents, knowledge graphs, fraud detection and full-stack apps built with Next.js, FastAPI and Django.";
 
 export const metadata: Metadata = {
-  title: "Case studies",
+  title: "Projects",
   description,
   alternates: { canonical: "/projects" },
-  openGraph: { title: `Case studies — ${siteConfig.name}`, description, url: `${siteConfig.url}/projects`, type: "website" },
+  openGraph: { title: `Projects · ${siteConfig.name}`, description, url: `${siteConfig.url}/projects`, type: "website" },
 };
 
 export default function ProjectsPage() {
@@ -23,20 +23,20 @@ export default function ProjectsPage() {
 
   return (
     <SubpageShell
-      eyebrow={`${projects.length} case studies`}
+      eyebrow={`${projects.length} projects`}
       title={
         <>
-          Work, with the reasoning <span className="text-subtle">left in.</span>
+          Everything I&apos;ve built, <span className="text-subtle">and why.</span>
         </>
       }
-      description="Every project below lists the problem, the approach and what shipped — the engineering decisions, not just the screenshots."
-      crumbs={[{ label: "Case studies" }]}
+      description="Each one covers the problem, how I went about it and what came out the other end."
+      crumbs={[{ label: "Projects" }]}
     >
       <JsonLd
         data={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: `Case studies — ${siteConfig.name}`,
+          name: `Projects · ${siteConfig.name}`,
           description,
           url: `${siteConfig.url}/projects`,
           mainEntity: {
@@ -52,8 +52,8 @@ export default function ProjectsPage() {
       />
       <FeaturedGrid projects={featured} />
       <div className="mt-20">
-        <h2 className="mb-8 text-[1.3rem] font-semibold tracking-[-0.02em] [font-stretch:110%]">Index</h2>
-        <ProjectIndex projects={rest} startAt={featured.length + 1} />
+        <h2 className="mb-8 text-[1.3rem] font-semibold tracking-[-0.02em] [font-stretch:110%]">More projects</h2>
+        <ProjectIndex projects={rest} />
       </div>
     </SubpageShell>
   );

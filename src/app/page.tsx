@@ -22,7 +22,7 @@ export default async function Home() {
         data={{
           "@context": "https://schema.org",
           "@type": "ProfilePage",
-          name: `${siteConfig.name} — portfolio`,
+          name: `${siteConfig.name}'s portfolio`,
           url: siteConfig.url,
           mainEntity: { "@id": `${siteConfig.url}/#person` },
         }}

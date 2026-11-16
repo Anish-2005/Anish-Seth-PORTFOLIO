@@ -14,7 +14,7 @@ type Filter = "all" | ProjectCategory;
  * An editorial index of builds. Rows dim their siblings on hover, and on desktop a small
  * preview of the project's artwork trails the cursor with eased motion.
  */
-export function ProjectIndex({ projects, startAt = 1 }: { projects: Project[]; startAt?: number }) {
+export function ProjectIndex({ projects }: { projects: Project[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [hovered, setHovered] = useState<string | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -97,7 +97,6 @@ export function ProjectIndex({ projects, startAt = 1 }: { projects: Project[]; s
 
       <ol className="group/list border-t border-line" onMouseLeave={() => setHovered(null)}>
         {visible.map((p) => {
-          const n = projects.indexOf(p) + startAt;
           return (
             <li key={p.slug} className="border-b border-line">
               <Link
@@ -105,11 +104,8 @@ export function ProjectIndex({ projects, startAt = 1 }: { projects: Project[]; s
                 onMouseEnter={() => setHovered(p.slug)}
                 onFocus={() => setHovered(p.slug)}
                 onBlur={() => setHovered(null)}
-                className="group/row grid grid-cols-[2.25rem_minmax(0,1fr)_auto] items-baseline gap-x-4 py-5 transition-[color,padding] duration-500 ease-[var(--ease-out-expo)] group-hover/list:text-subtle hover:!text-fg md:grid-cols-[2.75rem_minmax(0,1.3fr)_minmax(0,1fr)_3.5rem_1.25rem] md:py-6 md:hover:pl-3"
+                className="group/row grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 py-5 transition-[color,padding] duration-500 ease-[var(--ease-out-expo)] group-hover/list:text-subtle hover:!text-fg md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_3.5rem_1.25rem] md:py-6 md:hover:pl-3"
               >
-                <span className="font-mono text-[0.72rem] text-subtle transition-colors group-hover/row:text-accent-ink">
-                  {String(n).padStart(2, "0")}
-                </span>
                 <span className="min-w-0">
                   <span className="block truncate text-[1.12rem] font-medium tracking-[-0.015em] [font-stretch:106%] md:text-[1.28rem]">
                     {p.title}

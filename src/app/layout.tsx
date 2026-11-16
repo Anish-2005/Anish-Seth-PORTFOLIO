@@ -30,11 +30,11 @@ const mono = IBM_Plex_Mono({
   display: "swap",
 });
 
-const title = `${siteConfig.name} — AI/ML Engineer · Agentic AI & LLM Systems`;
+const title = `${siteConfig.name} · AI/ML Engineer`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: { default: title, template: `%s — ${siteConfig.name}` },
+  title: { default: title, template: `%s · ${siteConfig.name}` },
   description: siteConfig.description,
   applicationName: siteConfig.name,
   keywords: [
@@ -126,7 +126,7 @@ const personJsonLd = {
     siteConfig.sameAs.leetcode,
   ],
   knowsAbout: Array.from(new Set(skillGroups.slice(0, 5).flatMap((g) => g.items))).slice(0, 30),
-  award: ["Smart India Hackathon 2024 — National Finalist", "Smart India Hackathon 2025 — National Finalist"],
+  award: ["Smart India Hackathon 2024, national finalist", "Smart India Hackathon 2025, national finalist"],
 };
 
 const websiteJsonLd = {

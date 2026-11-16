@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { SectionDecor, type Motif } from "@/components/site/Decor";
+import { SectionDecor, type Detail, type Motif } from "@/components/site/Decor";
 import { SectionRule } from "@/components/site/Frame";
 import { cn } from "@/lib/utils";
 
@@ -16,22 +16,25 @@ type SectionProps = {
   titleClassName?: string;
   /** Faint static background drawing for the section. */
   motif?: Motif;
+  /** Smaller drawing in the lower label column. */
+  detail?: Detail;
 };
 
 /**
  * Editorial section scaffold: a self-drawing rule, a sticky label column (3/12)
  * and a content column (9/12) aligned to the page's visible guides.
  */
-export function Section({ id, index, label, title, intro, note, children, className, titleClassName, motif }: SectionProps) {
+export function Section({ id, index, label, title, intro, note, children, className, titleClassName, motif, detail }: SectionProps) {
   return (
     <section id={id} aria-labelledby={title ? `${id}-title` : undefined} aria-label={title ? undefined : label} className={cn("relative isolate", className)}>
-      {motif ? <SectionDecor motif={motif} /> : null}
+      {motif || detail ? <SectionDecor motif={motif} detail={detail} /> : null}
       <SectionRule />
       <div className="container-x relative grid py-20 md:py-28 lg:grid-cols-12">
-        <aside className="mb-10 lg:col-span-3 lg:mb-0 lg:pr-10">
+        {/* With a detail drawing, bottom padding keeps the sticky label from sliding over it. */}
+        <aside className={cn("mb-10 lg:col-span-3 lg:mb-0 lg:pr-10", detail && "lg:pb-[300px]")}>
           <div className="lg:sticky lg:top-28" data-reveal>
-            <p className="label flex items-baseline gap-3">
-              <span className="text-accent-ink">{index}</span>
+            <p className="label flex items-center gap-2.5">
+              <span aria-hidden className="size-[5px] rounded-full bg-accent" />
               <span className="text-fg">{label}</span>
             </p>
             {note ? <div className="mt-5 hidden max-w-[15rem] text-[0.86rem] leading-relaxed text-subtle lg:block">{note}</div> : null}

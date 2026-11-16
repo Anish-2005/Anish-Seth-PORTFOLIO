@@ -1,6 +1,7 @@
 /**
- * Single source of truth for portfolio content.
- * Sourced from the latest résumé (Nov 2026) and public GitHub (github.com/Anish-2005).
+ * All the words on the site live here.
+ * Facts come from the Nov 2026 résumé and public GitHub (github.com/Anish-2005).
+ * Voice: first person, plain words, specific, a little playful. No buzzwords.
  */
 
 export type ProjectCategory = "ai" | "fullstack" | "systems";
@@ -42,7 +43,7 @@ export const profile = {
   name: "Anish Seth",
   firstName: "Anish",
   role: "AI/ML Engineer",
-  focus: "Agentic AI, LLM Systems & Enterprise Automation",
+  focus: "AI agents, LLM systems and automation",
   location: "Kolkata, India",
   timezone: "Asia/Kolkata",
   email: "anishseth0510@gmail.com",
@@ -52,10 +53,10 @@ export const profile = {
     since: "Sep 2026",
   },
   summary:
-    "AI/ML engineer building production agentic systems for financial automation — multi-agent orchestration, tool-calling, RAG, GraphRAG and knowledge-graph retrieval with LangChain, LangGraph, AWS Bedrock, AgentCore, MCP and Nango. Focused on reliability, observability, cost optimization and edge-case testing.",
+    "I'm an AI/ML engineer at Digital Alpha. I build AI agents on AWS Bedrock that work with live financial data, using LangGraph, MCP and Nango, and I care a lot about keeping them reliable, easy to debug and cheap to run. I've also been a Smart India Hackathon national finalist twice.",
   intro: [
-    "I build AI systems that are trusted to act — agents that read live financial data, call real tools, and still behave predictably when the model, the network or the input misbehaves.",
-    "Today that means designing agentic workflows on AWS Bedrock and AgentCore at Digital Alpha. Before that, it meant 50+ shipped projects, two national Smart India Hackathon finals, and a habit of turning ambiguous problems into production-grade software.",
+    "I'm an AI/ML engineer from Kolkata. At Digital Alpha I build AI agents that read live financial data and act on it, so I spend a lot of my time thinking about what happens when something goes wrong.",
+    "Before that, I spent three years building in public: more than 50 projects, a lot of late nights and two trips to the Smart India Hackathon national finals. My favourite part is still the moment a vague idea turns into something people actually use.",
   ],
   links: {
     github: "https://github.com/Anish-2005",
@@ -88,29 +89,29 @@ export const githubSnapshot = {
 };
 
 export const heroStats = [
-  { value: "2×", label: "SIH National Finalist" },
+  { value: "2×", label: "SIH national finalist" },
   { value: "50+", label: "Projects shipped" },
 ] as const;
 
 export const principles = [
   {
-    title: "Reliable by design",
-    body: "Approval gates, schema validation and idempotency keys — so an agent can never post the same financial transaction twice.",
+    title: "Plan for the bad day",
+    body: "Retries happen and models return junk. Approval steps, schema checks and idempotency keys mean a retry never pays the same invoice twice.",
     icon: "shield",
   },
   {
-    title: "Observable by default",
-    body: "Structured CloudWatch logging and per-run cost tracking on every workflow. If it runs, it is measured.",
+    title: "Log everything",
+    body: "Every run writes structured logs and records what it cost. When something breaks, I want to know why in minutes, not hours.",
     icon: "activity",
   },
   {
-    title: "Tested at the edges",
-    body: "Retries, malformed model output and partial failures get explicit tests — not optimism.",
+    title: "Test the weird cases",
+    body: "Happy paths are easy. I write tests for retries, broken model output and runs that stop halfway, because that's where the bugs live.",
     icon: "flask",
   },
   {
-    title: "Cost-aware",
-    body: "Model choice, tool calls and token budgets are engineering constraints, tracked like latency.",
+    title: "Watch the bill",
+    body: "Tokens cost real money. I choose models and tool calls with the budget in mind and track cost per run like any other number.",
     icon: "gauge",
   },
 ] as const;
@@ -130,38 +131,38 @@ export const experience: ExperienceItem[] = [
   {
     role: "AI/ML Engineer Intern",
     company: "Digital Alpha",
-    period: "Sep 2026 — Present",
+    period: "Sep 2026 to now",
     type: "Internship",
     current: true,
-    summary: "Agentic workflows and financial data pipelines for research and automation.",
+    summary: "Building AI agents that work with live financial data.",
     bullets: [
-      "Built Python agentic workflows and financial data pipelines on AWS Bedrock and AgentCore for research and automation.",
-      "Developed LLM agents with MCP tool servers, connecting enterprise systems through Nango so agents act on live financial data.",
-      "Implemented approval workflows, schema validation and idempotency keys — preventing duplicate financial transactions.",
-      "Added CloudWatch logging, per-run cost tracking and edge-case tests for retries, malformed output and partial failures.",
+      "Built agent workflows and financial data pipelines in Python on AWS Bedrock and AgentCore.",
+      "Built LLM agents that call MCP tool servers and reach company systems through Nango, so they can work with live financial data.",
+      "Added approval steps, schema checks and idempotency keys so an agent can't create the same transaction twice.",
+      "Set up CloudWatch logging, cost tracking per run, and tests for the messy cases: retries, broken model output and runs that fail halfway.",
     ],
     stack: ["Python", "AWS Bedrock", "AgentCore", "MCP", "Nango", "CloudWatch", "Boto3"],
   },
   {
-    role: "Builder — Open Source, AI Automation & Hackathons",
-    company: "Independent",
-    period: "2023 — Present",
-    type: "Open source",
-    summary: "Shipping end-to-end products, AI pipelines and automation in public.",
+    role: "Open source, side projects and hackathons",
+    company: "On my own",
+    period: "2023 to now",
+    type: "Self-directed",
+    summary: "Building things in public since 2023.",
     bullets: [
-      "Built 25+ full-stack and AI-integrated apps and shipped 50+ projects across 78 public repositories.",
-      "3,800+ GitHub contributions in the last year — from agentic pipelines and GraphRAG to a Git engine written in Java.",
-      "Two-time Smart India Hackathon national finalist (2024, 2025); finalist at Hack4Bengal 2025 and IDE Bootcamp 2026.",
+      "Built more than 25 full-stack and AI apps, and shipped 50+ projects across 78 public repositories.",
+      "Made 3,800+ GitHub contributions in the last year, on everything from AI pipelines to a Git clone written in Java.",
+      "Reached the Smart India Hackathon national finals twice (2024 and 2025), plus the finals at Hack4Bengal 2025 and IDE Bootcamp 2026.",
     ],
     stack: ["TypeScript", "Next.js", "FastAPI", "Django", "n8n", "Gemini", "Neo4j"],
   },
 ];
 
 export const leadership = [
-  { role: "Google Student Ambassador", org: "Techno Main Salt Lake", period: "Jul — Nov 2026" },
-  { role: "GeeksforGeeks Campus Lead", org: "Techno Main Salt Lake", period: "Jan — Jun 2026" },
-  { role: "Outreach Head", org: "Samarth — Educational Society, TMSL", period: "Ongoing" },
-  { role: "Organizer, EDUC-A-THON", org: "Education-focused hackathon", period: "2025" },
+  { role: "Google Student Ambassador", org: "Techno Main Salt Lake", period: "Jul to Nov 2026" },
+  { role: "GeeksforGeeks Campus Lead", org: "Techno Main Salt Lake", period: "Jan to Jun 2026" },
+  { role: "Outreach Head", org: "Samarth, the educational society at TMSL", period: "Ongoing" },
+  { role: "Organiser, EDUC-A-THON", org: "A hackathon about education", period: "2025" },
 ] as const;
 
 export type SkillGroup = {
@@ -176,8 +177,8 @@ export type SkillGroup = {
 export const skillGroups: SkillGroup[] = [
   {
     id: "agentic",
-    title: "Agentic AI & LLMs",
-    blurb: "Multi-agent orchestration with tool-calling, guardrails and human-in-the-loop approvals.",
+    title: "AI agents & LLMs",
+    blurb: "Agents that use tools, check their own work and ask a person before doing anything risky.",
     icon: "spark",
     span: "wide",
     items: [
@@ -197,29 +198,29 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     id: "rag",
-    title: "RAG & Knowledge Systems",
-    blurb: "Retrieval that is grounded, schema-checked and queryable.",
+    title: "RAG & knowledge graphs",
+    blurb: "Getting answers out of documents and graphs without making things up.",
     icon: "graph",
     items: ["RAG", "GraphRAG", "Knowledge Graphs", "Neo4j", "Cypher", "OCR"],
   },
   {
     id: "cloud",
-    title: "AWS & Cloud",
-    blurb: "Serverless agents with observability and cost tracking built in.",
+    title: "AWS & cloud",
+    blurb: "Where most of my agents live, with logging and cost tracking switched on.",
     icon: "cloud",
     items: ["Bedrock", "AgentCore", "S3", "CloudWatch", "Boto3", "Docker", "CI/CD", "Vercel"],
   },
   {
     id: "automation",
-    title: "Integrations & Automation",
-    blurb: "Connecting agents to the systems where work actually happens.",
+    title: "Integrations & automation",
+    blurb: "Plugging agents into the tools teams already use every day.",
     icon: "plug",
     items: ["Nango", "MCP Servers", "REST APIs", "Webhooks", "n8n", "Zapier"],
   },
   {
     id: "product",
-    title: "Full-Stack Engineering",
-    blurb: "Production web and mobile products, from API to interface.",
+    title: "Full-stack",
+    blurb: "Everything around the AI: APIs, web apps and the odd mobile app.",
     icon: "layers",
     span: "wide",
     items: [
@@ -239,121 +240,85 @@ export const skillGroups: SkillGroup[] = [
   },
   {
     id: "languages",
-    title: "Languages & Data",
-    blurb: "Python for AI and data, Java for systems, TypeScript for product.",
+    title: "Languages & data",
+    blurb: "Python for AI and data, Java for systems, TypeScript for the web.",
     icon: "code",
     items: ["Python", "Pandas", "NumPy", "Java", "TypeScript", "JavaScript", "SQL", "C++", "EDA"],
   },
   {
     id: "data",
     title: "Databases",
-    blurb: "Relational, document and graph stores.",
+    blurb: "Tables, documents or graphs, depending on the problem.",
     icon: "database",
     items: ["PostgreSQL", "MongoDB", "Neo4j", "Supabase", "Firebase", "SQL Server"],
   },
   {
     id: "core",
-    title: "CS Foundations",
-    blurb: "The fundamentals underneath every abstraction.",
+    title: "CS basics",
+    blurb: "The stuff from college that turns out to matter every single day.",
     icon: "cpu",
     items: ["Data Structures & Algorithms", "OOP", "DBMS", "Operating Systems", "Computer Networks", "System Design"],
   },
-];
-
-export const marquee = [
-  "LangGraph",
-  "AWS Bedrock",
-  "AgentCore",
-  "Model Context Protocol",
-  "GraphRAG",
-  "Neo4j",
-  "Python",
-  "FastAPI",
-  "Next.js",
-  "TypeScript",
-  "PostgreSQL",
-  "Nango",
-  "CloudWatch",
-  "Docker",
-  "n8n",
-  "Gemini",
-  "Claude",
-  "Java",
 ];
 
 export const projects: Project[] = [
   {
     slug: "graphrag-knowledge-graph",
     title: "GraphRAG Knowledge Agent",
-    kicker: "Agentic AI · Knowledge Graphs",
-    summary:
-      "An agent that turns unstructured text into a validated Neo4j knowledge graph — then answers questions over it in plain language.",
+    kicker: "AI agents · Knowledge graphs",
+    summary: "An agent that reads plain text, turns it into a Neo4j knowledge graph, then answers questions about it in normal language.",
     year: "2026",
     categories: ["ai"],
     featured: true,
     stack: ["n8n", "Gemini", "Neo4j", "Cypher"],
     problem:
-      "Vector-only retrieval loses the relationships that make answers trustworthy. Teams needed a way to ask multi-hop questions over their own documents without hallucinated joins.",
+      "Vector search is great at finding similar text and bad at questions that hop across relationships, like “who supplies the companies this group owns?”. I wanted answers that follow real connections instead of guessing.",
     approach: [
-      "Gemini extracts entities and relationships from raw text, validated against a schema before anything is persisted to Neo4j.",
-      "The agent generates Cypher dynamically to query the graph, then converts results back into natural-language answers.",
-      "Read-only guards, validation and safety checks wrap every step of the extract → store → query → respond loop.",
+      "Gemini pulls people, companies and the links between them out of the text. Everything is checked against a schema before it's saved to Neo4j.",
+      "To answer a question, the agent writes a Cypher query, runs it on the graph and explains the result in plain English.",
+      "Generated queries are read-only, and every step has validation and error handling, so a bad query can't damage the graph.",
     ],
-    outcomes: [
-      "Multi-hop answers grounded in explicit graph relationships",
-      "No write access from generated queries — read-only by construction",
-      "Error handling at every stage of the pipeline",
-    ],
+    outcomes: ["Answers that follow real relationships", "Read-only queries by design", "Errors caught at every step"],
     links: {},
     art: "graph",
   },
   {
     slug: "scam-detection-agent",
-    title: "Scam-Detection & Awareness Agent",
-    kicker: "Agentic AI · Trust & Safety",
-    summary:
-      "A multilingual agentic pipeline that analyses suspicious messages for phishing and UPI/OTP fraud and explains the risk in plain language.",
+    title: "Scam-Detection Agent",
+    kicker: "AI agents · Online safety",
+    summary: "A bot that checks suspicious messages for phishing and UPI or OTP scams, then explains the risk in simple Hindi or English.",
     year: "2026",
     categories: ["ai"],
     featured: true,
     stack: ["n8n", "Gemini 1.5 Flash", "Telegram", "Airtable"],
     problem:
-      "UPI and OTP fraud spreads fastest in regional languages, where generic spam filters fail and victims rarely get an explanation they understand.",
+      "A lot of UPI and OTP scams arrive in Hindi or other regional languages, where normal spam filters struggle. People also rarely get told why a message is dangerous.",
     approach: [
-      "Multi-stage pipeline ingests Telegram messages, detects language and routes to Gemini for contextual scam analysis.",
-      "Prompts produce a risk score, a fraud category and a plain-language explanation — in Hindi or English.",
-      "Results are logged to Airtable with scheduled trend reports; the design is channel-agnostic (Telegram, WhatsApp, Slack).",
+      "Messages come in through Telegram. The agent works out the language and sends the message to Gemini for a closer look.",
+      "Each message gets a risk score, a scam type and a short explanation anyone can follow.",
+      "Results go into Airtable with a regular trend report, and the same flow can plug into WhatsApp or Slack.",
     ],
-    outcomes: [
-      "Risk scores with human-readable rationale, not just a label",
-      "Dynamic language routing for Hindi/English input",
-      "Scheduled trend reporting on emerging scam patterns",
-    ],
+    outcomes: ["A risk score with a reason", "Works in Hindi and English", "A regular look at new scam patterns"],
     links: {},
     art: "shield",
   },
   {
     slug: "financer",
     title: "Financer",
-    kicker: "AI Financial Intelligence",
-    summary:
-      "An AI-powered financial advisor with portfolio, market, liquidity and risk models behind interactive, exportable dashboards.",
+    kicker: "Personal finance · AI advisor",
+    summary: "A personal finance app with an AI advisor, live stock analysis and dashboards that explain risk, cash flow and returns.",
     year: "2025",
     categories: ["ai", "fullstack"],
     featured: true,
     stack: ["FastAPI", "MongoDB", "React", "Gemini", "Python"],
     problem:
-      "Personal-finance tools show transactions, not decisions. Users needed analysis — risk, liquidity, tax impact — explained in context.",
+      "Most money apps tell you what you spent. Very few help you decide what to do next, or explain risk and tax in a way that makes sense.",
     approach: [
-      "FastAPI and MongoDB backend with statistical models for portfolio, market, liquidity, volatility and risk insights.",
-      "Tax-impact, inflation-adjusted return and sensitivity scenarios turn raw numbers into actionable insight.",
-      "React dashboards with charts, filters and exportable reports; Gemini adds a conversational advisory layer.",
+      "A FastAPI and MongoDB backend with models for your portfolio, the market, cash flow, volatility and risk.",
+      "Scenario tools for tax, inflation-adjusted returns and “what if I change this?” questions.",
+      "React dashboards with charts, filters and reports you can export, plus a Gemini advisor you can chat with about the numbers.",
     ],
-    outcomes: [
-      "End-to-end analytics from ingestion to exportable report",
-      "Scenario analysis for inflation and tax impact",
-      "Conversational insights layered over deterministic models",
-    ],
+    outcomes: ["From raw numbers to a report you can download", "Tax and inflation scenarios", "An advisor that explains itself"],
     links: {
       github: "https://github.com/Anish-2005/Financer",
       live: "https://financer-nexus.vercel.app",
@@ -362,26 +327,21 @@ export const projects: Project[] = [
   },
   {
     slug: "vanmitra",
-    title: "VanMitra — FRA Atlas",
-    kicker: "OCR · WebGIS · Decision Support",
-    summary:
-      "A platform that digitises Forest Rights Act records with OCR, maps them with WebGIS and powers a decision-support system for policy.",
+    title: "VanMitra",
+    kicker: "OCR · Maps · Public policy",
+    summary: "Turns scanned Forest Rights Act records into data, puts them on a map and helps officials see where help is needed.",
     year: "2025",
     categories: ["ai", "fullstack"],
     featured: true,
     stack: ["Next.js", "Django", "PostgreSQL", "OCR", "Machine Learning", "GeoJSON"],
     problem:
-      "Forest-rights claims live in scanned, unstructured paper records — slow to verify and impossible to analyse across regions.",
+      "Forest-rights claims mostly exist as scanned paper. They're slow to check and almost impossible to compare between regions.",
     approach: [
-      "OCR pipelines collect and clean unstructured forest-rights records, cutting manual data entry.",
-      "Statistical and ML-based pattern analysis flags anomalies to support claim verification.",
-      "PostgreSQL-backed WebGIS dashboards report claim status and land-use trends across regions.",
+      "OCR pipelines read and clean the scanned records, so nobody has to type them in by hand.",
+      "Simple statistics and ML checks flag records that look unusual, which speeds up checking claims.",
+      "Map dashboards backed by PostgreSQL show claim status and land use for each region.",
     ],
-    outcomes: [
-      "100+ unstructured records digitised through OCR",
-      "Anomaly flags to speed up claim verification",
-      "Real-time regional dashboards for decision support",
-    ],
+    outcomes: ["100+ paper records turned into data", "Odd-looking claims flagged early", "Live dashboards by region"],
     links: {
       github: "https://github.com/Anish-2005/VanMitra",
       live: "https://vanmitra.vercel.app",
@@ -390,46 +350,40 @@ export const projects: Project[] = [
   },
   {
     slug: "lead-scoring-pipeline",
-    title: "Lead Intelligence & Scoring",
-    kicker: "LLM Reasoning · Revenue Automation",
-    summary:
-      "A reasoning layer over raw leads that scores ICP fit 0–100, writes the rationale and creates scored deals in HubSpot automatically.",
+    title: "Lead Scoring Pipeline",
+    kicker: "LLMs · Sales automation",
+    summary: "Takes raw sales leads, scores how good a fit each one is from 0 to 100, writes down why, and creates the deal in HubSpot.",
     year: "2026",
     categories: ["ai"],
     stack: ["Zapier", "Airtable", "HubSpot", "Webhooks"],
     problem:
-      "Sales teams triage leads by gut feel. Scoring rules drift, and nobody can explain why a lead was marked high-priority.",
+      "Sales teams often sort leads on gut feeling. The rules drift over time, and nobody can say why a lead was marked as hot.",
     approach: [
-      "Webhook ingest → schema normalisation → rubric lookup in Airtable → 0–100 ICP score with A/B/C tier.",
-      "Every score ships with a written rationale; scored deals are created in HubSpot with full context.",
-      "Extending to tier-based branching and a weekly self-correcting loop that critiques its rubric against closed-won/lost outcomes.",
+      "A webhook brings leads in. They're cleaned up and compared with a scoring guide stored in Airtable.",
+      "Each lead gets a score, an A, B or C grade and a short written reason. The deal is created in HubSpot automatically.",
+      "Next on the list: different paths for each grade, and a weekly check against won and lost deals that adjusts the scoring guide.",
     ],
-    outcomes: ["Explainable, consistent lead tiers", "Zero-touch deal creation in the CRM", "A rubric designed to improve itself"],
+    outcomes: ["Grades you can explain", "No typing deals into the CRM", "Scoring that gets better over time"],
     links: {},
     art: "funnel",
   },
   {
     slug: "nyantra",
     title: "Nyantra",
-    kicker: "GovTech · Direct Benefit Transfer",
-    summary:
-      "A DBT social-assistance platform for applicant onboarding, benefit disbursement and grievance handling — with officer analytics and an offline-first mobile app.",
+    kicker: "Government services",
+    summary: "Applications, payments and complaints for Direct Benefit Transfer support in one place, with dashboards for officers and an app for citizens.",
     year: "2025",
     categories: ["fullstack"],
-    badge: "SIH 2025 National Finalist",
+    badge: "SIH 2025 national finalist",
     stack: ["Next.js", "TypeScript", "Flutter", "Firebase", "SQL"],
     problem:
-      "Relief for victims under the SC/ST (PoA) Act moves through paper and phone calls. Beneficiaries lose track; officers lack a view of bottlenecks.",
+      "Relief for victims under the SC/ST (Prevention of Atrocities) Act still moves through paper and phone calls. Applicants lose track, and officers can't see where cases get stuck.",
     approach: [
-      "Modelled end-to-end applicant, disbursement and grievance data to streamline officer-side reporting.",
-      "Officer dashboards surface disbursement trends and bottlenecks for data-driven decisions.",
-      "A citizen-facing Flutter app with an offline-first architecture for low-connectivity regions.",
+      "Mapped out the whole journey of applications, payments and complaints so officers can report on it easily.",
+      "Built officer dashboards that show payment trends and where cases are getting stuck.",
+      "Built a Flutter app for citizens that works offline, for areas with patchy internet.",
     ],
-    outcomes: [
-      "National finalist at Smart India Hackathon 2025",
-      "Web platform plus offline-first mobile companion",
-      "Analytics for disbursement monitoring",
-    ],
+    outcomes: ["National finalist at Smart India Hackathon 2025", "Web platform plus an offline app", "A clear view of payments for officers"],
     links: {
       github: "https://github.com/Anish-2005/Nyantra",
       live: "https://nyantra.vercel.app",
@@ -439,38 +393,37 @@ export const projects: Project[] = [
   {
     slug: "traceveil",
     title: "Traceveil",
-    kicker: "Behavioral AI · Fraud Detection",
-    summary:
-      "A real-time, multi-modal behavioural AI system for detecting transaction fraud, bot rings and exam cheating with sub-50ms inference.",
+    kicker: "Fraud detection",
+    summary: "Spots fraud from how people behave: dodgy transactions, bot rings and exam cheating, with answers in under 50 milliseconds.",
     year: "2026",
     categories: ["ai"],
     stack: ["TypeScript", "LSTM", "Autoencoders", "Anomaly Detection"],
-    problem: "Fraud signals are spread across transactions, sessions and behaviour — and decisions must happen in milliseconds.",
+    problem:
+      "Fraud signals are scattered across payments, sessions and behaviour, and you only get a few milliseconds to decide.",
     approach: [
-      "Sequence models (LSTM) and autoencoders score behavioural anomalies across multiple signal types.",
-      "Low-latency scoring path designed for sub-50ms inference.",
-      "Production-minded monitoring flows for transaction risk, bot patterns and exam integrity.",
+      "LSTM and autoencoder models score how unusual the behaviour looks across different kinds of signals.",
+      "The scoring is built to be fast, with a target of under 50ms per decision.",
+      "Monitoring was part of the plan from the start, for payment risk, bots and exam integrity.",
     ],
-    outcomes: ["Sub-50ms inference target", "One system across three fraud surfaces", "Monitoring built into the design"],
+    outcomes: ["Decisions in under 50ms", "One system for three kinds of fraud", "Monitoring built in"],
     links: { github: "https://github.com/Anish-2005/Traceveil" },
     art: "pulse",
   },
   {
     slug: "archscope",
     title: "ArchScope",
-    kicker: "Platform Engineering · AI",
-    summary:
-      "Scan any repository for AI-powered tech fingerprinting, risk scoring, policy enforcement and executive-grade architecture briefs.",
+    kicker: "Developer tools · AI",
+    summary: "Point it at a repository and it tells you what your stack is made of, what looks risky and which team rules are being broken.",
     year: "2026",
     categories: ["ai", "systems"],
     stack: ["TypeScript", "GitHub API", "CLI", "LLMs"],
-    problem: "Engineering leaders rarely know what is actually running across their repos — or which choices carry risk.",
+    problem: "Engineering leads often don't know what's actually running across their repos, or which choices will hurt later.",
     approach: [
-      "Repository scanning produces a technology fingerprint and architectural risk score.",
-      "Policy rules enforce standards across services; violations are surfaced with evidence.",
-      "AI-generated architecture briefs summarise the findings for non-specialists.",
+      "Scans a repository and builds a picture of its tech stack and the risks in it.",
+      "Checks the code against the team's rules and shows exactly where they're broken.",
+      "Writes a short summary of the architecture that non-engineers can read.",
     ],
-    outcomes: ["Stack visibility in seconds", "Policy enforcement with evidence", "Briefs leaders can act on"],
+    outcomes: ["Your stack at a glance", "Rule checks with proof", "Summaries anyone can read"],
     links: {
       github: "https://github.com/Anish-2005/ArchScope",
       live: "https://archscope.vercel.app",
@@ -480,19 +433,18 @@ export const projects: Project[] = [
   {
     slug: "whystack",
     title: "WhyStack",
-    kicker: "Observability · Deterministic Reasoning",
-    summary:
-      "Ingests logs, metrics and traces and produces auditable, human-readable incident explanations — no ML, no black box.",
+    kicker: "Debugging · Incident review",
+    summary: "Reads logs, metrics and traces and tells you what probably caused an incident, using rules you can check instead of a black box.",
     year: "2026",
     categories: ["systems"],
     stack: ["TypeScript", "Rules Engine", "Logs", "Metrics", "Traces"],
-    problem: "During incidents, engineers need explanations they can verify — not a confident guess from an opaque model.",
+    problem: "When something's on fire, engineers need an explanation they can verify, not a confident guess.",
     approach: [
-      "A deterministic rule engine ranks candidate root causes across logs, metrics and traces.",
-      "Every conclusion returns supporting evidence snippets and a full audit trail.",
-      "Designed as an explainable complement to AI-based incident tooling.",
+      "A rules engine ranks the likely causes using logs, metrics and traces.",
+      "Every answer comes with the evidence behind it and a full trail of how it got there.",
+      "It's meant to sit next to AI incident tools as the part you can double-check.",
     ],
-    outcomes: ["Ranked root causes with evidence", "Fully traceable conclusions", "Zero black-box inference"],
+    outcomes: ["Likely causes, ranked", "Evidence for every answer", "Nothing hidden"],
     links: {
       github: "https://github.com/Anish-2005/WhyStack",
       live: "https://whystack.vercel.app",
@@ -502,19 +454,18 @@ export const projects: Project[] = [
   {
     slug: "minigit",
     title: "MiniGit",
-    kicker: "Systems · Version Control",
-    summary:
-      "A zero-dependency version-control engine in Java 17 with content-addressable storage, Myers diff and recursive three-way merge.",
+    kicker: "Systems · Version control",
+    summary: "A small Git written from scratch in Java 17, with real object storage, diffs and three-way merges.",
     year: "2026",
     categories: ["systems"],
     stack: ["Java 17", "SHA-1", "Myers Diff", "SSE"],
-    problem: "Understanding Git means rebuilding it: object storage, diffing and merging without leaning on libraries.",
+    problem: "The best way I know to really understand Git is to build it: storing files, comparing versions and merging changes, without any libraries.",
     approach: [
-      "Content-addressable storage for blobs, trees and commits with SHA-1 hashing.",
-      "Myers O(ND) diff and recursive three-way merging with conflict markers.",
-      "Embedded SSE HTTP server powering a web dashboard, with a static fallback mode for Vercel.",
+      "Stores files, folders and commits by their SHA-1 hash, the same way Git does.",
+      "Uses the Myers diff algorithm and three-way merges, and adds conflict markers when two changes clash.",
+      "Comes with a small built-in web server and dashboard, plus a static version that runs on Vercel.",
     ],
-    outcomes: ["Zero external dependencies", "Real diff and merge algorithms", "Live web dashboard"],
+    outcomes: ["No outside libraries", "Real diff and merge algorithms", "A live dashboard"],
     links: {
       github: "https://github.com/Anish-2005/MiniGit",
       live: "https://minigit-studio.vercel.app",
@@ -524,19 +475,18 @@ export const projects: Project[] = [
   {
     slug: "nexora",
     title: "NEXORA",
-    kicker: "Real-time Social Platform",
-    summary:
-      "A high-signal builder network with posts, devlogs and projects, GitHub reputation scoring and real-time collaboration.",
+    kicker: "Social platform",
+    summary: "A social network for builders. Share posts, devlogs and projects, with a reputation that comes from real GitHub work and live chat.",
     year: "2025",
     categories: ["fullstack"],
     stack: ["React", "TypeScript", "Firebase", "Tailwind CSS"],
-    problem: "Developer communities reward noise. Builders needed a place where shipped work and reputation are the signal.",
+    problem: "Developer communities often reward noise. I wanted a place where shipped work counts for more than hot takes.",
     approach: [
-      "Real-time messaging and presence tracking on Firebase with low-latency chat synchronisation.",
-      "GitHub reputation scoring and creator growth analytics.",
-      "Reusable UI components and scalable client state for a responsive experience.",
+      "Live chat and online status on Firebase, kept in sync quickly.",
+      "Reputation based on GitHub activity, plus growth stats for people who post.",
+      "Reusable UI pieces and careful state handling so the app stays quick.",
     ],
-    outcomes: ["Real-time collaboration and presence", "Reputation tied to real GitHub work", "Privacy controls built in"],
+    outcomes: ["Live chat and presence", "Reputation tied to real GitHub work", "Privacy settings built in"],
     links: {
       github: "https://github.com/Anish-2005/NEXORA",
       live: "https://connectnexora.vercel.app",
@@ -546,20 +496,19 @@ export const projects: Project[] = [
   {
     slug: "lawai-mobile",
     title: "LawAI",
-    kicker: "Legal Tech · Mobile AI",
-    summary:
-      "An AI legal assistant with an FIR builder, legal database, AI lawyer consultation and document management — built to democratise legal knowledge.",
+    kicker: "Legal help · Mobile",
+    summary: "A legal help app with an AI lawyer, a step-by-step FIR builder, a law library and document storage, so people can understand the law that applies to them.",
     year: "2024",
     categories: ["ai", "fullstack"],
-    badge: "SIH 2024 National Finalist",
+    badge: "SIH 2024 national finalist",
     stack: ["React Native", "Expo", "Gemini", "AI/ML"],
-    problem: "Legal help is expensive and intimidating; most citizens don't know which sections of law apply to them.",
+    problem: "Legal help is expensive and scary, and most people have no idea which sections of the law apply to their situation.",
     approach: [
-      "AI lawyer consultation that analyses a case description and identifies applicable legal sections.",
-      "Guided FIR builder and a searchable legal database.",
-      "Cross-platform mobile app with secure document management.",
+      "An AI lawyer reads a description of the case and points to the sections of law that matter.",
+      "A step-by-step FIR builder and a searchable law library.",
+      "A mobile app for Android and iOS with secure storage for documents.",
     ],
-    outcomes: ["National finalist at Smart India Hackathon 2024", "Most-starred repository on the profile", "Multiple ML and LLM variants explored"],
+    outcomes: ["National finalist at Smart India Hackathon 2024", "My most-starred repository", "Built both an ML and an LLM version"],
     links: { github: "https://github.com/Anish-2005/LawAI-Mobile" },
     art: "doc",
   },
@@ -567,45 +516,44 @@ export const projects: Project[] = [
     slug: "taskflow-api",
     title: "TaskFlowAPI",
     kicker: "Backend · .NET",
-    summary: "An ASP.NET Core 8 Web API for task management with JWT auth, EF Core, SQL Server and Swagger documentation.",
+    summary: "A task management API in ASP.NET Core 8 with JWT login, EF Core, SQL Server and Swagger docs.",
     year: "2026",
     categories: ["systems"],
     stack: ["C#", "ASP.NET Core 8", "EF Core", "SQL Server", "JWT"],
-    problem: "A clean reference for a secure, documented, relational backend in the .NET ecosystem.",
+    problem: "I wanted a clean example of a secure, well-documented backend in .NET.",
     approach: [
-      "JWT authentication and authorisation on a layered Web API.",
-      "EF Core data access against SQL Server with migrations.",
-      "Swagger/OpenAPI documentation for every endpoint.",
+      "JWT login and permissions on a layered Web API.",
+      "EF Core with SQL Server and migrations.",
+      "Swagger docs for every endpoint.",
     ],
-    outcomes: ["Secure token-based auth", "Typed relational data layer", "Self-documenting API"],
+    outcomes: ["Secure token login", "A typed database layer", "Docs that stay in sync"],
     links: { github: "https://github.com/Anish-2005/TaskFlowAPI" },
     art: "terminal",
   },
   {
     slug: "batchserve",
     title: "BatchServe",
-    kicker: "Operating Systems · Concurrency",
-    summary:
-      "A C simulation of strict batch-service synchronisation using POSIX threads, semaphores, a FIFO fairness queue and starvation handling.",
+    kicker: "Operating systems",
+    summary: "A C program that simulates a restaurant serving customers in strict batches, using threads, semaphores and a fair queue.",
     year: "2026",
     categories: ["systems"],
     stack: ["C", "POSIX Threads", "Semaphores"],
-    problem: "Classic synchronisation problems are easy to describe and notoriously easy to get subtly wrong.",
+    problem: "Classic concurrency problems are easy to explain and very easy to get slightly wrong.",
     approach: [
-      "POSIX threads and semaphores coordinate strict batch service.",
-      "A FIFO fairness queue with explicit starvation handling.",
-      "Animated CLI logs make interleavings visible.",
+      "POSIX threads and semaphores keep each batch in step.",
+      "A first-come, first-served queue with checks so nobody waits forever.",
+      "Animated terminal logs, so you can actually watch the threads take turns.",
     ],
-    outcomes: ["Deadlock- and starvation-aware design", "Deterministic fairness", "Observable concurrency"],
+    outcomes: ["No deadlocks or starvation", "Fair ordering", "Concurrency you can watch"],
     links: { github: "https://github.com/Anish-2005/BatchServe" },
     art: "threads",
   },
 ];
 
 export const awards = [
-  { title: "Smart India Hackathon", result: "National Finalist", detail: "Nyantra — DBT social-assistance platform", year: "2025" },
-  { title: "Smart India Hackathon", result: "National Finalist", detail: "LawAI — AI legal assistant", year: "2024" },
-  { title: "Hack4Bengal", result: "Finalist", detail: "Eastern India's flagship hackathon", year: "2025" },
+  { title: "Smart India Hackathon", result: "National finalist", detail: "With Nyantra, our benefits platform", year: "2025" },
+  { title: "Smart India Hackathon", result: "National finalist", detail: "With LawAI, our legal help app", year: "2024" },
+  { title: "Hack4Bengal", result: "Finalist", detail: "Made it to the finals with my team", year: "2025" },
   { title: "IDE Bootcamp", result: "Finalist", detail: "Innovation, Design & Entrepreneurship", year: "2026" },
 ] as const;
 
@@ -621,42 +569,43 @@ export const education = [
   {
     degree: "B.Tech, Computer Science & Business Systems",
     school: "Techno Main Salt Lake (MAKAUT), Kolkata",
-    period: "2023 — Present",
+    period: "2023 to now",
   },
   { degree: "Higher Secondary (ISC)", school: "St. Aloysius School", period: "2023" },
   { degree: "Secondary (ICSE)", school: "St. Aloysius School", period: "2021" },
 ] as const;
 
+/** Written in first person: it's my site, so I answer my own questions. */
 export const faqs = [
   {
     question: "Who is Anish Seth?",
     answer:
-      "Anish Seth is an AI/ML engineer from Kolkata, India, building production agentic AI systems — multi-agent orchestration, RAG and GraphRAG, and enterprise automation on AWS Bedrock. He is currently an AI/ML Engineer Intern at Digital Alpha and a two-time Smart India Hackathon national finalist.",
+      "That's me. I'm an AI/ML engineer from Kolkata, India. I build AI agents at Digital Alpha, mostly on AWS Bedrock, and I've made it to the Smart India Hackathon national finals twice.",
   },
   {
     question: "What does Anish Seth work on?",
     answer:
-      "LLM agents with MCP tool servers, financial data pipelines on AWS Bedrock and AgentCore, knowledge-graph retrieval with Neo4j, and full-stack products with Next.js, FastAPI and Django.",
+      "Mostly AI agents: LLMs that use tools through MCP, financial data pipelines on AWS Bedrock and AgentCore, and knowledge graphs in Neo4j. I also build full-stack apps with Next.js, FastAPI and Django.",
   },
   {
-    question: "What is Anish Seth's portfolio website?",
-    answer: "The official portfolio is anishseth.xyz. Code lives on GitHub at github.com/Anish-2005.",
+    question: "Where can I find Anish Seth's work?",
+    answer: "You're looking at it. This site is anishseth.xyz, and my code lives on GitHub at github.com/Anish-2005.",
   },
   {
     question: "Is Anish Seth open to new roles?",
     answer:
-      "Yes — Anish is open to conversations about AI/ML engineering and full-stack roles. The fastest route is email at anishseth0510@gmail.com or a message on LinkedIn.",
+      "I'm always happy to talk about AI/ML engineering and full-stack roles. The quickest way to reach me is email (anishseth0510@gmail.com) or a message on LinkedIn.",
   },
   {
-    question: "Where can I find Anish Seth on social media?",
+    question: "Where is Anish Seth on social media?",
     answer: "LinkedIn at linkedin.com/in/anishseth, X at @AnishSeth170734 and Instagram at @_anish.seth_.",
   },
 ] as const;
 
 export const categoryLabels: Record<ProjectCategory, string> = {
-  ai: "AI & Agents",
-  fullstack: "Full-Stack",
-  systems: "Systems & Tools",
+  ai: "AI & agents",
+  fullstack: "Full-stack",
+  systems: "Systems & tools",
 };
 
 export function getProject(slug: string) {

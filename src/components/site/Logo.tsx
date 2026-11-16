@@ -48,7 +48,7 @@ export function Lockup({ className }: { className?: string }) {
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <Link href="/" className={cn("logo group", className)} aria-label="Anish Seth — home">
+    <Link href="/" className={cn("logo group", className)} aria-label="Anish Seth, home">
       <Lockup />
     </Link>
   );

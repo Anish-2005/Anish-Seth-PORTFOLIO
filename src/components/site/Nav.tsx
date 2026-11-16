@@ -94,9 +94,6 @@ export function Nav() {
                       isActive ? "text-fg" : "text-muted hover:text-fg",
                     )}
                   >
-                    <span className={cn("font-mono text-[10px] transition-colors", isActive ? "text-accent-ink" : "text-subtle")}>
-                      0{i + 1}
-                    </span>
                     {item.label}
                     <span
                       aria-hidden
@@ -159,10 +156,10 @@ export function Nav() {
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="flex items-center justify-between py-5 text-[2rem] font-semibold tracking-[-0.03em] [font-stretch:112%]"
+                  className="group/m flex items-center justify-between py-5 text-[2rem] font-semibold tracking-[-0.03em] [font-stretch:112%]"
                 >
                   {item.label}
-                  <span className="font-mono text-xs text-subtle">0{i + 1}</span>
+                  <span aria-hidden className="size-1.5 rounded-full bg-accent opacity-0 transition-opacity group-hover/m:opacity-100" />
                 </Link>
               </li>
             ))}

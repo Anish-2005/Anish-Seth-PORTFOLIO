@@ -92,6 +92,7 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
     <Section
       id="open-source"
       motif="rings"
+      detail="hatch"
       index="05"
       label="Open source"
       note={
@@ -103,7 +104,7 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
       }
       title={
         <>
-          Built in public.
+          I push code most days.
         </>
       }
     >

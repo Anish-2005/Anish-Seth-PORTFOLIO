@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: note.summary,
     alternates: { canonical: `/notes/${note.slug}` },
     openGraph: {
-      title: `${note.title} — ${siteConfig.name}`,
+      title: `${note.title} · ${siteConfig.name}`,
       description: note.summary,
       url: `${siteConfig.url}/notes/${note.slug}`,
       type: "article",

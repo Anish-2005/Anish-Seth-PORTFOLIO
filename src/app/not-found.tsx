@@ -9,19 +9,19 @@ export default function NotFound() {
       </div>
       <div className="container-x grid lg:grid-cols-12">
         <p className="label mb-6 lg:col-span-3 lg:mb-0 lg:pr-10">
-          <span className="text-accent-ink">404</span> — Not found
+          <span className="text-accent-ink">404</span> · Page not found
         </p>
         <div className="lg:col-span-9 lg:pl-10">
           <h1 className="text-[clamp(2.6rem,7vw,5.6rem)] font-semibold leading-[0.95] tracking-[-0.045em] [font-stretch:112%]">
-            This route <span className="text-subtle">hallucinated.</span>
+            This page doesn&apos;t exist. <span className="text-subtle">Maybe it was a hallucination.</span>
           </h1>
-          <p className="lede mt-6 max-w-md">The page you asked for doesn&apos;t exist — but the grounded answers are one click away.</p>
+          <p className="lede mt-6 max-w-md">Even good models make things up sometimes. Here&apos;s the way back.</p>
           <div className="mt-10 flex flex-wrap gap-3">
             <ButtonLink href="/">
               Back home <Icon name="arrow-right" size={15} />
             </ButtonLink>
             <ButtonLink href="/projects" variant="secondary">
-              Case studies
+              See my work
             </ButtonLink>
           </div>
         </div>

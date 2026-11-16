@@ -6,11 +6,12 @@ export function Experience() {
     <Section
       id="experience"
       motif="rings"
+      detail="hatch"
       index="02"
       label="Experience"
       title={
         <>
-          Where the work ships.
+          Where I&apos;ve been working.
         </>
       }
     >
@@ -43,7 +44,7 @@ export function Experience() {
               </h3>
               <p className="mt-1.5 text-[0.98rem]">
                 {job.company}
-                <span className="text-subtle"> — {job.summary}</span>
+                <span className="text-subtle"> · {job.summary}</span>
               </p>
 
               <ul className="mt-6 space-y-3">
@@ -70,7 +71,7 @@ export function Experience() {
       </ol>
 
       <div className="mt-16" data-reveal>
-        <p className="label mb-4">Community &amp; leadership</p>
+        <p className="label mb-4">Outside of work</p>
         <ul className="grid border-t border-line sm:grid-cols-2">
           {leadership.map((l, i) => (
             <li key={l.role} className={`border-b border-line py-5 ${i % 2 === 1 ? "sm:border-l sm:pl-6" : "sm:pr-6"}`}>

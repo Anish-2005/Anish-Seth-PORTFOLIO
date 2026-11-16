@@ -2,10 +2,10 @@ import { profile } from "@/data/portfolio";
 
 export const siteConfig = {
   name: profile.name,
-  role: "AI/ML Engineer — Agentic AI, LLM Systems & Enterprise Automation",
+  role: "AI/ML Engineer",
   shortRole: "AI/ML Engineer",
   description:
-    "Anish Seth is an AI/ML engineer building production agentic systems — multi-agent orchestration, RAG and GraphRAG, and enterprise automation on AWS Bedrock — alongside full-stack products in Next.js and FastAPI. Two-time Smart India Hackathon national finalist.",
+    "Anish Seth is an AI/ML engineer in Kolkata who builds AI agents that work with real data, mostly on AWS Bedrock with LangGraph and MCP, plus full-stack apps in Next.js and FastAPI. Two-time Smart India Hackathon national finalist.",
   url: "https://anishseth.xyz",
   locale: "en-US",
   sameAs: {

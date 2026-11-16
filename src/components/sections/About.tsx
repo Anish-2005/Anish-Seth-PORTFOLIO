@@ -8,11 +8,12 @@ export function About({ portrait = false }: { portrait?: boolean }) {
     <Section
       id="about"
       motif="dots"
+      detail="graph"
       index="01"
       label="About"
       title={
         <>
-          Engineering AI that earns trust.
+          A bit about me.
         </>
       }
     >
@@ -49,7 +50,7 @@ export function About({ portrait = false }: { portrait?: boolean }) {
       {/* Principles: a ruled four-column strip */}
       <div className="mt-20">
         <p className="label mb-5" data-reveal>
-          How I build
+          How I work
         </p>
         <ol className="grid border-t border-line sm:grid-cols-2 xl:grid-cols-4">
           {principles.map((p, i) => (
@@ -64,8 +65,7 @@ export function About({ portrait = false }: { portrait?: boolean }) {
                 i === 0 ? "xl:pl-0" : "",
               ].join(" ")}
             >
-              <span className="font-mono text-[0.72rem] text-accent-ink">0{i + 1}</span>
-              <h3 className="mt-6 text-[1.06rem] font-semibold tracking-[-0.01em] [font-stretch:108%]">{p.title}</h3>
+              <h3 className="text-[1.06rem] font-semibold tracking-[-0.01em] [font-stretch:108%]">{p.title}</h3>
               <p className="mt-2.5 text-[0.9rem] leading-relaxed text-muted">{p.body}</p>
               <span
                 aria-hidden

@@ -36,6 +36,8 @@ const mono = IBM_Plex_Mono({
   weight: ["400", "500"],
   variable: "--font-plex-mono",
   display: "swap",
+  // Small labels only: loading them a moment later frees bandwidth for the hero portrait (the mobile LCP).
+  preload: false,
 });
 
 const title = `${siteConfig.name} · AI/ML Engineer`;

@@ -28,6 +28,7 @@ export function PortraitPlate() {
             alt={PORTRAIT.alt}
             width={PORTRAIT.width}
             height={PORTRAIT.height}
+            quality={60}
             sizes="(min-width: 1024px) 300px, (min-width: 768px) 36vw, 80vw"
             className="absolute bottom-0 left-1/2 h-[94%] w-auto -translate-x-1/2 select-none object-contain object-bottom"
             draggable={false}

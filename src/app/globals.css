@@ -439,6 +439,21 @@
     animation: logo-node-again 0.55s var(--ease-out-expo) 0.95s both;
   }
 }
+/* Phones: the logo fades in as a whole (composited) instead of drawing its stroke (repaints every frame). */
+@media (prefers-reduced-motion: no-preference) and (max-width: 767px) {
+  header .logo-trace {
+    animation: none;
+  }
+  header .logo-mark {
+    animation: logo-in 0.7s var(--ease-out-expo) 0.1s both;
+  }
+}
+@keyframes logo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.86);
+  }
+}
 @keyframes logo-draw {
   from {
     stroke-dashoffset: 1;
@@ -547,6 +562,13 @@
     "wght" var(--wg, 640),
     "wdth" var(--wd, 104);
   transition: font-variation-settings 0.8s var(--ease-out-expo);
+}
+/* Touch screens: the idle wave already sets every frame from JS, so the smoothing transition only adds
+   non-composited animation work. (Mouse users keep it: it smooths the pointer-following effect.) */
+@media (hover: none) {
+  .wordmark [data-ch] {
+    transition: none;
+  }
 }
 /* Letters rise into place. Only transform + opacity (runs on the compositor, no layout per frame),
    and never fully invisible, so the name counts as painted from the very first frame (LCP). The

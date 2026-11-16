@@ -55,6 +55,8 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     // 448 and 512 give phones (1.75x-2x screens, ~240 CSS px wide portrait) a right-sized file instead of 640px.
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384, 448, 512],
+    // 60 for the portrait (the mobile LCP image): ~40% smaller, no visible difference at its display size.
+    qualities: [60, 75],
     // Optimised images are reused for a month (browser and CDN), so they're rarely re-generated.
     minimumCacheTTL: 31 * DAY,
   },

@@ -50,6 +50,7 @@ export function Hero({ contributions, repos }: HeroProps) {
               width={PORTRAIT.width}
               height={PORTRAIT.height}
               preload
+              quality={60}
               fetchPriority="high"
               // On very dense (3×) phones a 640px image looks the same as 750px, so ask for a bit less there.
               sizes="(min-width: 1280px) 326px, (min-width: 1024px) 305px, (min-width: 640px) 298px, (min-resolution: 2.5dppx) 213px, 241px"

@@ -33,6 +33,8 @@ export default async function OpenGraphImage() {
   // Read at build time (this route is statically prerendered).
   const portrait = await readFile(join(process.cwd(), "src/assets/portrait-og.png"));
   const portraitSrc = `data:image/png;base64,${portrait.toString("base64")}`;
+  const mark = await readFile(join(process.cwd(), "src/assets/mark-inverse.svg"));
+  const markSrc = `data:image/svg+xml;base64,${mark.toString("base64")}`;
   const [display, text] = await Promise.all([loadArchivo(700, 112), loadArchivo(400, 100)]);
   const fonts = [
     ...(display ? [{ name: "Archivo", data: display, weight: 700 as const, style: "normal" as const }] : []),
@@ -76,7 +78,11 @@ export default async function OpenGraphImage() {
 
         <div style={{ display: "flex", flexDirection: "column", padding: "34px 96px 0 96px", width: "100%" }}>
           <div style={{ display: "flex", justifyContent: "space-between", fontSize: 18, letterSpacing: 2, color: SUBTLE }}>
-            <div style={{ display: "flex" }}>ANISHSETH.XYZ</div>
+            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse renders plain <img> */}
+              <img src={markSrc} alt="" width={30} height={31} />
+              ANISHSETH.XYZ
+            </div>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{ width: 9, height: 9, borderRadius: 9, background: "#3ddc97" }} />
               {`${profile.current.title.toUpperCase()} · ${profile.current.company.toUpperCase()}`}

@@ -7,10 +7,9 @@ export function Recognition() {
       id="recognition"
       index="06"
       label="Recognition"
-      note="National hackathon finals, certifications and programs."
       title={
         <>
-          Tested under pressure<span className="text-subtle"> — two national finals.</span>
+          Tested under pressure.
         </>
       }
     >

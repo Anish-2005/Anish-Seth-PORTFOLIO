@@ -7,10 +7,9 @@ export function Experience() {
       id="experience"
       index="02"
       label="Experience"
-      note="Production work first, then the open-source track record behind it."
       title={
         <>
-          Where the work ships<span className="text-subtle"> — production first, open source behind it.</span>
+          Where the work ships.
         </>
       }
     >

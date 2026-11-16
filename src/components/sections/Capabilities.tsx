@@ -1,24 +1,17 @@
 import { Section } from "@/components/ui/Section";
 import { skillGroups } from "@/data/portfolio";
 
-const toolbelt = {
-  title: "Daily toolbelt",
-  blurb: "Plus 120+ DSA problems solved in Java on LeetCode.",
-  items: ["Git", "GitHub", "Docker", "JupyterLab", "Google Colab", "Postman", "Figma", "VS Code"],
-};
-
 /** Skills as a spec sheet: one ruled row per layer of a production system. */
 export function Capabilities() {
-  const rows = [...skillGroups, { id: "tools", ...toolbelt }];
+  const rows = skillGroups;
   return (
     <Section
       id="skills"
       index="04"
       label="Capabilities"
-      note="Grouped by where each tool sits in a production system."
       title={
         <>
-          A full stack, AI-first<span className="text-subtle"> — from reasoning loop to review screen.</span>
+          A full stack, AI-first.
         </>
       }
     >

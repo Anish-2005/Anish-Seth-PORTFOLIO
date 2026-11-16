@@ -79,18 +79,11 @@ function Heatmap({ days }: { days: ContributionDay[] }) {
 }
 
 export function OpenSource({ stats }: { stats: GitHubStats }) {
-  const years = Object.entries(stats.contributionsByYear)
-    .map(([year, count]) => ({ year, count }))
-    .sort((a, b) => a.year.localeCompare(b.year));
-  const maxYear = Math.max(1, ...years.map((y) => y.count));
-  const topLangs = stats.languages.slice(0, 6);
-  const maxLang = Math.max(1, ...topLangs.map((l) => l.count));
 
   const tiles = [
     { label: "Longest streak", value: stats.longestStreak ? days(stats.longestStreak) : "—" },
     { label: "Current streak", value: stats.currentStreak ? days(stats.currentStreak) : "—" },
     { label: "Best day", value: stats.bestDay ? `${stats.bestDay.count}` : "—", hint: stats.bestDay ? fmtDate(stats.bestDay.date) : undefined },
-    { label: "Public repositories", value: String(stats.publicRepos) },
   ];
 
   return (
@@ -100,7 +93,6 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
       label="Open source"
       note={
         <>
-          Pulled from GitHub at build time, refreshed twice a day.{" "}
           <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="link-u text-fg">
             @Anish-2005 ↗
           </a>
@@ -108,7 +100,7 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
       }
       title={
         <>
-          Built in public<span className="text-subtle"> — the cadence behind the work.</span>
+          Built in public.
         </>
       }
     >
@@ -139,11 +131,11 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
           <p className="mt-6 text-sm text-subtle">Daily activity is temporarily unavailable — totals are from the latest snapshot.</p>
         )}
 
-        <dl className="mt-10 grid grid-cols-2 gap-px border-y border-line bg-line md:grid-cols-4">
+        <dl className="mt-10 grid grid-cols-3 gap-px border-y border-line bg-line">
           {tiles.map((t, i) => (
             <div
               key={t.label}
-              className={`flex flex-col-reverse justify-end bg-bg py-5 pr-4 ${i % 2 === 1 ? "pl-5" : ""} ${i === 2 ? "md:pl-5" : ""}`}
+              className={`flex flex-col-reverse justify-end bg-bg py-5 pr-4 ${i > 0 ? "pl-4 sm:pl-5" : ""}`}
             >
               <dt className="label mt-2">
                 {t.label}
@@ -155,48 +147,6 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
         </dl>
       </div>
 
-      <div className="mt-16 grid gap-px border-y border-line bg-line md:grid-cols-2">
-        {/* Contributions by year */}
-        <figure className="bg-bg py-8 md:pr-8" data-reveal>
-          <figcaption>
-            <p className="text-[1.02rem] font-semibold tracking-[-0.01em] [font-stretch:108%]">Contributions by year</p>
-            <p className="mt-1 text-[0.86rem] text-subtle">Total public contributions per calendar year.</p>
-          </figcaption>
-          <div className="mt-8 flex h-44 items-end gap-3 sm:gap-6">
-            {years.map((y) => (
-              <div key={y.year} className="flex h-full flex-1 flex-col items-center justify-end gap-2">
-                <span className="font-mono text-[11px] tabular-nums text-muted">{y.count.toLocaleString("en-US")}</span>
-                <div
-                  className="w-full max-w-12 rounded-t-[3px] bg-accent"
-                  style={{ height: `${Math.max(2, (y.count / maxYear) * 100)}%`, opacity: y.year === years.at(-1)?.year ? 1 : 0.5 }}
-                  role="img"
-                  aria-label={`${y.year}: ${y.count} contributions`}
-                />
-                <span className="font-mono text-[11px] text-subtle">{y.year}</span>
-              </div>
-            ))}
-          </div>
-        </figure>
-
-        {/* Languages */}
-        <figure className="bg-bg py-8 md:pl-8" data-reveal style={{ "--d": "80ms" } as React.CSSProperties}>
-          <figcaption>
-            <p className="text-[1.02rem] font-semibold tracking-[-0.01em] [font-stretch:108%]">Primary languages</p>
-            <p className="mt-1 text-[0.86rem] text-subtle">Number of public repositories by their main language.</p>
-          </figcaption>
-          <ul className="mt-7 space-y-4">
-            {topLangs.map((l) => (
-              <li key={l.name} className="grid grid-cols-[92px_1fr_28px] items-center gap-3 text-[0.86rem]">
-                <span className="truncate">{l.name}</span>
-                <span className="h-[3px] bg-line">
-                  <span className="block h-full bg-accent" style={{ width: `${(l.count / maxLang) * 100}%` }} />
-                </span>
-                <span className="text-right font-mono text-[11px] tabular-nums text-muted">{l.count}</span>
-              </li>
-            ))}
-          </ul>
-        </figure>
-      </div>
     </Section>
   );
 }

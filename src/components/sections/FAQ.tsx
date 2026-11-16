@@ -9,7 +9,6 @@ export function FAQ() {
       id="faq"
       index="08"
       label="FAQ"
-      note="For recruiters, collaborators and the occasionally curious search engine."
       title="Quick answers."
       titleClassName="!text-[clamp(1.6rem,2.6vw,2.1rem)]"
     >

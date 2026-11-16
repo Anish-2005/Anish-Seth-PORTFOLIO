@@ -120,7 +120,7 @@ export function ContactForm() {
       ) : null}
 
       <div className="mt-1 flex flex-wrap items-center justify-between gap-4">
-        <p className="label">Goes straight to my inbox</p>
+        
         <Button type="submit" size="lg" disabled={status === "sending"} className="w-full sm:w-auto">
           {status === "sending" ? (
             <>

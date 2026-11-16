@@ -21,7 +21,9 @@ export function SubpageShell({ eyebrow, title, description, chips = [], crumbs =
   return (
     <>
       <section className="relative isolate overflow-hidden pt-28 md:pt-32">
-        <div aria-hidden className="dots pointer-events-none absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,#000,transparent_85%)]" />
+        <div aria-hidden className="under-header pointer-events-none absolute inset-0 -z-10">
+          <div className="dots absolute inset-0 [mask-image:linear-gradient(to_bottom,#000,transparent_85%)]" />
+        </div>
         <div className="container-x grid pb-14 md:pb-20 lg:grid-cols-12">
           <div className="mb-8 lg:col-span-3 lg:mb-0 lg:pr-10">
             <nav aria-label="Breadcrumb" className="fade-in">

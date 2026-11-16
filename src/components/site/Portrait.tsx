@@ -1,7 +1,5 @@
 import Image from "next/image";
 
-import { LocalTime } from "@/components/site/LocalTime";
-
 /** Trimmed transparent cutout (public/portrait.webp). The share-image copy lives in src/assets. */
 export const PORTRAIT = { src: "/portrait.webp", width: 1019, height: 1438, alt: "Portrait of Anish Seth" } as const;
 
@@ -35,10 +33,7 @@ export function PortraitPlate() {
         <span aria-hidden className="xh left-0 top-full" />
         <span aria-hidden className="xh left-full top-full" />
       </div>
-      <figcaption className="label mt-4 flex justify-between gap-4">
-        <span>Fig. 01 — Kolkata, IN</span>
-        <LocalTime />
-      </figcaption>
+      <figcaption className="label mt-4">Kolkata, India</figcaption>
     </figure>
   );
 }

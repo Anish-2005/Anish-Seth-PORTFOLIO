@@ -250,6 +250,12 @@
   }
 }
 
+/* Keeps ornamental backgrounds clear of the fixed 64px header so the nav stays legible before scrolling. */
+@utility under-header {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 64px, #000 168px);
+  mask-image: linear-gradient(to bottom, transparent 0, transparent 64px, #000 168px);
+}
+
 /* Dot field */
 .dots {
   background-image: radial-gradient(circle at 1px 1px, var(--dot) 1px, transparent 1.4px);
@@ -536,9 +542,4 @@ details[open] .faq-icon {
     opacity: 1 !important;
     transform: none !important;
   }
-}
-
-/* Footer wordmark: same lockup, no intro animation, faded ink */
-.wordmark-static [data-ch] {
-  animation: none !important;
 }

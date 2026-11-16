@@ -14,7 +14,6 @@ export function Work({ repoCount }: { repoCount: number }) {
       label="Selected work"
       note={
         <>
-          Four case studies, then an index of further builds.{" "}
           <a href={profile.links.github} target="_blank" rel="noopener noreferrer" className="link-u text-fg">
             All {repoCount} repositories ↗
           </a>
@@ -22,7 +21,7 @@ export function Work({ repoCount }: { repoCount: number }) {
       }
       title={
         <>
-          Systems designed, built and shipped<span className="text-subtle"> — reasoning included.</span>
+          Systems designed, built and shipped.
         </>
       }
     >

@@ -2,13 +2,6 @@ import { PortraitPlate } from "@/components/site/Portrait";
 import { Section } from "@/components/ui/Section";
 import { education, principles, profile } from "@/data/portfolio";
 
-const facts = [
-  { label: "Currently", value: `${profile.current.title}, ${profile.current.company}` },
-  { label: "Focus", value: "Agentic AI · LLM systems · Automation" },
-  { label: "Stack", value: "Python, TypeScript, AWS, LangGraph" },
-  { label: "Based in", value: profile.location },
-];
-
 /** `portrait` shows the photo plate — off on the home page, where the hero already features it. */
 export function About({ portrait = false }: { portrait?: boolean }) {
   return (
@@ -16,10 +9,9 @@ export function About({ portrait = false }: { portrait?: boolean }) {
       id="about"
       index="01"
       label="About"
-      note="Who I am, how I work and where I studied."
       title={
         <>
-          Engineering AI that earns trust<span className="text-subtle"> — precise, observable, dependable.</span>
+          Engineering AI that earns trust.
         </>
       }
     >
@@ -43,12 +35,12 @@ export function About({ portrait = false }: { portrait?: boolean }) {
               </p>
             ))}
           </div>
-          {portrait ? <Facts className="mt-10" /> : null}
+          {portrait ? <Education className="mt-10" /> : null}
         </div>
 
         {portrait ? null : (
           <div className="md:col-span-4">
-            <Facts />
+            <Education />
           </div>
         )}
       </div>
@@ -86,19 +78,10 @@ export function About({ portrait = false }: { portrait?: boolean }) {
   );
 }
 
-function Facts({ className }: { className?: string }) {
+function Education({ className }: { className?: string }) {
   return (
     <div className={className}>
-      <dl className="border-t border-line" data-reveal>
-        {facts.map((f) => (
-          <div key={f.label} className="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-line py-3.5">
-            <dt className="label pt-0.5">{f.label}</dt>
-            <dd className="text-[0.94rem]">{f.value}</dd>
-          </div>
-        ))}
-      </dl>
-
-      <div className="mt-10" data-reveal>
+      <div data-reveal>
         <p className="label mb-3">Education</p>
         <ol className="border-t border-line">
           {education.map((e) => (

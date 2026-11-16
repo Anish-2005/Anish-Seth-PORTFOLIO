@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { About } from "@/components/sections/About";
 import { Experience } from "@/components/sections/Experience";
+import { FAQ } from "@/components/sections/FAQ";
 import { Recognition } from "@/components/sections/Recognition";
 import { SubpageShell } from "@/components/site/SubpageShell";
 import { ButtonLink } from "@/components/ui/Button";
@@ -47,6 +48,7 @@ export default function AboutPage() {
         <About portrait />
         <Experience />
         <Recognition />
+        <FAQ />
       </div>
     </>
   );

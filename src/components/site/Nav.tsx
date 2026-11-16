@@ -21,13 +21,6 @@ export function Nav() {
   const [active, setActive] = useState<string>("");
   const [open, setOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const [isMac, setIsMac] = useState(true);
-
-  useEffect(() => {
-    // Platform-specific shortcut hint; navigator is only available after mount.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent));
-  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -75,8 +68,6 @@ export function Nav() {
     setOpen(false);
   }, [pathname]);
 
-  const openPalette = () => window.dispatchEvent(new Event(OPEN_COMMAND_EVENT));
-
   return (
     <>
       <header
@@ -121,15 +112,6 @@ export function Nav() {
           </ul>
 
           <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={openPalette}
-              className="hidden h-8 items-center gap-2 rounded-[3px] border border-line px-2.5 font-mono text-[10.5px] text-subtle transition-colors hover:border-line-strong hover:text-fg lg:inline-flex"
-              aria-label="Open command menu"
-            >
-              <Icon name="search" size={12} />
-              {isMac ? "⌘K" : "Ctrl K"}
-            </button>
             <ThemeToggle />
             <a
               href={profile.links.resume}

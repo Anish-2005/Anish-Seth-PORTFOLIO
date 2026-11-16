@@ -17,7 +17,6 @@ export function Contact() {
       id="contact"
       index="07"
       label="Contact"
-      note="Open to conversations about AI/ML engineering roles, agentic systems and ambitious products."
       titleClassName="!text-[clamp(2.6rem,6.4vw,5.4rem)] !leading-[0.96] !tracking-[-0.045em]"
       title={
         <>

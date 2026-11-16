@@ -26,14 +26,9 @@ const nextConfig: NextConfig = {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
   async redirects() {
+    // No host redirects here: www vs apex is decided by the domain settings in Vercel.
+    // A rule here that disagrees with Vercel's causes an endless redirect loop.
     return [
-      // One canonical host: www and any other alias collapse onto the apex domain.
-      {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.anishseth.xyz" }],
-        destination: "https://anishseth.xyz/:path*",
-        permanent: true,
-      },
       // The résumé moved to a name-bearing URL; keep old links (and the PDF's own links) working.
       { source: "/resume.pdf", destination: "/anish-seth-resume.pdf", permanent: true },
       // Retired placeholder case studies from the previous version of the site.

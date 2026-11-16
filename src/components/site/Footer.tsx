@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { SectionRule } from "@/components/site/Frame";
-import { LogoMark } from "@/components/site/Logo";
+import { Lockup } from "@/components/site/Logo";
 import { profile } from "@/data/portfolio";
 
 const links = [
@@ -20,10 +20,7 @@ export function Footer() {
     <footer className="relative z-[1]">
       <SectionRule />
       <div className="container-x flex flex-col gap-8 py-10 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-3">
-          <LogoMark />
-          <p className="text-[0.9rem] font-semibold tracking-[-0.01em] [font-stretch:108%]">{profile.name}</p>
-        </div>
+        <Lockup />
 
         <nav aria-label="Footer">
           <ul className="flex flex-wrap gap-x-6 gap-y-2">

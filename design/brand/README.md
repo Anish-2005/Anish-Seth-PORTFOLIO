@@ -48,7 +48,9 @@ The node is the only accent. Never colour the stroke itself.
 
 ## Type
 
-The wordmark is **Archivo SemiBold, width 112** (Google Fonts, variable). In the exported lockups it is converted to outlines, so no font installation is needed. Use **IBM Plex Mono** for small technical labels next to the brand.
+The lockup is **mark · hairline · ANISH SETH**. The name is set in **IBM Plex Mono Medium**, all caps, letter-spaced at +0.14em, with a 25%-opacity hairline between it and the mark. The mark's single curving stroke and the precise monospace capitals are meant to contrast, not compete. Proportions at UI size: mark 24 px tall, 12 px gaps, hairline 18 px, name 11.5 px.
+
+In the exported lockups the name is converted to outlines, so no font installation is needed. Display headlines elsewhere use **Archivo**, but never next to the mark.
 
 ## Rules
 
@@ -58,11 +60,11 @@ The wordmark is **Archivo SemiBold, width 112** (Google Fonts, variable). In the
   - Rotate, outline or add effects or gradients.
   - Recolour the node to anything but Signal or Crimson (mono versions excepted).
   - Separate the node from the stroke.
-  - Set the name in a different typeface next to the mark.
+  - Set the name next to the mark in any other typeface or style.
 
 ## Regenerating
 
-Every asset is generated from one geometry definition by [`generate.cjs`](./generate.cjs). It uses `sharp`, plus `opentype.js` and the bundled Archivo font to outline the wordmark. From the repo root:
+Every asset is generated from one geometry definition by [`generate.cjs`](./generate.cjs). It uses `sharp`, plus `opentype.js` and the bundled IBM Plex Mono font to outline the name. From the repo root:
 
 ```bash
 npm i --no-save opentype.js

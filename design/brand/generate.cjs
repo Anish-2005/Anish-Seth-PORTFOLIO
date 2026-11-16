@@ -1,6 +1,7 @@
 // Builds the "Trace" brand kit (public/brand, app icons, brand sheet) from one geometry definition.
 // usage (from the repo root):  npm i --no-save opentype.js && node design/brand/generate.cjs .
 // Keep TRACE in sync with src/components/site/Logo.tsx.
+/* eslint-disable @typescript-eslint/no-require-imports -- plain Node build script */
 const fs = require("fs");
 const path = require("path");
 const opentype = require("opentype.js");
@@ -29,6 +30,7 @@ const TRACE =
 const NODE = { cx: 55.6, cy: 24.6 };
 const W_STD = 6.6; // display weight
 const W_SMALL = 8.4; // optical weight for <= 32px
+const W_UI = 7.4; // weight used in UI lockups (nav, footer)
 
 const markInner = ({ stroke, accent, w = W_STD }) =>
   `<path d="${TRACE}" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="miter" stroke-miterlimit="12"/>` +
@@ -69,25 +71,37 @@ let MB;
   MB = await bbox(W_STD);
   console.log("mark bbox", MB);
 
-  // ── Wordmark outlines ───────────────────────────────
-  const font = opentype.loadSync(path.join(__dirname, "archivo-600-112.ttf"));
+  // ── Lockup: mark · hairline · ANISH SETH (IBM Plex Mono 500, tracked) ──
+  // Proportions mirror the UI lockup: mark 24px, gap 12px, hairline 18px @ 25%, name 11.5px, tracking 0.14em.
+  const font = opentype.loadSync(path.join(__dirname, "ibm-plex-mono-500.ttf"));
   const upm = font.unitsPerEm;
   const capH = (font.tables.os2.sCapHeight || 0.7 * upm) / upm;
-  // Cap height = 46% of mark height; vertically centred on the mark.
-  const fontSize = (MB.h * 0.46) / capH;
-  const textPath = font.getPath("Anish Seth", 0, 0, fontSize, { kerning: true });
-  const tb = textPath.getBoundingBox();
-  const gap = MB.h * 0.34;
-  const tx = MB.x + MB.w + gap - tb.x1;
-  const baseline = MB.y + MB.h / 2 + (capH * fontSize) / 2;
-  const word = font.getPath("Anish Seth", tx, baseline, fontSize, { kerning: true }).toPathData(2);
-  const lockW = tx + tb.x2 - MB.x;
-  const pad = MB.h * 0.12;
+  const px = MB.h / 24; // units per UI pixel
+  const fontSize = 11.5 * px;
+  const tracking = 0.14 * fontSize;
+  const gap = 12 * px;
+  const ruleX = MB.x + MB.w + gap;
+  const ruleW = 1 * px;
+  const ruleH = 18 * px;
+  const cy = MB.y + MB.h / 2;
+  let penX = ruleX + ruleW + gap;
+  const startX = penX;
+  const baseline = cy + (capH * fontSize) / 2;
+  const glyphPaths = [];
+  for (const ch of "ANISH SETH") {
+    const g = font.charToGlyph(ch);
+    glyphPaths.push(g.getPath(penX, baseline, fontSize).toPathData(2));
+    penX += (g.advanceWidth / upm) * fontSize + tracking;
+  }
+  const textW = penX - tracking - startX;
+  const lockW = startX + textW - MB.x;
+  const pad = MB.h * 0.14;
   const lockVB = [MB.x - pad, MB.y - pad, lockW + 2 * pad, MB.h + 2 * pad].map((n) => +n.toFixed(2));
   const lockupSvg = ({ stroke, accent, text }) =>
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${lockVB.join(" ")}" width="${Math.round(lockVB[2] * 6)}" height="${Math.round(lockVB[3] * 6)}">` +
-    markInner({ stroke, accent }) +
-    `<path d="${word}" fill="${text}"/></svg>`;
+    markInner({ stroke, accent, w: W_UI }) +
+    `<rect x="${ruleX.toFixed(2)}" y="${(cy - ruleH / 2).toFixed(2)}" width="${ruleW.toFixed(2)}" height="${ruleH.toFixed(2)}" fill="${text}" fill-opacity="0.25"/>` +
+    `<path d="${glyphPaths.join("")}" fill="${text}"/></svg>`;
 
   // ── Write SVGs ──────────────────────────────────────
   const files = {

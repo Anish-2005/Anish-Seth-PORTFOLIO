@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/Icon";
 import { ProjectArt } from "@/components/work/ProjectArt";
 import { categoryLabels, type ProjectCategory } from "@/data/categories";
 import type { ProjectRow } from "@/data/portfolio";
+import { useLite } from "@/lib/lite";
 import { cn } from "@/lib/utils";
 
 type Filter = "all" | ProjectCategory;
@@ -22,6 +23,7 @@ export function ProjectIndex({ projects }: { projects: ProjectRow[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [hovered, setHovered] = useState<string | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const lite = useLite();
   const previewRef = useRef<HTMLDivElement>(null);
 
   const filters: { id: Filter; label: string; count: number }[] = [
@@ -110,6 +112,7 @@ export function ProjectIndex({ projects }: { projects: ProjectRow[] }) {
             <li key={p.slug} className={cn("border-b border-line", !showAll && i >= MOBILE_ROWS && "max-md:hidden")}>
               <Link
                 href={`/projects/${p.slug}`}
+                prefetch={lite ? false : undefined}
                 onMouseEnter={() => setHovered(p.slug)}
                 onFocus={() => setHovered(p.slug)}
                 onBlur={() => setHovered(null)}

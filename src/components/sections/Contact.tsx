@@ -1,4 +1,4 @@
-import { ContactForm } from "@/components/contact/ContactForm";
+import { LazyContactForm } from "@/components/contact/LazyContactForm";
 import { CopyEmail } from "@/components/contact/CopyEmail";
 import { Icon } from "@/components/ui/Icon";
 import { Section } from "@/components/ui/Section";
@@ -53,7 +53,7 @@ export function Contact() {
 
       <div className="mt-16 grid gap-14 border-t border-line pt-10 md:grid-cols-[minmax(0,1fr)_15rem] md:gap-12">
         <div data-reveal>
-          <ContactForm />
+          <LazyContactForm />
         </div>
 
         <div data-reveal style={{ "--d": "100ms" } as React.CSSProperties}>

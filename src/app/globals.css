@@ -1061,6 +1061,21 @@ details[open] .faq-icon {
   background: var(--accent);
 }
 
+/* Data Saver / 2G (see the boot script): skip decorative motion and texture so slow phones spend
+   their time on content. Everything still appears, just without the entrance animations. */
+html[data-lite] *,
+html[data-lite] *::before,
+html[data-lite] *::after {
+  animation-duration: 1ms !important;
+  animation-delay: 0s !important;
+  transition-duration: 1ms !important;
+  transition-delay: 0s !important;
+}
+html[data-lite] .noise,
+html[data-lite] .dots-accent {
+  display: none;
+}
+
 @media print {
   .noise,
   header,

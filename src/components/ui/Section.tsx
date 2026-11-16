@@ -26,7 +26,16 @@ type SectionProps = {
  */
 export function Section({ id, index, label, title, intro, note, children, className, titleClassName, motif, detail }: SectionProps) {
   return (
-    <section id={id} aria-labelledby={title ? `${id}-title` : undefined} aria-label={title ? undefined : label} data-chapter className={cn("relative isolate", className)}>
+    <section
+      id={id}
+      aria-labelledby={title ? `${id}-title` : undefined}
+      aria-label={title ? undefined : label}
+      data-chapter
+      // Phones: the browser skips laying out and painting a section until it's near the screen (and
+      // remembers its real size once drawn), which cuts the work a slow phone does on first load.
+      // Not on larger screens, where it would clip the rule markers and the cursor-following preview.
+      className={cn("relative isolate max-md:[contain-intrinsic-size:auto_900px] max-md:[content-visibility:auto]", className)}
+    >
       {motif || detail ? <SectionDecor motif={motif} detail={detail} /> : null}
       <SectionRule />
       <div className="container-x relative grid py-16 md:py-28 lg:grid-cols-12">

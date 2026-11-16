@@ -3,7 +3,7 @@ export type Theme = "dark" | "light";
 export const THEME_STORAGE_KEY = "ui-theme";
 
 /** Inline, render-blocking script: sets theme + js class before first paint (no flash). */
-export const themeBootScript = `(function(){try{var d=document.documentElement;d.classList.add('js');var s=localStorage.getItem('${THEME_STORAGE_KEY}');var t=(s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');d.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='dark';}setTimeout(function(){document.documentElement.classList.add('reveal-fallback')},3500);})();`;
+export const themeBootScript = `(function(){try{var d=document.documentElement;d.classList.add('js');var s=localStorage.getItem('${THEME_STORAGE_KEY}');var t=(s==='light'||s==='dark')?s:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');d.dataset.theme=t;var c=navigator.connection;if(c&&(c.saveData||/2g$/.test(c.effectiveType||'')))d.setAttribute('data-lite','');}catch(e){document.documentElement.dataset.theme='dark';}setTimeout(function(){document.documentElement.classList.add('reveal-fallback')},3500);})();`;
 
 export function getTheme(): Theme {
   return document.documentElement.dataset.theme === "light" ? "light" : "dark";

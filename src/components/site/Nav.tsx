@@ -10,6 +10,7 @@ import { Logo } from "@/components/site/Logo";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { siteConfig } from "@/lib/site.config";
 import { profile } from "@/data/profile";
+import { useLite } from "@/lib/lite";
 import { cn } from "@/lib/utils";
 
 export const OPEN_COMMAND_EVENT = "open-command-palette";
@@ -17,6 +18,7 @@ export const OPEN_COMMAND_EVENT = "open-command-palette";
 export function Nav() {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const lite = useLite();
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState<string>("");
   const [open, setOpen] = useState(false);
@@ -79,7 +81,7 @@ export function Nav() {
         )}
       >
         <nav aria-label="Primary" className="container-x flex h-16 items-center justify-between gap-6">
-          <Logo prefetch={isHome ? false : undefined} />
+          <Logo prefetch={isHome || lite ? false : undefined} />
 
           <ul className="hidden items-center gap-7 md:flex">
             {siteConfig.nav.map((item, i) => {
@@ -88,7 +90,7 @@ export function Nav() {
                 <li key={item.id} className="nav-in" style={{ "--d": `${260 + i * 70}ms` } as React.CSSProperties}>
                   <Link
                     href={item.href}
-                    prefetch={isHome && item.href.startsWith("/#") ? false : undefined}
+                    prefetch={lite || (isHome && item.href.startsWith("/#")) ? false : undefined}
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
                       "group/nav relative flex items-baseline gap-1.5 text-[0.86rem] transition-colors duration-300",
@@ -156,7 +158,7 @@ export function Nav() {
               >
                 <Link
                   href={item.href}
-                  prefetch={isHome && item.href.startsWith("/#") ? false : undefined}
+                  prefetch={lite || (isHome && item.href.startsWith("/#")) ? false : undefined}
                   onClick={() => setOpen(false)}
                   className="group/m flex items-center justify-between py-5 text-[2rem] font-semibold tracking-[-0.03em] [font-stretch:112%]"
                 >

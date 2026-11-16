@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
 
 import "./globals.css";
 
@@ -19,12 +20,16 @@ import { themeBootScript } from "@/lib/theme";
 
 // One variable grotesk (weight + width axes) carries the whole typographic system:
 // expanded for display, normal width for reading. Plex Mono handles technical labels.
-const sans = Archivo({
-  subsets: ["latin"],
-  weight: "variable",
-  axes: ["wdth"],
+const sans = localFont({
+  // Archivo variable, self-hosted as a trimmed subset (see src/fonts/README.md): 64KB instead of 88KB.
+  src: "../fonts/archivo-variable-subset.woff2",
+  weight: "100 900",
+  style: "normal",
   variable: "--font-archivo",
   display: "swap",
+  // The width axis is driven with font-stretch, so the face has to declare its range.
+  declarations: [{ prop: "font-stretch", value: "62% 125%" }],
+  adjustFontFallback: "Arial",
 });
 const mono = IBM_Plex_Mono({
   subsets: ["latin"],

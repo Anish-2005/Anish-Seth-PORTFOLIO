@@ -46,6 +46,8 @@ const vanity: [path: string, to: string, permanent: boolean][] = [
 const nextConfig: NextConfig = {
   reactCompiler: true,
   poweredByHeader: false,
+  // Tried experimental.inlineCss: Next embeds the styles twice per HTML page (style tag + page data)
+  // and again in every prefetch, which costs more bytes than the round trip it saves. Left off.
   images: {
     formats: ["image/avif", "image/webp"],
     // Optimised images are reused for a month (browser and CDN), so they're rarely re-generated.

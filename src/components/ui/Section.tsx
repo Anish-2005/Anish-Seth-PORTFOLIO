@@ -29,9 +29,9 @@ export function Section({ id, index, label, title, intro, note, children, classN
     <section id={id} aria-labelledby={title ? `${id}-title` : undefined} aria-label={title ? undefined : label} data-chapter className={cn("relative isolate", className)}>
       {motif || detail ? <SectionDecor motif={motif} detail={detail} /> : null}
       <SectionRule />
-      <div className="container-x relative grid py-20 md:py-28 lg:grid-cols-12">
+      <div className="container-x relative grid py-16 md:py-28 lg:grid-cols-12">
         {/* With a detail drawing, bottom padding keeps the sticky label from sliding over it. */}
-        <aside className={cn("mb-10 lg:col-span-3 lg:mb-0 lg:pr-10", detail && "lg:pb-[300px]")}>
+        <aside className={cn("mb-4 md:mb-10 lg:col-span-3 lg:mb-0 lg:pr-10", detail && "lg:pb-[300px]")}>
           <div className="lg:sticky lg:top-28" data-reveal>
             <p className="label flex items-center gap-2.5">
               <span aria-hidden className="size-[5px] rounded-full bg-accent" />
@@ -55,7 +55,7 @@ export function Section({ id, index, label, title, intro, note, children, classN
               {intro}
             </p>
           ) : null}
-          <div className={title || intro ? "mt-14 md:mt-16" : undefined}>{children}</div>
+          <div className={title || intro ? "mt-10 md:mt-16" : undefined}>{children}</div>
         </div>
       </div>
     </section>

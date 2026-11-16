@@ -1,4 +1,4 @@
-import { profile } from "@/data/portfolio";
+import { profile } from "@/data/profile";
 
 export const siteConfig = {
   name: profile.name,
@@ -6,7 +6,8 @@ export const siteConfig = {
   shortRole: "AI/ML Engineer",
   description:
     "Anish Seth is an AI/ML engineer in Kolkata who builds AI agents that work with real data, mostly on AWS Bedrock with LangGraph and MCP, plus full-stack apps in Next.js and FastAPI. National finalist at Smart India Hackathon and IDE Bootcamp.",
-  url: "https://anishseth.xyz",
+  // Vercel serves the site on www (the apex redirects there), so www is the canonical address.
+  url: "https://www.anishseth.xyz",
   locale: "en-US",
   sameAs: {
     linkedin: profile.links.linkedin,
@@ -15,7 +16,7 @@ export const siteConfig = {
     x: profile.links.x,
     leetcode: profile.links.leetcode,
     email: `mailto:${profile.email}`,
-    website: "https://anishseth.xyz",
+    website: "https://www.anishseth.xyz",
   },
   /** Every public profile that belongs to this person (schema.org sameAs and rel="me"). */
   profiles: [

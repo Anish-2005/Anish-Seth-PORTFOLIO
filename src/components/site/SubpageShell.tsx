@@ -79,7 +79,7 @@ export function SubpageShell({ eyebrow, title, description, chips = [], crumbs =
       {children ? (
         <>
           <SectionRule />
-          <div className="container-x pb-24 pt-14 md:pb-32 md:pt-20">{children}</div>
+          <div className="container-x pb-20 pt-10 md:pb-32 md:pt-20">{children}</div>
         </>
       ) : null}
     </>

@@ -1,7 +1,7 @@
 import { Section } from "@/components/ui/Section";
 import { FeaturedGrid } from "@/components/work/FeaturedGrid";
 import { ProjectIndex } from "@/components/work/ProjectIndex";
-import { profile, projects } from "@/data/portfolio";
+import { profile, projects, toProjectRow } from "@/data/portfolio";
 
 export function Work({ repoCount }: { repoCount: number }) {
   const featured = projects.filter((p) => p.featured);
@@ -36,7 +36,7 @@ export function Work({ repoCount }: { repoCount: number }) {
             All {repoCount} repositories ↗
           </a>
         </div>
-        <ProjectIndex projects={rest} />
+        <ProjectIndex projects={rest.map(toProjectRow)} />
       </div>
     </Section>
   );

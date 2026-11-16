@@ -1,5 +1,6 @@
 import { PortraitPlate } from "@/components/site/Portrait";
 import { Section } from "@/components/ui/Section";
+import { Swipe } from "@/components/ui/Swipe";
 import { education, principles, profile } from "@/data/portfolio";
 
 /** `portrait` shows the photo plate — off on the home page, where the hero already features it. */
@@ -48,11 +49,11 @@ export function About({ portrait = false }: { portrait?: boolean }) {
       </div>
 
       {/* Principles: a ruled four-column strip */}
-      <div className="mt-20">
+      <div className="mt-14 md:mt-20">
         <p className="label mb-5" data-reveal>
           How I work
         </p>
-        <ol className="grid border-t border-line sm:grid-cols-2 xl:grid-cols-4">
+        <Swipe as="ol" className="grid border-t border-line sm:grid-cols-2 xl:grid-cols-4">
           {principles.map((p, i) => (
             <li
               key={p.title}
@@ -73,7 +74,7 @@ export function About({ portrait = false }: { portrait?: boolean }) {
               />
             </li>
           ))}
-        </ol>
+        </Swipe>
       </div>
     </Section>
   );

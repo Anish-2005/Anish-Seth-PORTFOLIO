@@ -1,16 +1,21 @@
 import Link from "next/link";
 
 import { Icon } from "@/components/ui/Icon";
+import { Swipe } from "@/components/ui/Swipe";
 import { ProjectArt } from "@/components/work/ProjectArt";
 import type { Project } from "@/data/portfolio";
 
 /** Featured case studies as a ruled 2×2 sheet — cells share hairlines instead of floating as cards. */
 export function FeaturedGrid({ projects }: { projects: Project[] }) {
   return (
-    <ol className="grid gap-px border-y border-line bg-line md:grid-cols-2">
+    <Swipe as="ol" className="grid gap-px border-y border-line bg-line md:grid-cols-2">
       {projects.map((p, i) => (
-        <li key={p.slug} data-reveal style={{ "--d": `${(i % 2) * 90}ms` } as React.CSSProperties} className={`bg-bg ${i % 2 === 0 ? "md:pr-8" : "md:pl-8"}`}>
-          <article className="group relative flex h-full flex-col py-8 md:py-10">
+        <li key={p.slug} className={`bg-bg ${i % 2 === 0 ? "md:pr-8" : "md:pl-8"}`}>
+          <article
+            data-reveal
+            style={{ "--d": `${(i % 2) * 90}ms` } as React.CSSProperties}
+            className="group relative flex h-full flex-col py-8 md:py-10"
+          >
             <p className="label">
               {p.kicker} · {p.year}
             </p>
@@ -60,6 +65,6 @@ export function FeaturedGrid({ projects }: { projects: Project[] }) {
           </article>
         </li>
       ))}
-    </ol>
+    </Swipe>
   );
 }

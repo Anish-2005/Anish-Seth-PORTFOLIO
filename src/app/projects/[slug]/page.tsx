@@ -48,10 +48,10 @@ export default async function ProjectPage({ params }: Props) {
   const next = projects[(index + 1) % projects.length];
 
   const details = [
-    { label: "Year", value: project.year },
-    { label: "Category", value: project.categories.map((c) => categoryLabels[c]).join(" · ") },
-    ...(project.badge ? [{ label: "Recognition", value: project.badge }] : []),
-    { label: "Stack", value: project.stack.join(" / ") },
+    { label: "Year", value: project.year, wide: false },
+    { label: "Category", value: project.categories.map((c) => categoryLabels[c]).join(" · "), wide: false },
+    ...(project.badge ? [{ label: "Recognition", value: project.badge, wide: true }] : []),
+    { label: "Stack", value: project.stack.join(" / "), wide: true },
   ];
 
   return (
@@ -73,7 +73,7 @@ export default async function ProjectPage({ params }: Props) {
             </ButtonLink>
           ) : null}
           {!project.links.live && !project.links.github ? (
-            <p className="label">Private project. Happy to walk you through it.</p>
+            <p className="label text-balance">Private project. Happy to walk you through it.</p>
           ) : null}
         </div>
       }
@@ -105,15 +105,15 @@ export default async function ProjectPage({ params }: Props) {
       <div className="grid lg:grid-cols-12">
         {/* Specs column */}
         <aside className="mb-12 lg:col-span-3 lg:mb-0 lg:pr-10">
-          <dl className="border-t border-line lg:sticky lg:top-28" data-reveal>
+          <dl className="grid grid-cols-2 gap-x-6 border-t border-line lg:sticky lg:top-28 lg:block" data-reveal>
             {details.map((d) => (
-              <div key={d.label} className="border-b border-line py-4">
+              <div key={d.label} className={`border-b border-line py-4 ${d.wide ? "col-span-2" : ""}`}>
                 <dt className="label">{d.label}</dt>
                 <dd className="mt-1.5 text-[0.92rem] leading-snug">{d.value}</dd>
               </div>
             ))}
             {writeup ? (
-              <div className="border-b border-line py-4">
+              <div className="col-span-2 border-b border-line py-4">
                 <dt className="label">Write-up</dt>
                 <dd className="mt-1.5">
                   <Link href={`/notes/${writeup.slug}`} className="link-u inline-flex items-center gap-2 text-[0.92rem] leading-snug text-fg">
@@ -122,7 +122,7 @@ export default async function ProjectPage({ params }: Props) {
                 </dd>
               </div>
             ) : null}
-            <div className="py-5">
+            <div className="col-span-2 py-5">
               <Link href="/#contact" className="link-u inline-flex items-center gap-2 text-[0.9rem]">
                 Ask me about this one <Icon name="arrow-right" size={14} className="text-accent-ink" />
               </Link>

@@ -5,7 +5,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { OPEN_COMMAND_EVENT } from "@/components/site/Nav";
-import { profile, projects } from "@/data/portfolio";
+import { projects } from "@/data/portfolio";
+import { profile } from "@/data/profile";
 import { applyTheme, getTheme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
@@ -90,7 +91,8 @@ const COMMANDS: Command[] = [
   })),
 ];
 
-export function CommandPalette() {
+/** `autoOpen`: the loader mounts this on the first request, so open straight away. */
+export function CommandPalette({ autoOpen = false }: { autoOpen?: boolean }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -170,6 +172,14 @@ export function CommandPalette() {
       window.removeEventListener(OPEN_COMMAND_EVENT, open);
     };
   }, [close, open]);
+
+  // First mount from the loader: the search is already empty, so just show the dialog.
+  useEffect(() => {
+    const d = dialogRef.current;
+    if (!autoOpen || !d || d.open) return;
+    d.showModal();
+    requestAnimationFrame(() => inputRef.current?.focus());
+  }, [autoOpen]);
 
   useEffect(() => {
     if (!toast) return;

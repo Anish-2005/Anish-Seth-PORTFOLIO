@@ -4,7 +4,7 @@ import { SubpageShell } from "@/components/site/SubpageShell";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FeaturedGrid } from "@/components/work/FeaturedGrid";
 import { ProjectIndex } from "@/components/work/ProjectIndex";
-import { projects } from "@/data/portfolio";
+import { projects, toProjectRow } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
 
 const description =
@@ -53,7 +53,7 @@ export default function ProjectsPage() {
       <FeaturedGrid projects={featured} />
       <div className="mt-20">
         <h2 className="mb-8 text-[1.3rem] font-semibold tracking-[-0.02em] [font-stretch:110%]">More projects</h2>
-        <ProjectIndex projects={rest} />
+        <ProjectIndex projects={rest.map(toProjectRow)} />
       </div>
     </SubpageShell>
   );

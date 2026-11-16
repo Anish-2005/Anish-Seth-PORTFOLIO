@@ -4,11 +4,11 @@ import { Archivo, IBM_Plex_Mono } from "next/font/google";
 
 import "./globals.css";
 
-import { CommandPalette } from "@/components/site/CommandPalette";
+import { CommandPaletteLoader } from "@/components/site/CommandPaletteLoader";
 import { Footer } from "@/components/site/Footer";
 import { Nav } from "@/components/site/Nav";
 import { Frame } from "@/components/site/Frame";
-import { EncoderDial } from "@/components/site/EncoderDial";
+import { EncoderDialLoader } from "@/components/site/EncoderDialLoader";
 import { RevealObserver } from "@/components/site/RevealObserver";
 import WebVitalsReporter from "@/components/perf/WebVitalsReporter";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -133,13 +133,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
         <Frame />
-        <EncoderDial />
+        <EncoderDialLoader />
         <Nav />
         <main id="content" className="relative z-[1]">
           {children}
         </main>
         <Footer />
-        <CommandPalette />
+        <CommandPaletteLoader />
         <RevealObserver />
         <WebVitalsReporter />
         {/* Cookieless page views (enable "Web Analytics" for the project in the Vercel dashboard). */}

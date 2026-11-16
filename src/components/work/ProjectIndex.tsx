@@ -5,18 +5,23 @@ import { useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/components/ui/Icon";
 import { ProjectArt } from "@/components/work/ProjectArt";
-import { categoryLabels, type Project, type ProjectCategory } from "@/data/portfolio";
+import { categoryLabels, type ProjectCategory } from "@/data/categories";
+import type { ProjectRow } from "@/data/portfolio";
 import { cn } from "@/lib/utils";
 
 type Filter = "all" | ProjectCategory;
+
+/** Rows shown on phones before "Show all" (everything shows from tablet width up). */
+const MOBILE_ROWS = 5;
 
 /**
  * An editorial index of builds. Rows dim their siblings on hover, and on desktop a small
  * preview of the project's artwork trails the cursor with eased motion.
  */
-export function ProjectIndex({ projects }: { projects: Project[] }) {
+export function ProjectIndex({ projects }: { projects: ProjectRow[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [hovered, setHovered] = useState<string | null>(null);
+  const [showAll, setShowAll] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
 
   const filters: { id: Filter; label: string; count: number }[] = [
@@ -67,7 +72,11 @@ export function ProjectIndex({ projects }: { projects: Project[] }) {
 
   return (
     <div>
-      <div className="mb-6 flex flex-wrap gap-x-6 gap-y-2" role="group" aria-label="Filter builds">
+      <div
+        className="-mx-[var(--pad)] mb-6 flex gap-x-4 overflow-x-auto whitespace-nowrap px-[var(--pad)] [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:gap-x-6 sm:gap-y-2 sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden"
+        role="group"
+        aria-label="Filter builds"
+      >
         {filters.map((f) => {
           const active = filter === f.id;
           return (
@@ -96,9 +105,9 @@ export function ProjectIndex({ projects }: { projects: Project[] }) {
       </div>
 
       <ol className="group/list border-t border-line" onMouseLeave={() => setHovered(null)}>
-        {visible.map((p) => {
+        {visible.map((p, i) => {
           return (
-            <li key={p.slug} className="border-b border-line">
+            <li key={p.slug} className={cn("border-b border-line", !showAll && i >= MOBILE_ROWS && "max-md:hidden")}>
               <Link
                 href={`/projects/${p.slug}`}
                 onMouseEnter={() => setHovered(p.slug)}
@@ -125,6 +134,16 @@ export function ProjectIndex({ projects }: { projects: Project[] }) {
           );
         })}
       </ol>
+      {!showAll && visible.length > MOBILE_ROWS ? (
+        <button
+          type="button"
+          onClick={() => setShowAll(true)}
+          className="link-u mt-6 inline-flex items-center gap-2 text-[0.92rem] font-medium md:hidden"
+        >
+          Show all {visible.length}
+          <Icon name="arrow-down" size={15} className="text-accent-ink" />
+        </button>
+      ) : null}
 
       {/* Cursor-trailing preview (desktop, fine pointer only) */}
       <div ref={previewRef} aria-hidden className="pointer-events-none fixed left-0 top-0 z-40 hidden lg:block">

@@ -15,7 +15,7 @@ export function Frame() {
           <div className="guide-line absolute inset-0 bg-[var(--guide)]" />
           <div className="ruler ruler-left absolute inset-y-0 left-0 hidden xl:block" />
           {/* Small screens: the marker rides the edge; ≥lg the trace fill takes over. */}
-          <div className="scroll-marker lg:hidden" />
+          <div className="scroll-marker hidden md:block lg:hidden" />
         </div>
         <div className="absolute inset-y-0 hidden w-px lg:block" style={{ left: GUIDE_X }}>
           <div className="guide-line absolute inset-0 bg-[var(--guide)]" style={{ "--d": "140ms" } as React.CSSProperties} />

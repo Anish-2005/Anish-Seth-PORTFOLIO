@@ -679,7 +679,7 @@
 /* Hero portrait rises into place after the wordmark settles */
 @media (prefers-reduced-motion: no-preference) {
   .portrait-in {
-    animation: portrait-in 1.6s var(--ease-out-expo) 0.45s both;
+    animation: portrait-in 1.6s var(--ease-out-expo) 0.15s both;
   }
 }
 @keyframes portrait-in {
@@ -980,6 +980,14 @@ details[open] .faq-icon {
   line-height: 1.7;
   tab-size: 4;
 }
+@media (max-width: 639px) {
+  .prose-x pre {
+    margin-inline: calc(-1 * var(--pad));
+    border-inline: 0;
+    padding: 0.95rem var(--pad);
+    font-size: 0.74rem;
+  }
+}
 .prose-x pre code {
   padding: 0;
   background: none;
@@ -990,6 +998,67 @@ details[open] .faq-icon {
   border-left: 1px solid var(--accent);
   padding-left: 1.1em;
   color: var(--fg);
+}
+
+/*
+  Phones: swipeable rows (see components/ui/Swipe). Unlayered on purpose so these win over the
+  element's own grid/gap/background utilities below 768px; from tablet width up nothing applies.
+*/
+@media (max-width: 767px) {
+  .m-swipe {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--pad);
+    margin-inline: calc(-1 * var(--pad));
+    padding-inline: var(--pad);
+    background: none;
+    scrollbar-width: none;
+  }
+  .m-swipe::-webkit-scrollbar {
+    display: none;
+  }
+  /* Each item takes most of the width, so the next one peeks in and invites a swipe. */
+  .m-swipe > * {
+    flex: 0 0 84%;
+    min-width: 0;
+    align-content: start; /* cards stretch to the tallest; keep their content at the top */
+    scroll-snap-align: start;
+    padding-left: 0;
+    padding-right: 1.25rem;
+  }
+  .m-swipe > * + * {
+    border-left: 1px solid var(--line);
+    padding-left: 1.25rem;
+  }
+  .m-swipe > *:last-child {
+    padding-right: 0;
+  }
+}
+/* The progress bar exists on phones only (unlayered rules would beat a `md:hidden` utility). */
+.m-swipe-bar {
+  display: none;
+}
+@media (max-width: 767px) {
+  .m-swipe-bar {
+    display: flex;
+    gap: 6px;
+    margin-top: 1.1rem;
+  }
+}
+.m-swipe-bar > span {
+  width: 14px;
+  height: 2px;
+  background: var(--line-strong);
+  transition:
+    width 0.5s var(--ease-out-expo),
+    background-color 0.5s var(--ease-out-expo);
+}
+.m-swipe-bar > span[data-on] {
+  width: 30px;
+  background: var(--accent);
 }
 
 @media print {

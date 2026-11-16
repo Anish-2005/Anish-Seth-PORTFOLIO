@@ -26,12 +26,39 @@ export function Hero({ contributions, repos }: HeroProps) {
       </div>
 
       <div className="relative">
-        <div className="container-x lg:pb-24">
+        <div className="container-x">
           <div className="mt-8 md:mt-14">
             <Wordmark hostId="intro" />
           </div>
+        </div>
 
-          <div className="mt-10 grid gap-8 border-t border-line pt-8 md:mt-14 lg:grid-cols-12 lg:gap-0">
+        {/*
+          Portrait. Phones and tablets: right under the name, its head overlapping the bottom of the
+          letters, standing on the rule above the intro. Desktop: out of flow, standing on the stats
+          rule in the right-hand columns and rising in front of the wordmark like a magazine cover.
+        */}
+        <div className="container-x pointer-events-none relative z-[1] -mt-8 flex h-[330px] justify-center sm:-mt-12 sm:h-[420px] sm:justify-end lg:absolute lg:inset-x-0 lg:bottom-0 lg:mt-0 lg:h-[430px] xl:h-[460px]">
+          <figure className="portrait-in relative h-full">
+            <div
+              aria-hidden
+              className="absolute -inset-x-[18%] bottom-[18%] top-[-4%] -z-10"
+              style={{ background: "radial-gradient(closest-side, var(--portrait-halo), transparent)" }}
+            />
+            <Image
+              src={PORTRAIT.src}
+              alt={PORTRAIT.alt}
+              width={PORTRAIT.width}
+              height={PORTRAIT.height}
+              preload
+              sizes="(min-width: 1280px) 326px, (min-width: 1024px) 305px, (min-width: 640px) 298px, 241px"
+              className="h-full w-auto select-none object-contain object-bottom"
+              draggable={false}
+            />
+          </figure>
+        </div>
+
+        <div className="container-x pb-14 lg:pb-24">
+          <div className="grid gap-8 border-t border-line pt-8 lg:mt-14 lg:grid-cols-12 lg:gap-0">
             <div className="lg:col-span-7 lg:pr-10">
               <p
                 className="fade-in text-[clamp(1.3rem,2.05vw,1.7rem)] leading-[1.3] tracking-[-0.02em] text-balance [font-stretch:104%]"
@@ -57,33 +84,9 @@ export function Hero({ contributions, repos }: HeroProps) {
             </div>
           </div>
         </div>
-
-        {/*
-          Portrait: in flow on small screens; on desktop it stands on the stats rule in the
-          right-hand columns, its head rising in front of the wordmark like a magazine cover.
-        */}
-        <div className="container-x pointer-events-none mt-12 flex h-[340px] justify-end sm:h-[420px] lg:absolute lg:inset-x-0 lg:bottom-0 lg:mt-0 lg:h-[430px] xl:h-[460px]">
-          <figure className="portrait-in relative h-full">
-            <div
-              aria-hidden
-              className="absolute -inset-x-[18%] bottom-[18%] top-[-4%] -z-10"
-              style={{ background: "radial-gradient(closest-side, var(--portrait-halo), transparent)" }}
-            />
-            <Image
-              src={PORTRAIT.src}
-              alt={PORTRAIT.alt}
-              width={PORTRAIT.width}
-              height={PORTRAIT.height}
-              preload
-              sizes="(min-width: 1280px) 326px, (min-width: 1024px) 305px, (min-width: 640px) 298px, 241px"
-              className="h-full w-auto select-none object-contain object-bottom"
-              draggable={false}
-            />
-          </figure>
-        </div>
       </div>
 
-      {/* Proof row — the portrait stands on this rule */}
+      {/* Proof row — on desktop the portrait stands on this rule */}
       <div className="relative z-[2]">
         <SectionRule />
         <div className="container-x">
@@ -100,7 +103,15 @@ export function Hero({ contributions, repos }: HeroProps) {
                   i === 3 ? "lg:pl-10" : "",
                 ].join(" ")}
               >
-                <dt className="label mt-3">{s.label}</dt>
+                <dt className="label mt-3 max-sm:tracking-[0.08em]">
+                  {s.label.split(" · ")[0]}
+                  {s.label.includes(" · ") ? (
+                    <span className="block md:inline">
+                      <span className="hidden md:inline"> · </span>
+                      {s.label.split(" · ")[1]}
+                    </span>
+                  ) : null}
+                </dt>
                 <dd className="text-[clamp(2.3rem,4.4vw,3.6rem)] font-medium leading-none tracking-[-0.045em] tabular-nums [font-stretch:112%]">
                   {s.value}
                 </dd>

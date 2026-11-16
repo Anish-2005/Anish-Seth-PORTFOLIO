@@ -9,7 +9,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Logo } from "@/components/site/Logo";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { siteConfig } from "@/lib/site.config";
-import { profile } from "@/data/portfolio";
+import { profile } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
 export const OPEN_COMMAND_EVENT = "open-command-palette";
@@ -88,6 +88,7 @@ export function Nav() {
                 <li key={item.id} className="nav-in" style={{ "--d": `${260 + i * 70}ms` } as React.CSSProperties}>
                   <Link
                     href={item.href}
+                    prefetch={isHome && item.href.startsWith("/#") ? false : undefined}
                     aria-current={isActive ? "true" : undefined}
                     className={cn(
                       "group/nav relative flex items-baseline gap-1.5 text-[0.86rem] transition-colors duration-300",
@@ -155,6 +156,7 @@ export function Nav() {
               >
                 <Link
                   href={item.href}
+                  prefetch={isHome && item.href.startsWith("/#") ? false : undefined}
                   onClick={() => setOpen(false)}
                   className="group/m flex items-center justify-between py-5 text-[2rem] font-semibold tracking-[-0.03em] [font-stretch:112%]"
                 >

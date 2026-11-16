@@ -30,11 +30,11 @@ export function Experience() {
               aria-hidden
               className="absolute -top-px left-0 h-px w-0 bg-accent transition-[width] duration-700 ease-[var(--ease-out-expo)] group-hover:w-full"
             />
-            <div>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 md:block">
               <p className="font-mono text-[0.78rem] tabular-nums">{job.period}</p>
-              <p className="label mt-1.5">{job.type}</p>
+              <p className="label md:mt-1.5">{job.type}</p>
               {job.current ? (
-                <p className="mt-4 inline-flex items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.08em] text-ok">
+                <p className="inline-flex md:mt-4 items-center gap-2 font-mono text-[0.7rem] uppercase tracking-[0.08em] text-ok">
                   <span className="pulse-dot size-1.5 rounded-full bg-ok text-ok" aria-hidden />
                   Current
                 </p>
@@ -91,9 +91,9 @@ export function Experience() {
 
       <div className="mt-16" data-reveal>
         <p className="label mb-4">Outside of work</p>
-        <ul className="grid border-t border-line sm:grid-cols-2">
+        <ul className="grid grid-cols-2 border-t border-line">
           {leadership.map((l, i) => (
-            <li key={l.role} className={`border-b border-line py-5 ${i % 2 === 1 ? "sm:border-l sm:pl-6" : "sm:pr-6"}`}>
+            <li key={l.role} className={`border-b border-line py-5 ${i % 2 === 1 ? "border-l pl-4 sm:pl-6" : "pr-4 sm:pr-6"}`}>
               <p className="text-[0.98rem] font-medium">{l.role}</p>
               <p className="mt-1 flex flex-wrap justify-between gap-x-4 text-[0.84rem] text-subtle">
                 <span>{l.org}</span>

@@ -1,4 +1,4 @@
-import { ContributionRing } from "@/components/oss/ContributionRing";
+import { LazyContributionRing } from "@/components/oss/LazyContributionRing";
 import { Section } from "@/components/ui/Section";
 import { profile } from "@/data/portfolio";
 import type { ContributionDay, GitHubStats } from "@/lib/github";
@@ -9,6 +9,25 @@ const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Frida
 const utc = (date: string) => new Date(`${date}T00:00:00Z`);
 const fmtDate = (date: string) =>
   utc(date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+
+/**
+ * Daily counts as a compact list (start date + counts + one digit per day for the level), with any
+ * missing days filled in as zero, so the page carries ~1KB instead of 365 day objects.
+ */
+function compactDays(days: ContributionDay[]) {
+  if (!days.length) return null;
+  const byDate = new Map(days.map((d) => [d.date, d]));
+  const t0 = Date.parse(`${days[0].date}T00:00:00Z`);
+  const n = Math.round((Date.parse(`${days[days.length - 1].date}T00:00:00Z`) - t0) / 86_400_000) + 1;
+  const counts: number[] = [];
+  let levels = "";
+  for (let i = 0; i < n; i++) {
+    const d = byDate.get(new Date(t0 + i * 86_400_000).toISOString().slice(0, 10));
+    counts.push(d?.count ?? 0);
+    levels += String(d?.level ?? 0);
+  }
+  return { start: days[0].date, counts, levels };
+}
 
 /** Little, human facts pulled out of a year of commits. */
 function funFacts(days: ContributionDay[]) {
@@ -32,6 +51,7 @@ function funFacts(days: ContributionDay[]) {
 
 export function OpenSource({ stats }: { stats: GitHubStats }) {
   const facts = funFacts(stats.days);
+  const ring = compactDays(stats.days);
 
   const rows = [
     facts ? { label: "Busiest month", value: facts.busiest.label, note: `${facts.busiest.count.toLocaleString("en-US")} contributions` } : null,
@@ -55,8 +75,8 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
       title={<>I push code most days.</>}
     >
       <div className="grid items-center gap-12 border-t border-line pt-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] md:gap-10" data-reveal>
-        {stats.days.length ? (
-          <ContributionRing days={stats.days} total={stats.contributionsLastYear} />
+        {ring ? (
+          <LazyContributionRing {...ring} total={stats.contributionsLastYear} />
         ) : (
           <div className="py-10 text-center">
             <p className="text-[clamp(3rem,7vw,5rem)] font-medium leading-none tracking-[-0.05em] tabular-nums [font-stretch:112%]">
@@ -70,14 +90,17 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
         <div>
           <p className="max-w-sm text-[0.95rem] leading-relaxed text-muted">
             Every spoke is one day of the last year, starting at the top and going clockwise to today. Longer means
-            busier. Hover over the ring to read any day.
+            busier. Hover or tap the ring to read any day.
           </p>
           {rows.length ? (
-            <dl className="mt-8 border-t border-line">
+            <dl className="mt-8 grid grid-cols-2 border-t border-line md:block">
               {rows.map((r) => (
-                <div key={r.label} className="flex items-baseline justify-between gap-4 border-b border-line py-3.5">
+                <div
+                  key={r.label}
+                  className="flex flex-col gap-1.5 border-b border-line py-3.5 odd:pr-4 even:border-l even:pl-4 [&:last-child:nth-child(odd)]:col-span-2 md:flex-row md:items-baseline md:justify-between md:gap-4 md:odd:pr-0 md:even:border-l-0 md:even:pl-0"
+                >
                   <dt className="label">{r.label}</dt>
-                  <dd className="text-right">
+                  <dd className="md:text-right">
                     <span className="block text-[1.05rem] font-medium tracking-[-0.01em] [font-stretch:108%]">{r.value}</span>
                     <span className="block font-mono text-[0.7rem] text-subtle">{r.note}</span>
                   </dd>

@@ -1,4 +1,5 @@
 import { Section } from "@/components/ui/Section";
+import { Swipe } from "@/components/ui/Swipe";
 import { skillGroups } from "@/data/portfolio";
 
 /** Skills as a spec sheet: one ruled row per layer of a production system. */
@@ -17,7 +18,7 @@ export function Capabilities() {
         </>
       }
     >
-      <dl className="border-t border-line">
+      <Swipe as="dl" className="border-t border-line">
         {rows.map((g, i) => (
           <div
             key={g.id}
@@ -45,7 +46,7 @@ export function Capabilities() {
             </dd>
           </div>
         ))}
-      </dl>
+      </Swipe>
     </Section>
   );
 }

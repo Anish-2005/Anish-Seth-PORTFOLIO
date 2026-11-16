@@ -58,9 +58,9 @@ export function Contact() {
 
         <div data-reveal style={{ "--d": "100ms" } as React.CSSProperties}>
           <p className="label mb-3">Elsewhere</p>
-          <ul className="border-t border-line">
+          <ul className="grid grid-cols-2 border-t border-line md:block">
             {socials.map((s) => (
-              <li key={s.label} className="border-b border-line">
+              <li key={s.label} className="border-b border-line odd:pr-4 even:border-l even:pl-4 md:odd:pr-0 md:even:border-l-0 md:even:pl-0">
                 <a
                   href={s.href}
                   target="_blank"

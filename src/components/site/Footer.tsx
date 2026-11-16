@@ -23,7 +23,7 @@ export function Footer() {
         <Lockup />
 
         <nav aria-label="Footer">
-          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+          <ul className="grid grid-cols-3 gap-x-6 gap-y-3 sm:flex sm:flex-wrap sm:gap-y-2">
             {links.map((l) => {
               const ext = l.href.startsWith("http");
               const cls = "link-u text-[0.88rem] text-muted transition-colors hover:text-fg";

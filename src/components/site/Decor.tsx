@@ -15,13 +15,13 @@ export function SectionDecor({ motif, detail }: { motif?: Motif; detail?: Detail
       ) : null}
 
       {motif === "grid" ? (
-        <div className="decor-grid absolute bottom-0 right-0 h-[80%] w-[62%] [mask-image:radial-gradient(ellipse_at_80%_80%,#000_0%,transparent_64%)]" />
+        <div className="decor-grid absolute bottom-0 right-0 hidden h-[80%] w-[62%] md:block [mask-image:radial-gradient(ellipse_at_80%_80%,#000_0%,transparent_64%)]" />
       ) : null}
 
       {motif === "rings" ? (
         <svg
           viewBox="0 0 600 600"
-          className="absolute right-[-180px] top-1/2 h-[min(640px,110%)] w-auto -translate-y-1/2 [mask-image:radial-gradient(circle_at_center,#000_35%,transparent_72%)]"
+          className="absolute right-[-180px] top-1/2 hidden h-[min(640px,110%)] w-auto -translate-y-1/2 md:block [mask-image:radial-gradient(circle_at_center,#000_35%,transparent_72%)]"
         >
           <g fill="none" stroke="var(--line-strong)" strokeWidth="1" vectorEffect="non-scaling-stroke">
             {[70, 130, 190, 250].map((r) => (
@@ -48,7 +48,7 @@ export function SectionDecor({ motif, detail }: { motif?: Motif; detail?: Detail
       ) : null}
 
       {motif === "mark" ? (
-        <svg viewBox="5.69 1.31 55.44 57.88" className="absolute bottom-[6%] right-[-40px] h-[min(560px,80%)] w-auto opacity-90">
+        <svg viewBox="5.69 1.31 55.44 57.88" className="absolute bottom-[6%] right-[-40px] hidden h-[min(560px,80%)] w-auto opacity-90 md:block">
           <path
             d={TRACE_PATH}
             fill="none"

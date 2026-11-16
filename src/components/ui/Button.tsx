@@ -40,7 +40,8 @@ export function ButtonLink({
   ...rest
 }: CommonProps & { href: string; external?: boolean } & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, "href">) {
   const classes = cn(base, variants[variant], sizes[size], className);
-  if (external || href.startsWith("http") || href.endsWith(".pdf") || href.startsWith("mailto:")) {
+  // Same-page anchors (#work) and files don't need client routing or a prefetch.
+  if (external || href.startsWith("#") || href.startsWith("http") || href.endsWith(".pdf") || href.startsWith("mailto:")) {
     return (
       <a
         href={href}

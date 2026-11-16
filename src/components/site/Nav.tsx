@@ -79,7 +79,7 @@ export function Nav() {
         )}
       >
         <nav aria-label="Primary" className="container-x flex h-16 items-center justify-between gap-6">
-          <Logo />
+          <Logo prefetch={isHome ? false : undefined} />
 
           <ul className="hidden items-center gap-7 md:flex">
             {siteConfig.nav.map((item, i) => {

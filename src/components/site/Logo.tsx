@@ -46,9 +46,10 @@ export function Lockup({ className }: { className?: string }) {
   );
 }
 
-export function Logo({ className }: { className?: string }) {
+/** `prefetch={false}` on the home page itself, where prefetching "/" would just download the page you're on. */
+export function Logo({ className, prefetch }: { className?: string; prefetch?: boolean }) {
   return (
-    <Link href="/" className={cn("logo group", className)} aria-label="Anish Seth, home">
+    <Link href="/" prefetch={prefetch} className={cn("logo group", className)} aria-label="Anish Seth, home">
       <Lockup />
     </Link>
   );

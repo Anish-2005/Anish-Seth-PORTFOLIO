@@ -10,6 +10,7 @@ import { Nav } from "@/components/site/Nav";
 import { Frame } from "@/components/site/Frame";
 import { EncoderDialLoader } from "@/components/site/EncoderDialLoader";
 import { RevealObserver } from "@/components/site/RevealObserver";
+import { ServiceWorker } from "@/components/perf/ServiceWorker";
 import WebVitalsReporter from "@/components/perf/WebVitalsReporter";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { siteGraph } from "@/lib/seo";
@@ -141,9 +142,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Footer />
         <CommandPaletteLoader />
         <RevealObserver />
-        <WebVitalsReporter />
+        {/* Only ship the vitals reporter when there is somewhere to send the numbers (or when debugging). */}
+        {process.env.NEXT_PUBLIC_WEB_VITALS_ENDPOINT || process.env.NEXT_PUBLIC_WEB_VITALS_DEBUG === "1" || process.env.NODE_ENV !== "production" ? (
+          <WebVitalsReporter />
+        ) : null}
         {/* Cookieless page views (enable "Web Analytics" for the project in the Vercel dashboard). */}
         <Analytics />
+        <ServiceWorker />
         <div className="noise" aria-hidden />
       </body>
     </html>

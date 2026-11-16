@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
-import { seoNotes, seoProjects } from "@/lib/seo-content";
+
+import { projects } from "@/data/portfolio";
+import { seoNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -7,41 +9,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
   return [
-    {
-      url: `${base}/`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 1.0,
-    },
-    {
-      url: `${base}/projects`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${base}/about`,
-      lastModified,
-      changeFrequency: "monthly",
-      priority: 0.85,
-    },
-    {
-      url: `${base}/notes`,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    ...seoProjects.map((project) => ({
-      url: `${base}/projects/${project.slug}`,
+    { url: `${base}/`, lastModified, changeFrequency: "weekly", priority: 1 },
+    { url: `${base}/projects`, lastModified, changeFrequency: "weekly", priority: 0.9 },
+    { url: `${base}/about`, lastModified, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${base}/notes`, lastModified, changeFrequency: "monthly", priority: 0.6 },
+    ...projects.map((p) => ({
+      url: `${base}/projects/${p.slug}`,
       lastModified,
       changeFrequency: "monthly" as const,
-      priority: 0.7,
+      priority: p.featured ? 0.8 : 0.7,
     })),
-    ...seoNotes.map((note) => ({
-      url: `${base}/notes/${note.slug}`,
-      lastModified,
-      changeFrequency: "monthly" as const,
-      priority: 0.6,
+    ...seoNotes.map((n) => ({
+      url: `${base}/notes/${n.slug}`,
+      lastModified: new Date(`${n.date}T00:00:00Z`),
+      changeFrequency: "yearly" as const,
+      priority: 0.5,
     })),
   ];
 }

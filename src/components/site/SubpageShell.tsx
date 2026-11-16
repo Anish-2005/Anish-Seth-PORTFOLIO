@@ -12,7 +12,7 @@ type SubpageShellProps = {
   chips?: string[];
   crumbs?: Crumb[];
   meta?: ReactNode;
-  children: ReactNode;
+  children?: ReactNode;
 };
 
 export function SubpageShell({ eyebrow, title, description, chips = [], crumbs = [], meta, children }: SubpageShellProps) {
@@ -76,7 +76,7 @@ export function SubpageShell({ eyebrow, title, description, chips = [], crumbs =
           ) : null}
         </div>
       </section>
-      <div className="container-x pb-24 md:pb-32">{children}</div>
+      {children ? <div className="container-x pb-24 md:pb-32">{children}</div> : null}
     </>
   );
 }

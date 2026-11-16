@@ -1,15 +1,12 @@
 import { ImageResponse } from "next/og";
 
-import { siteConfig } from "@/lib/site.config";
+import { profile } from "@/data/portfolio";
 
-export const runtime = "edge";
-
-export const alt = `${siteConfig.name} portfolio and personal website`;
-export const size = {
-  width: 1200,
-  height: 630,
-};
+export const alt = "Anish Seth — AI/ML Engineer building agentic AI, LLM systems and enterprise automation";
+export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+const tags = ["Agentic AI", "LangGraph", "AWS Bedrock", "MCP", "GraphRAG", "Next.js"];
 
 export default function OpenGraphImage() {
   return new ImageResponse(
@@ -19,87 +16,85 @@ export default function OpenGraphImage() {
           width: "100%",
           height: "100%",
           display: "flex",
-          alignItems: "stretch",
+          flexDirection: "column",
           justifyContent: "space-between",
-          padding: 64,
-          background:
-            "radial-gradient(circle at top left, rgba(239,68,68,0.28), transparent 32%), radial-gradient(circle at 85% 15%, rgba(244,114,182,0.22), transparent 28%), linear-gradient(135deg, #08070d 0%, #120a11 52%, #1d0f14 100%)",
-          color: "#fff7f7",
-          fontFamily: "Inter, Arial, sans-serif",
+          padding: "64px 72px",
+          color: "#f5f2f3",
+          backgroundColor: "#0a090b",
+          backgroundImage:
+            "radial-gradient(circle at 12% 0%, rgba(255,77,109,0.32), transparent 42%), radial-gradient(circle at 95% 20%, rgba(255,138,91,0.20), transparent 38%), linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "100% 100%, 100% 100%, 56px 56px, 56px 56px",
+          fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: "100%" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  width: "fit-content",
-                  padding: "10px 18px",
-                  borderRadius: 999,
-                  border: "1px solid rgba(255,255,255,0.16)",
-                  background: "rgba(255,255,255,0.06)",
-                  fontSize: 22,
-                  letterSpacing: 2,
-                  textTransform: "uppercase",
-                }}
-              >
-                Anish Seth
-              </div>
-              <div style={{ fontSize: 76, fontWeight: 800, lineHeight: 0.96, letterSpacing: -3, maxWidth: 820 }}>
-                Full-Stack Developer
-                <br />
-                &amp; AI Builder
-              </div>
-              <div style={{ fontSize: 28, lineHeight: 1.35, maxWidth: 760, color: "rgba(255,255,255,0.82)" }}>
-                Next.js, React, TypeScript, AI/ML, Web3, and product-focused engineering.
-              </div>
-            </div>
-
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <div
               style={{
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-end",
-                gap: 12,
-                fontSize: 24,
-                color: "rgba(255,255,255,0.82)",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 56,
+                height: 56,
+                borderRadius: 16,
+                background: "#f5f2f3",
+                color: "#0a090b",
+                fontSize: 22,
+                fontWeight: 700,
               }}
             >
-              <div style={{ padding: "10px 16px", borderRadius: 16, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)" }}>
-                anishseth.xyz
-              </div>
-              <div style={{ padding: "10px 16px", borderRadius: 16, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)" }}>
-                @AnishSeth170734
-              </div>
-              <div style={{ padding: "10px 16px", borderRadius: 16, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)" }}>
-                _anish.seth_
-              </div>
+              AS
             </div>
+            <div style={{ display: "flex", fontSize: 26, color: "#aca4a8" }}>anishseth.xyz</div>
           </div>
-
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              gap: 24,
+              alignItems: "center",
+              gap: 10,
+              padding: "10px 20px",
+              borderRadius: 999,
+              border: "1px solid rgba(255,255,255,0.14)",
+              fontSize: 22,
+              color: "#aca4a8",
             }}
           >
-            <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-              <div style={{ width: 22, height: 22, borderRadius: 999, background: "#fb7185", boxShadow: "0 0 40px rgba(251,113,133,0.55)" }} />
-              <div style={{ fontSize: 24, color: "rgba(255,255,255,0.78)" }}>
-                Portfolio, projects, and social profiles in one place.
-              </div>
-            </div>
-            <div style={{ fontSize: 20, color: "rgba(255,255,255,0.6)" }}>
-              anishseth.vercel.app • anishseth.xyz
-            </div>
+            <div style={{ width: 10, height: 10, borderRadius: 999, background: "#3ddc97" }} />
+            {`${profile.current.title} · ${profile.current.company}`}
           </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ display: "flex", fontSize: 104, fontWeight: 700, letterSpacing: -4, lineHeight: 1 }}>Anish Seth</div>
+          <div style={{ display: "flex", marginTop: 22, fontSize: 40, color: "#d9d2d5", letterSpacing: -1 }}>
+            AI/ML Engineer —{" "}
+            <span style={{ marginLeft: 12, color: "#ff4d6d" }}>agentic AI that holds up in production.</span>
+          </div>
+        </div>
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div style={{ display: "flex", gap: 12 }}>
+            {tags.map((t) => (
+              <div
+                key={t}
+                style={{
+                  display: "flex",
+                  padding: "10px 18px",
+                  borderRadius: 999,
+                  background: "rgba(255,255,255,0.06)",
+                  border: "1px solid rgba(255,255,255,0.1)",
+                  fontSize: 22,
+                  color: "#d9d2d5",
+                }}
+              >
+                {t}
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", fontSize: 22, color: "#857d81" }}>2× SIH National Finalist</div>
         </div>
       </div>
     ),
-    size
+    size,
   );
 }

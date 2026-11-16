@@ -117,11 +117,27 @@ let MB;
   for (const [name, svg] of Object.entries(files)) fs.writeFileSync(path.join(OUT, name), svg);
 
   // ── PNGs ────────────────────────────────────────────
-  const smallTile = (size) => tileSvg({ bg: P.night, stroke: P.bone, accent: P.signal, w: W_SMALL, scale: 0.9, rx: 13, size });
+
+  // Favicon: the bare mark, no tile. Square viewBox around the heavier small-size bbox.
+  const FB = await bbox(W_SMALL);
+  const side = Math.max(FB.w, FB.h) + 1.5;
+  const fvb = [FB.x + FB.w / 2 - side / 2, FB.y + FB.h / 2 - side / 2, side, side].map((n) => +n.toFixed(2)).join(" ");
+  const markSmall = (cls) =>
+    `<path${cls ? ' class="s"' : ""} d="${TRACE}" fill="none" stroke-width="${W_SMALL}" stroke-linecap="round" stroke-linejoin="miter" stroke-miterlimit="12"${cls ? "" : ` stroke="${P.ink}"`}/>` +
+    `<circle${cls ? ' class="n"' : ""} cx="${NODE.cx}" cy="${NODE.cy}" r="${(W_SMALL * 0.68).toFixed(2)}"${cls ? "" : ` fill="${P.crimson}"`}/>`;
+  // Adaptive SVG: ink on light browser chrome, bone on dark.
+  const faviconSvg =
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${fvb}">` +
+    `<style>.s{stroke:${P.ink}}.n{fill:${P.crimson}}@media (prefers-color-scheme:dark){.s{stroke:${P.bone}}.n{fill:${P.signal}}}</style>` +
+    markSmall(true) +
+    `</svg>`;
+  // Fixed-colour version for raster favicons (ICO/PNG can't adapt).
+  const faviconFixed = (size) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${fvb}" width="${size}" height="${size}">${markSmall(false)}</svg>`;
   const stdTile = (size, light = false) =>
     tileSvg(light ? { bg: P.paper, stroke: P.ink, accent: P.crimson, size } : { bg: P.night, stroke: P.bone, accent: P.signal, size });
 
-  for (const s of [16, 32, 48]) fs.writeFileSync(path.join(OUT, `icon-${s}.png`), await raster(smallTile(s), s));
+  for (const s of [16, 32, 48]) fs.writeFileSync(path.join(OUT, `favicon-${s}.png`), await raster(faviconFixed(s), s));
+  fs.writeFileSync(path.join(OUT, "favicon.svg"), faviconSvg);
   for (const s of [64, 128, 192, 256, 512, 1024]) fs.writeFileSync(path.join(OUT, `icon-${s}.png`), await raster(stdTile(s), s));
   for (const s of [512, 1024]) fs.writeFileSync(path.join(OUT, `icon-light-${s}.png`), await raster(stdTile(s, true), s));
 
@@ -142,7 +158,7 @@ let MB;
 
   // favicon.ico (16/32/48 PNG entries)
   const icoSizes = [16, 32, 48];
-  const pngs = await Promise.all(icoSizes.map((s) => raster(smallTile(s), s)));
+  const pngs = await Promise.all(icoSizes.map((s) => raster(faviconFixed(s), s)));
   const head = Buffer.alloc(6);
   head.writeUInt16LE(0, 0);
   head.writeUInt16LE(1, 2);
@@ -164,7 +180,7 @@ let MB;
 
   // ── Next.js app icons ───────────────────────────────
   fs.writeFileSync(path.join(APP, "favicon.ico"), ico);
-  fs.writeFileSync(path.join(APP, "icon.svg"), tileSvg({ bg: P.night, stroke: P.bone, accent: P.signal, w: W_SMALL, scale: 0.9, rx: 13 }));
+  fs.writeFileSync(path.join(APP, "icon.svg"), faviconSvg);
   fs.writeFileSync(path.join(APP, "apple-icon.png"), await raster(apple, 180));
 
   // Share-card copy of the inverse mark (read by opengraph-image at build time)
@@ -191,9 +207,9 @@ let MB;
   await put(files["lockup.svg"], 520, 940, 420);
   // Icons row
   let x = 40;
-  label("APP ICON + FAVICON", 40, 680);
+  label("APP ICON  ·  FAVICON (TRANSPARENT)", 40, 680);
   for (const s of [180, 120, 64, 48, 32, 16]) {
-    layers.push({ input: await raster(s <= 32 ? smallTile(s) : stdTile(s), s), left: x, top: 720 + (180 - s) });
+    layers.push({ input: await raster(s <= 48 ? faviconFixed(s) : stdTile(s), s), left: x, top: 720 + (180 - s) });
     x += s + 36;
   }
   layers.push({ input: await raster(stdTile(180, true), 180), left: x + 20, top: 720 });

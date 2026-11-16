@@ -7,6 +7,7 @@ export function About({ portrait = false }: { portrait?: boolean }) {
   return (
     <Section
       id="about"
+      motif="dots"
       index="01"
       label="About"
       title={

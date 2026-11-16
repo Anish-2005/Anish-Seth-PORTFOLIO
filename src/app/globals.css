@@ -235,6 +235,67 @@
   height: 1px;
 }
 
+/* Trace node: where a section rule crosses the content guide. Lights up once its rule is revealed. */
+.trace-node {
+  position: absolute;
+  top: 0;
+  width: 9px;
+  height: 9px;
+  translate: -50% -50%;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1.5px solid var(--fg-subtle);
+  transition:
+    background-color 0.5s var(--ease-out-expo) 0.35s,
+    border-color 0.5s var(--ease-out-expo) 0.35s;
+}
+.trace-node::after {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  border: 1.5px solid var(--accent);
+  opacity: 0;
+}
+.rule[data-revealed] + .shell .trace-node {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .rule[data-revealed] + .shell .trace-node::after {
+    animation: node-ping 1.6s var(--ease-out-expo) 0.45s both;
+  }
+}
+@keyframes node-ping {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(3.4);
+  }
+}
+
+/* Trace fill: a crimson line that fills the content guide with scroll progress (CSS scroll-driven). */
+.trace-fill {
+  background: linear-gradient(to bottom, transparent, var(--accent) 12%);
+  opacity: 0.75;
+  transform-origin: 50% 0;
+  transform: scaleY(0);
+}
+@supports (animation-timeline: scroll()) {
+  .trace-fill {
+    animation: trace-fill linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+@keyframes trace-fill {
+  to {
+    transform: scaleY(1);
+  }
+}
+
 /* Section rule draws itself when revealed */
 .rule {
   transform-origin: 0 50%;
@@ -254,6 +315,33 @@
 @utility under-header {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 64px, #000 168px);
   mask-image: linear-gradient(to bottom, transparent 0, transparent 64px, #000 168px);
+}
+
+/* Oversized outlined section index (sits in the label column). */
+.decor-numeral {
+  font-size: clamp(6rem, 9vw, 9.5rem);
+  font-weight: 700;
+  font-stretch: 118%;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line-strong);
+  user-select: none;
+}
+
+/* Graph-paper texture: fine minor grid + stronger major lines every five cells. */
+.decor-grid {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px),
+    linear-gradient(var(--guide) 1px, transparent 1px),
+    linear-gradient(90deg, var(--guide) 1px, transparent 1px);
+  background-size:
+    140px 140px,
+    140px 140px,
+    28px 28px,
+    28px 28px;
+  background-position: right bottom;
 }
 
 /* Dot field */
@@ -349,6 +437,53 @@
 @keyframes logo-node-again {
   from {
     transform: scale(0);
+  }
+}
+
+/* Nav entrance: guides draw down, the lockup assembles (mark → hairline → name), links follow. */
+@media (prefers-reduced-motion: no-preference) {
+  .guide-line {
+    transform-origin: 50% 0;
+    animation: guide-draw 1.8s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+  header .lockup-rule {
+    animation: rule-grow 0.8s var(--ease-out-expo) 0.7s both;
+  }
+  header .lockup-name {
+    animation: name-in 1.1s var(--ease-out-expo) 0.85s both;
+  }
+  header .nav-in {
+    animation: nav-in 0.9s var(--ease-out-expo) both;
+    animation-delay: var(--d, 0ms);
+  }
+}
+@keyframes guide-draw {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes rule-grow {
+  from {
+    transform: scaleY(0);
+  }
+}
+@keyframes name-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    transform: translate3d(-6px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+@keyframes nav-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0);
   }
 }
 
@@ -463,6 +598,107 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* Section titles rise out of a mask instead of a plain fade. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .title[data-reveal] {
+    opacity: 1;
+    transform: translate3d(0, 0.4em, 0);
+    clip-path: inset(-0.2em 0 100% 0);
+    transition:
+      clip-path 1.2s var(--ease-out-expo),
+      transform 1.2s var(--ease-out-expo);
+    transition-delay: var(--d, 0ms);
+  }
+  .js .title[data-reveal][data-revealed],
+  .js.reveal-fallback:not(.reveal-ready) .title[data-reveal] {
+    transform: none;
+    clip-path: inset(-0.2em 0 -0.3em 0);
+  }
+}
+
+/* Project art draws itself in when its card is revealed, and redraws on hover. */
+.art-draw {
+  stroke-dasharray: 1 1.01;
+}
+.art-pop {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-revealed] .art-draw {
+    animation: art-draw 1.8s var(--ease-in-out) 0.25s both;
+  }
+  [data-revealed] .art-pop {
+    animation: art-pop 0.7s var(--ease-out-expo) 1.2s both;
+  }
+  [data-revealed] .group:hover .art-draw,
+  [data-revealed].group:hover .art-draw {
+    animation: art-redraw 1.3s var(--ease-in-out) both;
+  }
+  [data-revealed] .group:hover .art-pop,
+  [data-revealed].group:hover .art-pop {
+    animation: art-pop-again 0.6s var(--ease-out-expo) 0.9s both;
+  }
+}
+@keyframes art-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes art-redraw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes art-pop {
+  from {
+    transform: scale(0);
+  }
+}
+@keyframes art-pop-again {
+  from {
+    transform: scale(0);
+  }
+}
+
+/* Contribution heatmap ripples in, column by column. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal]:not([data-revealed]) .heat-cell {
+    opacity: 0;
+  }
+  [data-revealed] .heat-cell {
+    animation: cell-in 0.6s var(--ease-out-expo) both;
+    animation-delay: calc(var(--c, 0) * 14ms + var(--r, 0) * 24ms + 150ms);
+  }
+}
+@keyframes cell-in {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+.heat-cell {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Signature trace under the contact headline (echoes the logo stroke + node). */
+.swash-path {
+  stroke-dasharray: 1 1.01;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .title[data-revealed] .swash-path {
+    animation: art-draw 1.6s var(--ease-in-out) 0.6s both;
+  }
+  .title[data-revealed] .swash-node {
+    animation: art-pop 0.6s var(--ease-out-expo) 2s both;
+  }
+}
+.swash-node {
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 /* Status pulse (layered so utilities like `absolute` can override position) */

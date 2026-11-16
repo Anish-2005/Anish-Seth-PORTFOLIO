@@ -40,8 +40,8 @@ export function Lockup({ className }: { className?: string }) {
   return (
     <span className={cn("flex items-center gap-3", className)}>
       <LogoMark />
-      <span aria-hidden className="h-[18px] w-px bg-current opacity-25" />
-      <span className="font-mono text-[0.72rem] font-medium uppercase leading-none tracking-[0.14em]">Anish Seth</span>
+      <span aria-hidden className="lockup-rule h-[18px] w-px bg-current opacity-25" />
+      <span className="lockup-name font-mono text-[0.72rem] font-medium uppercase leading-none tracking-[0.14em]">Anish Seth</span>
     </span>
   );
 }

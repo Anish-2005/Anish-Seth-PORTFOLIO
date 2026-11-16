@@ -85,7 +85,7 @@ export function Nav() {
             {siteConfig.nav.map((item, i) => {
               const isActive = isHome && active === item.id;
               return (
-                <li key={item.id}>
+                <li key={item.id} className="nav-in" style={{ "--d": `${260 + i * 70}ms` } as React.CSSProperties}>
                   <Link
                     href={item.href}
                     aria-current={isActive ? "true" : undefined}
@@ -111,7 +111,7 @@ export function Nav() {
             })}
           </ul>
 
-          <div className="flex items-center gap-1">
+          <div className="nav-in flex items-center gap-1" style={{ "--d": "640ms" } as React.CSSProperties}>
             <ThemeToggle />
             <a
               href={profile.links.resume}

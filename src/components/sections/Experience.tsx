@@ -5,6 +5,7 @@ export function Experience() {
   return (
     <Section
       id="experience"
+      motif="rings"
       index="02"
       label="Experience"
       title={

@@ -10,6 +10,7 @@ export function Work({ repoCount }: { repoCount: number }) {
   return (
     <Section
       id="work"
+      motif="grid"
       index="03"
       label="Selected work"
       note={

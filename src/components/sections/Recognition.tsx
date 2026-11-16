@@ -5,6 +5,7 @@ export function Recognition() {
   return (
     <Section
       id="recognition"
+      motif="grid"
       index="06"
       label="Recognition"
       title={

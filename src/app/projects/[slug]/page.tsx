@@ -120,7 +120,7 @@ export default async function ProjectPage({ params }: Props) {
         </aside>
 
         <article className="min-w-0 lg:col-span-9 lg:pl-10">
-          <figure className="fade-in" style={{ "--d": "320ms" } as React.CSSProperties}>
+          <figure className="fade-in" data-reveal style={{ "--d": "320ms" } as React.CSSProperties}>
             <div className="relative">
               <div className="aspect-[16/9] overflow-hidden bg-bg-elev">
                 <ProjectArt kind={project.art} id={`hero-${project.slug}`} />

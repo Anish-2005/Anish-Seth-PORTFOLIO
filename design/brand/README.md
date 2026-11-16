@@ -15,19 +15,19 @@ Everything lives in [`/public/brand`](../../public/brand). It's served at `https
 | One-colour (print, stamps, overlays) | `mark-mono-black.svg` · `mark-mono-white.svg` |
 | Mark + name, horizontal | `lockup.svg` · `lockup-2400.png` |
 | Mark + name on dark | `lockup-inverse.svg` · `lockup-inverse-2400.png` |
-| App icon (dark, default) | `icon.svg` · `icon-{64,128,192,256,512,1024}.png` |
+| App icon (dark tile) | `icon.svg` · `icon-{64,128,192,256,512,1024}.png` |
 | App icon (light) | `icon-light.svg` · `icon-light-{512,1024}.png` |
-| Favicon | `favicon.ico` (16/32/48) · `icon-{16,32,48}.png` |
+| Favicon: bare mark, transparent | `favicon.svg` (switches ink/bone with the browser theme) · `favicon.ico` (16/32/48) · `favicon-{16,32,48}.png` |
 | iOS home screen | `apple-touch-icon.png` (180, full-bleed) |
 | Android / PWA maskable | `icon-maskable-512.png` (mark inside the 80% safe zone) |
 
-Small sizes (≤ 32 px) use a heavier optical weight (stroke 8.4 instead of 6.6 on the 64-unit grid) so the mark stays crisp in browser tabs.
+The favicon has no background. The SVG version uses `prefers-color-scheme`, so the stroke is ink on light browser tabs and bone on dark ones. The ICO/PNG fallbacks use ink. Favicons use a heavier optical weight (stroke 8.4 instead of 6.6 on the 64-unit grid) so the mark stays crisp at 16 px. Home-screen icons (iOS, Android) keep the Night tile because those platforms fill transparency with black.
 
 ### Drop-in snippets
 
 ```html
 <link rel="icon" href="https://anishseth.xyz/brand/favicon.ico" sizes="any" />
-<link rel="icon" href="https://anishseth.xyz/brand/icon.svg" type="image/svg+xml" />
+<link rel="icon" href="https://anishseth.xyz/brand/favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="https://anishseth.xyz/brand/apple-touch-icon.png" />
 ```
 
@@ -55,7 +55,7 @@ In the exported lockups the name is converted to outlines, so no font installati
 ## Rules
 
 - **Clear space:** keep at least one node diameter of empty space on every side.
-- **Minimum size:** 16 px for the icon tile, 20 px tall for the bare mark, 120 px wide for the lockup.
+- **Minimum size:** 16 px for the favicon, 20 px tall for the bare mark in UI, 120 px wide for the lockup.
 - **Don’t:**
   - Rotate, outline or add effects or gradients.
   - Recolour the node to anything but Signal or Crimson (mono versions excepted).

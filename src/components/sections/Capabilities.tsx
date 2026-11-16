@@ -7,6 +7,7 @@ export function Capabilities() {
   return (
     <Section
       id="skills"
+      motif="dots"
       index="04"
       label="Capabilities"
       title={

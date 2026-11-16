@@ -29,11 +29,13 @@ export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string;
               x1={n[a][0]} y1={n[a][1]} x2={n[b][0]} y2={n[b][1]}
               stroke={hot.has(`${a}-${b}`) ? A : L}
               strokeWidth={hot.has(`${a}-${b}`) ? 2 : 1}
+              {...(hot.has(`${a}-${b}`) ? { className: "art-draw", pathLength: 1 } : {})}
             />
           ))}
           {n.map(([x, y], i) => (
             <circle key={i} cx={x} cy={y} r={i === 8 ? 11 : [1, 5, 4].includes(i) ? 8 : 6}
-              fill={[8, 1, 5, 4].includes(i) ? A : E} stroke={[8, 1, 5, 4].includes(i) ? "none" : L} />
+              fill={[8, 1, 5, 4].includes(i) ? A : E} stroke={[8, 1, 5, 4].includes(i) ? "none" : L}
+              className={[8, 1, 5, 4].includes(i) ? "art-pop" : undefined} />
           ))}
           <text x={219} y={129} fill="var(--accent-fg)" fontSize="9" fontFamily="var(--font-mono)" textAnchor="middle">Q</text>
         </g>
@@ -49,9 +51,10 @@ export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string;
             stroke={i === 0 ? A : L}
             strokeWidth={i === 0 ? 2 : 1}
             fill={i === 2 ? E : "none"}
+            {...(i === 0 ? { className: "art-draw", pathLength: 1 } : {})}
           />
         ))}
-        <path d="M182 122 l12 12 l24 -26" stroke={A} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M182 122 l12 12 l24 -26" stroke={A} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="art-draw" pathLength={1} />
         {[[70, 60, "UPI"], [300, 70, "OTP"], [60, 170, "URL"], [310, 175, "SMS"]].map(([x, y, t]) => (
           <g key={t as string}>
             <rect x={(x as number) - 22} y={(y as number) - 11} width="44" height="22" rx="11" fill={E} stroke={L} />
@@ -66,12 +69,12 @@ export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string;
           <line key={y} x1="40" x2="360" y1={y} y2={y} stroke={L} strokeDasharray="2 5" />
         ))}
         <path d="M40 185 L80 170 L115 176 L150 140 L185 150 L220 112 L255 120 L290 84 L325 92 L360 55 L360 200 L40 200 Z" fill={A} opacity="0.08" />
-        <path d="M40 185 L80 170 L115 176 L150 140 L185 150 L220 112 L255 120 L290 84 L325 92 L360 55" fill="none" stroke={A} strokeWidth="2.5" strokeLinejoin="round" />
+        <path d="M40 185 L80 170 L115 176 L150 140 L185 150 L220 112 L255 120 L290 84 L325 92 L360 55" fill="none" stroke={A} strokeWidth="2.5" strokeLinejoin="round" className="art-draw" pathLength={1} />
         {[[70, 150, 30], [110, 160, 22], [150, 125, 28], [190, 132, 26], [230, 98, 30], [270, 100, 22], [310, 72, 26]].map(([x, y, h], i) => (
           <rect key={i} x={x - 4} y={y} width="8" height={h} rx="2" fill={i % 3 === 1 ? "var(--fg-subtle)" : E} stroke={L} opacity="0.9" />
         ))}
-        <circle cx="360" cy="55" r="6" fill={A} />
-        <circle cx="360" cy="55" r="12" fill="none" stroke={A} opacity="0.4" />
+        <circle cx="360" cy="55" r="6" fill={A} className="art-pop" />
+        <circle cx="360" cy="55" r="12" fill="none" stroke={A} opacity="0.4" className="art-pop" />
       </g>
     ),
     map: (
@@ -82,11 +85,12 @@ export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string;
             d={`M${70 + i * 18} ${120} C ${70 + i * 18} ${50 + i * 14}, ${330 - i * 18} ${40 + i * 14}, ${330 - i * 18} ${118} S ${90 + i * 18} ${205 - i * 14}, ${70 + i * 18} ${120} Z`}
             stroke={i === 4 ? A : L}
             strokeWidth={i === 4 ? 2 : 1}
+            {...(i === 4 ? { className: "art-draw", pathLength: 1 } : {})}
           />
         ))}
         {[[120, 95], [250, 80], [215, 160]].map(([x, y], i) => (
           <g key={i} transform={`translate(${x} ${y})`}>
-            <path d="M0 0 C -9 -10 -9 -22 0 -24 C 9 -22 9 -10 0 0 Z" fill={i === 1 ? A : E} stroke={i === 1 ? "none" : L} />
+            <path d="M0 0 C -9 -10 -9 -22 0 -24 C 9 -22 9 -10 0 0 Z" fill={i === 1 ? A : E} stroke={i === 1 ? "none" : L} className={i === 1 ? "art-pop" : undefined} />
             <circle cy="-16" r="3" fill={i === 1 ? "var(--accent-fg)" : S} />
           </g>
         ))}
@@ -134,7 +138,7 @@ export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string;
     pulse: (
       <g fill="none">
         <path d="M30 130 H110 L122 112 L134 146 L146 124 L160 130 H200 L212 60 L226 196 L240 102 L252 130 H370" stroke={L} strokeWidth="1.5" />
-        <path d="M200 130 L212 60 L226 196 L240 102 L252 130" stroke={A} strokeWidth="2.5" strokeLinejoin="round" />
+        <path d="M200 130 L212 60 L226 196 L240 102 L252 130" stroke={A} strokeWidth="2.5" strokeLinejoin="round" className="art-draw" pathLength={1} />
         <rect x="190" y="44" width="72" height="166" rx="10" stroke={A} strokeDasharray="4 4" opacity="0.7" />
         <text x="226" y="36" fill={S} fontSize="10" fontFamily="var(--font-mono)" textAnchor="middle">anomaly · 41ms</text>
       </g>
@@ -180,7 +184,7 @@ export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string;
       return (
         <g>
           {pts.map(([x, y], i) => (
-            <line key={`c-${i}`} x1="200" y1="120" x2={x} y2={y} stroke={i % 3 === 0 ? A : L} strokeWidth={i % 3 === 0 ? 1.6 : 1} />
+            <line key={`c-${i}`} x1="200" y1="120" x2={x} y2={y} stroke={i % 3 === 0 ? A : L} strokeWidth={i % 3 === 0 ? 1.6 : 1} {...(i % 3 === 0 ? { className: "art-draw", pathLength: 1 } : {})} />
           ))}
           {pts.map(([x, y], i) => {
             const [nx, ny] = pts[(i + 2) % pts.length];
@@ -189,7 +193,7 @@ export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string;
           {pts.map(([x, y], i) => (
             <circle key={`n-${i}`} cx={x} cy={y} r={i % 3 === 0 ? 8 : 6} fill={i % 3 === 0 ? A : E} stroke={i % 3 === 0 ? "none" : L} />
           ))}
-          <circle cx="200" cy="120" r="16" fill={A} />
+          <circle cx="200" cy="120" r="16" fill={A} className="art-pop" />
           <circle cx="200" cy="120" r="26" fill="none" stroke={A} opacity="0.35" />
         </g>
       );
@@ -208,9 +212,9 @@ export function ProjectArt({ kind, id, className }: { kind: ArtKind; id: string;
     tree: (
       <g fill="none">
         <path d="M60 150 H340" stroke={L} strokeWidth="2" />
-        <path d="M120 150 C 150 150, 150 90, 180 90 H 250 C 280 90, 280 150, 300 150" stroke={A} strokeWidth="2" />
+        <path d="M120 150 C 150 150, 150 90, 180 90 H 250 C 280 90, 280 150, 300 150" stroke={A} strokeWidth="2" className="art-draw" pathLength={1} />
         {[60, 120, 200, 300, 340].map((x) => (
-          <circle key={`m-${x}`} cx={x} cy="150" r="9" fill={x === 300 ? A : E} stroke={x === 300 ? "none" : L} strokeWidth="1.5" />
+          <circle key={`m-${x}`} cx={x} cy="150" r="9" fill={x === 300 ? A : E} stroke={x === 300 ? "none" : L} strokeWidth="1.5" className={x === 300 ? "art-pop" : undefined} />
         ))}
         {[180, 215, 250].map((x) => (
           <circle key={`b-${x}`} cx={x} cy="90" r="8" fill={E} stroke={A} strokeWidth="1.5" />

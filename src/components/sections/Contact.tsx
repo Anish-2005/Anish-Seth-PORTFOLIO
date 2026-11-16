@@ -15,12 +15,35 @@ export function Contact() {
   return (
     <Section
       id="contact"
+      motif="mark"
       index="07"
       label="Contact"
       titleClassName="!text-[clamp(2.6rem,6.4vw,5.4rem)] !leading-[0.96] !tracking-[-0.045em]"
       title={
         <>
-          Let&apos;s build something <span className="text-accent">reliable.</span>
+          Let&apos;s build something{" "}
+          <span className="relative inline-block whitespace-nowrap">
+            reliable.
+            {/* Signature trace — the logo's stroke-and-node, drawn under the promise. */}
+            <svg
+              aria-hidden
+              viewBox="0 0 300 30"
+              preserveAspectRatio="none"
+              className="pointer-events-none absolute -bottom-[0.18em] left-0 h-[0.28em] w-[96%] overflow-visible"
+            >
+              <path
+                className="swash-path"
+                pathLength={1}
+                d="M4 18 C 60 27, 110 7, 170 14 S 262 25, 288 10"
+                fill="none"
+                stroke="var(--accent)"
+                strokeWidth="3"
+                strokeLinecap="round"
+                vectorEffect="non-scaling-stroke"
+              />
+            </svg>
+            <span aria-hidden className="swash-node absolute -bottom-[0.07em] left-[calc(92%-0.07em)] size-[0.14em] rounded-full bg-accent" />
+          </span>
         </>
       }
     >

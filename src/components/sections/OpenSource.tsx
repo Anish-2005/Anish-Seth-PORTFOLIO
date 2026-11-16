@@ -69,6 +69,8 @@ function Heatmap({ days }: { days: ContributionDay[] }) {
             height={CELL}
             rx={1.5}
             fill={`var(--heat-${d.level})`}
+            className="heat-cell"
+            style={{ "--c": col, "--r": row } as React.CSSProperties}
           >
             <title>{`${d.count} contribution${d.count === 1 ? "" : "s"} · ${fmtDate(d.date)}`}</title>
           </rect>
@@ -89,6 +91,7 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
   return (
     <Section
       id="open-source"
+      motif="rings"
       index="05"
       label="Open source"
       note={

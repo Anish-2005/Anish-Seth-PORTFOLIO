@@ -22,6 +22,12 @@ const MOBILE_ROWS = 5;
 export function ProjectIndex({ projects }: { projects: ProjectRow[] }) {
   const [filter, setFilter] = useState<Filter>("all");
   const [hovered, setHovered] = useState<string | null>(null);
+  // Artwork kept in the cursor preview: the current one and the previous one (for the crossfade).
+  const [shown, setShown] = useState<string[]>([]);
+  const hover = (slug: string) => {
+    setHovered(slug);
+    setShown((prev) => (prev.includes(slug) ? prev : [...prev, slug].slice(-2)));
+  };
   const [showAll, setShowAll] = useState(false);
   const lite = useLite();
   const previewRef = useRef<HTMLDivElement>(null);
@@ -87,10 +93,7 @@ export function ProjectIndex({ projects }: { projects: ProjectRow[] }) {
               type="button"
               aria-pressed={active}
               onClick={() => setFilter(f.id)}
-              className={cn(
-                "relative py-1 text-[0.9rem] transition-colors",
-                active ? "text-fg" : "text-subtle hover:text-fg",
-              )}
+              className={cn("relative py-1 text-[0.9rem] transition-colors", active ? "text-fg" : "text-subtle hover:text-fg")}
             >
               {f.label}
               <sup className="ml-1 font-mono text-[0.62rem] text-subtle">{f.count}</sup>
@@ -113,15 +116,17 @@ export function ProjectIndex({ projects }: { projects: ProjectRow[] }) {
               <Link
                 href={`/projects/${p.slug}`}
                 prefetch={lite ? false : undefined}
-                onMouseEnter={() => setHovered(p.slug)}
-                onFocus={() => setHovered(p.slug)}
+                onMouseEnter={() => hover(p.slug)}
+                onFocus={() => hover(p.slug)}
                 onBlur={() => setHovered(null)}
                 className="group/row grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-4 py-5 transition-[color,padding] duration-500 ease-[var(--ease-out-expo)] group-hover/list:text-subtle hover:!text-fg md:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_3.5rem_1.25rem] md:py-6 md:hover:pl-3"
               >
                 <span className="min-w-0">
                   <span className="block truncate text-[1.12rem] font-medium tracking-[-0.015em] [font-stretch:106%] md:text-[1.28rem]">
                     {p.title}
-                    {p.badge ? <span className="ml-2 align-middle font-mono text-[0.62rem] uppercase tracking-[0.06em] text-accent-ink">★ SIH</span> : null}
+                    {p.badge ? (
+                      <span className="ml-2 align-middle font-mono text-[0.62rem] uppercase tracking-[0.06em] text-accent-ink">★ SIH</span>
+                    ) : null}
                   </span>
                   <span className="mt-0.5 block truncate text-[0.84rem] text-subtle md:hidden">{p.kicker}</span>
                 </span>
@@ -156,11 +161,16 @@ export function ProjectIndex({ projects }: { projects: ProjectRow[] }) {
             hovered ? "scale-100 opacity-100" : "scale-90 opacity-0",
           )}
         >
-          {projects.map((p) => (
-            <div key={p.slug} className={cn("absolute inset-0 transition-opacity duration-300", hovered === p.slug ? "opacity-100" : "opacity-0")}>
-              <ProjectArt kind={p.art} id={`pv-${p.slug}`} />
-            </div>
-          ))}
+          {projects
+            .filter((p) => shown.includes(p.slug))
+            .map((p) => (
+              <div
+                key={p.slug}
+                className={cn("absolute inset-0 transition-opacity duration-300", hovered === p.slug ? "opacity-100" : "opacity-0")}
+              >
+                <ProjectArt kind={p.art} id={`pv-${p.slug}`} />
+              </div>
+            ))}
         </div>
       </div>
     </div>

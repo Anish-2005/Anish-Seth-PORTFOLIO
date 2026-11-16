@@ -23,21 +23,31 @@ export function Wordmark({ hostId }: { hostId: string }) {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const letters = Array.from(el.querySelectorAll<HTMLSpanElement>("[data-ch]"));
+    // Geometry is read only inside ResizeObserver callbacks, which run right after layout, so reading
+    // it never forces an extra synchronous layout. Positions are kept in page coordinates, so
+    // scrolling needs no re-measuring at all.
     let centers: number[] = [];
-    let box = el.getBoundingClientRect();
-    let hostBox = host.getBoundingClientRect();
+    let box = { left: 0, top: 0, width: 0, height: 0 };
+    let hostPage = { left: 0, top: 0 };
     let frame = 0;
     let waveFrame = 0;
     let idleTimer = 0;
+    let waves = 0;
     let visible = true;
     let pending: { x: number; y: number } | null = null;
+    // Touch screens have no pointer to follow: a couple of waves show the effect, then it rests.
+    const maxWaves = window.matchMedia("(hover: hover) and (pointer: fine)").matches ? Infinity : 2;
 
     const measure = () => {
-      box = el.getBoundingClientRect();
-      hostBox = host.getBoundingClientRect();
+      const sx = window.scrollX;
+      const sy = window.scrollY;
+      const r = el.getBoundingClientRect();
+      const h = host.getBoundingClientRect();
+      box = { left: r.left + sx, top: r.top + sy, width: r.width, height: r.height };
+      hostPage = { left: h.left + sx, top: h.top + sy };
       centers = letters.map((l) => {
-        const r = l.getBoundingClientRect();
-        return r.left + r.width / 2 - box.left;
+        const lr = l.getBoundingClientRect();
+        return lr.left + sx + lr.width / 2 - box.left;
       });
     };
 
@@ -52,9 +62,10 @@ export function Wordmark({ hostId }: { hostId: string }) {
       });
     };
 
-    const spotlight = (clientX: number, clientY: number) => {
-      host.style.setProperty("--hx", `${clientX - hostBox.left}px`);
-      host.style.setProperty("--hy", `${clientY - hostBox.top}px`);
+    /** Page coordinates in, spotlight position relative to the hero out. */
+    const spotlight = (pageX: number, pageY: number) => {
+      host.style.setProperty("--hx", `${pageX - hostPage.left}px`);
+      host.style.setProperty("--hy", `${pageY - hostPage.top}px`);
     };
 
     const stopWave = () => {
@@ -64,12 +75,12 @@ export function Wordmark({ hostId }: { hostId: string }) {
 
     const scheduleWave = () => {
       window.clearTimeout(idleTimer);
-      idleTimer = window.setTimeout(runWave, IDLE_MS);
+      if (waves < maxWaves) idleTimer = window.setTimeout(runWave, IDLE_MS);
     };
 
     const runWave = () => {
-      if (!visible || document.visibilityState !== "visible") return scheduleWave();
-      measure();
+      if (!visible || document.visibilityState !== "visible" || !box.width) return scheduleWave();
+      waves++;
       const start = performance.now();
       const from = -0.15 * box.width;
       const to = 1.15 * box.width;
@@ -93,7 +104,7 @@ export function Wordmark({ hostId }: { hostId: string }) {
       if (e.pointerType !== "mouse") return;
       stopWave();
       window.clearTimeout(idleTimer);
-      pending = { x: e.clientX, y: e.clientY };
+      pending = { x: e.pageX, y: e.pageY };
       if (!frame)
         frame = requestAnimationFrame(() => {
           frame = 0;
@@ -113,32 +124,25 @@ export function Wordmark({ hostId }: { hostId: string }) {
       visible = entry.isIntersecting;
       if (!visible) stopWave();
     });
-
-    const onResize = () => measure();
-    const onScroll = () => {
-      box = el.getBoundingClientRect();
-      hostBox = host.getBoundingClientRect();
-    };
+    // Fires once after the first layout, then whenever the name or hero changes size (fonts, resize).
+    const ro = new ResizeObserver(measure);
 
     io.observe(host);
-    document.fonts?.ready.then(measure);
-    measure();
+    ro.observe(el);
+    ro.observe(host);
     host.addEventListener("pointermove", onMove);
     host.addEventListener("pointerleave", onLeave);
-    window.addEventListener("resize", onResize);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    // First wave shortly after the intro animation settles.
-    idleTimer = window.setTimeout(runWave, 2200);
+    // First wave once the page has settled.
+    idleTimer = window.setTimeout(runWave, 3000);
 
     return () => {
       io.disconnect();
+      ro.disconnect();
       stopWave();
       if (frame) cancelAnimationFrame(frame);
       window.clearTimeout(idleTimer);
       host.removeEventListener("pointermove", onMove);
       host.removeEventListener("pointerleave", onLeave);
-      window.removeEventListener("resize", onResize);
-      window.removeEventListener("scroll", onScroll);
     };
   }, [hostId]);
 

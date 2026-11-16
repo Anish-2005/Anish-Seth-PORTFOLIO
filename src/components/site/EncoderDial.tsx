@@ -3,6 +3,8 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
+import "./encoder-dial.css";
+
 const SHELL = 1240; // keep in sync with --shell
 const MIN_MARGIN = 56; // laptops and up
 const SPIN = 0.06; // degrees of rotation per pixel scrolled

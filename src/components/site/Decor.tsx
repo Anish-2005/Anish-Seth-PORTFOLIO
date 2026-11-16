@@ -1,5 +1,13 @@
 import { TRACE_PATH } from "@/components/site/Logo";
 
+/** The ring's 72 tick marks as a single path (one element instead of 72). */
+const RING_TICKS = Array.from({ length: 72 }, (_, i) => {
+  const a = (i / 72) * Math.PI * 2;
+  const r2 = i % 6 === 0 ? 266 : 258;
+  const p = (r: number) => `${(300 + Math.cos(a) * r).toFixed(2)} ${(300 + Math.sin(a) * r).toFixed(2)}`;
+  return `M${p(250)}L${p(r2)}`;
+}).join("");
+
 export type Motif = "dots" | "grid" | "rings" | "mark";
 export type Detail = "hatch" | "graph" | "waves";
 
@@ -28,20 +36,7 @@ export function SectionDecor({ motif, detail }: { motif?: Motif; detail?: Detail
               <circle key={r} cx="300" cy="300" r={r} />
             ))}
             <path d="M300 20 V580 M20 300 H580" strokeDasharray="3 7" />
-            {Array.from({ length: 72 }, (_, i) => {
-              const a = (i / 72) * Math.PI * 2;
-              const r1 = 250;
-              const r2 = i % 6 === 0 ? 266 : 258;
-              return (
-                <line
-                  key={i}
-                  x1={300 + Math.cos(a) * r1}
-                  y1={300 + Math.sin(a) * r1}
-                  x2={300 + Math.cos(a) * r2}
-                  y2={300 + Math.sin(a) * r2}
-                />
-              );
-            })}
+            <path d={RING_TICKS} />
           </g>
           <circle cx={300 + Math.cos(-0.7) * 190} cy={300 + Math.sin(-0.7) * 190} r="4" fill="var(--accent)" />
         </svg>

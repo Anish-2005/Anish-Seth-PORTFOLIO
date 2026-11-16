@@ -36,10 +36,10 @@ export function Capabilities() {
             </dt>
             <dd>
               <ul className="flex flex-wrap gap-x-2 gap-y-1.5 text-[0.98rem] leading-relaxed">
-                {g.items.map((s, j) => (
-                  <li key={s} className="text-fg/90">
+                {g.items.map((s) => (
+                  // The "/" separator is drawn in CSS (with empty alt text, so screen readers skip it).
+                  <li key={s} className="text-fg/90 after:pl-2 after:text-line-strong after:content-['/'_/_''] last:after:content-none">
                     {s}
-                    {j < g.items.length - 1 ? <span aria-hidden className="pl-2 text-line-strong">/</span> : null}
                   </li>
                 ))}
               </ul>

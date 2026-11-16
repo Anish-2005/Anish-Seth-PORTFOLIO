@@ -235,9 +235,19 @@
   border-radius: 999px;
   background: var(--bg);
   border: 1.5px solid var(--fg-subtle);
-  transition:
-    background-color 0.5s var(--ease-out-expo) 0.35s,
-    border-color 0.5s var(--ease-out-expo) 0.35s;
+}
+/* The crimson fill fades in as its own layer (opacity is composited; colour transitions aren't). */
+.trace-node::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-expo) 0.35s;
+}
+.rule[data-revealed] + .shell .trace-node::before {
+  opacity: 1;
 }
 .trace-node::after {
   content: "";
@@ -246,10 +256,6 @@
   border-radius: inherit;
   border: 1.5px solid var(--accent);
   opacity: 0;
-}
-.rule[data-revealed] + .shell .trace-node {
-  background: var(--accent);
-  border-color: var(--accent);
 }
 @media (prefers-reduced-motion: no-preference) {
   .rule[data-revealed] + .shell .trace-node::after {
@@ -501,124 +507,6 @@
   }
 }
 
-/* Encoder dial (laptop widths and up). --u converts screen px to dial units so hairlines stay
-   hairlines at any dial size. */
-.enc {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 0;
-  height: 100vh;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 0.9s var(--ease-out-expo);
-}
-.enc[data-on] {
-  opacity: 0.85;
-}
-.enc-dial {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
-  overflow: visible;
-}
-.enc-axis {
-  position: absolute;
-  left: 50%;
-  width: 1px;
-  background: var(--line);
-  transform: scaleY(0);
-  transition: transform 1.4s var(--ease-out-expo);
-}
-.enc-axis-top {
-  top: 96px;
-  bottom: calc(50% + var(--gap));
-  transform-origin: bottom;
-  mask-image: linear-gradient(to bottom, transparent, #000 45%);
-}
-.enc-axis-bottom {
-  top: calc(50% + var(--gap));
-  bottom: 32px;
-  transform-origin: top;
-  mask-image: linear-gradient(to top, transparent, #000 45%);
-}
-.enc[data-on] .enc-axis {
-  transform: scaleY(1);
-}
-.enc-rim {
-  fill: none;
-  stroke: var(--line);
-  stroke-width: calc(0.6 * var(--u));
-}
-.enc-progress {
-  fill: none;
-  stroke: color-mix(in oklab, var(--accent) 75%, transparent);
-  stroke-width: calc(0.9 * var(--u));
-  stroke-dasharray: 1 1.01;
-  stroke-dashoffset: 1;
-}
-.enc-track {
-  fill: none;
-  stroke: var(--line);
-  stroke-width: calc(0.45 * var(--u));
-}
-.enc-layer path {
-  fill: none;
-  stroke: color-mix(in oklab, var(--fg) 28%, transparent);
-  stroke-width: calc(1 * var(--u));
-  stroke-dasharray: 1 1.01;
-}
-.enc-layer[data-leaving] path {
-  stroke-dashoffset: -1;
-}
-.enc-head {
-  stroke: color-mix(in oklab, var(--fg) 18%, transparent);
-  stroke-width: calc(0.5 * var(--u));
-}
-.enc-bit {
-  fill: var(--accent);
-  opacity: 0;
-  transition: opacity 0.25s var(--ease-out-expo);
-}
-.enc-bit.is-set {
-  opacity: 0.8;
-}
-.enc-node-ring {
-  fill: var(--bg);
-  stroke: var(--line);
-  stroke-width: calc(0.6 * var(--u));
-}
-.enc-node {
-  fill: var(--accent);
-}
-@media (prefers-reduced-motion: no-preference) {
-  .enc-layer:not([data-leaving]) path {
-    animation: enc-draw 1.3s var(--ease-out-expo) both;
-    animation-delay: calc(var(--m) * 90ms + 120ms);
-  }
-  .enc-layer[data-leaving] path {
-    animation: enc-undraw 0.6s cubic-bezier(0.7, 0, 0.84, 0) both;
-    animation-delay: calc(var(--m) * 40ms);
-  }
-}
-@keyframes enc-draw {
-  from {
-    stroke-dashoffset: 1;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes enc-undraw {
-  from {
-    stroke-dashoffset: 0;
-  }
-  to {
-    stroke-dashoffset: -1;
-  }
-}
-
 /* ───────────────────────── Wordmark ───────────────────────── */
 
 /* Mobile: stacked two-line lockup sized so "ANISH" fills the column.
@@ -660,26 +548,26 @@
     "wdth" var(--wd, 104);
   transition: font-variation-settings 0.8s var(--ease-out-expo);
 }
+/* Letters rise into place. Only transform + opacity (runs on the compositor, no layout per frame),
+   and never fully invisible, so the name counts as painted from the very first frame (LCP). The
+   variable-font morph lives in the idle wave / pointer effect instead (Wordmark.tsx). */
 @media (prefers-reduced-motion: no-preference) {
   .wordmark [data-ch] {
-    animation: wm-in 1.6s var(--ease-out-expo) backwards;
-    animation-delay: calc(var(--i, 0) * 60ms + 100ms);
+    animation: wm-in 0.9s var(--ease-out-expo) backwards;
+    animation-delay: calc(var(--i, 0) * 45ms + 40ms);
   }
 }
 @keyframes wm-in {
   from {
-    opacity: 0;
-    transform: translate3d(0, 0.16em, 0);
-    font-variation-settings:
-      "wght" 160,
-      "wdth" 62;
+    opacity: 0.12;
+    transform: translate3d(0, 0.14em, 0);
   }
 }
 
 /* Hero portrait rises into place after the wordmark settles */
 @media (prefers-reduced-motion: no-preference) {
   .portrait-in {
-    animation: portrait-in 1.6s var(--ease-out-expo) 0.15s both;
+    animation: portrait-in 1s var(--ease-out-expo) 0.05s both;
   }
 }
 @keyframes portrait-in {
@@ -893,111 +781,6 @@ details > summary::-webkit-details-marker {
 }
 details[open] .faq-icon {
   transform: rotate(45deg);
-}
-
-/* Long-form prose (notes) */
-.prose-x {
-  color: var(--fg-muted);
-  font-size: 1.0625rem;
-  line-height: 1.8;
-}
-.prose-x > * + * {
-  margin-top: 1.1em;
-}
-.prose-x h2,
-.prose-x h3 {
-  color: var(--fg);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.25;
-  margin-top: 2em;
-}
-.prose-x h2 {
-  font-size: 1.5rem;
-}
-.prose-x h3 {
-  font-size: 1.2rem;
-}
-.prose-x a {
-  color: var(--fg);
-  text-decoration: underline;
-  text-decoration-color: var(--accent);
-  text-underline-offset: 3px;
-}
-.prose-x strong {
-  color: var(--fg);
-  font-weight: 600;
-}
-.prose-x ul {
-  list-style: none;
-  padding: 0;
-}
-.prose-x ul > li {
-  position: relative;
-  padding-left: 1.4em;
-}
-.prose-x ul > li + li {
-  margin-top: 0.5em;
-}
-.prose-x ul > li::before {
-  content: "";
-  position: absolute;
-  left: 0.15em;
-  top: 0.82em;
-  width: 0.55em;
-  height: 1px;
-  background: var(--accent);
-}
-.prose-x code {
-  font-family: var(--font-mono);
-  font-size: 0.88em;
-  padding: 0.1em 0.35em;
-  background: var(--bg-elev-2);
-  color: var(--fg);
-}
-.prose-x em {
-  color: var(--fg);
-}
-.prose-x ol {
-  list-style: decimal;
-  padding-left: 1.4em;
-}
-.prose-x ol > li + li {
-  margin-top: 0.5em;
-}
-.prose-x ol > li::marker {
-  color: var(--fg-subtle);
-  font-family: var(--font-mono);
-  font-size: 0.85em;
-}
-.prose-x pre {
-  margin-top: 1.5em;
-  overflow-x: auto;
-  border: 1px solid var(--line);
-  background: var(--bg-elev);
-  padding: 1rem 1.15rem;
-  font-size: 0.8rem;
-  line-height: 1.7;
-  tab-size: 4;
-}
-@media (max-width: 639px) {
-  .prose-x pre {
-    margin-inline: calc(-1 * var(--pad));
-    border-inline: 0;
-    padding: 0.95rem var(--pad);
-    font-size: 0.74rem;
-  }
-}
-.prose-x pre code {
-  padding: 0;
-  background: none;
-  font-size: inherit;
-  color: var(--fg);
-}
-.prose-x blockquote {
-  border-left: 1px solid var(--accent);
-  padding-left: 1.1em;
-  color: var(--fg);
 }
 
 /*

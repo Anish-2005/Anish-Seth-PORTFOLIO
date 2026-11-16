@@ -9,6 +9,9 @@ const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
+  // Set on www.anishseth.xyz, so includeSubDomains only covers hosts under www.
+  { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+  { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
   {
     key: "Permissions-Policy",
     value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
@@ -50,6 +53,8 @@ const nextConfig: NextConfig = {
   // and again in every prefetch, which costs more bytes than the round trip it saves. Left off.
   images: {
     formats: ["image/avif", "image/webp"],
+    // 448 and 512 give phones (1.75x-2x screens, ~240 CSS px wide portrait) a right-sized file instead of 640px.
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384, 448, 512],
     // Optimised images are reused for a month (browser and CDN), so they're rarely re-generated.
     minimumCacheTTL: 31 * DAY,
   },
@@ -61,7 +66,6 @@ const nextConfig: NextConfig = {
       { source: "/:path*", headers: securityHeaders },
       { source: "/brand/:path*", headers: cacheFor(30 * DAY) },
       { source: "/anish-seth.jpg", headers: cacheFor(7 * DAY) },
-      { source: "/anish-seth-portrait.webp", headers: cacheFor(7 * DAY) },
       { source: "/profile.jpg", headers: cacheFor(7 * DAY) },
       { source: "/anish-seth-resume.pdf", headers: cacheFor(DAY, 7 * DAY) },
       { source: "/manifest.webmanifest", headers: cacheFor(DAY) },

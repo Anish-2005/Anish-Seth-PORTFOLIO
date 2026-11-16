@@ -1,0 +1,118 @@
+/* Loaded with the margin dial itself (wide screens only), so other devices never download it. */
+/* Encoder dial (laptop widths and up). --u converts screen px to dial units so hairlines stay
+   hairlines at any dial size. */
+.enc {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  height: 100vh;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease-out-expo);
+}
+.enc[data-on] {
+  opacity: 0.85;
+}
+.enc-dial {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  overflow: visible;
+}
+.enc-axis {
+  position: absolute;
+  left: 50%;
+  width: 1px;
+  background: var(--line);
+  transform: scaleY(0);
+  transition: transform 1.4s var(--ease-out-expo);
+}
+.enc-axis-top {
+  top: 96px;
+  bottom: calc(50% + var(--gap));
+  transform-origin: bottom;
+  mask-image: linear-gradient(to bottom, transparent, #000 45%);
+}
+.enc-axis-bottom {
+  top: calc(50% + var(--gap));
+  bottom: 32px;
+  transform-origin: top;
+  mask-image: linear-gradient(to top, transparent, #000 45%);
+}
+.enc[data-on] .enc-axis {
+  transform: scaleY(1);
+}
+.enc-rim {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: calc(0.6 * var(--u));
+}
+.enc-progress {
+  fill: none;
+  stroke: color-mix(in oklab, var(--accent) 75%, transparent);
+  stroke-width: calc(0.9 * var(--u));
+  stroke-dasharray: 1 1.01;
+  stroke-dashoffset: 1;
+}
+.enc-track {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: calc(0.45 * var(--u));
+}
+.enc-layer path {
+  fill: none;
+  stroke: color-mix(in oklab, var(--fg) 28%, transparent);
+  stroke-width: calc(1 * var(--u));
+  stroke-dasharray: 1 1.01;
+}
+.enc-layer[data-leaving] path {
+  stroke-dashoffset: -1;
+}
+.enc-head {
+  stroke: color-mix(in oklab, var(--fg) 18%, transparent);
+  stroke-width: calc(0.5 * var(--u));
+}
+.enc-bit {
+  fill: var(--accent);
+  opacity: 0;
+  transition: opacity 0.25s var(--ease-out-expo);
+}
+.enc-bit.is-set {
+  opacity: 0.8;
+}
+.enc-node-ring {
+  fill: var(--bg);
+  stroke: var(--line);
+  stroke-width: calc(0.6 * var(--u));
+}
+.enc-node {
+  fill: var(--accent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .enc-layer:not([data-leaving]) path {
+    animation: enc-draw 1.3s var(--ease-out-expo) both;
+    animation-delay: calc(var(--m) * 90ms + 120ms);
+  }
+  .enc-layer[data-leaving] path {
+    animation: enc-undraw 0.6s cubic-bezier(0.7, 0, 0.84, 0) both;
+    animation-delay: calc(var(--m) * 40ms);
+  }
+}
+@keyframes enc-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes enc-undraw {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}

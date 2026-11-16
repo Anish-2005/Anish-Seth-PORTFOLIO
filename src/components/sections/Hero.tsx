@@ -50,6 +50,7 @@ export function Hero({ contributions, repos }: HeroProps) {
               width={PORTRAIT.width}
               height={PORTRAIT.height}
               preload
+              fetchPriority="high"
               // On very dense (3×) phones a 640px image looks the same as 750px, so ask for a bit less there.
               sizes="(min-width: 1280px) 326px, (min-width: 1024px) 305px, (min-width: 640px) 298px, (min-resolution: 2.5dppx) 213px, 241px"
               className="h-full w-auto select-none object-contain object-bottom"
@@ -63,7 +64,7 @@ export function Hero({ contributions, repos }: HeroProps) {
             <div className="lg:col-span-7 lg:pr-10">
               <p
                 className="fade-in text-[clamp(1.3rem,2.05vw,1.7rem)] leading-[1.3] tracking-[-0.02em] text-balance [font-stretch:104%]"
-                style={{ "--d": "420ms" } as React.CSSProperties}
+                style={{ "--d": "180ms" } as React.CSSProperties}
               >
                 I build AI agents that do real work with real data.
                 <span className="text-subtle">
@@ -72,7 +73,7 @@ export function Hero({ contributions, repos }: HeroProps) {
                   happens when things go wrong.
                 </span>
               </p>
-              <div className="fade-in mt-9 flex flex-wrap items-center gap-3" style={{ "--d": "520ms" } as React.CSSProperties}>
+              <div className="fade-in mt-9 flex flex-wrap items-center gap-3" style={{ "--d": "260ms" } as React.CSSProperties}>
                 <ButtonLink href="#work" size="lg">
                   See my work
                   <Icon name="arrow-right" size={16} className="transition-transform duration-500 group-hover/btn:translate-x-1" />

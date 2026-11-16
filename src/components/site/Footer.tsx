@@ -6,7 +6,8 @@ import { profile } from "@/data/portfolio";
 
 const links = [
   { label: "Projects", href: "/projects" },
-  { label: "About", href: "/about" },
+  // Not just "About": the nav's "About" goes to the home section, this one to the full page.
+  { label: "About me", href: "/about" },
   { label: "Résumé", href: profile.links.resume },
   { label: "GitHub", href: profile.links.github },
   { label: "LinkedIn", href: profile.links.linkedin },

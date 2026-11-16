@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+import { createRateLimiter } from "@/lib/rate-limit";
+
 const LIMITS = { name: 120, email: 200, message: 5000 } as const;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -11,6 +13,13 @@ function escapeHtml(value: string) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
+}
+
+/** A few messages per 15 minutes per IP is plenty for a person and stops a bot flooding the inbox. */
+const rateLimited = createRateLimiter({ max: 4, windowMs: 15 * 60 * 1000 });
+
+function clientIp(req: NextRequest) {
+  return req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("x-real-ip") || "unknown";
 }
 
 /** Strip CR/LF so user input can never inject extra mail headers. */
@@ -46,6 +55,15 @@ export async function POST(req: NextRequest) {
   }
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Invalid email format" }, { status: 400 });
+  }
+
+  // Only messages that would actually be sent count toward the limit.
+  const wait = rateLimited(clientIp(req));
+  if (wait) {
+    return NextResponse.json(
+      { error: "You've sent a few messages already. Give it a few minutes, or email me directly." },
+      { status: 429, headers: { "Retry-After": String(wait) } },
+    );
   }
 
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, CONTACT_EMAIL_TO } = process.env;

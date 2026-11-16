@@ -34,6 +34,8 @@ const nextConfig: NextConfig = {
         destination: "https://anishseth.xyz/:path*",
         permanent: true,
       },
+      // The résumé moved to a name-bearing URL; keep old links (and the PDF's own links) working.
+      { source: "/resume.pdf", destination: "/anish-seth-resume.pdf", permanent: true },
       // Retired placeholder case studies from the previous version of the site.
       ...["atlas", "chainkit", "signal"].map((slug) => ({
         source: `/projects/${slug}`,

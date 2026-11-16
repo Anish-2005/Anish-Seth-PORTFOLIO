@@ -855,6 +855,27 @@
   animation: none;
   mix-blend-mode: normal;
 }
+/* Theme switch: full-screen crimson layers, clipped by applyTheme into the rule and its node that
+   lead the new theme across the page. They only ever appear inside the view transition. */
+.theme-sweep {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  background: var(--accent);
+}
+.theme-sweep-line {
+  view-transition-name: theme-sweep-line;
+}
+.theme-sweep-node {
+  view-transition-name: theme-sweep-node;
+}
+::view-transition-group(theme-sweep-line),
+::view-transition-group(theme-sweep-node),
+::view-transition-new(theme-sweep-line),
+::view-transition-new(theme-sweep-node) {
+  animation: none;
+}
 
 /* Native dialog */
 dialog::backdrop {

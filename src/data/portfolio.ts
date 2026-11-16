@@ -64,7 +64,7 @@ export const profile = {
     x: "https://x.com/AnishSeth170734",
     instagram: "https://www.instagram.com/_anish.seth_/",
     leetcode: "https://leetcode.com/u/Anish_Seth/",
-    resume: "/resume.pdf",
+    resume: "/anish-seth-resume.pdf",
   },
 } as const;
 

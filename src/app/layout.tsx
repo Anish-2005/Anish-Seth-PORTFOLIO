@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Archivo, IBM_Plex_Mono } from "next/font/google";
 
 import "./globals.css";
@@ -141,6 +142,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <CommandPalette />
         <RevealObserver />
         <WebVitalsReporter />
+        {/* Cookieless page views (enable "Web Analytics" for the project in the Vercel dashboard). */}
+        <Analytics />
         <div className="noise" aria-hidden />
       </body>
     </html>

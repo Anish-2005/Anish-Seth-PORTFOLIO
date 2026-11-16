@@ -11,7 +11,11 @@ export function getTheme(): Theme {
 
 export const THEME_EVENT = "themechange";
 
-/** Switch theme with a circular reveal from the trigger point (View Transitions API). */
+/**
+ * Switch theme like re-inking the page: the new theme sweeps across the screen behind a fine
+ * crimson rule, with the logo's node riding the rule at the toggle. Light rolls down from the
+ * top, dark rolls back up from the bottom. Uses the View Transitions API; instant otherwise.
+ */
 export function applyTheme(next: Theme, origin?: { x: number; y: number }) {
   const root = document.documentElement;
   const commit = () => {
@@ -29,7 +33,7 @@ export function applyTheme(next: Theme, origin?: { x: number; y: number }) {
 
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const doc = document as Document & {
-    startViewTransition?: (cb: () => void) => { ready: Promise<void> };
+    startViewTransition?: (cb: () => void) => { ready: Promise<void>; finished: Promise<void> };
   };
 
   if (!doc.startViewTransition || reduce) {
@@ -37,17 +41,56 @@ export function applyTheme(next: Theme, origin?: { x: number; y: number }) {
     return;
   }
 
-  const x = origin?.x ?? window.innerWidth - 40;
-  const y = origin?.y ?? 40;
-  const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+  const down = next === "light";
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  const x = Math.round(origin?.x ?? w - 40);
+  // The rule and its node are full-screen crimson layers that exist only in the new snapshot.
+  // Each is clipped down to a moving band (1px line, 7px node), so they animate exactly like the
+  // reveal itself (same property, same timing) and can never drift from the edge.
+  const layers = ["line", "node"].map((part) => {
+    const el = document.createElement("div");
+    el.className = `theme-sweep theme-sweep-${part}`;
+    el.setAttribute("aria-hidden", "true");
+    return el;
+  });
 
-  const transition = doc.startViewTransition(commit);
+  const transition = doc.startViewTransition(() => {
+    commit();
+    layers.forEach((el) => document.body.appendChild(el));
+  });
+
+  const timing = { duration: 900, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "both" as const };
+  const from = down ? 0 : h;
+  const to = down ? h : 0;
+  // A horizontal band of half-height `half` centred on edge `e` (optionally narrowed and rounded).
+  const band = (e: number, half: number, left = 0, right = 0, round = "") =>
+    `inset(${e - half}px ${right}px ${h - e - half}px ${left}px${round})`;
+  const travel = (clip: (e: number) => string) => [
+    { clipPath: clip(from), opacity: 1, offset: 0 },
+    { opacity: 1, offset: 0.86 },
+    { clipPath: clip(to), opacity: 0, offset: 1 },
+  ];
+
   transition.ready
     .then(() => {
       root.animate(
-        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-        { duration: 620, easing: "cubic-bezier(0.16, 1, 0.3, 1)", pseudoElement: "::view-transition-new(root)" },
+        {
+          clipPath: down
+            ? [`inset(0px 0px ${h}px 0px)`, "inset(0px 0px 0px 0px)"]
+            : [`inset(${h}px 0px 0px 0px)`, "inset(0px 0px 0px 0px)"],
+        },
+        { ...timing, pseudoElement: "::view-transition-new(root)" },
+      );
+      root.animate(
+        travel((e) => band(e, 0.5)),
+        { ...timing, pseudoElement: "::view-transition-new(theme-sweep-line)" },
+      );
+      root.animate(
+        travel((e) => band(e, 3.5, x - 3.5, w - x - 3.5, " round 3.5px")),
+        { ...timing, pseudoElement: "::view-transition-new(theme-sweep-node)" },
       );
     })
     .catch(() => {});
+  transition.finished.finally(() => layers.forEach((el) => el.remove()));
 }

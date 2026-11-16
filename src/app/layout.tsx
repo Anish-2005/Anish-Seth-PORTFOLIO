@@ -1,267 +1,165 @@
-import type { Metadata } from "next";
-import { Inter, Roboto_Mono, Roboto } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+
 import "./globals.css";
 
-import { ThemeProvider } from "@/context/ThemeContext";
-import ClientFloatingThemeToggle from "@/components/ClientFloatingThemeToggle";
+import { CommandPalette } from "@/components/site/CommandPalette";
+import { Footer } from "@/components/site/Footer";
+import { Nav } from "@/components/site/Nav";
+import { PointerFX } from "@/components/site/PointerFX";
+import { RevealObserver } from "@/components/site/RevealObserver";
 import WebVitalsReporter from "@/components/perf/WebVitalsReporter";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { education, profile, skillGroups } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
+import { themeBootScript } from "@/lib/theme";
 
-const heading = Inter({
-  variable: "--font-heading",
+const sans = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
+const mono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono", display: "swap" });
+const serif = Instrument_Serif({
   subsets: ["latin"],
+  weight: "400",
+  style: ["italic"],
+  variable: "--font-instrument",
+  display: "swap",
 });
 
-const body = Roboto({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "700"],
-});
-
-const mono = Roboto_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-});
+const title = `${siteConfig.name} — AI/ML Engineer · Agentic AI & LLM Systems`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: {
-    default: `${siteConfig.name} — ${siteConfig.role}`,
-    template: `%s — ${siteConfig.name}`,
-  },
+  title: { default: title, template: `%s — ${siteConfig.name}` },
   description: siteConfig.description,
+  applicationName: siteConfig.name,
   keywords: [
     "Anish Seth",
-    "Anish",
-    "ANISH SETH",
+    "AI/ML Engineer",
+    "Agentic AI",
+    "LLM Engineer",
+    "Multi-Agent Systems",
+    "LangGraph",
+    "LangChain",
+    "AWS Bedrock",
+    "AgentCore",
+    "Model Context Protocol",
+    "MCP",
+    "RAG",
+    "GraphRAG",
+    "Neo4j",
+    "Enterprise Automation",
     "Full-Stack Developer",
-    "Web Developer",
-    "App Developer",
-    "React Developer",
-    "Next.js Developer",
-    "TypeScript Developer",
-    "Machine Learning",
-    "Web3 Developer",
-    "Blockchain",
-    "Portfolio",
-    "Software Engineer",
+    "Next.js",
+    "FastAPI",
+    "Python",
+    "TypeScript",
+    "Smart India Hackathon Finalist",
+    "Kolkata",
     "India",
-    "Developer India",
-    "Full Stack Engineer",
-    "Frontend Developer",
-    "Backend Developer",
-    "UI/UX Developer",
-    "JavaScript Developer",
-    "Node.js Developer",
-    "Three.js Developer",
-    "AI Developer",
-    "Smart Contracts",
-    "Ethereum Developer",
-    "Portfolio Website",
-    "Developer Portfolio",
-    "Anish Seth Portfolio",
-    "AnishSeth170734",
-    "_anish.seth_",
-    "anishseth",
-    "Smart India Hackathon",
-    "AI Developer India",
-    "Web3 Developer India",
-    "Blockchain Developer India",
-    "Machine Learning Engineer",
-    "React Native Developer",
-    "Expo Developer",
-    "Legal Tech",
-    "Social Impact Tech",
-    "Healthcare Tech",
-    "Agriculture Tech",
+    "Digital Alpha",
   ],
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-  alternates: {
-    canonical: "/",
-  },
+  formatDetection: { email: false, address: false, telephone: false },
+  alternates: { canonical: "/" },
   openGraph: {
-    type: "website",
+    type: "profile",
     url: siteConfig.url,
-    title: `${siteConfig.name} — ${siteConfig.role}`,
+    title,
     description: siteConfig.description,
     siteName: siteConfig.name,
-    locale: siteConfig.locale,
-    images: [
-      {
-        url: "/opengraph-image",
-        width: 1200,
-        height: 630,
-        alt: `${siteConfig.name} portfolio and personal website`,
-      },
-    ],
+    locale: "en_US",
+    firstName: "Anish",
+    lastName: "Seth",
+    username: "Anish-2005",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteConfig.name} — ${siteConfig.role}`,
+    title,
     description: siteConfig.description,
-    images: ["/twitter-image"],
     creator: "@AnishSeth170734",
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
+    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
   },
-  verification: {
-    google: "CC99sQSiR-os5PBjY9ve-etZ4g2GdD7rF1nMRhC5SYI",
-  },
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/favicon.ico",
-  },
+  verification: { google: "CC99sQSiR-os5PBjY9ve-etZ4g2GdD7rF1nMRhC5SYI" },
+  other: { "color-scheme": "dark light" },
 };
 
-export const viewport = {
-  themeColor: "#0f1724",
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#faf8f6" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a090b" },
+  ],
 };
 
-function StructuredData() {
-  const profileImage = `${siteConfig.url}/profile.jpg`;
+const personJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${siteConfig.url}/#person`,
+  name: siteConfig.name,
+  alternateName: ["Anish", "anishseth", "Anish-2005", "_anish.seth_"],
+  jobTitle: "AI/ML Engineer",
+  description: siteConfig.description,
+  url: siteConfig.url,
+  image: `${siteConfig.url}/profile.jpg`,
+  email: `mailto:${profile.email}`,
+  address: { "@type": "PostalAddress", addressLocality: "Kolkata", addressRegion: "West Bengal", addressCountry: "IN" },
+  worksFor: { "@type": "Organization", name: profile.current.company },
+  alumniOf: { "@type": "CollegeOrUniversity", name: education[0].school },
+  sameAs: [
+    siteConfig.sameAs.github,
+    siteConfig.sameAs.linkedin,
+    siteConfig.sameAs.x,
+    siteConfig.sameAs.instagram,
+    siteConfig.sameAs.leetcode,
+  ],
+  knowsAbout: Array.from(new Set(skillGroups.slice(0, 5).flatMap((g) => g.items))).slice(0, 30),
+  award: ["Smart India Hackathon 2024 — National Finalist", "Smart India Hackathon 2025 — National Finalist"],
+};
 
-  const personJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: siteConfig.name,
-    alternateName: ["Anish", "ANISH SETH", "anishseth", "_anish.seth_"],
-    jobTitle: siteConfig.role,
-    description: siteConfig.description,
-    url: siteConfig.url,
-    image: profileImage,
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: siteConfig.location,
-    },
-    sameAs: [
-      siteConfig.sameAs.github,
-      siteConfig.sameAs.linkedin,
-      siteConfig.sameAs.instagram,
-      siteConfig.sameAs.x,
-      siteConfig.sameAs.website,
-    ].filter(Boolean),
-    contactPoint: [
-      {
-        "@type": "ContactPoint",
-        contactType: "professional inquiry",
-        email: "anishseth0510@gmail.com",
-        areaServed: "IN",
-        availableLanguage: ["English"],
-      },
-    ],
-    knowsAbout: [
-      "Full-Stack Development",
-      "React",
-      "Next.js",
-      "TypeScript",
-      "Machine Learning",
-      "Web3",
-      "Blockchain",
-    ],
-    hasOccupation: {
-      "@type": "Occupation",
-      name: siteConfig.role,
-      occupationLocation: {
-        "@type": "Country",
-        name: "India",
-      },
-    },
-    award: ["Smart India Hackathon 2024 Finalist"],
-  };
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteConfig.url}/#website`,
+  name: siteConfig.name,
+  url: siteConfig.url,
+  inLanguage: siteConfig.locale,
+  publisher: { "@id": `${siteConfig.url}/#person` },
+};
 
-  const websiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: siteConfig.name,
-    url: siteConfig.url,
-    description: siteConfig.description,
-    inLanguage: siteConfig.locale,
-    sameAs: [
-      siteConfig.sameAs.github,
-      siteConfig.sameAs.linkedin,
-      siteConfig.sameAs.instagram,
-      siteConfig.sameAs.x,
-    ].filter(Boolean),
-    author: {
-      "@type": "Person",
-      name: siteConfig.name,
-    },
-  };
-
-  const profilePageJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    name: `${siteConfig.name} portfolio`,
-    description: siteConfig.description,
-    url: siteConfig.url,
-    inLanguage: siteConfig.locale,
-    mainEntity: {
-      "@type": "Person",
-      name: siteConfig.name,
-    },
-  };
-
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageJsonLd) }}
-      />
-    </>
-  );
-}
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
+    <html lang="en" data-theme="dark" suppressHydrationWarning className={`${sans.variable} ${mono.variable} ${serif.variable}`}>
       <head>
-        <link rel="canonical" href={siteConfig.url} />
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
         <link rel="me" href={siteConfig.sameAs.github} />
         <link rel="me" href={siteConfig.sameAs.linkedin} />
-        <link rel="me" href={siteConfig.sameAs.instagram} />
-        <link rel="me" href={siteConfig.sameAs.x} />
-        <link rel="icon" type="image/png" href="/favicon.ico" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <JsonLd data={personJsonLd} />
+        <JsonLd data={websiteJsonLd} />
       </head>
-      <body
-        className={`${heading.variable} ${body.variable} ${mono.variable} antialiased`}
-      >
-        <ThemeProvider>
-          <StructuredData />
-          <WebVitalsReporter />
-          <ClientFloatingThemeToggle />
-          {children}
-        </ThemeProvider>
+      <body>
+        <span id="top" aria-hidden className="absolute top-0" />
+        <a
+          href="#content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[90] focus:rounded-lg focus:bg-bg-elev focus:px-4 focus:py-2 focus:text-sm focus:ring-2 focus:ring-accent"
+        >
+          Skip to content
+        </a>
+        <div className="scroll-progress" aria-hidden />
+        <Nav />
+        <main id="content">{children}</main>
+        <Footer />
+        <CommandPalette />
+        <RevealObserver />
+        <PointerFX />
+        <WebVitalsReporter />
+        <div className="noise" aria-hidden />
       </body>
     </html>
   );

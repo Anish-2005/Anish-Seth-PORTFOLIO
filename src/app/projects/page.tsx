@@ -1,76 +1,74 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
-import { Projects } from "@/components/sections/Projects";
-import { SubpageShell } from "@/components/layout/SubpageShell";
+import { SubpageShell } from "@/components/site/SubpageShell";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { seoProjects } from "@/lib/seo-content";
+import { FeaturedProjectCard, ProjectCard } from "@/components/work/ProjectCard";
+import { WorkFilter } from "@/components/work/WorkFilter";
+import { categoryLabels, projects, type ProjectCategory } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
 
-export const dynamic = "force-static";
-export const revalidate = false;
+const description =
+  "Case studies by Anish Seth — agentic AI pipelines, GraphRAG knowledge systems, fraud detection, and full-stack products built with Next.js, FastAPI and Django.";
 
 export const metadata: Metadata = {
-  title: "Projects",
-  description: "Browse Anish Seth's portfolio projects, case studies, and production builds across AI, Next.js, mobile apps, and Web3.",
-  alternates: {
-    canonical: "/projects",
-  },
-  openGraph: {
-    title: `Projects — ${siteConfig.name}`,
-    description: "Browse Anish Seth's portfolio projects, case studies, and production builds across AI, Next.js, mobile apps, and Web3.",
-    url: `${siteConfig.url}/projects`,
-    type: "website",
-  },
+  title: "Case studies",
+  description,
+  alternates: { canonical: "/projects" },
+  openGraph: { title: `Case studies — ${siteConfig.name}`, description, url: `${siteConfig.url}/projects`, type: "website" },
 };
 
 export default function ProjectsPage() {
-  const itemList = seoProjects.map((project, index) => ({
-    "@type": "ListItem",
-    position: index + 1,
-    name: project.title,
-    url: `${siteConfig.url}/projects/${project.slug}`,
-  }));
+  const featured = projects.filter((p) => p.featured);
+  const rest = projects.filter((p) => !p.featured);
+  const cats = Object.keys(categoryLabels) as ProjectCategory[];
+  const tabs = [
+    { id: "all", label: "All", count: rest.length },
+    ...cats.map((c) => ({ id: c, label: categoryLabels[c], count: rest.filter((p) => p.categories.includes(c)).length })),
+  ];
 
   return (
     <SubpageShell
-      eyebrow="Projects"
-      title="Portfolio work by Anish Seth"
-      description="A focused collection of product work, hackathon builds, and technical experiments spanning AI, mobile apps, observability, and Web3."
-      chips={[
-        "Case Studies",
-        "AI",
-        "Mobile",
-        "Web3",
-      ]}
+      eyebrow={`${projects.length} case studies`}
+      title={
+        <>
+          Work, with the <span className="serif-em">reasoning</span> left in.
+        </>
+      }
+      description="Every project below lists the problem, the approach and what shipped — the engineering decisions, not just the screenshots."
+      crumbs={[{ label: "Case studies" }]}
     >
-      <p className="max-w-3xl text-sm leading-7 text-[color:var(--text-2)]">
-        For search engines and visitors alike, this page concentrates the project signals behind <Link className="font-semibold text-[color:var(--accent)]" href="/">{siteConfig.name}</Link> and links the portfolio into one crawlable destination.
-      </p>
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: siteConfig.url },
-            { "@type": "ListItem", position: 2, name: "Projects", item: `${siteConfig.url}/projects` },
-          ],
-        }}
-      />
       <JsonLd
         data={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: `Projects — ${siteConfig.name}`,
-          description: "Browse Anish Seth's portfolio projects, case studies, and production builds across AI, Next.js, mobile apps, and Web3.",
+          name: `Case studies — ${siteConfig.name}`,
+          description,
           url: `${siteConfig.url}/projects`,
           mainEntity: {
             "@type": "ItemList",
-            itemListElement: itemList,
+            itemListElement: projects.map((p, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              name: p.title,
+              url: `${siteConfig.url}/projects/${p.slug}`,
+            })),
           },
         }}
       />
-      <Projects />
+      <div className="grid gap-5 md:grid-cols-2 md:gap-6">
+        {featured.map((p, i) => (
+          <FeaturedProjectCard key={p.slug} project={p} index={i} />
+        ))}
+      </div>
+      <div className="mt-16">
+        <WorkFilter tabs={tabs}>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+            {rest.map((p) => (
+              <ProjectCard key={p.slug} project={p} />
+            ))}
+          </div>
+        </WorkFilter>
+      </div>
     </SubpageShell>
   );
 }

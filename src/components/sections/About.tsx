@@ -1,388 +1,123 @@
-"use client";
+import Image from "next/image";
 
-import { Container } from "@/components/ui/Container";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useTheme } from "@/context/ThemeContext";
-import { useMemo, useRef, useState, useEffect, memo } from "react";
-import PrinciplesGrid from "./about/PrinciplesGrid";
-import SkillsCard from "./about/SkillsCard";
-import JourneyTimeline from "./about/JourneyTimeline";
-import { useMobileOptimization } from "@/hooks/useMobileOptimization";
-import type { AboutData, AboutPalette } from "./about/types";
+import { LocalTime } from "@/components/site/LocalTime";
+import { Icon, type IconName } from "@/components/ui/Icon";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { education, principles, profile } from "@/data/portfolio";
 
-// Icon components as SVG (memoized)
-const ZapIcon = memo(function ZapIcon() {
+const facts: { label: string; value: string; icon: IconName }[] = [
+  { label: "Currently", value: `${profile.current.title}, ${profile.current.company}`, icon: "branch" },
+  { label: "Focus", value: "Agentic AI · LLM systems · Automation", icon: "spark" },
+  { label: "Education", value: education[0].degree.replace("B.Tech, ", "B.Tech — "), icon: "cap" },
+  { label: "Based in", value: profile.location, icon: "pin" },
+];
+
+export function About() {
   return (
-    <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-    </svg>
-  );
-});
+    <section id="about" aria-labelledby="about-title" className="section-y">
+      <div className="container-x">
+        <SectionHeader
+          id="about-title"
+          index="01"
+          label="About"
+          title={
+            <>
+              Engineering AI that <span className="serif-em">earns trust.</span>
+            </>
+          }
+        />
 
-const SparklesIcon = memo(function SparklesIcon() {
-  return (
-    <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-    </svg>
-  );
-});
-
-const EyeIcon = memo(function EyeIcon() {
-  return (
-    <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-    </svg>
-  );
-});
-
-const CodeIcon = memo(function CodeIcon() {
-  return (
-    <svg className="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-    </svg>
-  );
-});
-
-const aboutData: AboutData = {
-  headline: "Building the Future of Digital Experiences",
-  description: "Full-stack developer specializing in high-performance web applications with immersive UI/UX. Passionate about merging cutting-edge technology with exceptional design to create products that make an impact. Recently expanded this focus through practical AI systems, scalable product architecture, and fast shipping cycles through Feb 2026.",
-  principles: [
-    {
-      icon: ZapIcon,
-      title: "Performance First",
-      description: "Optimized for speed with Core Web Vitals, lazy loading, and efficient rendering strategies"
-    },
-    {
-      icon: SparklesIcon,
-      title: "Design Excellence",
-      description: "Pixel-perfect implementations with attention to typography, spacing, and visual hierarchy"
-    },
-    {
-      icon: EyeIcon,
-      title: "Accessibility",
-      description: "WCAG AA compliant, keyboard-first navigation, and screen reader optimized"
-    },
-    {
-      icon: CodeIcon,
-      title: "Clean Architecture",
-      description: "Maintainable, scalable codebases with modern patterns and best practices"
-    }
-  ],
-  skills: {
-    frontend: ["React", "Next.js", "TypeScript", "React Native", "Flutter", "Three.js", "Framer Motion", "Tailwind CSS"],
-    backend: ["Node.js", "Express", "FastAPI", "Django", "PostgreSQL", "SQL Server", "MongoDB", "REST APIs", "GraphQL"],
-    dataAndAi: ["SQL", "Excel", "Python", "Pandas", "NumPy", "Power BI", "Matplotlib", "Seaborn", "Statistical Analysis", "Data Cleaning", "EDA", "Dashboards", "Basic ML", "Predictive Modelling", "OCR Extraction"],
-    tools: ["Git", "Docker", "Vercel", "Firebase", "AWS", "Figma", "VS Code", "JavaScript", "Java", "C++"],
-    fundamentals: ["DBMS", "DSA", "OOP", "Operating Systems", "Computer Networks"]
-  },
-  journey: [
-    {
-      year: "2024-Feb 2026",
-      title: "AI & Full-Stack Innovation",
-      description: "SIH 2024 & 2025 Finalist • Hack4Bengal 2025 Finalist • Building LawAI (AI-powered legal assistant) & intelligent ticketing systems • Exploring Blockchain development • Mastering React Native, Next.js, FastAPI & AI/ML integration • Added Jan-Feb 2026 releases including Deckfolio, WhyStack, Traceveil, and NeuraMark with a stronger focus on explainable AI and production-ready UX"
-    },
-    {
-      year: "2023-2024",
-      title: "Advanced Web Development",
-      description: "Created 25+ production projects • Specialized in React.js, Next.js, Three.js • Built immersive UI/UX experiences with modern frameworks • GitHub Featured Developer"
-    },
-    {
-      year: "2022-2023",
-      title: "Computer Science Foundation",
-      description: "Started @ Techno Main Salt Lake • Mastered core programming (Python, JavaScript, TypeScript, C++) • Built strong fundamentals in algorithms & data structures"
-    }
-  ]
-};
-
-function AboutInner() {
-  const { theme } = useTheme();
-  const { isMobile } = useMobileOptimization();
-  const sectionRef = useRef<HTMLElement>(null);
-  const [mounted, setMounted] = useState(false);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.5]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [0.95, 1]);
-
-  const palette = useMemo<AboutPalette>(() => {
-    if (!mounted) {
-      // Use dark palette on server
-      return {
-        accent: "rgba(239, 68, 68, 0.15)",
-        accentStrong: "rgba(239, 68, 68, 0.25)",
-        beam: "rgba(248, 113, 113, 0.12)",
-        glow: "rgba(239, 68, 68, 0.35)",
-        text: "#ffffff",
-        textSub: "#9ca3af",
-        cardBg: "rgba(255, 255, 255, 0.05)",
-        cardBorder: "rgba(255, 255, 255, 0.1)",
-        highlight: "#fb7185",
-        shadow: "0 0 20px rgba(239, 68, 68, 0.2)"
-      };
-    }
-    if (theme === "light") {
-      return {
-        accent: "rgba(211, 51, 51, 0.15)",
-        accentStrong: "rgba(211, 51, 51, 0.3)",
-        glow: "rgba(211, 51, 51, 0.35)",
-        cardBg: "rgba(255, 255, 255, 0.85)",
-        cardBorder: "rgba(211, 51, 51, 0.15)",
-        text: "#2c1810",
-        textSub: "#6b4a3a"
-      };
-    }
-    return {
-      accent: "rgba(248, 113, 113, 0.12)",
-      accentStrong: "rgba(248, 113, 113, 0.25)",
-      glow: "rgba(248, 113, 113, 0.3)",
-      cardBg: "rgba(15, 6, 11, 0.6)",
-      cardBorder: "rgba(248, 113, 113, 0.15)",
-      text: "#fef2f2",
-      textSub: "#fca5a5"
-    };
-  }, [theme, mounted]);
-
-  return (
-    <section 
-      id="about" 
-      ref={sectionRef}
-      className="crisp-section relative overflow-hidden border-t py-16 sm:py-20 md:py-24 lg:py-32"
-      style={{
-        borderColor: palette.cardBorder,
-        position: "relative",
-      }}
-    >
-      {/* Animated background gradient */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-20"
-        style={{
-          opacity,
-          background: isMobile
-            ? `radial-gradient(420px 320px at 30% 50%, ${palette.accent}, transparent 70%), radial-gradient(340px 240px at 70% 30%, ${palette.accentStrong}, transparent 80%)`
-            : `radial-gradient(900px 700px at 30% 50%, ${palette.accent}, transparent 70%), radial-gradient(700px 500px at 70% 30%, ${palette.accentStrong}, transparent 80%)`
-        }}
-      />
-
-      {/* Tech grid pattern */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-20"
-        style={{
-          opacity: isMobile ? 0.06 : 0.2,
-          backgroundImage: `
-            repeating-linear-gradient(0deg, ${palette.cardBorder} 0, ${palette.cardBorder} 1px, transparent 1px, transparent 40px),
-            repeating-linear-gradient(90deg, ${palette.cardBorder} 0, ${palette.cardBorder} 1px, transparent 1px, transparent 40px)
-          `
-        }}
-      />
-
-      {/* Floating accent orbs - disabled on mobile */}
-      {!isMobile && (
-        <>
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute right-[10%] top-[20%] -z-10 h-[250px] w-[250px] rounded-full blur-[130px]"
-            style={{
-              background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
-            }}
-            animate={{
-              y: [0, -35, 0],
-              x: [0, 25, 0],
-              scale: [1, 1.2, 1]
-            }}
-            transition={{
-              duration: 22,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          />
-
-          <motion.div
-            aria-hidden
-            className="pointer-events-none absolute left-[5%] bottom-[25%] -z-10 h-[200px] w-[200px] rounded-full blur-[120px]"
-            style={{
-              background: `radial-gradient(circle, ${palette.glow}, transparent 70%)`
-            }}
-            animate={{
-              y: [0, 30, 0],
-              x: [0, -20, 0],
-              scale: [1, 1.15, 1]
-            }}
-            transition={{
-              duration: 18,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: 1
-            }}
-          />
-        </>
-      )}
-
-      <Container>
-        <motion.div style={{ scale, opacity }}>
-          {/* Enhanced Section Header */}
-          <div className="relative">
-            {/* Floating orb accent */}
-            <motion.div
-              className="pointer-events-none absolute -right-20 -top-10 h-40 w-40 rounded-full blur-3xl"
-              style={{ background: palette.glow }}
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="relative"
-            >
-              {/* Eyebrow with animated underline */}
-              <div className="mb-4 sm:mb-6 flex items-center gap-2 sm:gap-4">
-                <motion.div
-                  className="h-px flex-1"
-                  style={{ background: `linear-gradient(to right, transparent, ${palette.cardBorder}, transparent)` }}
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                />
-                <span
-                  className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] sm:tracking-[0.3em]"
-                  style={{ color: palette.glow }}
-                >
-                  About Me
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+          {/* Portrait */}
+          <figure className="lg:col-span-5" data-reveal>
+            <div className="group card relative mx-auto aspect-[4/5] max-w-md overflow-hidden rounded-[1.6rem] p-0 lg:max-w-none">
+              <Image
+                src="/profile.jpg"
+                alt="Anish Seth, AI/ML engineer, photographed outdoors in Kolkata"
+                fill
+                sizes="(min-width: 1024px) 460px, (min-width: 640px) 448px, 100vw"
+                className="object-cover object-[50%_30%] transition-[filter,transform] duration-700 ease-[var(--ease-out-expo)] [filter:saturate(0.85)_contrast(1.03)] group-hover:scale-[1.02] group-hover:[filter:saturate(1)]"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_45%,color-mix(in_oklab,var(--bg)_88%,transparent))]"
+              />
+              <figcaption className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3 rounded-2xl border border-line-strong bg-[var(--bg-glass)] px-4 py-3 backdrop-blur-md">
+                <span className="flex items-center gap-2 text-[0.82rem] font-medium">
+                  <Icon name="pin" size={15} className="text-accent-ink" />
+                  {profile.location}
                 </span>
-                <motion.div
-                  className="h-px flex-1"
-                  style={{ background: `linear-gradient(to left, transparent, ${palette.cardBorder}, transparent)` }}
-                  initial={{ scaleX: 0 }}
-                  whileInView={{ scaleX: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                />
-              </div>
-
-              {/* Main Title */}
-              <h2 className="mx-auto max-w-4xl text-center text-3xl font-bold leading-tight sm:text-4xl md:text-5xl lg:text-6xl">
-                <span style={{ color: palette.text }}>Building the Future of </span>
-                <span
-                  className="relative inline-block"
-                  style={{
-                    backgroundImage: `linear-gradient(135deg, ${theme === "light" ? "#d73333" : "#fb7185"}, ${palette.textSub})`,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    backgroundClip: "text"
-                  }}
-                >
-                  Digital Experiences
-                  <motion.span
-                    className="absolute -bottom-1 sm:-bottom-2 left-0 h-0.5 sm:h-1 rounded-full"
-                    style={{ background: theme === "light" ? "#d73333" : "#fb7185" }}
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "100%" }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                  />
+                <span className="flex items-center gap-1.5 font-mono text-[0.72rem] text-muted">
+                  <Icon name="clock" size={13} />
+                  <LocalTime />
                 </span>
-              </h2>
-
-              {/* Description */}
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="mx-auto mt-4 sm:mt-6 max-w-3xl text-center text-sm leading-relaxed sm:text-base md:text-lg"
-                style={{ color: palette.textSub }}
-              >
-                Full-stack developer specializing in{" "}
-                <span className="font-semibold" style={{ color: palette.text }}>high-performance web applications</span>
-                {" "}with immersive UI/UX. Passionate about merging cutting-edge technology with exceptional design to create products that make an impact.
-              </motion.p>
-
-              {/* Key Highlights */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="mx-auto mt-6 sm:mt-10 flex max-w-3xl flex-wrap items-center justify-center gap-2 sm:gap-4"
-              >
-                {["React & Next.js Expert", "AI/ML Integration", "Mobile Development", "Blockchain Explorer"].map((skill, idx) => (
-                  <motion.div
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.5 + idx * 0.1 }}
-                    className={`rounded-full px-3 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-semibold ${isMobile ? "" : "backdrop-blur-xl"}`}
-                    style={{
-                      background: palette.cardBg,
-                      border: `1px solid ${palette.cardBorder}`,
-                      color: palette.text
-                    }}
-                    whileHover={{
-                      scale: 1.05,
-                      boxShadow: `0 0 20px ${palette.glow}`
-                    }}
-                  >
-                    {skill}
-                  </motion.div>
-                ))}
-              </motion.div>
-            </motion.div>
-          </div>
-
-          {/* Principles Grid */}
-          <PrinciplesGrid principles={aboutData.principles} palette={palette} isMobile={isMobile} />
-
-          {/* Skills & Journey Section */}
-          <div className="mt-10 sm:mt-16 grid gap-6 sm:gap-8 lg:grid-cols-2">
-            <SkillsCard aboutData={aboutData} palette={palette} isMobile={isMobile} />
-            <JourneyTimeline aboutData={aboutData} palette={palette} isMobile={isMobile} theme={theme} />
-          </div>
-
-          {/* Call to Action */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 sm:mt-16 text-center"
-          >
-            <div className={`inline-flex items-center gap-1.5 sm:gap-2 rounded-full px-4 py-2 sm:px-6 sm:py-3 ${isMobile ? "" : "backdrop-blur-xl"}`}
-              style={{
-                background: `linear-gradient(135deg, ${palette.accent}, ${palette.accentStrong})`,
-                border: `1px solid ${palette.cardBorder}`
-              }}
-            >
-              <span className="text-xs sm:text-sm font-medium" style={{ color: palette.text }}>
-                Always learning, always building, always improving
-              </span>
+              </figcaption>
             </div>
-          </motion.div>
-        </motion.div>
-      </Container>
+          </figure>
+
+          {/* Story */}
+          <div className="flex flex-col lg:col-span-7">
+            <div className="space-y-5 text-[1.08rem] leading-[1.75] text-muted text-pretty md:text-[1.15rem]">
+              {profile.intro.map((p, i) => (
+                <p key={i} data-reveal style={{ "--d": `${i * 80}ms` } as React.CSSProperties} className={i === 0 ? "text-fg" : undefined}>
+                  {p}
+                </p>
+              ))}
+            </div>
+
+            <dl className="mt-10 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2" data-reveal>
+              {facts.map((f) => (
+                <div key={f.label} className="flex gap-3.5 bg-bg-elev px-5 py-4">
+                  <Icon name={f.icon} size={17} className="mt-0.5 shrink-0 text-accent-ink" />
+                  <div className="min-w-0">
+                    <dt className="eyebrow !text-[0.65rem]">{f.label}</dt>
+                    <dd className="mt-1 text-[0.92rem] leading-snug text-fg">{f.value}</dd>
+                  </div>
+                </div>
+              ))}
+            </dl>
+
+            <div className="mt-auto pt-10" data-reveal>
+              <p className="eyebrow mb-4">Education</p>
+              <ol className="space-y-3">
+                {education.map((e) => (
+                  <li key={e.degree} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 border-b border-line pb-3 last:border-0">
+                    <span className="text-[0.95rem] text-fg">
+                      {e.degree} <span className="text-subtle">· {e.school}</span>
+                    </span>
+                    <span className="font-mono text-xs text-subtle">{e.period}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </div>
+
+        {/* Principles */}
+        <div className="mt-20">
+          <div className="mb-8 flex items-center gap-4" data-reveal>
+            <h3 className="text-xl font-semibold tracking-tight">How I build</h3>
+            <span className="hairline flex-1" aria-hidden />
+          </div>
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {principles.map((p, i) => (
+              <li
+                key={p.title}
+                data-reveal
+                data-spotlight
+                style={{ "--d": `${i * 70}ms` } as React.CSSProperties}
+                className="card p-6"
+              >
+                <span className="grid size-10 place-items-center rounded-xl border border-line bg-bg-elev-2 text-accent-ink">
+                  <Icon name={p.icon as IconName} size={18} />
+                </span>
+                <h4 className="mt-5 text-[1.02rem] font-semibold tracking-tight">{p.title}</h4>
+                <p className="mt-2 text-[0.9rem] leading-relaxed text-muted">{p.body}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </section>
   );
 }
-
-export const About = memo(AboutInner);

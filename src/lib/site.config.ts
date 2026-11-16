@@ -1,30 +1,33 @@
+import { profile } from "@/data/portfolio";
+
 export const siteConfig = {
-  name: "Anish Seth",
-  role: "Full-Stack Developer | Next.js, React, Web Apps & AI",
-  description: "Anish Seth is a full-stack developer building high-performance web apps with Next.js, React, TypeScript, AI/ML, and Web3. Find his portfolio, projects, and social profiles at anishseth.xyz.",
+  name: profile.name,
+  role: "AI/ML Engineer — Agentic AI, LLM Systems & Enterprise Automation",
+  shortRole: "AI/ML Engineer",
+  description:
+    "Anish Seth is an AI/ML engineer building production agentic systems — multi-agent orchestration, RAG and GraphRAG, and enterprise automation on AWS Bedrock — alongside full-stack products in Next.js and FastAPI. Two-time Smart India Hackathon national finalist.",
   url: "https://anishseth.xyz",
   locale: "en-US",
-  accent: "cyan",
   sameAs: {
-    linkedin: "https://www.linkedin.com/in/anishseth",
-    github: "https://github.com/Anish-2005",
-    instagram: "https://www.instagram.com/_anish.seth_/",
-    x: "https://x.com/AnishSeth170734",
-    email: "mailto:anishseth0510@gmail.com",
+    linkedin: profile.links.linkedin,
+    github: profile.links.github,
+    instagram: profile.links.instagram,
+    x: profile.links.x,
+    leetcode: profile.links.leetcode,
+    email: `mailto:${profile.email}`,
     website: "https://anishseth.xyz",
   },
-
-  location: "India",
+  location: profile.location,
   resume: {
-    label: "Resume",
-    href: "/resume.pdf",
+    label: "Résumé",
+    href: profile.links.resume,
   },
   nav: [
-    { label: "About", href: "#about" },
-    { label: "Work", href: "#work" },
-    { label: "Visuals", href: "#visuals" },
-    { label: "Notes", href: "#notes" },
-    { label: "Contact", href: "#contact" },
+    { label: "About", href: "/#about", id: "about" },
+    { label: "Experience", href: "/#experience", id: "experience" },
+    { label: "Work", href: "/#work", id: "work" },
+    { label: "Skills", href: "/#skills", id: "skills" },
+    { label: "Contact", href: "/#contact", id: "contact" },
   ],
 } as const;
 

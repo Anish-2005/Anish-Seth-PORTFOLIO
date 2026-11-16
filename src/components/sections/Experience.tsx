@@ -47,31 +47,32 @@ export function Experience() {
                 data-reveal
                 data-spotlight
                 style={{ "--d": `${80 + i * 60}ms` } as React.CSSProperties}
-                className="card p-6 sm:p-8"
+                className="card p-5 sm:p-8"
               >
-                <header className="flex flex-wrap items-start gap-4">
+                <header className="flex items-start gap-3.5 sm:gap-4">
                   <span
                     aria-hidden
                     className={cn(
-                      "grid size-12 shrink-0 place-items-center rounded-xl border font-mono text-sm font-semibold",
+                      "grid size-11 shrink-0 place-items-center rounded-xl border font-mono text-sm font-semibold sm:size-12",
                       job.current ? "border-transparent bg-accent text-accent-fg" : "border-line bg-bg-elev-2 text-muted",
                     )}
                   >
                     {job.current ? initials(job.company) : <Icon name="github" size={20} />}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-[1.2rem] font-semibold leading-snug tracking-tight sm:text-[1.3rem]">{job.role}</h3>
-                    <p className="mt-0.5 text-[0.95rem] text-muted">
-                      {job.company} <span className="text-subtle">· {job.summary}</span>
-                    </p>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+                      <h3 className="text-[1.15rem] font-semibold leading-snug tracking-tight sm:text-[1.3rem]">{job.role}</h3>
+                      {job.current ? (
+                        <span className="inline-flex items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--ok)_35%,transparent)] px-2 py-0.5 font-mono text-[9.5px] uppercase tracking-wider text-ok">
+                          <span className="size-1.5 rounded-full bg-ok" />
+                          Current
+                        </span>
+                      ) : null}
+                    </div>
+                    <p className="mt-0.5 text-[0.95rem] font-medium text-muted">{job.company}</p>
                   </div>
-                  {job.current ? (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-[color-mix(in_oklab,var(--ok)_35%,transparent)] px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-ok">
-                      <span className="size-1.5 rounded-full bg-ok" />
-                      Current
-                    </span>
-                  ) : null}
                 </header>
+                <p className="mt-4 text-[0.92rem] text-subtle">{job.summary}</p>
 
                 <ul className="mt-6 space-y-3">
                   {job.bullets.map((b) => (

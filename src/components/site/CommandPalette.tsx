@@ -9,6 +9,13 @@ import { profile, projects } from "@/data/portfolio";
 import { applyTheme, getTheme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
+type Action =
+  | { type: "section"; id: string }
+  | { type: "route"; href: string }
+  | { type: "external"; href: string }
+  | { type: "copy-email" }
+  | { type: "theme" };
+
 type Command = {
   id: string;
   group: "Navigate" | "Case studies" | "Actions" | "Profiles";
@@ -16,8 +23,72 @@ type Command = {
   hint?: string;
   icon: IconName;
   keywords?: string;
-  run: () => void;
+  action: Action;
 };
+
+/** Pure data — built once at module load, executed by the component's handler. */
+const COMMANDS: Command[] = [
+  ...(
+    [
+      ["about", "About", "users"],
+      ["experience", "Experience", "branch"],
+      ["work", "Selected work", "layers"],
+      ["skills", "Skills & capabilities", "cpu"],
+      ["open-source", "Open source activity", "github"],
+      ["recognition", "Awards & certifications", "trophy"],
+      ["contact", "Contact", "mail"],
+    ] as const
+  ).map(([id, label, icon]) => ({
+    id: `nav-${id}`,
+    group: "Navigate" as const,
+    label,
+    icon,
+    action: { type: "section" as const, id },
+  })),
+  {
+    id: "copy-email",
+    group: "Actions",
+    label: "Copy email address",
+    hint: profile.email,
+    icon: "copy",
+    keywords: "mail contact",
+    action: { type: "copy-email" },
+  },
+  { id: "theme", group: "Actions", label: "Toggle light / dark theme", icon: "sun", keywords: "mode appearance", action: { type: "theme" } },
+  {
+    id: "resume",
+    group: "Actions",
+    label: "Download résumé (PDF)",
+    icon: "download",
+    keywords: "cv resume pdf",
+    action: { type: "external", href: profile.links.resume },
+  },
+  ...projects.map((p) => ({
+    id: `p-${p.slug}`,
+    group: "Case studies" as const,
+    label: p.title,
+    hint: p.kicker,
+    icon: "file" as const,
+    keywords: `${p.stack.join(" ")} ${p.kicker}`,
+    action: { type: "route" as const, href: `/projects/${p.slug}` },
+  })),
+  ...(
+    [
+      ["gh", "GitHub", "@Anish-2005", "github", profile.links.github],
+      ["li", "LinkedIn", "in/anishseth", "linkedin", profile.links.linkedin],
+      ["x", "X / Twitter", "@AnishSeth170734", "x", profile.links.x],
+      ["lc", "LeetCode", "Anish_Seth", "leetcode", profile.links.leetcode],
+      ["ig", "Instagram", "@_anish.seth_", "instagram", profile.links.instagram],
+    ] as const
+  ).map(([id, label, hint, icon, href]) => ({
+    id,
+    group: "Profiles" as const,
+    label,
+    hint,
+    icon,
+    action: { type: "external" as const, href },
+  })),
+];
 
 export function CommandPalette() {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -40,109 +111,48 @@ export function CommandPalette() {
     requestAnimationFrame(() => inputRef.current?.focus());
   }, []);
 
-  const goTo = useCallback(
-    (id: string) => {
-      close();
-      if (pathname === "/") {
-        document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-        history.replaceState(null, "", `#${id}`);
-      } else {
-        router.push(`/#${id}`);
-      }
-    },
-    [close, pathname, router],
-  );
-
-  const external = useCallback(
-    (href: string) => {
-      close();
-      window.open(href, "_blank", "noopener,noreferrer");
-    },
-    [close],
-  );
-
-  const commands = useMemo<Command[]>(() => {
-    const nav: Command[] = [
-      { id: "about", label: "About", icon: "users" },
-      { id: "experience", label: "Experience", icon: "branch" },
-      { id: "work", label: "Selected work", icon: "layers" },
-      { id: "skills", label: "Skills & capabilities", icon: "cpu" },
-      { id: "open-source", label: "Open source activity", icon: "github" },
-      { id: "recognition", label: "Awards & certifications", icon: "trophy" },
-      { id: "contact", label: "Contact", icon: "mail" },
-    ].map((n) => ({ ...n, id: `nav-${n.id}`, group: "Navigate" as const, icon: n.icon as IconName, run: () => goTo(n.id) }));
-
-    const studies: Command[] = projects.map((p) => ({
-      id: `p-${p.slug}`,
-      group: "Case studies",
-      label: p.title,
-      hint: p.kicker,
-      icon: "file",
-      keywords: `${p.stack.join(" ")} ${p.kicker}`,
-      run: () => {
+  function execute(command: Command | undefined) {
+    if (!command) return;
+    const { action } = command;
+    switch (action.type) {
+      case "section":
         close();
-        router.push(`/projects/${p.slug}`);
-      },
-    }));
-
-    const actions: Command[] = [
-      {
-        id: "copy-email",
-        group: "Actions",
-        label: "Copy email address",
-        hint: profile.email,
-        icon: "copy",
-        keywords: "mail contact",
-        run: () => {
-          navigator.clipboard?.writeText(profile.email).then(
-            () => setToast("Email copied"),
-            () => setToast(profile.email),
-          );
-        },
-      },
-      {
-        id: "theme",
-        group: "Actions",
-        label: "Toggle light / dark theme",
-        icon: "sun",
-        keywords: "mode appearance",
-        run: () => {
-          close();
-          applyTheme(getTheme() === "dark" ? "light" : "dark");
-        },
-      },
-      {
-        id: "resume",
-        group: "Actions",
-        label: "Download résumé (PDF)",
-        icon: "download",
-        keywords: "cv resume pdf",
-        run: () => {
-          close();
-          window.open(profile.links.resume, "_blank", "noopener");
-        },
-      },
-    ];
-
-    const profiles: Command[] = [
-      { id: "gh", label: "GitHub", hint: "@Anish-2005", icon: "github" as const, href: profile.links.github },
-      { id: "li", label: "LinkedIn", hint: "in/anishseth", icon: "linkedin" as const, href: profile.links.linkedin },
-      { id: "x", label: "X / Twitter", hint: "@AnishSeth170734", icon: "x" as const, href: profile.links.x },
-      { id: "lc", label: "LeetCode", hint: "Anish_Seth", icon: "leetcode" as const, href: profile.links.leetcode },
-      { id: "ig", label: "Instagram", hint: "@_anish.seth_", icon: "instagram" as const, href: profile.links.instagram },
-    ].map(({ href, ...p }) => ({ ...p, group: "Profiles" as const, run: () => external(href) }));
-
-    return [...nav, ...actions, ...studies, ...profiles];
-  }, [close, external, goTo, router]);
+        if (pathname === "/") {
+          document.getElementById(action.id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+          history.replaceState(null, "", `#${action.id}`);
+        } else {
+          router.push(`/#${action.id}`);
+        }
+        break;
+      case "route":
+        close();
+        router.push(action.href);
+        break;
+      case "external":
+        close();
+        window.open(action.href, "_blank", "noopener,noreferrer");
+        break;
+      case "copy-email":
+        navigator.clipboard?.writeText(profile.email).then(
+          () => setToast("Email copied"),
+          () => setToast(profile.email),
+        );
+        break;
+      case "theme":
+        close();
+        applyTheme(getTheme() === "dark" ? "light" : "dark");
+        break;
+    }
+  }
 
   const filtered = useMemo(() => {
     const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
-    if (!terms.length) return commands;
-    return commands.filter((c) => {
+    if (!terms.length) return COMMANDS;
+    return COMMANDS.filter((c) => {
       const hay = `${c.label} ${c.hint ?? ""} ${c.keywords ?? ""} ${c.group}`.toLowerCase();
       return terms.every((t) => hay.includes(t));
     });
-  }, [commands, query]);
+  }, [query]);
 
   // Global shortcut + external open requests.
   useEffect(() => {
@@ -180,7 +190,7 @@ export function CommandPalette() {
       setActiveIndex((i) => (filtered.length ? (i - 1 + filtered.length) % filtered.length : 0));
     } else if (e.key === "Enter") {
       e.preventDefault();
-      filtered[activeIndex]?.run();
+      execute(filtered[activeIndex]);
     }
   };
 
@@ -231,7 +241,7 @@ export function CommandPalette() {
                   aria-selected={i === activeIndex}
                   data-index={i}
                   onMouseMove={() => setActiveIndex(i)}
-                  onClick={() => c.run()}
+                  onClick={() => execute(c)}
                   className={cn(
                     "flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors",
                     i === activeIndex ? "bg-bg-elev-2 text-fg" : "text-muted",

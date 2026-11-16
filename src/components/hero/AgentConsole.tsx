@@ -165,7 +165,7 @@ export function AgentConsole() {
             const isUnused = !used.has(s.key);
             const nextLit = i < STAGES.length - 1 && (completed.has(STAGES[i + 1].key) || activeStage === STAGES[i + 1].key);
             return (
-              <div key={s.key} className={cn("flex items-center", i < STAGES.length - 1 && "flex-1")}>
+              <div key={s.key} className={cn("flex min-w-0 items-center", i < STAGES.length - 1 && "flex-1")}>
                 <div className="flex flex-col items-center gap-1.5">
                   <div
                     className={cn(
@@ -188,19 +188,9 @@ export function AgentConsole() {
                   </span>
                 </div>
                 {i < STAGES.length - 1 ? (
-                  <svg className="mx-1 mb-5 h-2 flex-1" preserveAspectRatio="none" viewBox="0 0 100 2">
-                    <line x1="0" y1="1" x2="100" y2="1" stroke="var(--line-strong)" strokeWidth="2" vectorEffect="non-scaling-stroke" />
-                    <line
-                      x1="0"
-                      y1="1"
-                      x2="100"
-                      y2="1"
-                      stroke="var(--accent)"
-                      strokeWidth="2"
-                      vectorEffect="non-scaling-stroke"
-                      className={cn("edge-flow transition-opacity duration-500", nextLit ? "opacity-100" : "opacity-0")}
-                    />
-                  </svg>
+                  <div className="relative mx-1.5 mb-5 h-[2px] min-w-2 flex-1 overflow-hidden rounded-full bg-line-strong">
+                    <div className={cn("edge-flow-x absolute inset-0 transition-opacity duration-500", nextLit ? "opacity-100" : "opacity-0")} />
+                  </div>
                 ) : null}
               </div>
             );

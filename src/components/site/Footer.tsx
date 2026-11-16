@@ -95,7 +95,7 @@ export function Footer() {
 
       {/* Oversized wordmark */}
       <div aria-hidden className="pointer-events-none select-none overflow-hidden">
-        <p className="container-x -mb-[0.2em] whitespace-nowrap text-center text-[clamp(4rem,17vw,15rem)] font-semibold leading-none tracking-[-0.06em] text-transparent [-webkit-text-stroke:1px_var(--line-strong)]">
+        <p className="container-x -mb-[0.2em] whitespace-nowrap text-center bg-[linear-gradient(180deg,var(--line-strong),transparent_80%)] bg-clip-text text-[clamp(4rem,17vw,15rem)] font-semibold leading-[1.05] tracking-[-0.05em] text-transparent">
           Anish Seth
         </p>
       </div>

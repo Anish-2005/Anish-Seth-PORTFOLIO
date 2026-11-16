@@ -97,51 +97,55 @@
 
 /* ───────────────────────── Base ───────────────────────── */
 
-html {
-  background: var(--bg);
-  scroll-padding-top: 96px;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
+/* Layered so component/utility classes (e.g. outline-none) can override. */
+@layer base {
 
-@media (prefers-reduced-motion: no-preference) {
   html {
-    scroll-behavior: smooth;
+    background: var(--bg);
+    scroll-padding-top: 96px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
-}
 
-body {
-  min-height: 100dvh;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-sans);
-  font-feature-settings: "ss01", "cv11";
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: clip;
-}
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
 
-::selection {
-  background: color-mix(in oklab, var(--accent) 32%, transparent);
-  color: var(--fg);
-}
+  body {
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 32%, transparent);
+    color: var(--fg);
+  }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklab, var(--fg) 18%, transparent) transparent;
-}
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
 
-img,
-svg,
-video {
-  display: block;
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, var(--fg) 18%, transparent) transparent;
+  }
+
+  img,
+  svg,
+  video {
+    display: block;
+  }
 }
 
 /* ───────────────────────── Layout ───────────────────────── */
@@ -347,7 +351,7 @@ video {
   transition-delay: var(--d, 0ms);
 }
 
-.js [data-reveal].is-in,
+.js [data-reveal][data-revealed],
 .js.reveal-fallback:not(.reveal-ready) [data-reveal] {
   opacity: 1;
   transform: none;
@@ -401,9 +405,11 @@ video {
   }
 }
 
-/* Status pulse */
-.pulse-dot {
-  position: relative;
+/* Status pulse (layered so utilities like `absolute` can override position) */
+@layer components {
+  .pulse-dot {
+    position: relative;
+  }
 }
 .pulse-dot::after {
   content: "";
@@ -515,6 +521,21 @@ video {
 @keyframes dash {
   to {
     stroke-dashoffset: -20;
+  }
+}
+
+.edge-flow-x {
+  background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 10px);
+  background-size: 20px 100%;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .edge-flow-x {
+    animation: flow-x 0.9s linear infinite;
+  }
+}
+@keyframes flow-x {
+  to {
+    background-position: 20px 0;
   }
 }
 

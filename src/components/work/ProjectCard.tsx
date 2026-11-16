@@ -112,7 +112,7 @@ export function ProjectCard({ project }: { project: Project }) {
           className="transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.05]"
         />
         {project.badge ? (
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1.5 rounded-full bg-accent px-2 py-0.5 text-[10.5px] font-medium text-accent-fg">
+          <span className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-accent px-2 py-0.5 text-[10.5px] font-medium text-accent-fg">
             <Icon name="trophy" size={11} />
             {project.badge}
           </span>

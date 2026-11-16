@@ -15,7 +15,7 @@ export function Contact() {
     <section id="contact" aria-labelledby="contact-title" className="section-y relative isolate overflow-hidden">
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
         <div
-          className="absolute bottom-[-30%] left-1/2 h-[620px] w-[980px] -translate-x-1/2 rounded-full"
+          className="absolute left-[-10%] top-[12%] h-[560px] w-[760px] rounded-full opacity-80"
           style={{ background: "radial-gradient(closest-side, var(--aurora-1), transparent)" }}
         />
       </div>

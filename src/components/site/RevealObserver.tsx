@@ -14,9 +14,9 @@ export function RevealObserver() {
     const root = document.documentElement;
     root.classList.add("reveal-ready");
 
-    const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]:not(.is-in)"));
+    const nodes = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]:not([data-revealed])"));
     if (!("IntersectionObserver" in window)) {
-      nodes.forEach((n) => n.classList.add("is-in"));
+      nodes.forEach((n) => n.setAttribute("data-revealed", ""));
       return;
     }
 
@@ -24,7 +24,8 @@ export function RevealObserver() {
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
-            entry.target.classList.add("is-in");
+            // A data attribute (not a class) so React re-renders never clear it.
+            entry.target.setAttribute("data-revealed", "");
             io.unobserve(entry.target);
           }
         }

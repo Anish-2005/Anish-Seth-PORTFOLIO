@@ -15,6 +15,10 @@ function utc(date: string) {
   return new Date(`${date}T00:00:00Z`);
 }
 
+function days(n: number) {
+  return `${n} day${n === 1 ? "" : "s"}`;
+}
+
 function fmtDate(date: string) {
   return utc(date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
 }
@@ -83,11 +87,10 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
   const maxYear = Math.max(1, ...years.map((y) => y.count));
   const topLangs = stats.languages.slice(0, 6);
   const maxLang = Math.max(1, ...topLangs.map((l) => l.count));
-  const totalLangRepos = stats.languages.reduce((s, l) => s + l.count, 0);
 
   const tiles = [
-    { label: "Longest streak", value: stats.longestStreak ? `${stats.longestStreak} days` : "—" },
-    { label: "Current streak", value: stats.currentStreak ? `${stats.currentStreak} days` : "—" },
+    { label: "Longest streak", value: stats.longestStreak ? days(stats.longestStreak) : "—" },
+    { label: "Current streak", value: stats.currentStreak ? days(stats.currentStreak) : "—" },
     { label: "Best day", value: stats.bestDay ? `${stats.bestDay.count}` : "—", hint: stats.bestDay ? fmtDate(stats.bestDay.date) : undefined },
     { label: "Public repositories", value: String(stats.publicRepos) },
   ];
@@ -132,7 +135,7 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
           </div>
 
           {stats.days.length ? (
-            <div className="overflow-x-auto px-6 pb-6 pt-4 [direction:rtl] sm:px-8">
+            <div className="overflow-x-auto px-6 pb-6 pt-4 [direction:rtl] [scrollbar-width:none] sm:px-8 [&::-webkit-scrollbar]:hidden">
               <div className="min-w-[640px] [direction:ltr]">
                 <Heatmap days={stats.days} />
               </div>
@@ -183,7 +186,7 @@ export function OpenSource({ stats }: { stats: GitHubStats }) {
           <figure className="card p-6 sm:p-8" data-reveal style={{ "--d": "80ms" } as React.CSSProperties}>
             <figcaption>
               <p className="text-[1.02rem] font-semibold tracking-tight">Primary languages</p>
-              <p className="mt-1 text-[0.86rem] text-muted">Repositories by main language, across {totalLangRepos} public repos.</p>
+              <p className="mt-1 text-[0.86rem] text-muted">Number of public repositories by their main language.</p>
             </figcaption>
             <ul className="mt-7 space-y-4">
               {topLangs.map((l) => (

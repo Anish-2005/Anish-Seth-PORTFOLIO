@@ -36,11 +36,11 @@ export function About() {
                 alt="Anish Seth, AI/ML engineer, photographed outdoors in Kolkata"
                 fill
                 sizes="(min-width: 1024px) 460px, (min-width: 640px) 448px, 100vw"
-                className="object-cover object-[50%_30%] transition-[filter,transform] duration-700 ease-[var(--ease-out-expo)] [filter:saturate(0.85)_contrast(1.03)] group-hover:scale-[1.02] group-hover:[filter:saturate(1)]"
+                className="object-cover object-[50%_30%] transition-[filter,transform] duration-700 ease-[var(--ease-out-expo)] [filter:saturate(0.92)_contrast(1.04)_brightness(1.04)] group-hover:scale-[1.02] group-hover:[filter:saturate(1.02)_brightness(1.06)]"
               />
               <div
                 aria-hidden
-                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_45%,color-mix(in_oklab,var(--bg)_88%,transparent))]"
+                className="absolute inset-0 bg-[linear-gradient(180deg,transparent_62%,color-mix(in_oklab,var(--bg)_70%,transparent))]"
               />
               <figcaption className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3 rounded-2xl border border-line-strong bg-[var(--bg-glass)] px-4 py-3 backdrop-blur-md">
                 <span className="flex items-center gap-2 text-[0.82rem] font-medium">
@@ -81,11 +81,12 @@ export function About() {
               <p className="eyebrow mb-4">Education</p>
               <ol className="space-y-3">
                 {education.map((e) => (
-                  <li key={e.degree} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-0.5 border-b border-line pb-3 last:border-0">
-                    <span className="text-[0.95rem] text-fg">
-                      {e.degree} <span className="text-subtle">· {e.school}</span>
+                  <li key={e.degree} className="flex items-start justify-between gap-4 border-b border-line pb-3 last:border-0">
+                    <span className="min-w-0">
+                      <span className="block text-[0.95rem] text-fg">{e.degree}</span>
+                      <span className="mt-0.5 block text-[0.84rem] text-subtle">{e.school}</span>
                     </span>
-                    <span className="font-mono text-xs text-subtle">{e.period}</span>
+                    <span className="shrink-0 pt-0.5 font-mono text-xs text-subtle">{e.period}</span>
                   </li>
                 ))}
               </ol>

@@ -26,7 +26,7 @@ type SectionProps = {
  */
 export function Section({ id, index, label, title, intro, note, children, className, titleClassName, motif, detail }: SectionProps) {
   return (
-    <section id={id} aria-labelledby={title ? `${id}-title` : undefined} aria-label={title ? undefined : label} className={cn("relative isolate", className)}>
+    <section id={id} aria-labelledby={title ? `${id}-title` : undefined} aria-label={title ? undefined : label} data-chapter className={cn("relative isolate", className)}>
       {motif || detail ? <SectionDecor motif={motif} detail={detail} /> : null}
       <SectionRule />
       <div className="container-x relative grid py-20 md:py-28 lg:grid-cols-12">

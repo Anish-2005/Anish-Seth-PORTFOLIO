@@ -7,6 +7,7 @@ import { CommandPalette } from "@/components/site/CommandPalette";
 import { Footer } from "@/components/site/Footer";
 import { Nav } from "@/components/site/Nav";
 import { Frame } from "@/components/site/Frame";
+import { EncoderDial } from "@/components/site/EncoderDial";
 import { RevealObserver } from "@/components/site/RevealObserver";
 import WebVitalsReporter from "@/components/perf/WebVitalsReporter";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -163,6 +164,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           Skip to content
         </a>
         <Frame />
+        <EncoderDial />
         <Nav />
         <main id="content" className="relative z-[1]">
           {children}

@@ -25,7 +25,9 @@ export function ContributionRing({ days, total }: { days: Day[]; total: number }
   const max = Math.max(1, ...days.map((d) => d.count));
   const angle = (i: number) => ((i + 0.5) / n) * Math.PI * 2 - Math.PI / 2;
   const len = (c: number) => (c === 0 ? 3 : 7 + Math.pow(c / max, 0.6) * (L - 7));
-  const tip = (i: number, r: number) => [C + Math.cos(angle(i)) * r, C + Math.sin(angle(i)) * r] as const;
+  // Rounded so server and browser agree on the last digit (Math.cos/sin can differ) and hydration matches.
+  const round = (v: number) => Math.round(v * 100) / 100;
+  const tip = (i: number, r: number) => [round(C + Math.cos(angle(i)) * r), round(C + Math.sin(angle(i)) * r)] as const;
 
   const months = days
     .map((d, i) => ({ d: utc(d.date), i }))

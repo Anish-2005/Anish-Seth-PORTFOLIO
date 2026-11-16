@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-/** Trimmed transparent cutout (public/portrait.webp). The share-image copy lives in src/assets. */
-export const PORTRAIT = { src: "/portrait.webp", width: 1019, height: 1438, alt: "Portrait of Anish Seth" } as const;
+/** Trimmed transparent cutout (public/anish-seth-portrait.webp). The share-image copy lives in src/assets. */
+export const PORTRAIT = { src: "/anish-seth-portrait.webp", width: 1019, height: 1438, alt: "Portrait of Anish Seth" } as const;
 
 /**
  * The cutout standing on a ruled baseline inside a dot-field plate, with registration marks —

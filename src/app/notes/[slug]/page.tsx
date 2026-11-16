@@ -7,6 +7,7 @@ import { SubpageShell } from "@/components/site/SubpageShell";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Icon } from "@/components/ui/Icon";
 import { formatNoteDate, getNote, seoNotes } from "@/lib/seo-content";
+import { abs, ids, personRef } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -51,13 +52,17 @@ export default async function NotePage({ params }: Props) {
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "Article",
+          "@type": "BlogPosting",
           headline: note.title,
           description: note.summary,
           datePublished: note.date,
           dateModified: note.date,
-          author: { "@id": `${siteConfig.url}/#person` },
-          mainEntityOfPage: `${siteConfig.url}/notes/${note.slug}`,
+          image: abs(`/notes/${note.slug}/opengraph-image`),
+          keywords: note.tags.join(", "),
+          author: personRef,
+          publisher: personRef,
+          isPartOf: { "@id": ids.website },
+          mainEntityOfPage: abs(`/notes/${note.slug}`),
           inLanguage: siteConfig.locale,
         }}
       />

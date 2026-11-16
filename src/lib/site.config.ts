@@ -17,6 +17,22 @@ export const siteConfig = {
     email: `mailto:${profile.email}`,
     website: "https://anishseth.xyz",
   },
+  /** Every public profile that belongs to this person (schema.org sameAs and rel="me"). */
+  profiles: [
+    profile.links.github,
+    profile.links.linkedin,
+    profile.links.x,
+    profile.links.instagram,
+    profile.links.leetcode,
+    "https://stackoverflow.com/users/27832882/anish-seth",
+    "https://www.hackerrank.com/profile/anishseth0510",
+    "https://www.geeksforgeeks.org/profile/anishse10t1",
+    "https://www.figma.com/@anishseth",
+    "https://www.facebook.com/anish.seth.313/",
+  ],
+  twitter: "@AnishSeth170734",
+  /** Bump when page content changes; feeds sitemap lastmod (an honest date beats "now" on every build). */
+  updated: "2026-11-17",
   location: profile.location,
   resume: {
     label: "Résumé",

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { JsonLd } from "@/components/seo/JsonLd";
 import { SectionRule } from "@/components/site/Frame";
+import { breadcrumbs } from "@/lib/seo";
 
 type Crumb = { label: string; href?: string };
 
@@ -20,6 +22,7 @@ export function SubpageShell({ eyebrow, title, description, chips = [], crumbs =
   const trail: Crumb[] = [{ label: "Home", href: "/" }, ...crumbs];
   return (
     <>
+      <JsonLd data={breadcrumbs(trail.map((c) => ({ name: c.label, path: c.href })))} />
       <section className="relative isolate overflow-hidden pt-28 md:pt-32">
         <div aria-hidden className="under-header pointer-events-none absolute inset-0 -z-10">
           <div className="dots absolute inset-0 [mask-image:linear-gradient(to_bottom,#000,transparent_85%)]" />

@@ -4,10 +4,12 @@ import { About } from "@/components/sections/About";
 import { Experience } from "@/components/sections/Experience";
 import { FAQ } from "@/components/sections/FAQ";
 import { Recognition } from "@/components/sections/Recognition";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { SubpageShell } from "@/components/site/SubpageShell";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { profile } from "@/data/portfolio";
+import { abs, ids, personRef } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 
 const description =
@@ -17,17 +19,30 @@ export const metadata: Metadata = {
   title: "About",
   description,
   alternates: { canonical: "/about" },
-  openGraph: { title: `About · ${siteConfig.name}`, description, url: `${siteConfig.url}/about`, type: "profile" },
+  openGraph: { title: `About · ${siteConfig.name}`, description, url: `${siteConfig.url}/about`, type: "profile", firstName: "Anish", lastName: "Seth" },
 };
 
 export default function AboutPage() {
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "AboutPage",
+          url: abs("/about"),
+          name: `About ${siteConfig.name}`,
+          description,
+          inLanguage: siteConfig.locale,
+          isPartOf: { "@id": ids.website },
+          primaryImageOfPage: { "@id": ids.portrait },
+          mainEntity: personRef,
+        }}
+      />
       <SubpageShell
         eyebrow="About"
         title={
           <>
-            Hi, I&apos;m Anish. <span className="text-subtle">Nice to meet you.</span>
+            Hi, I&apos;m Anish Seth. <span className="text-subtle">Nice to meet you.</span>
           </>
         }
         description={profile.summary}

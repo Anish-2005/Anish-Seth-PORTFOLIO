@@ -8,6 +8,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { ProjectArt } from "@/components/work/ProjectArt";
 import { categoryLabels, getProject, projects } from "@/data/portfolio";
+import { abs, ids, personRef } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -78,26 +79,24 @@ export default async function ProjectPage({ params }: Props) {
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: siteConfig.url },
-            { "@type": "ListItem", position: 2, name: "Projects", item: `${siteConfig.url}/projects` },
-            { "@type": "ListItem", position: 3, name: project.title, item: `${siteConfig.url}/projects/${project.slug}` },
-          ],
-        }}
-      />
-      <JsonLd
-        data={{
-          "@context": "https://schema.org",
-          "@type": "CreativeWork",
+          "@type": project.links.github ? "SoftwareSourceCode" : "CreativeWork",
+          "@id": `${abs(`/projects/${project.slug}`)}#work`,
           name: project.title,
           headline: `${project.title} · ${project.kicker}`,
           description: project.summary,
-          url: `${siteConfig.url}/projects/${project.slug}`,
+          abstract: project.problem,
+          url: abs(`/projects/${project.slug}`),
+          mainEntityOfPage: abs(`/projects/${project.slug}`),
+          image: abs(`/projects/${project.slug}/opengraph-image`),
           dateCreated: project.year,
+          inLanguage: siteConfig.locale,
           keywords: project.stack.join(", "),
-          author: { "@id": `${siteConfig.url}/#person` },
-          ...(project.links.github ? { codeRepository: project.links.github } : {}),
+          author: personRef,
+          creator: personRef,
+          isPartOf: { "@id": ids.website },
+          ...(project.badge ? { award: project.badge } : {}),
+          ...(project.links.github ? { codeRepository: project.links.github, programmingLanguage: project.stack.slice(0, 3) } : {}),
+          ...(project.links.live ? { sameAs: project.links.live } : {}),
         }}
       />
 

@@ -11,7 +11,7 @@ import { EncoderDial } from "@/components/site/EncoderDial";
 import { RevealObserver } from "@/components/site/RevealObserver";
 import WebVitalsReporter from "@/components/perf/WebVitalsReporter";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { education, profile, skillGroups } from "@/data/portfolio";
+import { siteGraph } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 import { themeBootScript } from "@/lib/theme";
 
@@ -84,14 +84,20 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title,
     description: siteConfig.description,
-    creator: "@AnishSeth170734",
+    site: siteConfig.twitter,
+    creator: siteConfig.twitter,
   },
   robots: {
     index: true,
     follow: true,
     googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
   },
-  verification: { google: "CC99sQSiR-os5PBjY9ve-etZ4g2GdD7rF1nMRhC5SYI" },
+  verification: {
+    google: "CC99sQSiR-os5PBjY9ve-etZ4g2GdD7rF1nMRhC5SYI",
+    // Set in the host's env to verify Bing Webmaster Tools (optional).
+    ...(process.env.NEXT_PUBLIC_BING_VERIFICATION ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION } } : {}),
+  },
+  category: "technology",
   other: { "color-scheme": "dark light" },
 };
 
@@ -105,55 +111,17 @@ export const viewport: Viewport = {
   ],
 };
 
-const personJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "@id": `${siteConfig.url}/#person`,
-  name: siteConfig.name,
-  alternateName: ["Anish", "anishseth", "Anish-2005", "_anish.seth_"],
-  jobTitle: "AI/ML Engineer",
-  description: siteConfig.description,
-  url: siteConfig.url,
-  image: `${siteConfig.url}/portrait.webp`,
-  email: `mailto:${profile.email}`,
-  address: { "@type": "PostalAddress", addressLocality: "Kolkata", addressRegion: "West Bengal", addressCountry: "IN" },
-  worksFor: { "@type": "Organization", name: profile.current.company },
-  alumniOf: { "@type": "CollegeOrUniversity", name: education[0].school },
-  sameAs: [
-    siteConfig.sameAs.github,
-    siteConfig.sameAs.linkedin,
-    siteConfig.sameAs.x,
-    siteConfig.sameAs.instagram,
-    siteConfig.sameAs.leetcode,
-  ],
-  knowsAbout: Array.from(new Set(skillGroups.slice(0, 5).flatMap((g) => g.items))).slice(0, 30),
-  award: [
-    "Smart India Hackathon 2024, national finalist",
-    "Smart India Hackathon 2025, national finalist",
-    "IDE Bootcamp 2026 Phase 1, national finalist",
-    "IDE Bootcamp 2026 Phase 3, national finalist",
-  ],
-};
-
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": `${siteConfig.url}/#website`,
-  name: siteConfig.name,
-  url: siteConfig.url,
-  inLanguage: siteConfig.locale,
-  publisher: { "@id": `${siteConfig.url}/#person` },
-};
-
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" data-theme="dark" data-scroll-behavior="smooth" suppressHydrationWarning className={`${sans.variable} ${mono.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
-        <link rel="me" href={siteConfig.sameAs.github} />
-        <link rel="me" href={siteConfig.sameAs.linkedin} />
-        <JsonLd data={personJsonLd} />
-        <JsonLd data={websiteJsonLd} />
+        {/* Identity links: tie the domain to each profile (also used for profile verification). */}
+        {siteConfig.profiles.map((href) => (
+          <link key={href} rel="me" href={href} />
+        ))}
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable summary" />
+        <JsonLd data={siteGraph} />
       </head>
       <body>
         <span id="top" aria-hidden className="absolute top-0" />

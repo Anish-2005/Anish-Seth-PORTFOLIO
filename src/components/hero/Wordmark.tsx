@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 
 const WORDS = ["Anish", "Seth"];
 const BASE = { wg: 640, wd: 104 };
@@ -147,14 +147,18 @@ export function Wordmark({ hostId }: { hostId: string }) {
       {WORDS.map((word, w) => {
         const offset = WORDS.slice(0, w).join("").length;
         return (
-          <span key={word} className="wordmark-word" aria-hidden>
-            {word.split("").map((ch, c) => (
-              <span key={c} data-ch style={{ "--i": offset + c } as React.CSSProperties}>
-                {ch}
-              </span>
-            ))}
-            {w < WORDS.length - 1 ? <span data-space /> : null}
-          </span>
+          <Fragment key={word}>
+            {/* A real space keeps the heading text "Anish Seth" for crawlers; whitespace-only flex children don't render. */}
+            {w > 0 ? " " : null}
+            <span className="wordmark-word" aria-hidden>
+              {word.split("").map((ch, c) => (
+                <span key={c} data-ch style={{ "--i": offset + c } as React.CSSProperties}>
+                  {ch}
+                </span>
+              ))}
+              {w < WORDS.length - 1 ? <span data-space /> : null}
+            </span>
+          </Fragment>
         );
       })}
     </h1>

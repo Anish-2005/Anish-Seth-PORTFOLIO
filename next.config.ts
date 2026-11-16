@@ -7,7 +7,10 @@ const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
-  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), interest-cohort=()" },
+  {
+    key: "Permissions-Policy",
+    value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+  },
 ];
 
 const nextConfig: NextConfig = {
@@ -23,12 +26,21 @@ const nextConfig: NextConfig = {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
   async redirects() {
-    // Retired placeholder case studies from the previous version of the site.
-    return ["atlas", "chainkit", "signal"].map((slug) => ({
-      source: `/projects/${slug}`,
-      destination: "/projects",
-      permanent: true,
-    }));
+    return [
+      // One canonical host: www and any other alias collapse onto the apex domain.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.anishseth.xyz" }],
+        destination: "https://anishseth.xyz/:path*",
+        permanent: true,
+      },
+      // Retired placeholder case studies from the previous version of the site.
+      ...["atlas", "chainkit", "signal"].map((slug) => ({
+        source: `/projects/${slug}`,
+        destination: "/projects",
+        permanent: true,
+      })),
+    ];
   },
 };
 

@@ -564,7 +564,7 @@ export const faqs = [
   {
     question: "Who is Anish Seth?",
     answer:
-      "That's me. I'm an AI/ML engineer from Kolkata, India. I build AI agents at Digital Alpha, mostly on AWS Bedrock, and I've made it to the Smart India Hackathon national finals twice.",
+      "That's me. I'm an AI/ML engineer from Kolkata, India. I build AI agents on AWS Bedrock, and I've made it to the Smart India Hackathon national finals twice.",
   },
   {
     question: "What does Anish Seth work on?",

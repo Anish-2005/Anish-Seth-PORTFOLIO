@@ -70,8 +70,8 @@ export function Hero({ contributions, repos }: HeroProps) {
                 I build AI agents that do real work with real data.
                 <span className="text-subtle">
                   {" "}
-                  Right now that&apos;s at Digital Alpha, mostly in Python on AWS Bedrock, and I care a lot about what
-                  happens when things go wrong.
+                  Right now, I&apos;m working mostly in Python on AWS Bedrock, and I care a lot about what happens
+                  when things go wrong.
                 </span>
               </p>
               <div className="fade-in mt-9 flex flex-wrap items-center gap-3" style={{ "--d": "260ms" } as React.CSSProperties}>

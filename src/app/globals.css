@@ -3,6 +3,16 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 @custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
 
+/* ───────────────────────── Font Optimizations ───────────────────────── */
+@font-face {
+  font-family: "Archivo Variable";
+  font-display: swap;
+  font-opt-sizing: auto;
+  ascent-override: 100%;
+  descent-override: 100%;
+  line-height-override: 1.6;
+}
+
 /* ───────────────────────── Tokens ───────────────────────── */
 
 :root,

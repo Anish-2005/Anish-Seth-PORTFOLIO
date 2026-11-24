@@ -6,7 +6,7 @@ export const contentType = "image/png";
 
 export default function OpenGraphImage() {
   return renderShareCard({
-    brand: "ANISHSETH.XYZ",
+    brand: "ANISHSETH.IN",
     eyebrow: "AI/ML ENGINEER · KOLKATA",
     title: ["Anish", "Seth"],
     titleSize: 116,

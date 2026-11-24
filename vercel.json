@@ -31,7 +31,7 @@
           "value": "anishseth.vercel.app"
         }
       ],
-      "destination": "https://anishseth.xyz/:path*",
+      "destination": "https://www.anishseth.in/:path*",
       "permanent": true
     }
   ]

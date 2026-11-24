@@ -6,7 +6,7 @@
 
 ## Files
 
-Everything lives in [`/public/brand`](../../public/brand). It's served at `https://anishseth.xyz/brand/<file>`, so other apps can link to it directly.
+Everything lives in [`/public/brand`](../../public/brand). It's served at `https://www.anishseth.in/brand/<file>`, so other apps can link to it directly.
 
 | Use | File |
 | --- | --- |
@@ -26,9 +26,9 @@ The favicon has no background. The SVG version uses `prefers-color-scheme`, so t
 ### Drop-in snippets
 
 ```html
-<link rel="icon" href="https://anishseth.xyz/brand/favicon.ico" sizes="any" />
-<link rel="icon" href="https://anishseth.xyz/brand/favicon.svg" type="image/svg+xml" />
-<link rel="apple-touch-icon" href="https://anishseth.xyz/brand/apple-touch-icon.png" />
+<link rel="icon" href="https://www.anishseth.in/brand/favicon.ico" sizes="any" />
+<link rel="icon" href="https://www.anishseth.in/brand/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="https://www.anishseth.in/brand/apple-touch-icon.png" />
 ```
 
 In React, the inline, theme-aware version is `LogoMark` in `src/components/site/Logo.tsx`. Its stroke follows `currentColor` and the node uses `var(--accent)`.

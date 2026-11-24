@@ -573,7 +573,7 @@ export const faqs = [
   },
   {
     question: "Where can I find Anish Seth's work?",
-    answer: "You're looking at it. This site is anishseth.xyz, and my code lives on GitHub at github.com/Anish-2005.",
+    answer: "You're looking at it. This site is www.anishseth.in, and my code lives on GitHub at github.com/Anish-2005.",
   },
   {
     question: "Is Anish Seth open to new roles?",
@@ -582,7 +582,7 @@ export const faqs = [
   },
   {
     question: "Where is Anish Seth on social media?",
-    answer: "LinkedIn at linkedin.com/in/anishseth, X at @AnishSeth170734 and Instagram at @_anish.seth_.",
+    answer: "LinkedIn at linkedin.com/in/anishseth, X at @AnishSeth170734 and Instagram at @anishseth.in.",
   },
 ] as const;
 

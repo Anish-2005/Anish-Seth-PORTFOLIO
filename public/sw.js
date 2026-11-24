@@ -1,5 +1,5 @@
 /*
- * Service worker for anishseth.xyz: makes repeat visits instant and keeps the site usable on slow,
+ * Service worker for anishseth.in: makes repeat visits instant and keeps the site usable on slow,
  * flaky or no connections.
  *
  * - Build files (/_next/static, content-hashed): cache first, they never change.

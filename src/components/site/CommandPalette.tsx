@@ -79,7 +79,7 @@ const COMMANDS: Command[] = [
       ["li", "LinkedIn", "in/anishseth", "linkedin", profile.links.linkedin],
       ["x", "X / Twitter", "@AnishSeth170734", "x", profile.links.x],
       ["lc", "LeetCode", "Anish_Seth", "leetcode", profile.links.leetcode],
-      ["ig", "Instagram", "@_anish.seth_", "instagram", profile.links.instagram],
+      ["ig", "Instagram", "@anishseth.in", "instagram", profile.links.instagram],
     ] as const
   ).map(([id, label, hint, icon, href]) => ({
     id,

@@ -9,7 +9,7 @@ const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
-  // Set on www.anishseth.xyz, so includeSubDomains only covers hosts under www.
+  // Set on www.anishseth.in, so includeSubDomains only covers hosts under www.
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
   { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
   {
@@ -29,7 +29,7 @@ const cacheFor = (maxAge: number, staleFor = 365 * DAY) => [
   { key: "Cache-Control", value: `public, max-age=${maxAge}, stale-while-revalidate=${staleFor}` },
 ];
 
-/** Vanity links (anishseth.xyz/github …). As config redirects they're answered by the router itself, with no function call. */
+/** Vanity links (anishseth.in/github …). As config redirects they're answered by the router itself, with no function call. */
 const vanity: [path: string, to: string, permanent: boolean][] = [
   ["/github", profile.links.github, true],
   ["/linkedin", profile.links.linkedin, true],

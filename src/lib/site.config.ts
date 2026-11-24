@@ -7,7 +7,7 @@ export const siteConfig = {
   description:
     "Anish Seth is an AI/ML engineer in Kolkata who builds AI agents that work with real data, mostly on AWS Bedrock with LangGraph and MCP, plus full-stack apps in Next.js and FastAPI. National finalist at Smart India Hackathon and IDE Bootcamp.",
   // Vercel serves the site on www (the apex redirects there), so www is the canonical address.
-  url: "https://www.anishseth.xyz",
+  url: "https://www.anishseth.in",
   locale: "en-US",
   sameAs: {
     linkedin: profile.links.linkedin,
@@ -16,7 +16,7 @@ export const siteConfig = {
     x: profile.links.x,
     leetcode: profile.links.leetcode,
     email: `mailto:${profile.email}`,
-    website: "https://www.anishseth.xyz",
+    website: "https://www.anishseth.in",
   },
   /** Every public profile that belongs to this person (schema.org sameAs and rel="me"). */
   profiles: [

@@ -25,7 +25,7 @@ export const profile = {
     github: "https://github.com/Anish-2005",
     linkedin: "https://www.linkedin.com/in/anishseth",
     x: "https://x.com/AnishSeth170734",
-    instagram: "https://www.instagram.com/_anish.seth_/",
+    instagram: "https://www.instagram.com/anishseth.in/",
     leetcode: "https://leetcode.com/u/Anish_Seth/",
     resume: "/anish-seth-resume.pdf",
   },

@@ -23,6 +23,10 @@
     }
   ],
   "redirects": [
+    { "source": "/", "has": [{ "type": "host", "value": "photos.anishseth.in" }], "destination": "https://www.anishseth.in/photography", "permanent": true },
+    { "source": "/photos/:path*", "has": [{ "type": "host", "value": "photos.anishseth.in" }], "destination": "https://www.anishseth.in/photos/:path*", "permanent": true },
+    { "source": "/photography/:path*", "has": [{ "type": "host", "value": "photos.anishseth.in" }], "destination": "https://www.anishseth.in/photography/:path*", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "host", "value": "photos.anishseth.in" }], "destination": "https://www.anishseth.in/photography/:path*", "permanent": true },
     { "source": "/", "has": [{ "type": "host", "value": "www.anishseth.xyz" }], "destination": "https://www.anishseth.in/", "permanent": true },
     { "source": "/:path*", "has": [{ "type": "host", "value": "www.anishseth.xyz" }], "destination": "https://www.anishseth.in/:path*", "permanent": true },
     { "source": "/", "has": [{ "type": "host", "value": "anishseth.xyz" }], "destination": "https://www.anishseth.in/", "permanent": true },

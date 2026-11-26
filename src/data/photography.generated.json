@@ -1,0 +1,26 @@
+{
+  "anish-seth-portrait-sepia-aviators": {
+    "series": "portraits",
+    "width": 1200,
+    "height": 1200,
+    "widths": [
+      640,
+      1024,
+      1200
+    ],
+    "hash": "19caeec941b0ee2f",
+    "blur": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAACwBACdASoUABQAPu1urlKppiQiqAgBMB2JZwDHMBBMDePi4UJFfnoP4tQMn8kQAP7ytDcnNeuLz1Py/X3+/ZFB8Z3eZUlhzntrzdmublMPcF6MRITL0KmNy19q9q12BXjBo9+Psg0WA7QDcwcXMdcAAAA="
+  },
+  "anish-seth-stone-wall-afternoon-light": {
+    "series": "portraits",
+    "width": 1307,
+    "height": 1307,
+    "widths": [
+      640,
+      1024,
+      1307
+    ],
+    "hash": "f857f00a86af34b8",
+    "blur": "data:image/webp;base64,UklGRpoAAABXRUJQVlA4II4AAADQBACdASoUABQAPu1ur1IppiQiqAgBMB2JYwC7AAufFvAtqGM3LYQgsW8yo7VisAD+tfhlBNnY5PVsT04efyDbB7YdzcEdUBp4a8cGoWcDIjbAmeSrsc31HCg5h28xSwJVoiiiKGSLyIXeAFoRc5numgELwOT1Xk+wen+xbGPi+JCmrMTdz4qUzSaRwAAA"
+  }
+}

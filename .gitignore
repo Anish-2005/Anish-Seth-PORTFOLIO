@@ -42,3 +42,6 @@ next-env.d.ts
 
 # promo videos (large binaries, kept out of git)
 /promo/
+
+# photo originals (large files; the processed copies in public/photos are committed)
+/photos/

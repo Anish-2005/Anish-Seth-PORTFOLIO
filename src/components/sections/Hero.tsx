@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { Wordmark } from "@/components/hero/Wordmark";
+import { Viewfinder } from "@/components/photography/Viewfinder";
 import { SectionRule } from "@/components/site/Frame";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
@@ -57,6 +58,7 @@ export function Hero({ contributions, repos }: HeroProps) {
               className="h-full w-auto select-none object-contain object-bottom"
               draggable={false}
             />
+            <Viewfinder />
           </figure>
         </div>
 

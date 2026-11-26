@@ -47,6 +47,14 @@ const COMMANDS: Command[] = [
     action: { type: "section" as const, id },
   })),
   {
+    id: "photography",
+    group: "Navigate",
+    label: "Photography",
+    icon: "file",
+    keywords: "photos pictures portraits images gallery",
+    action: { type: "route", href: "/photography" },
+  },
+  {
     id: "copy-email",
     group: "Actions",
     label: "Copy email address",

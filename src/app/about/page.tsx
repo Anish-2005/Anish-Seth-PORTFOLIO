@@ -55,6 +55,9 @@ export default function AboutPage() {
             <ButtonLink href="/#contact" variant="secondary">
               Get in touch <Icon name="arrow-right" size={15} />
             </ButtonLink>
+            <ButtonLink href="/photography" variant="secondary">
+              Photos of me
+            </ButtonLink>
           </div>
         }
       />

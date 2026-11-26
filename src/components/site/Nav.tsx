@@ -15,6 +15,8 @@ import { cn } from "@/lib/utils";
 
 export const OPEN_COMMAND_EVENT = "open-command-palette";
 
+const isHeaderless = (pathname: string) => pathname === "/photography" || pathname.startsWith("/photography/");
+
 export function Nav() {
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -69,6 +71,9 @@ export function Nav() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setOpen(false);
   }, [pathname]);
+
+  // The gallery stands on its own, without the header. Breadcrumbs and the footer lead back.
+  if (isHeaderless(pathname)) return null;
 
   return (
     <>

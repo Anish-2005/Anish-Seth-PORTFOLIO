@@ -8,6 +8,7 @@ const links = [
   { label: "Projects", href: "/projects" },
   // Not just "About": the nav's "About" goes to the home section, this one to the full page.
   { label: "About me", href: "/about" },
+  { label: "Photos", href: "/photography" },
   { label: "Résumé", href: profile.links.resume },
   { label: "GitHub", href: profile.links.github },
   { label: "LinkedIn", href: profile.links.linkedin },

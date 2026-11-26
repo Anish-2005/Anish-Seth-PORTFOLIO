@@ -33,7 +33,7 @@ export const siteConfig = {
   ],
   twitter: "@AnishSeth170734",
   /** Bump when page content changes; feeds sitemap lastmod (an honest date beats "now" on every build). */
-  updated: "2026-11-24",
+  updated: "2026-11-26",
   location: profile.location,
   resume: {
     label: "Résumé",

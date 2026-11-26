@@ -38,6 +38,7 @@ const vanity: [path: string, to: string, permanent: boolean][] = [
   ["/instagram", profile.links.instagram, false],
   ["/leetcode", profile.links.leetcode, false],
   ["/resume", profile.links.resume, false],
+  ["/photos", "/photography", true],
   ["/discord", "https://discord.com/users/1245782193348018238", false],
   ["/facebook", "https://www.facebook.com/anish.seth.313/", false],
   ["/figma", "https://www.figma.com/@anishseth", false],
@@ -67,6 +68,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/:path*", headers: securityHeaders },
       { source: "/brand/:path*", headers: cacheFor(30 * DAY) },
+      { source: "/photos/:path*", headers: cacheFor(30 * DAY) },
       { source: "/anish-seth.jpg", headers: cacheFor(7 * DAY) },
       { source: "/profile.jpg", headers: cacheFor(7 * DAY) },
       { source: "/anish-seth-resume.pdf", headers: cacheFor(DAY, 7 * DAY) },

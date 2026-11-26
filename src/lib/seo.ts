@@ -1,3 +1,4 @@
+import type { ResolvedPhoto } from "@/data/photography";
 import { awards, certifications, education, profile, skillGroups } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
 
@@ -35,6 +36,12 @@ export const portrait = {
   alt: "Anish Seth",
 };
 
+/** Google Images shows these as a photo's license details ("Licensable" badge, "Get this image"). */
+const licensing = {
+  license: `${URL}/image-license`,
+  acquireLicensePage: `${URL}/image-license`,
+};
+
 /** Short Person reference with the fields rich-result validators expect on author/mainEntity. */
 export const personRef = {
   "@type": "Person",
@@ -56,9 +63,7 @@ const portraitNode = {
   creditText: "Anish Seth",
   creator: { "@id": ids.person },
   copyrightNotice: `© ${new Date().getFullYear()} Anish Seth`,
-  // Google Images shows these as the photo's license details ("Licensable" badge, "Get this image").
-  license: `${URL}/image-license`,
-  acquireLicensePage: `${URL}/image-license`,
+  ...licensing,
   representativeOfPage: true,
 };
 
@@ -161,3 +166,37 @@ export function breadcrumbs(items: { name: string; path?: string }[]) {
 
 /** Absolute URL helper for schema fields. */
 export const abs = (path: string) => `${URL}${path}`;
+
+/** One gallery photo, tied to the page it appears on and (for portraits) to the same Person. */
+export function photoNode(photo: ResolvedPhoto, pagePath: string) {
+  const own = photo.creator === profile.name;
+  return {
+    "@type": "ImageObject",
+    "@id": `${abs(pagePath)}#${photo.slug}`,
+    url: abs(photo.src),
+    contentUrl: abs(photo.src),
+    thumbnailUrl: abs(photo.thumbnail),
+    encodingFormat: "image/webp",
+    width: photo.width,
+    height: photo.height,
+    name: photo.title,
+    caption: photo.caption,
+    description: photo.alt,
+    creator: own ? personRef : { "@type": "Person", name: photo.creator },
+    creditText: photo.creator,
+    copyrightNotice: `© ${photo.creator}`,
+    ...licensing,
+    ...(photo.portrait ? { about: { "@id": ids.person } } : {}),
+    ...(photo.location ? { contentLocation: { "@type": "Place", name: photo.location } } : {}),
+    ...(photo.taken ? { dateCreated: isoDateTime(photo.taken) } : {}),
+  };
+}
+
+/** The same photo as an Open Graph image, so a shared gallery link shows the picture itself. */
+export const openGraphImage = (photo: ResolvedPhoto) => ({
+  url: abs(photo.src),
+  width: photo.width,
+  height: photo.height,
+  alt: photo.alt,
+  type: "image/webp",
+});

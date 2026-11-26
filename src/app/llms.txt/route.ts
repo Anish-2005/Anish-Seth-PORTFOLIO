@@ -1,3 +1,4 @@
+import { photoCount, photoSeries } from "@/data/photography";
 import { awards, certifications, education, experience, faqs, profile, projects, skillGroups } from "@/data/portfolio";
 import { portrait } from "@/lib/seo";
 import { indexedNotes } from "@/lib/seo-content";
@@ -47,6 +48,10 @@ export function GET() {
     "",
     ...indexedNotes.map((n) => `- [${n.title}](${url}/notes/${n.slug}): ${n.summary}`),
     "",
+    "## Photos",
+    "",
+    ...photoSeries.map((s) => `- [${s.title}](${url}/photography/${s.slug}) (${photoCount(s.photos.length)}): ${s.summary}`),
+    "",
     "## FAQ",
     "",
     ...faqs.flatMap((f) => [`### ${f.question}`, "", f.answer, ""]),
@@ -54,6 +59,7 @@ export function GET() {
     "",
     `- [Website](${url})`,
     `- [About](${url}/about)`,
+    `- [Photography](${url}/photography)`,
     `- [Résumé (PDF)](${url}${profile.links.resume})`,
     `- [Notes (RSS)](${url}/feed.xml)`,
     ...siteConfig.profiles.map((p) => `- ${p}`),

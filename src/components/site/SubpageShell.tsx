@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SectionRule } from "@/components/site/Frame";
 import { breadcrumbs } from "@/lib/seo";
+import { cn } from "@/lib/utils";
 
 type Crumb = { label: string; href?: string };
 
@@ -14,17 +15,19 @@ type SubpageShellProps = {
   chips?: string[];
   crumbs?: Crumb[];
   meta?: ReactNode;
+  /** For pages shown without the site header: drops the room kept for it. */
+  headerless?: boolean;
   children?: ReactNode;
 };
 
 /** Subpage masthead on the same 3/9 grid as the home sections. */
-export function SubpageShell({ eyebrow, title, description, chips = [], crumbs = [], meta, children }: SubpageShellProps) {
+export function SubpageShell({ eyebrow, title, description, chips = [], crumbs = [], meta, headerless = false, children }: SubpageShellProps) {
   const trail: Crumb[] = [{ label: "Home", href: "/" }, ...crumbs];
   return (
     <>
       <JsonLd data={breadcrumbs(trail.map((c) => ({ name: c.label, path: c.href })))} />
-      <section className="relative isolate overflow-hidden pt-28 md:pt-32">
-        <div aria-hidden className="under-header pointer-events-none absolute inset-0 -z-10">
+      <section className={cn("relative isolate overflow-hidden", headerless ? "pt-12 md:pt-16" : "pt-28 md:pt-32")}>
+        <div aria-hidden className={cn("pointer-events-none absolute inset-0 -z-10", !headerless && "under-header")}>
           <div className="dots absolute inset-0 [mask-image:linear-gradient(to_bottom,#000,transparent_85%)]" />
         </div>
         <div className="container-x grid pb-14 md:pb-20 lg:grid-cols-12">

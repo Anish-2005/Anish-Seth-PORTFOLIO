@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { SubpageShell } from "@/components/site/SubpageShell";
 import { ButtonLink } from "@/components/ui/Button";
@@ -7,10 +8,10 @@ import { profile } from "@/data/portfolio";
 import { ogDefaults } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 
-const description = `Photos of ${profile.name} on this site are © ${profile.name}, all rights reserved. How to ask to use one.`;
+const description = `Photos on this site are © ${profile.name} unless credited otherwise, all rights reserved. How to ask to use one.`;
 
 /**
- * The page the portrait's structured data points to for "license" and "acquireLicensePage", so
+ * The page every photo's structured data and embedded metadata point to for "license" and "acquireLicensePage", so
  * Google Images can show who owns the photo and how to ask for it. A utility page, so noindex.
  */
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ export default function ImageLicensePage() {
           Using my photos. <span className="text-subtle">Just ask first.</span>
         </>
       }
-      description={`Photos of me on this site are © ${profile.name}. All rights reserved.`}
+      description={`Photos on this site are © ${profile.name} unless credited otherwise. All rights reserved.`}
       crumbs={[{ label: "Image license" }]}
       meta={
         <div className="flex flex-wrap gap-3">
@@ -52,7 +53,12 @@ export default function ImageLicensePage() {
           and tell me where it will appear.
         </p>
         <p>
-          Wherever it&apos;s used, please credit it as <span className="text-fg">&ldquo;{profile.name}&rdquo;</span>.
+          Wherever it&apos;s used, please credit it as <span className="text-fg">&ldquo;{profile.name}&rdquo;</span>, or the
+          photographer named under the picture. You can see them all on the{" "}
+          <Link href="/photography" className="link-u text-fg">
+            photography page
+          </Link>
+          .
         </p>
       </div>
     </SubpageShell>

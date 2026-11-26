@@ -89,10 +89,10 @@ export const metadata: Metadata = {
     lastName: "Seth",
     username: "Anish-2005",
   },
+  // No title, description or image here: Next fills those in from each page's own openGraph, so a
+  // shared project or note shows its own card on X instead of the home page's.
   twitter: {
     card: "summary_large_image",
-    title,
-    description: siteConfig.description,
     site: siteConfig.twitter,
     creator: siteConfig.twitter,
   },
@@ -130,6 +130,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <link key={href} rel="me" href={href} />
         ))}
         <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable summary" />
+        <link rel="alternate" type="application/rss+xml" href="/feed.xml" title={`Notes · ${siteConfig.name}`} />
         <JsonLd data={siteGraph} />
       </head>
       <body>

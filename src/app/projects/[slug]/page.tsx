@@ -8,7 +8,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { ProjectArt } from "@/components/work/ProjectArt";
 import { categoryLabels, getProject, projects } from "@/data/portfolio";
-import { abs, ids, personRef } from "@/lib/seo";
+import { abs, ids, ogDefaults, personRef } from "@/lib/seo";
 import { seoNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
@@ -29,6 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: project.summary,
     alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {
+      ...ogDefaults,
       title: `${project.title} · ${siteConfig.name}`,
       description: project.summary,
       url: `${siteConfig.url}/projects/${project.slug}`,

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SubpageShell } from "@/components/site/SubpageShell";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { Icon } from "@/components/ui/Icon";
+import { ogDefaults } from "@/lib/seo";
 import { formatNoteDate, readingMinutes, seoNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   title: "Notes",
   description,
   alternates: { canonical: "/notes" },
-  openGraph: { title: `Notes · ${siteConfig.name}`, description, url: `${siteConfig.url}/notes`, type: "website" },
+  openGraph: { ...ogDefaults, title: `Notes · ${siteConfig.name}`, description, url: `${siteConfig.url}/notes`, type: "website" },
 };
 
 export default function NotesPage() {
@@ -40,7 +41,7 @@ export default function NotesPage() {
           url: `${siteConfig.url}/notes`,
           mainEntity: {
             "@type": "ItemList",
-            itemListElement: notes.map((n, i) => ({ "@type": "ListItem", position: i + 1, name: n.title, url: `${siteConfig.url}/notes/${n.slug}` })),
+            itemListElement: notes.filter((n) => !n.noindex).map((n, i) => ({ "@type": "ListItem", position: i + 1, name: n.title, url: `${siteConfig.url}/notes/${n.slug}` })),
           },
         }}
       />

@@ -8,7 +8,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { Icon } from "@/components/ui/Icon";
 import { getProject } from "@/data/portfolio";
 import { formatNoteDate, getNote, readingMinutes, seoNotes } from "@/lib/seo-content";
-import { abs, ids, personRef } from "@/lib/seo";
+import { abs, ids, isoDateTime, ogDefaults, personRef } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -27,12 +27,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: note.title,
     description: note.summary,
     alternates: { canonical: `/notes/${note.slug}` },
+    ...(note.noindex ? { robots: { index: false, follow: true, googleBot: { index: false, follow: true } } } : {}),
     openGraph: {
+      ...ogDefaults,
       title: `${note.title} · ${siteConfig.name}`,
       description: note.summary,
       url: `${siteConfig.url}/notes/${note.slug}`,
       type: "article",
       publishedTime: note.date,
+      authors: [siteConfig.url],
+      tags: note.tags,
     },
   };
 }
@@ -57,8 +61,8 @@ export default async function NotePage({ params }: Props) {
           "@type": "BlogPosting",
           headline: note.title,
           description: note.summary,
-          datePublished: note.date,
-          dateModified: note.date,
+          datePublished: isoDateTime(note.date),
+          dateModified: isoDateTime(note.date),
           image: abs(`/notes/${note.slug}/opengraph-image`),
           keywords: note.tags.join(", "),
           wordCount: note.body.split(/\s+/).length,

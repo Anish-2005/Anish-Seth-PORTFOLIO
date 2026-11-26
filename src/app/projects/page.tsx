@@ -5,6 +5,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { FeaturedGrid } from "@/components/work/FeaturedGrid";
 import { ProjectIndex } from "@/components/work/ProjectIndex";
 import { projects, toProjectRow } from "@/data/portfolio";
+import { ogDefaults } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 
 const description =
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
   title: "Projects",
   description,
   alternates: { canonical: "/projects" },
-  openGraph: { title: `Projects · ${siteConfig.name}`, description, url: `${siteConfig.url}/projects`, type: "website" },
+  openGraph: { ...ogDefaults, title: `Projects · ${siteConfig.name}`, description, url: `${siteConfig.url}/projects`, type: "website" },
 };
 
 export default function ProjectsPage() {

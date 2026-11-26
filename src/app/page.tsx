@@ -8,7 +8,7 @@ import { Recognition } from "@/components/sections/Recognition";
 import { Work } from "@/components/sections/Work";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { getGitHubStats } from "@/lib/github";
-import { ids, personRef } from "@/lib/seo";
+import { ids, isoDateTime, personRef } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 
 // Static HTML, regenerated in the background so GitHub numbers stay fresh.
@@ -28,8 +28,8 @@ export default async function Home() {
           name: `${siteConfig.name} · AI/ML Engineer`,
           description: siteConfig.description,
           inLanguage: siteConfig.locale,
-          dateCreated: "2025-12-12",
-          dateModified: siteConfig.updated,
+          dateCreated: isoDateTime("2025-12-12"),
+          dateModified: isoDateTime(siteConfig.updated),
           isPartOf: { "@id": ids.website },
           primaryImageOfPage: { "@id": ids.portrait },
           mainEntity: personRef,

@@ -1,6 +1,6 @@
 import { awards, certifications, education, experience, faqs, profile, projects, skillGroups } from "@/data/portfolio";
 import { portrait } from "@/lib/seo";
-import { seoNotes } from "@/lib/seo-content";
+import { indexedNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
 export const dynamic = "force-static";
@@ -45,7 +45,7 @@ export function GET() {
     "",
     "## Notes",
     "",
-    ...seoNotes.map((n) => `- [${n.title}](${url}/notes/${n.slug}): ${n.summary}`),
+    ...indexedNotes.map((n) => `- [${n.title}](${url}/notes/${n.slug}): ${n.summary}`),
     "",
     "## FAQ",
     "",
@@ -55,6 +55,7 @@ export function GET() {
     `- [Website](${url})`,
     `- [About](${url}/about)`,
     `- [Résumé (PDF)](${url}${profile.links.resume})`,
+    `- [Notes (RSS)](${url}/feed.xml)`,
     ...siteConfig.profiles.map((p) => `- ${p}`),
     `- Email: ${profile.email}`,
     "",

@@ -11,6 +11,11 @@ export type SeoNote = {
   body: string;
   /** Slug of the project this write-up is about, if any (linked both ways). */
   project?: string;
+  /**
+   * Too short to stand on its own in search: the page stays up and listed on /notes, but it's
+   * marked noindex and left out of the sitemap, the feed and llms.txt. Drop this once it's expanded.
+   */
+  noindex?: boolean;
 };
 
 /** Rough reading time at ~220 words a minute, never less than one. */
@@ -24,6 +29,7 @@ export const seoNotes: SeoNote[] = [
   graphragAgent,
   {
     slug: "shipping-polish",
+    noindex: true,
     title: "Polish without the slowdown",
     date: "2025-11-01",
     summary: "Small details make a site feel good. Here's how I add them without missing deadlines.",
@@ -32,6 +38,7 @@ export const seoNotes: SeoNote[] = [
   },
   {
     slug: "seo-entity-signals",
+    noindex: true,
     title: "Getting Google to know who you are",
     date: "2026-07-11",
     summary: "What actually helped my name, my handle and my domain show up together in search.",
@@ -41,6 +48,7 @@ export const seoNotes: SeoNote[] = [
   },
   {
     slug: "nextjs-indexing",
+    noindex: true,
     title: "Next.js SEO basics that actually matter",
     date: "2026-07-10",
     summary: "A short checklist for making a Next.js site easy for search engines to read.",
@@ -50,6 +58,7 @@ export const seoNotes: SeoNote[] = [
   },
   {
     slug: "portfolio-case-study",
+    noindex: true,
     title: "Why a one-page portfolio isn't enough",
     date: "2026-07-09",
     summary: "Turning my portfolio into a small library of project pages made it much easier to find.",
@@ -58,6 +67,9 @@ export const seoNotes: SeoNote[] = [
       "A single homepage can rank, but a handful of supporting pages does a lot more. Project write-ups, notes and an about page give people and search engines more ways in.\n\nThe point isn't more pages for the sake of it. Each page should answer a real question someone might have about you or your work.",
   },
 ];
+
+/** The notes meant for search: everything the sitemap, the feed and llms.txt list. */
+export const indexedNotes = seoNotes.filter((n) => !n.noindex);
 
 export function getNote(slug: string) {
   return seoNotes.find((n) => n.slug === slug);

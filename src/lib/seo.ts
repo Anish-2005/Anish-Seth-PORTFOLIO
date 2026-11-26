@@ -1,5 +1,17 @@
-import { awards, education, profile, skillGroups } from "@/data/portfolio";
+import { awards, certifications, education, profile, skillGroups } from "@/data/portfolio";
 import { siteConfig } from "@/lib/site.config";
+
+/**
+ * Site-wide Open Graph fields. A page's own openGraph replaces the layout's rather than merging
+ * with it, so every page spreads these in to keep og:site_name and og:locale.
+ */
+export const ogDefaults = { siteName: siteConfig.name, locale: "en_US" } as const;
+
+/**
+ * Schema.org DateTime for a YYYY-MM-DD date: midnight in Kolkata. Google's rich results want a
+ * time and a timezone, and flag a bare date as an invalid datetime.
+ */
+export const isoDateTime = (date: string) => `${date}T00:00:00+05:30`;
 
 /**
  * One connected knowledge graph for the whole site. Every page points back to the same Person
@@ -44,6 +56,9 @@ const portraitNode = {
   creditText: "Anish Seth",
   creator: { "@id": ids.person },
   copyrightNotice: `© ${new Date().getFullYear()} Anish Seth`,
+  // Google Images shows these as the photo's license details ("Licensable" badge, "Get this image").
+  license: `${URL}/image-license`,
+  acquireLicensePage: `${URL}/image-license`,
   representativeOfPage: true,
 };
 
@@ -70,6 +85,13 @@ const personNode = {
   },
   worksFor: { "@id": ids.employer },
   alumniOf: { "@id": ids.school },
+  hasCredential: certifications.map((c) => ({
+    "@type": "EducationalOccupationalCredential",
+    name: c.title,
+    credentialCategory: "certificate",
+    dateCreated: c.year,
+    recognizedBy: { "@type": "Organization", name: c.issuer },
+  })),
   homeLocation: {
     "@type": "Place",
     name: profile.location,

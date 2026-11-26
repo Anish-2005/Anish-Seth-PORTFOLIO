@@ -9,7 +9,7 @@ import { SubpageShell } from "@/components/site/SubpageShell";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { profile } from "@/data/portfolio";
-import { abs, ids, personRef } from "@/lib/seo";
+import { abs, ids, ogDefaults, personRef } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 
 const description =
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "About",
   description,
   alternates: { canonical: "/about" },
-  openGraph: { title: `About · ${siteConfig.name}`, description, url: `${siteConfig.url}/about`, type: "profile", firstName: "Anish", lastName: "Seth" },
+  openGraph: { ...ogDefaults, title: `About · ${siteConfig.name}`, description, url: `${siteConfig.url}/about`, type: "profile", firstName: "Anish", lastName: "Seth" },
 };
 
 export default function AboutPage() {

@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { projects } from "@/data/portfolio";
 import { abs, portrait } from "@/lib/seo";
-import { seoNotes } from "@/lib/seo-content";
+import { indexedNotes } from "@/lib/seo-content";
 import { siteConfig } from "@/lib/site.config";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -25,6 +25,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       images: [portrait.url],
     },
     {
+      // The résumé PDF gets indexed on its own, so a search for "Anish Seth resume" can land on it.
+      url: abs("/anish-seth-resume.pdf"),
+      lastModified: updated,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: abs("/projects"),
       lastModified: updated,
       changeFrequency: "weekly",
@@ -43,7 +50,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: p.featured ? 0.7 : 0.6,
       images: [abs(`/projects/${p.slug}/opengraph-image`)],
     })),
-    ...seoNotes.map((n) => ({
+    ...indexedNotes.map((n) => ({
       url: abs(`/notes/${n.slug}`),
       lastModified: new Date(`${n.date}T00:00:00Z`),
       changeFrequency: "yearly" as const,

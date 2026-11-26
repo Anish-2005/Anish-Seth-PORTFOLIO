@@ -23,16 +23,11 @@
     }
   ],
   "redirects": [
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "anishseth.vercel.app"
-        }
-      ],
-      "destination": "https://www.anishseth.in/:path*",
-      "permanent": true
-    }
+    { "source": "/", "has": [{ "type": "host", "value": "www.anishseth.xyz" }], "destination": "https://www.anishseth.in/", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "host", "value": "www.anishseth.xyz" }], "destination": "https://www.anishseth.in/:path*", "permanent": true },
+    { "source": "/", "has": [{ "type": "host", "value": "anishseth.xyz" }], "destination": "https://www.anishseth.in/", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "host", "value": "anishseth.xyz" }], "destination": "https://www.anishseth.in/:path*", "permanent": true },
+    { "source": "/", "has": [{ "type": "host", "value": "anishseth.vercel.app" }], "destination": "https://www.anishseth.in/", "permanent": true },
+    { "source": "/:path*", "has": [{ "type": "host", "value": "anishseth.vercel.app" }], "destination": "https://www.anishseth.in/:path*", "permanent": true }
   ]
 }

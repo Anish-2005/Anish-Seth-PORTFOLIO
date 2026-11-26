@@ -17,7 +17,7 @@ export function Frame() {
           {/* Small screens: the marker rides the edge; ≥lg the trace fill takes over. */}
           <div className="scroll-marker hidden md:block lg:hidden" />
         </div>
-        <div className="absolute inset-y-0 hidden w-px lg:block" style={{ left: GUIDE_X }}>
+        <div className="content-guide absolute inset-y-0 hidden w-px lg:block" style={{ left: GUIDE_X }}>
           <div className="guide-line absolute inset-0 bg-[var(--guide)]" style={{ "--d": "140ms" } as React.CSSProperties} />
           <div className="trace-fill absolute inset-0" />
         </div>

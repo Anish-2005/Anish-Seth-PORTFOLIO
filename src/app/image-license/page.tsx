@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { SubpageShell } from "@/components/site/SubpageShell";
 import { ButtonLink } from "@/components/ui/Button";
@@ -54,11 +53,7 @@ export default function ImageLicensePage() {
         </p>
         <p>
           Wherever it&apos;s used, please credit it as <span className="text-fg">&ldquo;{profile.name}&rdquo;</span>, or the
-          photographer named under the picture. You can see them all on the{" "}
-          <Link href="/photography" className="link-u text-fg">
-            photography page
-          </Link>
-          .
+          photographer named with the picture.
         </p>
       </div>
     </SubpageShell>

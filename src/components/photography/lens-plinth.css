@@ -1,0 +1,216 @@
+/* The lens the portrait leans on (LensPlinth.tsx). */
+
+.lens {
+  --body: #161618;
+  --ink: #ecebe8;
+  --dim: #8d8c88;
+  --seam: #050506;
+  --lip: rgb(255 255 255 / 0.14);
+  --signal: var(--accent);
+  --edge: transparent;
+  --rim: #b8b7b3;
+  --knurl: rgb(255 255 255 / 0.13);
+  --grip: var(--body);
+  --mount: #2a2a2d;
+  --notch: rgb(0 0 0 / 0.7);
+  /* Light falling across a cylinder: dark edges, one soft highlight left of centre. */
+  --barrel: linear-gradient(
+    90deg,
+    rgb(0 0 0 / 0.6),
+    rgb(255 255 255 / 0.03) 14%,
+    rgb(255 255 255 / 0.13) 30%,
+    rgb(255 255 255 / 0.03) 52%,
+    rgb(0 0 0 / 0.18) 74%,
+    rgb(0 0 0 / 0.65)
+  );
+  display: flex;
+  flex-direction: column;
+  color: var(--ink);
+}
+
+/* On paper a black barrel reads as a hole in the page, so the light theme gets a silver finish. */
+[data-theme="light"] .lens {
+  --body: #dedad3;
+  --ink: #1b1a18;
+  --dim: #55514b;
+  --seam: #9d968c;
+  --lip: rgb(255 255 255 / 0.9);
+  --edge: rgb(62 50 38 / 0.3);
+  --rim: #57524b;
+  --knurl: rgb(48 40 32 / 0.3);
+  --grip: #cbc5bc;
+  --mount: #b9b3a9;
+  --notch: rgb(48 40 32 / 0.4);
+  --barrel: linear-gradient(
+    90deg,
+    rgb(70 56 40 / 0.3),
+    rgb(70 56 40 / 0.05) 13%,
+    rgb(255 255 255 / 0.8) 30%,
+    rgb(255 255 255 / 0.15) 52%,
+    rgb(70 56 40 / 0.07) 74%,
+    rgb(70 56 40 / 0.32)
+  );
+  filter: drop-shadow(0 14px 22px rgb(70 50 30 / 0.14));
+}
+
+.lens-band {
+  position: relative;
+  display: block;
+  flex: none;
+  overflow: hidden;
+  background: var(--barrel), var(--body);
+  border-bottom: 2px solid var(--seam);
+  border-inline: 1px solid var(--edge);
+  box-shadow: inset 0 1px 0 var(--lip);
+}
+
+/* The ledge the elbow rests on: the front rim, with the thin crimson ring of a good lens under it. */
+.lens-rim {
+  height: 13px;
+  border-top: 2px solid var(--rim);
+  transition: border-color 0.4s;
+}
+.lens-rim::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 2px;
+  height: 1.5px;
+  background: var(--signal);
+}
+.lens:hover .lens-rim,
+.lens:focus-visible .lens-rim {
+  border-top-color: var(--signal);
+}
+
+.lens-grip {
+  flex: 1.5 1 0;
+  min-height: 1rem;
+  margin-inline: 1.5%;
+  background-color: var(--grip);
+}
+.lens-grip > svg {
+  position: absolute;
+  inset: 5px 0;
+  width: 100%;
+  height: calc(100% - 10px);
+  fill: none;
+  stroke: var(--knurl);
+  stroke-width: 1.5px;
+}
+
+/* ── Scales ── */
+.lens-scale {
+  height: clamp(1.9rem, 12%, 2.6rem);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: var(--dim);
+}
+.lens-track {
+  --step: 2.4rem;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  display: flex;
+  translate: calc(var(--step) * -1 * (var(--at) + 0.5)) 0;
+  transition: translate 1s var(--ease-out-expo);
+}
+.lens-track > span {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--step);
+  padding-top: 0.25rem;
+}
+/* One long tick over each mark and a short one between marks. */
+.lens-track > span::before,
+.lens-track > span::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 1px;
+  background: currentColor;
+  opacity: 0.55;
+}
+.lens-track > span::before {
+  left: 50%;
+  height: 6px;
+}
+.lens-track > span::after {
+  left: 0;
+  height: 3px;
+}
+/* The fixed index the marks are read against. */
+.lens-index {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  translate: -50% 0;
+  border-radius: 999px;
+  background: var(--signal);
+}
+
+.lens-focus .lens-track {
+  --at: 3; /* 3 m */
+}
+.lens:hover .lens-focus .lens-track,
+.lens:focus-visible .lens-focus .lens-track {
+  --at: 8; /* racked in close */
+}
+.lens-aperture .lens-track {
+  --at: 3; /* f/8 */
+}
+.lens:hover .lens-aperture .lens-track,
+.lens:focus-visible .lens-aperture .lens-track {
+  --at: 7; /* wide open */
+}
+
+/* ── Name plate ── */
+.lens-plate {
+  display: flex;
+  flex: 2 1 0;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem 0.6rem;
+  min-height: 2.75rem;
+  margin-inline: 3.5%;
+}
+.lens-name {
+  font-size: clamp(0.78rem, 1.5vw, 1.35rem);
+  font-weight: 600;
+  font-stretch: 118%;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.lens-arrow {
+  width: clamp(1rem, 2vw, 1.6rem);
+  height: auto;
+  color: var(--signal);
+  transition: translate 0.5s var(--ease-out-expo);
+}
+.lens:hover .lens-arrow,
+.lens:focus-visible .lens-arrow {
+  translate: 3px -3px;
+}
+
+.lens-mount {
+  height: 15px;
+  margin-inline: 9%;
+  border-bottom: 0;
+  /* Bayonet notches. */
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22%, var(--notch) 22% 25%),
+    var(--barrel),
+    var(--mount);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lens-track,
+  .lens-arrow {
+    transition: none;
+  }
+}

@@ -1,0 +1,9 @@
+/*
+  This page is one composition, not a column of sections: the frame's content guide (and the crimson
+  trace that fills it on scroll) would run straight through the headline, so it and its node go.
+  Scoped with :has(), so nothing changes on other pages even after the stylesheet has loaded.
+*/
+:root:has(.photo-intro) .content-guide,
+:root:has(.photo-intro) .trace-node {
+  display: none;
+}

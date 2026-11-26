@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { allPhotos, photographyUpdated, photoSeries } from "@/data/photography";
+import { featuredPhoto, photographyUpdated } from "@/data/photography";
 import { projects } from "@/data/portfolio";
 import { abs, portrait } from "@/lib/seo";
 import { indexedNotes } from "@/lib/seo-content";
@@ -44,21 +44,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.5,
     },
-    // The image entries get every photo discovered without waiting for a crawl of the page.
     {
       url: abs("/photography"),
       lastModified: new Date(`${photographyUpdated}T00:00:00Z`),
       changeFrequency: "monthly",
       priority: 0.8,
-      images: allPhotos.map((p) => abs(p.src)),
+      images: [abs(featuredPhoto.src)],
     },
-    ...photoSeries.map((s) => ({
-      url: abs(`/photography/${s.slug}`),
-      lastModified: new Date(`${s.updated}T00:00:00Z`),
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-      images: s.photos.map((p) => abs(p.src)),
-    })),
     ...projects.map((p) => ({
       url: abs(`/projects/${p.slug}`),
       lastModified: updated,

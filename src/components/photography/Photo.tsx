@@ -29,20 +29,9 @@ export function Photo({ photo, sizes, priority = false, className }: PhotoProps)
       loading={priority ? "eager" : "lazy"}
       fetchPriority={priority ? "high" : "auto"}
       decoding="async"
-      className={cn("block h-auto w-full bg-bg-elev bg-cover", className)}
-      style={{ backgroundImage: `url(${photo.blur})` }}
+      // A placeholder behind a cutout would show through its transparent parts.
+      className={cn("block h-auto w-full", !photo.cutout && "bg-bg-elev bg-cover", className)}
+      style={photo.cutout ? undefined : { backgroundImage: `url(${photo.blur})` }}
     />
-  );
-}
-
-/** Registration marks on the four corners of a plate, like the rest of the site's figures. */
-export function CornerMarks() {
-  return (
-    <>
-      <span aria-hidden className="xh left-0 top-0" />
-      <span aria-hidden className="xh left-full top-0" />
-      <span aria-hidden className="xh left-0 top-full" />
-      <span aria-hidden className="xh left-full top-full" />
-    </>
   );
 }

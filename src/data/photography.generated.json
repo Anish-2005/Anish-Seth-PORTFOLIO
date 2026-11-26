@@ -1,4 +1,16 @@
 {
+  "anish-seth-with-camera-sepia": {
+    "series": "portraits",
+    "width": 1046,
+    "height": 1308,
+    "widths": [
+      640,
+      1024,
+      1046
+    ],
+    "hash": "8f6bebb53eab610b",
+    "blur": "data:image/webp;base64,UklGRrgBAABXRUJQVlA4WAoAAAAQAAAAEwAAGAAAQUxQSLQAAAABgGPb2rHn+c1Kscu/TpUpYAZmm1qVbXZ2ZduagGo7qXjD932eKUTEBJDaVDRe6SVpHYAlp+QZX0CUwHgD4MwgcANAO0mHAKSIWoAjm8C9/Qa0+z2spCOoj/syAsZ/cevgP3WHEx1CvEIBiM+TKZv3tleTaCcaY20G0f+oV1YBKWvALlPlAcUvui5VJlD/pBtTeQ++wFxQkbOPs6uh2FvGhUFDywzE68YYjwm6XEYJ6fMZMypWUDgg3gAAALAFAJ0BKhQAGQA+7WqtUKmlpCKoCqkwHYlkALEBAAZ4Jl4L1nbbHKT8kGlEeqd5RYjZmAzoMAD+cXEoewa94ty0cSk8QNpiqEh4sIQcN9DcD2iximfyoOIJCqi79SXaMWcNaNRCWGq9iuFGoZqPPWJmFR4sBVe05xWG27J84dOLBUT9veZ9X9K6QGV5UCriUzehtvwD6pPgHRLCO+Mk+JLWdkgZ/MIGC6DyUzeEIBbMuO5Zl5J/kSWDsDDNilRWQlct971SOziid42Xfj/Q+7pzu6TndMQ9sxqTcEAAAA=="
+  },
   "anish-seth-portrait-sepia-aviators": {
     "series": "portraits",
     "width": 1200,

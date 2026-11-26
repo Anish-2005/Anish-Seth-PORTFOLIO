@@ -1,12 +1,7 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 
-import { JsonLd } from "@/components/seo/JsonLd";
+import { Breadcrumbs, type Crumb } from "@/components/site/Breadcrumbs";
 import { SectionRule } from "@/components/site/Frame";
-import { breadcrumbs } from "@/lib/seo";
-import { cn } from "@/lib/utils";
-
-type Crumb = { label: string; href?: string };
 
 type SubpageShellProps = {
   eyebrow: string;
@@ -15,41 +10,20 @@ type SubpageShellProps = {
   chips?: string[];
   crumbs?: Crumb[];
   meta?: ReactNode;
-  /** For pages shown without the site header: drops the room kept for it. */
-  headerless?: boolean;
   children?: ReactNode;
 };
 
 /** Subpage masthead on the same 3/9 grid as the home sections. */
-export function SubpageShell({ eyebrow, title, description, chips = [], crumbs = [], meta, headerless = false, children }: SubpageShellProps) {
-  const trail: Crumb[] = [{ label: "Home", href: "/" }, ...crumbs];
+export function SubpageShell({ eyebrow, title, description, chips = [], crumbs = [], meta, children }: SubpageShellProps) {
   return (
     <>
-      <JsonLd data={breadcrumbs(trail.map((c) => ({ name: c.label, path: c.href })))} />
-      <section className={cn("relative isolate overflow-hidden", headerless ? "pt-12 md:pt-16" : "pt-28 md:pt-32")}>
-        <div aria-hidden className={cn("pointer-events-none absolute inset-0 -z-10", !headerless && "under-header")}>
+      <section className="relative isolate overflow-hidden pt-28 md:pt-32">
+        <div aria-hidden className="under-header pointer-events-none absolute inset-0 -z-10">
           <div className="dots absolute inset-0 [mask-image:linear-gradient(to_bottom,#000,transparent_85%)]" />
         </div>
         <div className="container-x grid pb-14 md:pb-20 lg:grid-cols-12">
           <div className="mb-8 lg:col-span-3 lg:mb-0 lg:pr-10">
-            <nav aria-label="Breadcrumb" className="fade-in">
-              <ol className="label flex flex-wrap items-center gap-x-2 gap-y-1">
-                {trail.map((c, i) => (
-                  <li key={c.label} className="flex items-center gap-2">
-                    {i > 0 ? <span aria-hidden>/</span> : null}
-                    {c.href ? (
-                      <Link href={c.href} className="link-u hover:text-fg">
-                        {c.label}
-                      </Link>
-                    ) : (
-                      <span aria-current="page" className="text-fg">
-                        {c.label}
-                      </span>
-                    )}
-                  </li>
-                ))}
-              </ol>
-            </nav>
+            <Breadcrumbs crumbs={crumbs} />
           </div>
           <div className="min-w-0 lg:col-span-9 lg:pl-10">
             <p className="label fade-in text-accent-ink" style={{ "--d": "60ms" } as React.CSSProperties}>

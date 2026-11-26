@@ -91,6 +91,8 @@ const nextConfig: NextConfig = {
       ...vanity.map(([source, destination, permanent]) => ({ source, destination, permanent })),
       // The résumé moved to a name-bearing URL; keep old links (and the PDF's own links) working.
       { source: "/resume.pdf", destination: "/anish-seth-resume.pdf", permanent: true },
+      // Series pages moved off this site. Temporary, so they can point at the photography site later.
+      { source: "/photography/:series", destination: "/photography", permanent: false },
       // Retired placeholder case studies from the previous version of the site.
       ...["atlas", "chainkit", "signal"].map((slug) => ({
         source: `/projects/${slug}`,

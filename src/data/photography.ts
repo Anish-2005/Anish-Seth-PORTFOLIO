@@ -46,7 +46,7 @@ function resolve(series: string, photo: Photo): ResolvedPhoto {
   };
 }
 
-/** Series with at least one photo; an empty one gets no page, no link and no sitemap entry. */
+/** Series that have at least one photo. */
 export const photoSeries: Series[] = catalog
   .filter((s) => s.photos.length > 0)
   .map((s) => {
@@ -54,13 +54,8 @@ export const photoSeries: Series[] = catalog
     return { ...s, photos, cover: photos[0] };
   });
 
-export const allPhotos = photoSeries.flatMap((s) => s.photos);
-
-export function getSeries(slug: string) {
-  return photoSeries.find((s) => s.slug === slug);
-}
-
-export const photoCount = (n: number) => `${n} ${n === 1 ? "photo" : "photos"}`;
+/** The portrait on /photography: the first series' cover. */
+export const featuredPhoto = photoSeries[0].cover;
 
 /** The most recent change across all series (YYYY-MM-DD). */
 export const photographyUpdated = photoSeries.reduce((latest, s) => (s.updated > latest ? s.updated : latest), "");

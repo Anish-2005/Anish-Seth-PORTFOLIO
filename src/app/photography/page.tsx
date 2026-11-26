@@ -1,16 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { CornerMarks, Photo } from "@/components/photography/Photo";
+import "./photography.css";
+
+import { LeaningPortrait } from "@/components/photography/LeaningPortrait";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { SubpageShell } from "@/components/site/SubpageShell";
+import { Breadcrumbs } from "@/components/site/Breadcrumbs";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { ButtonLink } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
-import { allPhotos, photoCount, photoSeries } from "@/data/photography";
+import { featuredPhoto } from "@/data/photography";
+import { profile } from "@/data/profile";
 import { abs, ids, ogDefaults, openGraphImage, personRef, photoNode } from "@/lib/seo";
 import { siteConfig } from "@/lib/site.config";
 
-const description = `Photos of ${siteConfig.name}, AI/ML engineer in Kolkata: portraits in full resolution, with captions, credits and license details.`;
+const { photoSite } = siteConfig;
+
+const description = `${siteConfig.name}, an AI/ML engineer in Kolkata, also does photography. The work has its own site at ${photoSite.host}.`;
 
 export const metadata: Metadata = {
   title: "Photography",
@@ -22,88 +28,79 @@ export const metadata: Metadata = {
     description,
     url: `${siteConfig.url}/photography`,
     type: "website",
-    images: photoSeries.map((s) => openGraphImage(s.cover)),
+    images: [openGraphImage(featuredPhoto)],
   },
 };
 
-/** How many photos of a series the index previews. */
-const PREVIEW = 4;
+const delay = (ms: number) => ({ "--d": `${ms}ms` }) as React.CSSProperties;
 
+/** A short introduction, on one screen. The photographs themselves live on the dedicated site. */
 export default function PhotographyPage() {
   return (
-    <SubpageShell
-      headerless
-      eyebrow="Photography"
-      title={
-        <>
-          Anish Seth, <span className="text-subtle">in pictures.</span>
-        </>
-      }
-      description="The photos I'm happy to share, grouped into series. Each one comes with a caption and opens in full resolution."
-      crumbs={[{ label: "Photography" }]}
-      chips={[photoCount(allPhotos.length), `${photoSeries.length} series`]}
-      meta={
-        <ButtonLink href="/image-license" variant="secondary">
-          Using a photo <Icon name="arrow-right" size={15} />
-        </ButtonLink>
-      }
-    >
+    <section aria-labelledby="photography-title" className="photo-intro relative isolate overflow-hidden pt-10 md:pt-14">
       <JsonLd
         data={{
           "@context": "https://schema.org",
-          "@type": "CollectionPage",
+          "@type": "WebPage",
           "@id": `${abs("/photography")}#page`,
           url: abs("/photography"),
           name: `Photography · ${siteConfig.name}`,
           description,
           inLanguage: siteConfig.locale,
           isPartOf: { "@id": ids.website },
+          about: { "@id": ids.person },
           author: personRef,
-          primaryImageOfPage: photoNode(photoSeries[0].cover, `/photography/${photoSeries[0].slug}`),
-          mainEntity: {
-            "@type": "ItemList",
-            itemListElement: photoSeries.map((s, i) => ({
-              "@type": "ListItem",
-              position: i + 1,
-              name: s.title,
-              url: abs(`/photography/${s.slug}`),
-            })),
-          },
+          primaryImageOfPage: photoNode(featuredPhoto, "/photography"),
+          significantLink: photoSite.url,
         }}
       />
-      <ol className="border-t border-line">
-        {photoSeries.map((series, index) => (
-          <li key={series.slug} className="grid gap-8 border-b border-line py-10 md:py-14 lg:grid-cols-12 lg:gap-0">
-            <div className="lg:col-span-3 lg:pr-10">
-              <h2 className="text-[1.6rem] font-semibold tracking-[-0.025em] [font-stretch:110%]">
-                <Link href={`/photography/${series.slug}`} className="transition-colors hover:text-accent-ink">
-                  {series.title}
-                </Link>
-              </h2>
-              <p className="label mt-3">{photoCount(series.photos.length)}</p>
-              <p className="mt-4 max-w-sm text-[0.95rem] leading-relaxed text-muted text-pretty">{series.summary}</p>
-              <Link href={`/photography/${series.slug}`} className="link-u mt-5 inline-flex items-center gap-2 text-[0.92rem]">
-                View the series <Icon name="arrow-right" size={14} className="text-accent-ink" />
-              </Link>
+      <div aria-hidden className="dots pointer-events-none absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,#000,transparent_85%)]" />
+
+      {/* No bottom padding: the portrait stands on the footer's rule. */}
+      {/* The height leaves room for the section's top padding, so on desktop that rule sits at the screen's edge. */}
+      <div className="container-x relative grid lg:min-h-[calc(min(100svh,56rem)-3.5rem-2px)] lg:grid-cols-12">
+        {/* The header is hidden here, so the page carries its own theme switch, level with the breadcrumbs. */}
+        <ThemeToggle className="absolute -top-2.5 right-[var(--pad)] z-10 rounded-[3px] border border-line-strong hover:border-fg" />
+
+        <div className="relative z-[2] flex flex-col lg:col-span-5 lg:pb-16">
+          <Breadcrumbs crumbs={[{ label: "Photography" }]} />
+
+          <div className="mt-12 pb-12 lg:my-auto lg:pb-0 lg:pt-10">
+            <p className="label fade-in text-accent-ink" style={delay(60)}>
+              Photography
+            </p>
+            <h1
+              id="photography-title"
+              className="fade-in mt-5 text-[clamp(2.4rem,5.2vw,4.4rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-balance [font-stretch:112%]"
+              style={delay(120)}
+            >
+              I also take <span className="text-subtle">photographs.</span>
+            </h1>
+            <p className="lede fade-in mt-6 max-w-md" style={delay(180)}>
+              Away from the code, I do photography. It has a place of its own, separate from my engineering work.
+            </p>
+            <div className="fade-in mt-9 flex flex-wrap gap-3" style={delay(240)}>
+              {/* Same tab: it's the next step of this visit, not a side reference. */}
+              <ButtonLink href={photoSite.url} size="lg" target="_self" rel="me">
+                Visit {photoSite.host} <Icon name="arrow-up-right" size={15} />
+              </ButtonLink>
+              <ButtonLink href="/" size="lg" variant="secondary">
+                Back to portfolio
+              </ButtonLink>
             </div>
-            <ul className="grid grid-cols-2 items-start gap-4 sm:gap-8 lg:col-span-9 lg:pl-10">
-              {series.photos.slice(0, PREVIEW).map((photo, i) => (
-                <li key={photo.slug} className="relative">
-                  <Link href={`/photography/${series.slug}#${photo.slug}`} className="group block overflow-hidden">
-                    <Photo
-                      photo={photo}
-                      priority={index === 0 && i === 0}
-                      sizes="(min-width: 1280px) 414px, (min-width: 1024px) 34vw, 46vw"
-                      className="aspect-square object-cover transition-transform duration-700 ease-[var(--ease-out-expo)] motion-safe:group-hover:scale-[1.02]"
-                    />
-                  </Link>
-                  <CornerMarks />
-                </li>
-              ))}
-            </ul>
-          </li>
-        ))}
-      </ol>
-    </SubpageShell>
+            <p className="label fade-in mt-10 flex flex-wrap items-center gap-x-5 gap-y-2" style={delay(300)}>
+              <span>{profile.location}</span>
+              <Link href="/image-license" className="link-u hover:text-fg">
+                Image license
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        <div className="flex items-end lg:col-span-7">
+          <LeaningPortrait photo={featuredPhoto} href={photoSite.url} label={`See ${profile.name}'s photographs at ${photoSite.host}`} />
+        </div>
+      </div>
+    </section>
   );
 }

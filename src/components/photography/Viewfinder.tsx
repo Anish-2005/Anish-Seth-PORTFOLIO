@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import "./viewfinder.css";
 
-import { allPhotos, photoCount } from "@/data/photography";
 import { profile } from "@/data/profile";
 
 /** Where the face sits in the hero cutout, as a share of the image box. Re-measure if the portrait changes. */
@@ -19,9 +18,6 @@ const BLADE = "M16 12 19.15 17.46";
  * Place it inside a positioned element that wraps the portrait exactly. CSS only, no client script.
  */
 export function Viewfinder() {
-  if (allPhotos.length === 0) return null;
-  const count = photoCount(allPhotos.length);
-
   return (
     <>
       <span aria-hidden className="vf-focus" style={FACE}>
@@ -41,9 +37,9 @@ export function Viewfinder() {
           <circle className="vf-dot" cx="12" cy="12" r="1.4" />
         </svg>
         {/* The link's real text, for screen readers and search engines. */}
-        <span className="sr-only">Photos of {profile.name}</span>
+        <span className="sr-only">{profile.name}&apos;s photography</span>
         <span aria-hidden className="vf-count label">
-          {count}
+          Photography
         </span>
       </Link>
     </>

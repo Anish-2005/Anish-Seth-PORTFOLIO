@@ -32,6 +32,8 @@ export const siteConfig = {
     "https://www.facebook.com/anish.seth.313/",
   ],
   twitter: "@AnishSeth170734",
+  /** The dedicated photography site. /photography introduces it and links there. */
+  photoSite: { url: "https://photos.anishseth.in", host: "photos.anishseth.in" },
   /** Bump when page content changes; feeds sitemap lastmod (an honest date beats "now" on every build). */
   updated: "2026-11-26",
   location: profile.location,

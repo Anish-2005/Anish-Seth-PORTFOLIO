@@ -1,4 +1,3 @@
-import { photoCount, photoSeries } from "@/data/photography";
 import { awards, certifications, education, experience, faqs, profile, projects, skillGroups } from "@/data/portfolio";
 import { portrait } from "@/lib/seo";
 import { indexedNotes } from "@/lib/seo-content";
@@ -47,10 +46,6 @@ export function GET() {
     "## Notes",
     "",
     ...indexedNotes.map((n) => `- [${n.title}](${url}/notes/${n.slug}): ${n.summary}`),
-    "",
-    "## Photos",
-    "",
-    ...photoSeries.map((s) => `- [${s.title}](${url}/photography/${s.slug}) (${photoCount(s.photos.length)}): ${s.summary}`),
     "",
     "## FAQ",
     "",
